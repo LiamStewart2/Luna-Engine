@@ -22,7 +22,7 @@ int Application::Init()
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-
+	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	// load scene
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
