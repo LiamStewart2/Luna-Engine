@@ -2,9 +2,11 @@
 
 #include <iostream>
 
-#include <stdio.h>
 #include <fstream>
+#include <sstream>
+#include <vector>
 #include <string>
+#include <array>
 
 #include "Mesh.h"
 
