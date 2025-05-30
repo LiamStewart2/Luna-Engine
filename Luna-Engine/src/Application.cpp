@@ -22,6 +22,12 @@ int Application::Init()
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+
+
+	// load scene
+	AssetLoader::LoadMesh(monkeyMesh, "Assets/Models/monkey.obj");
+
+
 	return 0;
 }
 
