@@ -25,7 +25,7 @@ int Application::Init()
 
 
 	// load scene
-	AssetLoader::LoadMesh(monkeyMesh, "Assets/Models/monkey.obj");
+	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
 
 
 	return 0;

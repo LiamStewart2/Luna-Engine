@@ -8,9 +8,9 @@
 #include "Texture.h"
 
 struct Vertex {
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 texCoords;
+	int positionIndex;
+	int textureCoordinateIndex;
+	int normalIndex;
 };
 
 struct Face {
@@ -18,7 +18,6 @@ struct Face {
 };
 
 struct Mesh {
-public:
 	std::string name = "Static Mesh";
 
 	std::vector<glm::vec3> vertexPositions;

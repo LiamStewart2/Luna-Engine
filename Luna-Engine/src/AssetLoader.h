@@ -13,6 +13,6 @@
 class AssetLoader
 {
 public:
-	static void LoadMesh(Mesh& mesh, const char* filepath);
+	static void LoadMeshOBJ(Mesh& mesh, const char* filepath);
 };
 
