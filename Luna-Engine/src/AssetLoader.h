@@ -9,6 +9,7 @@
 #include <array>
 
 #include "Mesh.h"
+#include "Texture.h"
 
 class AssetLoader
 {

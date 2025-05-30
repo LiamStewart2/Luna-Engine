@@ -25,4 +25,5 @@ private:
 	void Render();
 
 	Mesh monkeyMesh;
+	Texture shrekTexture;
 };

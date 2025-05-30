@@ -1,9 +1,19 @@
 #pragma once
 
-#include <string>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-struct Texture {
+class Texture
+{
+public:
+	Texture();
+	~Texture();
+
+	void BindTexture();
+	void BuildTexture(unsigned char* data);
+
+	int width, height, channels;
+
+private:
 	unsigned int ID;
-	std::string type;
-	std::string path;
 };

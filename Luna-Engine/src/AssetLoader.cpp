@@ -1,6 +1,7 @@
 #include "AssetLoader.h"
 
-#include <GLFW/glfw3.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "STB/stb_image.h"
 
 void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 {
@@ -65,3 +66,17 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 }
 
 
+void AssetLoader::LoadTexture(Texture& texture, const char* filepath)
+{
+	double startTime = glfwGetTime();
+
+	unsigned char* data = stbi_load(filepath, &texture.width, &texture.height, &texture.channels, 0);
+
+	if (data)
+		texture.BuildTexture(data);
+	else
+		std::cerr << "Failed to load texture: " << filepath << std::endl;
+	stbi_image_free(data);
+
+	std::cout << "Texture Loaded - " << filepath << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+}

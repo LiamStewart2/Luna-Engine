@@ -26,7 +26,7 @@ int Application::Init()
 
 	// load scene
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
-
+	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/shrek.jpg");
 
 	return 0;
 }
