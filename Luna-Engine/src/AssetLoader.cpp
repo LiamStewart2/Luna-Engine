@@ -10,6 +10,7 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 	std::ifstream file(filepath); std::string line;
 	if (!file) {
 		std::cerr << "Cannot open file: " << filepath << std::endl;
+		return;
 	}
 
 	while (std::getline(file, line))

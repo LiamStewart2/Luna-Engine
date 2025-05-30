@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\AssetLoader.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -18,6 +19,7 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\AssetLoader.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Renderer.h" />
