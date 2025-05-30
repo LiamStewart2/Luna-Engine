@@ -49,24 +49,47 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 		std::cerr << "SHADER COMPILATION FAILED - FRAGMENT SHADER - " << vertexPath << std::endl << message << std::endl;
 	}
+
+	// Compile whole shader
+	ID = glCreateProgram();
+
+	glAttachShader(ID, vertexShader);
+	glAttachShader(ID, fragmentShader);
+	glLinkProgram(ID);
+
+	int linked = 0;
+	glGetProgramiv(ID, GL_LINK_STATUS, &linked);
+	if (linked != true)
+	{
+		int log_length = 0;
+		GLchar message[1024];
+		glGetProgramInfoLog(ID, 1024, &log_length, message);
+
+		std::cerr << "SHADER LINKING FAILED - Vertex Path - " << vertexPath << ", Fragment Path - " << fragmentPath << std::endl << message << std::endl;
+	}
 }
 
 Shader::~Shader()
 {
+	glDeleteProgram(ID);
 }
 
 void Shader::BindTexture()
 {
+	glUseProgram(ID);
 }
 
 void Shader::SetBool(const std::string name, bool value)
 {
+	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 }
 
 void Shader::SetInt(const std::string name, int value)
 {
+	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 }
 
 void Shader::SetFloat(const std::string name, float value)
 {
+	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
