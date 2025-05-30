@@ -5,6 +5,8 @@
 
 #include "Renderer.h"
 
+#include "AssetLoader.h"
+
 class Application
 {
 public:
@@ -21,4 +23,6 @@ private:
 	void HandleInput();
 	void Update();
 	void Render();
+
+	Mesh monkeyMesh;
 };
