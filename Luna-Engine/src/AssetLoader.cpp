@@ -63,3 +63,5 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 	std::cout << "Mesh Loaded - " << mesh.name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 
 }
+
+
