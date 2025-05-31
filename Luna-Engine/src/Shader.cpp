@@ -13,7 +13,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	if (!vertexFile)
 		std::cerr << "Cannot open file - " << vertexPath << std::endl;
 	if(!fragmentFile)
-		std::cerr << "Cannot open file - " << vertexPath << std::endl;
+		std::cerr << "Cannot open file - " << fragmentPath << std::endl;
 
 	std::stringstream vertexStream, fragmentStream;
 	vertexStream << vertexFile.rdbuf(); fragmentStream << fragmentFile.rdbuf();
@@ -71,6 +71,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 		std::cerr << "SHADER LINKING FAILED - Vertex Path - " << vertexPath << ", Fragment Path - " << fragmentPath << std::endl << message << std::endl;
 	}
+
+	// Cleanup vertex and fragment shaders
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
 	std::cout << "Shader loading took " << glfwGetTime() - start << " - " << vertexPath << " : " << fragmentPath << std::endl;
 }
