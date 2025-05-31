@@ -6,6 +6,7 @@
 #include "Renderer.h"
 
 #include "AssetLoader.h"
+#include "Shader.h"
 
 class Application
 {
@@ -23,6 +24,8 @@ private:
 	void HandleInput();
 	void Update();
 	void Render();
+
+	Shader shader;
 
 	Mesh monkeyMesh;
 	Texture shrekTexture;

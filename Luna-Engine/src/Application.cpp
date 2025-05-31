@@ -23,8 +23,17 @@ int Application::Init()
 	}
 	glfwMakeContextCurrent(window);
 
+	if (glewInit() != GLEW_OK)
+	{
+		std::cerr << "Failed to initialize GLEW" << std::endl;
+		return -1;
+	}
+
+	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	// load scene
+	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
+
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
 	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/shrek.jpg");
 
