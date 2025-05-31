@@ -2,6 +2,8 @@
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
+	double start = glfwGetTime();
+
 	// Load shader code into strings ready for compilation
 	std::string vertexCodeString, fragmentCodeString;
 	std::ifstream vertexFile, fragmentFile;
@@ -24,6 +26,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	// Compile shader code and return any errors
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexCode, NULL);
+	glCompileShader(vertexShader);
 
 	int compiled = 0;
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &compiled);
@@ -38,6 +41,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentCode, NULL);
+	glCompileShader(fragmentShader);
 
 	compiled = 0;
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &compiled);
@@ -47,7 +51,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		GLchar message[1024];
 		glGetShaderInfoLog(fragmentShader, 1024, &log_length, message);
 
-		std::cerr << "SHADER COMPILATION FAILED - FRAGMENT SHADER - " << vertexPath << std::endl << message << std::endl;
+		std::cerr << "SHADER COMPILATION FAILED - FRAGMENT SHADER - " << fragmentPath << std::endl << message << std::endl;
 	}
 
 	// Compile whole shader
@@ -67,6 +71,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 		std::cerr << "SHADER LINKING FAILED - Vertex Path - " << vertexPath << ", Fragment Path - " << fragmentPath << std::endl << message << std::endl;
 	}
+
+	std::cout << "Shader loading took " << glfwGetTime() - start << " - " << vertexPath << " : " << fragmentPath << std::endl;
 }
 
 Shader::~Shader()

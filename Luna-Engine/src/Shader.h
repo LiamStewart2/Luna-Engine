@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <string>
 #include <fstream>
@@ -10,6 +11,7 @@
 class Shader
 {
 public:
+	Shader() {}
 	Shader(const char* vertexPath, const char* fragmentPath);
 	~Shader();
 
