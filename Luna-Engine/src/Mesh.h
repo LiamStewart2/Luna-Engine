@@ -27,5 +27,9 @@ class Mesh {
 	std::vector<Face> faces;
 
 	void BuildMesh();
-	unsigned int MeshID = -1;
+
+private:
+	unsigned int VAO = -1;
+	unsigned int VBO = -1;
+	unsigned int EBO = -1;
 };
