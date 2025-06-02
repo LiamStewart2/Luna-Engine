@@ -17,7 +17,7 @@ struct Face {
 	std::vector<Vertex> vertices;
 };
 
-struct Mesh {
+class Mesh {
 	std::string name = "Static Mesh";
 
 	std::vector<glm::vec3> vertexPositions;
@@ -25,4 +25,7 @@ struct Mesh {
 	std::vector<glm::vec3> vertexNormals;
 
 	std::vector<Face> faces;
+
+	void BuildMesh();
+	unsigned int MeshID = -1;
 };

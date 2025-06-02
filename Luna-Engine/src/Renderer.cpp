@@ -10,4 +10,5 @@ Renderer::~Renderer()
 
 void Renderer::RenderMesh(Mesh* mesh)
 {
+
 }
