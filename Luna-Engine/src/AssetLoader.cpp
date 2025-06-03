@@ -13,16 +13,15 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 		return;
 	}
 
+	std::vector<glm::vec3> vertexPositions;
+	std::vector<glm::vec3> vertexNormals;
+	std::vector<glm::vec2> vertexTextureCoords;
+
 	while (std::getline(file, line))
 	{
 		std::istringstream ss(line);
 		std::string prefix;
 		ss >> prefix;
-
-
-		std::vector<glm::vec3> vertexPositions;
-		std::vector<glm::vec3> vertexNormals;
-		std::vector<glm::vec2> vertexTextureCoords;
 
 
 		if(prefix == "o")
@@ -60,10 +59,13 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 			{
 				//string representing vertice
 				ss >> indicies;
-				
+
 				int vertexPositionIndex =  std::stoi(indicies.substr(0, indicies.find("/"))) - 1;
 				int vertexTextureCoordinateIndex = std::stoi(indicies.substr(indicies.find("/") + 1, indicies.rfind("/"))) - 1;
 				int vertexNormalIndex = std::stoi(indicies.substr(indicies.rfind("/") + 1, indicies.size())) - 1;
+
+				if(vertexPositionIndex >= vertexPositions.size() || vertexTextureCoordinateIndex >= vertexTextureCoords.size() || vertexNormalIndex >= vertexNormals.size())
+					break;
 
 				vertex.Position = vertexPositions[vertexPositionIndex];
 				vertex.TextureCoordiante = vertexTextureCoords[vertexTextureCoordinateIndex];
