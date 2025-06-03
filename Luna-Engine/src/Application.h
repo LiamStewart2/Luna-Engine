@@ -24,9 +24,10 @@ private:
 	void HandleInput();
 	void Update();
 	void Render();
-
+	
+	Renderer renderer;
 	Shader shader;
-
+	
 	Mesh monkeyMesh;
 	Texture shrekTexture;
 };

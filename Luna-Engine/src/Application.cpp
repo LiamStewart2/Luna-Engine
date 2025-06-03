@@ -62,14 +62,14 @@ void Application::HandleInput()
 
 void Application::Update()
 {
-	
+
 }
 
 void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-
+	renderer.RenderMesh(&shader, &monkeyMesh);
 
 	glfwSwapBuffers(window);
 }

@@ -19,51 +19,79 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 		std::string prefix;
 		ss >> prefix;
 
+
+		std::vector<glm::vec3> vertexPositions;
+		std::vector<glm::vec3> vertexNormals;
+		std::vector<glm::vec2> vertexTextureCoords;
+
+
 		if(prefix == "o")
 			ss >> mesh.name;
 
 		else if (prefix == "v") 
 		{
-			mesh.vertexPositions.push_back(glm::vec3());
+			vertexPositions.push_back(glm::vec3());
 
-			ss >> mesh.vertexPositions[mesh.vertexPositions.size() - 1].x;
-			ss >> mesh.vertexPositions[mesh.vertexPositions.size() - 1].y;
-			ss >> mesh.vertexPositions[mesh.vertexPositions.size() - 1].z;
+			ss >> vertexPositions[vertexPositions.size() - 1].x;
+			ss >> vertexPositions[vertexPositions.size() - 1].y;
+			ss >> vertexPositions[vertexPositions.size() - 1].z;
 		}
 		else if (prefix == "vn")
 		{
-			mesh.vertexNormals.push_back(glm::vec3());
+			vertexNormals.push_back(glm::vec3());
 
-			ss >> mesh.vertexNormals[mesh.vertexNormals.size() - 1].x;
-			ss >> mesh.vertexNormals[mesh.vertexNormals.size() - 1].y;
-			ss >> mesh.vertexNormals[mesh.vertexNormals.size() - 1].z;
+			ss >> vertexNormals[vertexNormals.size() - 1].x;
+			ss >> vertexNormals[vertexNormals.size() - 1].y;
+			ss >> vertexNormals[vertexNormals.size() - 1].z;
 		}
 		else if (prefix == "vt")
 		{
-			mesh.vertexTextureCoords.push_back(glm::vec2());
+			vertexTextureCoords.push_back(glm::vec2());
 
-			ss >> mesh.vertexTextureCoords[mesh.vertexTextureCoords.size() - 1].x;
-			ss >> mesh.vertexTextureCoords[mesh.vertexTextureCoords.size() - 1].y;
+			ss >> vertexTextureCoords[vertexTextureCoords.size() - 1].x;
+			ss >> vertexTextureCoords[vertexTextureCoords.size() - 1].y;
 		}
 
 		else if (prefix == "f")
 		{
-			Face face; std::string indicies; Vertex vertex;
-			mesh.faces.push_back(face);
+			std::string indicies; Vertex vertex;
 
 			for(int i = 0; i < 3; i++)
 			{
+				//string representing vertice
 				ss >> indicies;
-				vertex.positionIndex = std::stoi(indicies.substr(0, indicies.find("/")));
-				vertex.textureCoordinateIndex = std::stoi(indicies.substr(indicies.find("/") + 1, indicies.rfind("/")));
-				vertex.normalIndex = std::stoi(indicies.substr(indicies.rfind("/") + 1, indicies.size()));
+				
+				int vertexPositionIndex =  std::stoi(indicies.substr(0, indicies.find("/"))) - 1;
+				int vertexTextureCoordinateIndex = std::stoi(indicies.substr(indicies.find("/") + 1, indicies.rfind("/"))) - 1;
+				int vertexNormalIndex = std::stoi(indicies.substr(indicies.rfind("/") + 1, indicies.size())) - 1;
 
-				mesh.faces[mesh.faces.size() - 1].vertices.push_back(vertex);
+				vertex.Position = vertexPositions[vertexPositionIndex];
+				vertex.TextureCoordiante = vertexTextureCoords[vertexTextureCoordinateIndex];
+				vertex.Normal = vertexNormals[vertexNormalIndex];
+
+				int vertexIndex = -1;
+				for (int i = 0; i < mesh.vertices.size(); i++)
+				{
+					if (vertex.Position == mesh.vertices[i].Position && vertex.TextureCoordiante == mesh.vertices[i].TextureCoordiante && vertex.Normal == mesh.vertices[i].Normal)
+					{
+						vertexIndex = i;
+						break;
+					}
+				}
+
+				if (vertexIndex == -1)
+				{
+					mesh.vertices.push_back(vertex);
+					mesh.indices.push_back(mesh.vertices.size() - 1);
+				}
+				else
+					mesh.indices.push_back(vertexIndex);
 			}
 		}
 	}
-	std::cout << "Mesh Loaded - " << mesh.name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+	mesh.BuildMesh();
 
+	std::cout << "Mesh Loaded - " << mesh.name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 }
 
 

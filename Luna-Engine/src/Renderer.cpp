@@ -13,5 +13,5 @@ void Renderer::RenderMesh(Shader* shader, Mesh* mesh)
 	shader->BindShader();
 	mesh->BindMesh();
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
