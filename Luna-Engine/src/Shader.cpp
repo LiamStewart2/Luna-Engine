@@ -84,7 +84,7 @@ Shader::~Shader()
 	glDeleteProgram(ID);
 }
 
-void Shader::BindTexture()
+void Shader::BindShader()
 {
 	glUseProgram(ID);
 }

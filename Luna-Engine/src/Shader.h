@@ -15,7 +15,7 @@ public:
 	Shader(const char* vertexPath, const char* fragmentPath);
 	~Shader();
 
-	void BindTexture();
+	void BindShader();
 
 	void SetBool(const std::string name, bool value);
 	void SetInt(const std::string name, int value);
