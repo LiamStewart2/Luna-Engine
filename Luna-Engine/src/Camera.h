@@ -7,5 +7,5 @@
 class Camera
 {
 public:
-	
+
 };
