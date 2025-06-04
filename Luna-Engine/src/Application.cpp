@@ -15,7 +15,7 @@ int Application::Init()
 {
 	if(!glfwInit())
 		return -1;
-	window = glfwCreateWindow(640, 480, "Window", NULL, NULL);
+	window = glfwCreateWindow(1280, 720, "Window", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -60,16 +60,18 @@ void Application::HandleInput()
 	glfwPollEvents();
 }
 
+#include <math.h>
 void Application::Update()
 {
-
+	camera.position.z = sin(glfwGetTime() * 0.5f) * -5;
 }
 
 void Application::Render()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	renderer.RenderMesh(&shader, &monkeyMesh);
+	renderer.RenderMesh(&camera, &shader, &monkeyMesh);
 
 	glfwSwapBuffers(window);
 }
