@@ -10,8 +10,8 @@ Renderer::~Renderer()
 
 void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh)
 {
-	shader->BindShader();
 	mesh->BindMesh();
+	shader->BindShader();
 	
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 model = glm::mat4(1.0f);
@@ -26,4 +26,8 @@ void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh)
 	shader->SetFloat("time", glfwGetTime());
 
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR)
+		std::cerr << "GL ERROR: " << err << std::endl;
 }

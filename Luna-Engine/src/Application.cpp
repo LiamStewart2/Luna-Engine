@@ -52,12 +52,14 @@ void Application::MainLoop()
 		HandleInput();
 		Update();
 		Render();
+
+		glfwPollEvents();
 	}
 }
 
 void Application::HandleInput()
 {
-	glfwPollEvents();
+
 }
 
 #include <math.h>
