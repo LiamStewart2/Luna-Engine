@@ -51,7 +51,9 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 Shader::~Shader()
 {
-	glDeleteProgram(ID);
+
+	std::cout << "Shader destructor called! ID: " << ID << std::endl;
+	//glDeleteProgram(ID);
 }
 
 void Shader::BindShader()
@@ -76,12 +78,7 @@ void Shader::SetFloat(const std::string& name, float value)
 
 void Shader::SetMat4(const std::string& name, glm::mat4 value)
 {
-	BindShader();
-	std::cout << ID << std::endl;
-	GLint location = glGetUniformLocation(ID, name.c_str());
-	if (location == -1)
-		std::cerr << "Uniform - " << name << " not found" << std::endl;
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::checkCompileErrors(unsigned int shader, std::string type)

@@ -26,8 +26,4 @@ void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh)
 	shader->SetFloat("time", glfwGetTime());
 
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
-
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
-		std::cerr << "GL ERROR: " << err << std::endl;
 }

@@ -32,7 +32,7 @@ int Application::Init()
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	// load scene
-	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
+	shader = new Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
 	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/shrek.jpg");
@@ -73,7 +73,7 @@ void Application::Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	renderer.RenderMesh(&camera, &shader, &monkeyMesh);
+	renderer.RenderMesh(&camera, shader, &monkeyMesh);
 
 	glfwSwapBuffers(window);
 }
