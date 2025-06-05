@@ -27,7 +27,7 @@ private:
 	void Render();
 	
 	Renderer renderer;
-	Shader* shader;
+	Shader shader;
 	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
 	
 	Mesh monkeyMesh;

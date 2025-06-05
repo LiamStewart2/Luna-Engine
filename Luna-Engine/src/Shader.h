@@ -20,6 +20,7 @@ public:
 	~Shader();
 
 	void BindShader();
+	void DestroyShader();
 
 	void SetBool(const std::string& name, bool value);
 	void SetInt(const std::string& name, int value);

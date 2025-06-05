@@ -52,13 +52,16 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 Shader::~Shader()
 {
 
-	std::cout << "Shader destructor called! ID: " << ID << std::endl;
-	//glDeleteProgram(ID);
 }
 
 void Shader::BindShader()
 {
 	glUseProgram(ID);
+}
+
+void Shader::DestroyShader()
+{
+	glDeleteProgram(ID);
 }
 
 void Shader::SetBool(const std::string& name, bool value)
