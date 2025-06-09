@@ -47,6 +47,7 @@ void Application::Terminate()
 
 void Application::MainLoop()
 {
+	
 	while (!glfwWindowShouldClose(window))
 	{
 		HandleInput();

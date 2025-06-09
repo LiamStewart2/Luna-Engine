@@ -27,4 +27,13 @@ void Camera::HandleInput(GLFWwindow* window)
         position += glm::normalize(glm::cross(position, up));
         direction += glm::normalize(glm::cross(position, up));
     }
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        position += direction;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        -position += direction;
+    }
 }

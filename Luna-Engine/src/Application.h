@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "AssetLoader.h"
 
+#include "Time"
 #include "Shader.h"
 #include "Camera.h"
 
