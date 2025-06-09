@@ -60,13 +60,13 @@ void Application::MainLoop()
 
 void Application::HandleInput()
 {
-
+	camera.HandleInput(window);
 }
 
 #include <math.h>
 void Application::Update()
 {
-	camera.position.z = sin(glfwGetTime() * 0.5f) * -5;
+	//camera.position.z = sin(glfwGetTime() * 0.5f) * -5;
 }
 
 void Application::Render()

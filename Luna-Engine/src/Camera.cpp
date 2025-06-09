@@ -13,3 +13,18 @@ glm::mat4 Camera::GetViewMatrix()
 {
     return glm::lookAt(position, position + direction, up);
 }
+
+
+void Camera::HandleInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        position -= glm::normalize(glm::cross(position, up));
+        direction -= glm::normalize(glm::cross(position, up));
+    }
+    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        position += glm::normalize(glm::cross(position, up));
+        direction += glm::normalize(glm::cross(position, up));
+    }
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -11,6 +12,7 @@ public:
 	~Camera();
 
 	glm::mat4 GetViewMatrix();
+	void HandleInput(GLFWwindow* window);
 
 	glm::vec3 position, direction, up;
 };
