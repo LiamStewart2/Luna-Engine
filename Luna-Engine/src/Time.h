@@ -1,9 +1,10 @@
 #pragma once
 
+
 namespace Time
 {
-	double frameStart = 0.0;
-	double frameEnd = 0.0;
+	void SetStartTime(double time);
+	void SetEndTime(double time);
 
-	double deltaTime = 0.0;
+	double DeltaTime();
 }

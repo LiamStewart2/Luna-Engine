@@ -15,7 +15,7 @@ int Application::Init()
 {
 	if(!glfwInit())
 		return -1;
-	window = glfwCreateWindow(1280, 720, "Window", NULL, NULL);
+	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Window", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -47,14 +47,17 @@ void Application::Terminate()
 
 void Application::MainLoop()
 {
-	
 	while (!glfwWindowShouldClose(window))
 	{
+		Time::SetStartTime(glfwGetTime());
+
 		HandleInput();
 		Update();
 		Render();
 
 		glfwPollEvents();
+
+		Time::SetEndTime(glfwGetTime());
 	}
 	shader.DestroyShader();
 }
