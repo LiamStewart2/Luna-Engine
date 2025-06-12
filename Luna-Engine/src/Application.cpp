@@ -37,6 +37,10 @@ int Application::Init()
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
 	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/shrek.jpg");
 
+	// Hide and set mouse position
+	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
 	return 0;
 }
 
@@ -65,6 +69,9 @@ void Application::MainLoop()
 void Application::HandleInput()
 {
 	camera.HandleInput(window);
+
+	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 }
 
 #include <math.h>

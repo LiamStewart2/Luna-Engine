@@ -3,9 +3,8 @@
 Camera::Camera(glm::vec3 _position, glm::vec3 _rotation)
 {
     position = _position; rotation = _rotation;
+    up = glm::vec3(0, 1, 0);
     CalculateDirection();
-
-    mousePosition = {0, 0};
 }
 
 Camera::~Camera()
@@ -55,10 +54,25 @@ void Camera::HandleKeyboard(GLFWwindow* window)
 
 void Camera::HandleMouse(GLFWwindow* window)
 {
+    glm::dvec2 currentMousePosition = glm::vec2(0, 0);
+    glfwGetCursorPos(window, &currentMousePosition.x, &currentMousePosition.y);
 
+    if(glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) == currentMousePosition)
+        return;
+
+    glm::dvec2 mouseMovement = currentMousePosition - glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+    rotation.y -= mouseMovement.x * sensitivity;
+    rotation.x += mouseMovement.y * sensitivity;
+
+    CalculateDirection();
+
+    glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 void Camera::CalculateDirection()
 {
-    
+    forward.x = glm::sin(glm::radians(rotation.y));
+    forward.y = glm::cos(glm::radians(rotation.x + 90));
+    forward.z = glm::cos(glm::radians(rotation.y));
 }

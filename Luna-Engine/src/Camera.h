@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Time.h"
+#include "Globals.h"
 
 class Camera
 {
@@ -25,9 +26,9 @@ private:
 
 	glm::vec3 position, forward, up;
 	glm::vec3 rotation;
-
-	glm::vec2 mousePosition;
+	
 	bool firstFrame = true;
+	float sensitivity = 0.3f;
 
 	void CalculateDirection();
 };
