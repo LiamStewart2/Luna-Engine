@@ -12,7 +12,7 @@
 class Camera
 {
 public:
-	Camera(glm::vec3 _position, glm::vec3 _direction, glm::vec3 _up);
+	Camera(glm::vec3 _position, glm::vec3 _rotation);
 	~Camera();
 
 	glm::mat4 GetViewMatrix();
@@ -23,12 +23,11 @@ private:
 	void HandleKeyboard(GLFWwindow* window);
 	void HandleMouse(GLFWwindow* window);
 
-	glm::vec3 position, direction, up;
-	float yaw, pitch, roll;
+	glm::vec3 position, forward, up;
+	glm::vec3 rotation;
 
 	glm::vec2 mousePosition;
 	bool firstFrame = true;
 
-	void SetYawPitchRollWithDirection(glm::vec3 _direction);
 	void CalculateDirection();
 };
