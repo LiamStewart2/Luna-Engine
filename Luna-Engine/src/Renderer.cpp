@@ -15,9 +15,8 @@ void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh)
 	
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 model = glm::mat4(1.0f);
-	glm::translate(model, glm::vec3(0, 0, 2));
 
-	glm::mat4 projection = glm::perspective(glm::radians(90.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(70.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 
 	shader->SetMat4("model", model);
 	shader->SetMat4("view", view);

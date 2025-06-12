@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "Globals.h"
+
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"

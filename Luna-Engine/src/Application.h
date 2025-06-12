@@ -6,6 +6,9 @@
 #include "Renderer.h"
 #include "AssetLoader.h"
 
+#include "Globals.h"
+
+#include "Time.h"
 #include "Shader.h"
 #include "Camera.h"
 
@@ -28,7 +31,7 @@ private:
 	
 	Renderer renderer;
 	Shader shader;
-	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
+	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
 	
 	Mesh monkeyMesh;
 	Texture shrekTexture;
