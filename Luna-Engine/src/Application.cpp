@@ -35,11 +35,18 @@ int Application::Init()
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
-	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/shrek.jpg");
+	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
 
 	return 0;
 }
@@ -56,7 +63,9 @@ void Application::MainLoop()
 		Time::SetStartTime(glfwGetTime());
 
 		HandleInput();
+
 		Update();
+		
 		Render();
 
 		glfwPollEvents();
@@ -78,13 +87,16 @@ void Application::HandleInput()
 void Application::Update()
 {
 	//camera.position.z = sin(glfwGetTime() * 0.5f) * -5;
+
+
 }
 
 void Application::Render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	shrekTexture.BindTexture(shader);
 	renderer.RenderMesh(&camera, &shader, &monkeyMesh);
 
 	glfwSwapBuffers(window);
