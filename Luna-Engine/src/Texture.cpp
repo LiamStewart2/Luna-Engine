@@ -22,8 +22,6 @@ void Texture::BindTexture(Shader& shader)
 
 void Texture::BuildTexture(unsigned char* data)
 {
-	glActiveTexture(GL_TEXTURE0);
-
 	glGenTextures(1, &ID);
 	glBindTexture(GL_TEXTURE_2D, ID);
 
