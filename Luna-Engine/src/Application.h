@@ -8,6 +8,8 @@
 
 #include "Globals.h"
 
+#include "Material.h"
+#include "Light.h"
 #include "Time.h"
 #include "Shader.h"
 #include "Camera.h"
@@ -21,6 +23,7 @@ private:
 	GLFWwindow* window;
 
 	int Init();
+	void LoadAssets();
 	void Terminate();
 
 	void MainLoop();
@@ -33,6 +36,10 @@ private:
 	Shader shader;
 	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
 	
+	Light light;
+	Material material;
+
 	Mesh monkeyMesh;
+	Mesh smoothMonkeyMesh;
 	Texture shrekTexture;
 };

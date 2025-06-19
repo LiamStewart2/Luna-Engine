@@ -17,5 +17,6 @@ public:
 	Renderer();
 	~Renderer();
 	
-	void RenderMesh(Camera* camera, Shader* shader, Mesh* mesh);
+	void SetupFrame(Camera* camera, Shader* shader, Light* light);
+	void RenderMesh(Camera* camera, Shader* shader, Mesh* mesh, Material* material);
 };

@@ -31,11 +31,7 @@ int Application::Init()
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	// load scene
-	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
-
-	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
-	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
+	LoadAssets();
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -49,6 +45,20 @@ int Application::Init()
 	glFrontFace(GL_CCW);
 
 	return 0;
+}
+
+void Application::LoadAssets()
+{
+	//Load all assets for the scene
+	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
+
+	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
+	AssetLoader::LoadMeshOBJ(smoothMonkeyMesh, "Assets/Models/smoothMonkey.obj");
+
+	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
+
+	light = {glm::vec3(0), glm::vec3(1)};
+	material = {glm::vec3(1)};
 }
 
 void Application::Terminate()
@@ -83,12 +93,9 @@ void Application::HandleInput()
 		glfwSetWindowShouldClose(window, true);
 }
 
-#include <math.h>
 void Application::Update()
 {
-	//camera.position.z = sin(glfwGetTime() * 0.5f) * -5;
-
-
+	light.position = glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5);
 }
 
 void Application::Render()
@@ -97,7 +104,9 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shrekTexture.BindTexture(shader);
-	renderer.RenderMesh(&camera, &shader, &monkeyMesh);
+
+	renderer.SetupFrame(&camera, &shader, &light);
+	renderer.RenderMesh(&camera, &shader, &smoothMonkeyMesh, &material);
 
 	glfwSwapBuffers(window);
 }
