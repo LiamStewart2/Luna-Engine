@@ -24,6 +24,8 @@
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\Light.h" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\AssetLoader.h" />
     <ClInclude Include="src\Mesh.h" />
