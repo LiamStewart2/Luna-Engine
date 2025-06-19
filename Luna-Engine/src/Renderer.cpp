@@ -24,9 +24,12 @@ void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh)
 
 	shader->SetFloat("time", glfwGetTime());
 
-	shader->SetVec3("oLightPosition", glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5));
-	shader->SetVec3("oLightColor", glm::vec3(1.0f));
-	shader->SetVec3("oObjectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+	Light light = { glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5) , glm::vec3(1.0)};
+	Material material = {glm::vec3(1.0)};
+
+	shader->SetVec3("oLight.position", light.position);
+	shader->SetVec3("oLight.color", light.color);
+	shader->SetVec3("oMaterial.color", material.color);
 	shader->SetVec3("oViewPosition", camera->GetPosition());
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }

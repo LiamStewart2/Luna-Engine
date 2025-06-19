@@ -5,6 +5,8 @@
 
 #include "Globals.h"
 
+#include "Light.h"
+#include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"
