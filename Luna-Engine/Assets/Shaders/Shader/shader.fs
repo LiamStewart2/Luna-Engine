@@ -11,6 +11,7 @@ uniform sampler2D oTexture;
 uniform vec3 oLightPosition;
 uniform vec3 oLightColor;
 uniform vec3 oObjectColor;
+uniform vec3 oViewPosition;
 
 void main()
 {
@@ -23,7 +24,14 @@ void main()
 	float ambientStrength = 0.1;
 	vec3 ambient = ambientStrength * oLightColor;
 	
-	vec4 result = vec4((ambient + diffuse) * oObjectColor, 1);
+	float specularStrength = 0.5;
+	vec3 viewDirection = normalize(oViewPosition - v_fragmentPosition);
+	vec3 reflectionDirection = reflect(-lightDirection, norm);
+
+	float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), 32);
+	vec3 specular = specularStrength * spec * oLightColor;
+
+	vec4 result = vec4((ambient + diffuse + specular) * oObjectColor, 1);
 
 	color = texture(oTexture, v_vertexTextureCoordinate) * result;
 }

@@ -19,6 +19,7 @@ public:
 	glm::mat4 GetViewMatrix();
 	void HandleInput(GLFWwindow* window);
 
+	glm::vec3 GetPosition(){return position;}
 
 private:
 	void HandleKeyboard(GLFWwindow* window);
