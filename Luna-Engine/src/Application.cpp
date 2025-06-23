@@ -32,6 +32,7 @@ int Application::Init()
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	LoadAssets();
+	scene.Init();
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -58,6 +59,8 @@ void Application::LoadAssets()
 
 	light = {glm::vec3(0), glm::vec3(1)};
 	material = {glm::vec3(1)};
+
+	scene.PushBackObject(&monkeyMesh);
 }
 
 void Application::Terminate()
@@ -94,6 +97,7 @@ void Application::HandleInput()
 
 void Application::Update()
 {
+	scene.Update();
 	light.position = glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5);
 }
 
@@ -104,8 +108,7 @@ void Application::Render()
 
 	shrekTexture.BindTexture(shader);
 
-	renderer.SetupFrame(&camera, &shader, &light);
-	renderer.RenderMesh(&camera, &shader, &monkeyMesh, &material);
+	renderer.RenderScene(&scene, &camera, &light, &shader, &monkeyMesh, &material);
 
 	glfwSwapBuffers(window);
 }

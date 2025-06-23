@@ -8,6 +8,7 @@
 
 #include "Globals.h"
 
+#include "Scene.h"
 #include "Material.h"
 #include "Light.h"
 #include "Time.h"
@@ -38,6 +39,8 @@ private:
 	
 	Light light;
 	Material material;
+
+	Scene scene;
 
 	Mesh monkeyMesh;
 
