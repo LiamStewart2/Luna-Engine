@@ -41,5 +41,6 @@ private:
 
 	Mesh monkeyMesh;
 	Mesh smoothMonkeyMesh;
+	Mesh smootherMonkeyMesh;
 	Texture shrekTexture;
 };
