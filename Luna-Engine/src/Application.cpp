@@ -52,7 +52,7 @@ void Application::LoadAssets()
 	//Load all assets for the scene
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 
-	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/smoothestMonkey.obj");
+	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
 
 	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
 

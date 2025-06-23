@@ -91,7 +91,7 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 				else
 					mesh.indices.push_back(vertexIndex);
 
-				std::cout << "Building face takes " << glfwGetTime() - startTime << std::endl;
+				//std::cout << "Building face takes " << glfwGetTime() - startTime << std::endl;
 			}
 		}
 	}
