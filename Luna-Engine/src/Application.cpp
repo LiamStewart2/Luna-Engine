@@ -52,9 +52,7 @@ void Application::LoadAssets()
 	//Load all assets for the scene
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 
-	//AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
-	AssetLoader::LoadMeshOBJ(smoothMonkeyMesh, "Assets/Models/monkeysmoothed.obj");
-	//AssetLoader::LoadMeshOBJ(smootherMonkeyMesh, "Assets/Models/smoothestMonkey.obj");
+	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/smoothestMonkey.obj");
 
 	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
 
@@ -107,7 +105,7 @@ void Application::Render()
 	shrekTexture.BindTexture(shader);
 
 	renderer.SetupFrame(&camera, &shader, &light);
-	renderer.RenderMesh(&camera, &shader, &smoothMonkeyMesh, &material);
+	renderer.RenderMesh(&camera, &shader, &monkeyMesh, &material);
 
 	glfwSwapBuffers(window);
 }

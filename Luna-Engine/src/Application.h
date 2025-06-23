@@ -40,7 +40,6 @@ private:
 	Material material;
 
 	Mesh monkeyMesh;
-	Mesh smoothMonkeyMesh;
-	Mesh smootherMonkeyMesh;
+
 	Texture shrekTexture;
 };

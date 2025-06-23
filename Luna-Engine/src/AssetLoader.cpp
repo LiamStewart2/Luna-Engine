@@ -71,6 +71,8 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 				vertex.TextureCoordiante = vertexTextureCoords[vertexTextureCoordinateIndex];
 				vertex.Normal = vertexNormals[vertexNormalIndex];
 
+				// TODO use a hash map to speed up the face building phase
+
 				int vertexIndex = -1;
 				for (int i = 0; i < mesh.vertices.size(); i++)
 				{
@@ -88,6 +90,8 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 				}
 				else
 					mesh.indices.push_back(vertexIndex);
+
+				std::cout << "Building face takes " << glfwGetTime() - startTime << std::endl;
 			}
 		}
 	}
