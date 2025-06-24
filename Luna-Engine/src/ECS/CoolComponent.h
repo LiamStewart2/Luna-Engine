@@ -13,4 +13,6 @@ public:
 	{
 		std::cout << "cool component" << std::endl;
 	}
+
+	int coolNumber = 4;
 };
