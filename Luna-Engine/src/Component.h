@@ -7,12 +7,16 @@
 class Component
 {
 public:
-	Component(GameObject) {}
+	Component(GameObject* _gameObject);
+
+	virtual void OnStart() {}
+	virtual void Update() {}
+	virtual void OnDestroy() {}
 
 protected:
 	GameObject* gameObject = nullptr;
 
 private:
-	void Print() {}
+
 };
 
