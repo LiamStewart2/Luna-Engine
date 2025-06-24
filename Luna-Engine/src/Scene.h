@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "ECS/ECS.h"
 #include "Mesh.h"
 #include "AssetLoader.h"
 
@@ -21,5 +22,7 @@ private:
 	void LoadAssets();
 
 	std::vector<Mesh*> objectBuffer;
+	
+	GameObject epicObject;
 };
 
