@@ -11,7 +11,8 @@ public:
 
 	void Update() override
 	{
-		std::cout << "cool component" << std::endl;
+		gameObject->GetComponent<Transform>()->position.x += 0.1f;
+		std::cout << gameObject->GetComponent<Transform>()->position.x;
 	}
 
 	int coolNumber = 4;

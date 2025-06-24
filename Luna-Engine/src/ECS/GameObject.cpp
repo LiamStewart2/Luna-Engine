@@ -3,6 +3,7 @@
 GameObject::GameObject()
 {
 	components = std::vector<std::shared_ptr<Component>>();
+	AddComponent<Transform>();
 }
 
 void GameObject::Update()
