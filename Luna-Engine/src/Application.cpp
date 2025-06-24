@@ -72,8 +72,6 @@ void Application::MainLoop()
 {
 	while (!glfwWindowShouldClose(window))
 	{
-		Time::SetStartTime(glfwGetTime());
-
 		HandleInput();
 
 		Update();
@@ -81,8 +79,6 @@ void Application::MainLoop()
 		Render();
 
 		glfwPollEvents();
-
-		Time::SetEndTime(glfwGetTime());
 	}
 	shader.DestroyShader();
 }

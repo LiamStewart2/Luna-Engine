@@ -3,12 +3,12 @@
 #include <string>
 #include <memory>
 
-#include "GameObject.h"
+class GameObject;
 
 class Component
 {
 public:
-	Component(GameObject* _gameObject);
+	Component(GameObject* _gameObject) : gameObject(_gameObject) {}
 
 	virtual void OnStart() {}
 	virtual void Update() {}

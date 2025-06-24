@@ -1,14 +1,6 @@
 #pragma once
 
-#include <vector>
+#include "Component.h"
+#include "GameObject.h"
 
-class EntityComponentSystem
-{
-public:
-	EntityComponentSystem();
-	~EntityComponentSystem();
-
-private:
-
-};
-
+#include "CoolComponent.h"

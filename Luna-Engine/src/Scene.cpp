@@ -10,12 +10,12 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-
+	epicObject.AddComponent<CoolComponent>();
 }
 
 void Scene::Update()
 {
-
+	epicObject.Update();
 }
 
 void Scene::PushBackObject(Mesh* mesh)
