@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "ECS/ECS.h"
+#include "AssetLoader.h"
 #include "Mesh.h"
 #include "AssetLoader.h"
 #include "Renderer.h"
@@ -13,15 +14,28 @@ public:
 	Scene();
 	~Scene();
 
-	void Init();
+	void Init(GLFWwindow* _window);
+	void LoadAssets();
+
 	void Update();
 	void Render(Renderer* renderer);
 
+	void DestroyScene();
+
 	std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
 
-	GameObject epicObject;
 private:
-	void LoadAssets();
+	GLFWwindow* window = nullptr;
+
+	Shader shader;
+	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
+
+	Light light;
+	Material material;
+
+	Mesh monkeyMesh;
+
+	Texture shrekTexture;
 
 	std::vector<GameObject> objectBuffer;
 

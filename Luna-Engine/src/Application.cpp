@@ -15,13 +15,14 @@ int Application::Init()
 {
 	if(!glfwInit())
 		return -1;
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Window", NULL, NULL);
+	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "FPS: 0", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
 
 	if (glewInit() != GLEW_OK)
 	{
@@ -32,8 +33,7 @@ int Application::Init()
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	LoadAssets();
-	scene.Init();
-	scene.epicObject.AddComponent<MeshRenderer>(&monkeyMesh, &shrekTexture, &material, &shader);
+	scene.Init(window);
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -51,15 +51,7 @@ int Application::Init()
 
 void Application::LoadAssets()
 {
-	//Load all assets for the scene
-	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
-
-	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
-
-	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
-
-	light = {glm::vec3(0), glm::vec3(1)};
-	material = {glm::vec3(1)};
+	scene.LoadAssets();
 }
 
 void Application::Terminate()
@@ -69,8 +61,22 @@ void Application::Terminate()
 
 void Application::MainLoop()
 {
+	double lastTime = glfwGetTime();
+	int frameCount = 0;
+
 	while (!glfwWindowShouldClose(window))
 	{
+		double currentTime = glfwGetTime();
+		frameCount++;
+		if (currentTime - lastTime >= 1.0)
+		{
+			std::string title = "FPS: " + std::to_string(frameCount);
+			glfwSetWindowTitle(window, title.c_str());
+
+			frameCount = 0;
+			lastTime = currentTime;
+		}
+
 		HandleInput();
 
 		Update();
@@ -79,13 +85,11 @@ void Application::MainLoop()
 
 		glfwPollEvents();
 	}
-	shader.DestroyShader();
+	scene.DestroyScene();
 }
 
 void Application::HandleInput()
 {
-	camera.HandleInput(window);
-
 	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
@@ -93,7 +97,6 @@ void Application::HandleInput()
 void Application::Update()
 {
 	scene.Update();
-	light.position = glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5);
 }
 
 void Application::Render()
@@ -101,7 +104,6 @@ void Application::Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	renderer.SetShaderFrame(&camera, &shader, &light);
 	scene.Render(&renderer);
 
 	glfwSwapBuffers(window);

@@ -35,15 +35,5 @@ private:
 	void Render();
 	
 	Renderer renderer;
-	Shader shader;
-	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
-	
-	Light light;
-	Material material;
-
 	Scene scene;
-
-	Mesh monkeyMesh;
-
-	Texture shrekTexture;
 };
