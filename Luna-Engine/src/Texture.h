@@ -11,7 +11,7 @@ public:
 	Texture();
 	~Texture();
 
-	void BindTexture(Shader& shader);
+	void BindTexture(Shader* shader);
 	void BuildTexture(unsigned char* data);
 
 	int width, height, channels;

@@ -16,12 +16,18 @@ void Scene::Init()
 	epicObject.AddComponent<CoolComponent>();
 }
 
+void Scene::LoadAssets()
+{
+
+}
+
 void Scene::Update()
 {
 	epicObject.Update();
 }
 
-void Scene::LoadAssets()
+void Scene::Render(Renderer* renderer)
 {
 
 }
+
