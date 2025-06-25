@@ -16,7 +16,6 @@ public:
 	void Update() override
 	{
 		gameObject->GetComponent<Transform>()->position.x = sin(glfwGetTime());
-		std::cout << gameObject->GetComponent<Transform>()->position.x << std::endl;
 	}
 
 	int coolNumber = 4;

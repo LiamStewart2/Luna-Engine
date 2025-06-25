@@ -19,8 +19,6 @@ public:
 	Renderer();
 	~Renderer();
 	
+	void SetShaderFrame(Camera* camera, Shader* shader, Light* light);
 	void RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader);
-private:
-	void SetupFrame(Camera* camera, Shader* shader, Light* light);
-	void RenderMesh(Camera* camera, Shader* shader, Mesh* mesh, Material* material);
 };

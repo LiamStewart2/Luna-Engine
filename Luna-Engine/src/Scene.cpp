@@ -12,7 +12,7 @@ void Scene::Init()
 {
 	LoadAssets();
 
-	epicObject = GameObject(glm::vec3({100, 100, 100}));
+	epicObject = GameObject(glm::vec3({0, 0, 0}));
 	epicObject.AddComponent<CoolComponent>();
 }
 

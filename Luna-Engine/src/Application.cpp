@@ -33,6 +33,7 @@ int Application::Init()
 
 	LoadAssets();
 	scene.Init();
+	scene.epicObject.AddComponent<MeshRenderer>(&monkeyMesh, &shrekTexture, &material, &shader);
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -100,6 +101,7 @@ void Application::Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	renderer.SetShaderFrame(&camera, &shader, &light);
 	scene.Render(&renderer);
 
 	glfwSwapBuffers(window);

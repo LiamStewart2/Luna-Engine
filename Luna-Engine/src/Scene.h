@@ -19,11 +19,11 @@ public:
 
 	std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
 
+	GameObject epicObject;
 private:
 	void LoadAssets();
 
 	std::vector<GameObject> objectBuffer;
 
-	GameObject epicObject;
 };
 
