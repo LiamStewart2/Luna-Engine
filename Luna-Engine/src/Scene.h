@@ -15,14 +15,13 @@ public:
 	void Init();
 	void Update();
 
-	void PushBackObject(Mesh* mesh);
-	std::vector<Mesh*>* getObjectBuffer() { return &objectBuffer; }
+	std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
 
 private:
 	void LoadAssets();
 
-	std::vector<Mesh*> objectBuffer;
-	
+	std::vector<GameObject> objectBuffer;
+
 	GameObject epicObject;
 };
 

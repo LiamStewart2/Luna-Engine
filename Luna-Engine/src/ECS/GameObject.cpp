@@ -3,11 +3,19 @@
 GameObject::GameObject()
 {
 	components = std::vector<std::shared_ptr<Component>>();
-	AddComponent<Transform>();
+	
+}
+
+GameObject::GameObject(glm::vec3 _position)
+{
+	components = std::vector<std::shared_ptr<Component>>();
+	AddComponent<Transform>(_position);
 }
 
 void GameObject::Update()
 {
 	for (size_t i = 0; i < components.size(); i++)
+	{
 		components[i].get()->Update();
+	}
 }

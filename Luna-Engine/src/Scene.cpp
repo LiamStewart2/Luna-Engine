@@ -10,18 +10,15 @@ Scene::~Scene()
 
 void Scene::Init()
 {
+	LoadAssets();
+
+	epicObject = GameObject(glm::vec3({100, 100, 100}));
 	epicObject.AddComponent<CoolComponent>();
 }
 
 void Scene::Update()
 {
 	epicObject.Update();
-	std::cout << epicObject.GetComponent<CoolComponent>()->coolNumber << std::endl;
-}
-
-void Scene::PushBackObject(Mesh* mesh)
-{
-	objectBuffer.push_back(mesh);
 }
 
 void Scene::LoadAssets()

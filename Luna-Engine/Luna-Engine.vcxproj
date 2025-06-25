@@ -29,6 +29,7 @@
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\GameObject.h" />
+    <ClInclude Include="src\ECS\MeshRenderer.h" />
     <ClInclude Include="src\ECS\Transform.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Camera.h" />

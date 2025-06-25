@@ -59,8 +59,6 @@ void Application::LoadAssets()
 
 	light = {glm::vec3(0), glm::vec3(1)};
 	material = {glm::vec3(1)};
-
-	scene.PushBackObject(&monkeyMesh);
 }
 
 void Application::Terminate()
