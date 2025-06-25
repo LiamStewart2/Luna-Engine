@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "ECS/ECS.h"
+#include "LinkedList.h"
 #include "AssetLoader.h"
 #include "Mesh.h"
 #include "AssetLoader.h"
@@ -14,7 +15,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(GLFWwindow* _window);
+	void Init(GLFWwindow* window);
 	void LoadAssets();
 
 	void Update();
@@ -22,10 +23,10 @@ public:
 
 	void DestroyScene();
 
-	std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
+	//std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
 
 private:
-	GLFWwindow* window = nullptr;
+	GLFWwindow* window;
 
 	Shader shader;
 	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
@@ -37,7 +38,6 @@ private:
 
 	Texture shrekTexture;
 
-	std::vector<GameObject> objectBuffer;
-
+	LinkedList<GameObject> objectBuffer;
 };
 

@@ -22,6 +22,17 @@ public:
 
 	void OnRender(Renderer* renderer) override
 	{
+		if (!gameObject) {
+			std::cerr << "ERROR: MeshRenderer has null gameObject!\n";
+			return;
+		}
+
+		auto transform = gameObject->GetComponent<Transform>();
+		if (!transform) {
+			std::cerr << "ERROR: GameObject missing Transform!\n";
+			return;
+		}
+
 		renderer->RenderObject(gameObject->GetComponent<Transform>().get(), mesh, texture, material, shader);
 	}
 };

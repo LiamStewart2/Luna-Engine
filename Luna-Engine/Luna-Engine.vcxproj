@@ -31,6 +31,7 @@
     <ClInclude Include="src\ECS\GameObject.h" />
     <ClInclude Include="src\ECS\MeshRenderer.h" />
     <ClInclude Include="src\ECS\Transform.h" />
+    <ClInclude Include="src\LinkedList.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Globals.h" />

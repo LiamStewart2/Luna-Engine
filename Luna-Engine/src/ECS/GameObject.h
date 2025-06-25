@@ -16,6 +16,8 @@ public:
 
 	std::string name;
 
+	void OnStart();
+
 	void Update();
 	void OnRender(Renderer* renderer);
 

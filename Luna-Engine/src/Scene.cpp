@@ -12,9 +12,21 @@ void Scene::Init(GLFWwindow* _window)
 {
 	window = _window;
 
-	objectBuffer.push_back(GameObject());
-	objectBuffer[0].AddComponent<CoolComponent>();
-	objectBuffer[0].AddComponent<MeshRenderer>(&monkeyMesh, &shrekTexture, &material, &shader);
+	for (int x = -5; x < 5; x++)
+	{
+		for (int y = -5; y < 5; y++)
+		{
+			for (int z = -5; z < 5; z++)
+			{
+				objectBuffer.Push(GameObject({x * 3, y * 3, z * 3}));
+				objectBuffer[objectBuffer.Size() - 1].AddComponent<CoolComponent>();
+				objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &shrekTexture, &material, &shader);
+			}
+		}
+	}
+
+	for (size_t i = 0; i < objectBuffer.Size(); i++)
+		objectBuffer[i].OnStart();
 }
 
 void Scene::LoadAssets()
@@ -35,14 +47,14 @@ void Scene::Update()
 	camera.HandleInput(window);
 	light.position = glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5);
 	
-	for(size_t i = 0; i < objectBuffer.size(); i++)
+	for(size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].Update();
 }
 
 void Scene::Render(Renderer* renderer)
 {
 	renderer->SetShaderFrame(&camera, &shader, &light);
-	for (size_t i = 0; i < objectBuffer.size(); i++)
+	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].OnRender(renderer);
 }
 

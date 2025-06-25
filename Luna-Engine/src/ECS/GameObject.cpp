@@ -12,6 +12,12 @@ GameObject::GameObject(glm::vec3 _position)
 	AddComponent<Transform>(_position);
 }
 
+void GameObject::OnStart()
+{
+	for (size_t i = 0; i < components.size(); i++)
+		components[i].get()->OnStart();
+}
+
 void GameObject::Update()
 {
 	for (size_t i = 0; i < components.size(); i++)

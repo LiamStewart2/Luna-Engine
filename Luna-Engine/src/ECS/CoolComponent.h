@@ -13,10 +13,28 @@ class CoolComponent : public Component
 public:
 	CoolComponent(GameObject* _gameObject) : Component(_gameObject) {}
 
+	void OnStart() override
+	{
+		startPosition = gameObject->GetComponent<Transform>().get()->position;
+	}
+
 	void Update() override
 	{
-		gameObject->GetComponent<Transform>()->position.x = sin(glfwGetTime());
+		if (!gameObject) {
+			std::cerr << "ERROR: CoolComponent has null gameObject!\n";
+			return;
+		}
+
+		auto transform = gameObject->GetComponent<Transform>();
+		if (!transform) {
+			std::cerr << "ERROR: CoolComponent missing Transform!\n";
+			return;
+		}
+		else
+			gameObject->GetComponent<Transform>()->position.x = startPosition.x + sin(glfwGetTime());
 	}
 
 	int coolNumber = 4;
+private:
+	glm::vec3 startPosition = glm::vec3(0);
 };
