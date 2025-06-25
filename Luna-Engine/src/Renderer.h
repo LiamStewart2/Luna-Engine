@@ -5,7 +5,8 @@
 
 #include "Globals.h"
 
-#include "Scene.h"
+#include "ECS/Transform.h"
+
 #include "Light.h"
 #include "Material.h"
 #include "Mesh.h"
@@ -18,9 +19,6 @@ public:
 	Renderer();
 	~Renderer();
 	
-	void RenderScene(Scene* scene, Camera* camera, Light* light, Shader* shader, Mesh* mesh, Material* material);
-
-private:
-	void SetupFrame(Camera* camera, Shader* shader, Light* light);
-	void RenderMesh(Camera* camera, Shader* shader, Mesh* mesh, Material* material);
+	void SetShaderFrame(Camera* camera, Shader* shader, Light* light);
+	void RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader);
 };

@@ -8,7 +8,30 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::SetupFrame(Camera* camera, Shader* shader, Light* light)
+void Renderer::RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader)
+{
+	shader->BindShader();
+	mesh->BindMesh();
+	texture->BindTexture(shader);
+
+	glm::mat4 model = glm::mat4(1.0f);
+
+	model = glm::scale(model, transform->scale);
+	
+	model = glm::rotate(model, glm::radians(transform->rotation.x), {1, 0, 0});
+	model = glm::rotate(model, glm::radians(transform->rotation.y), {0, 1, 0});
+	model = glm::rotate(model, glm::radians(transform->rotation.z), {0, 0, 1});
+
+	model = glm::translate(model, transform->position);
+
+	shader->SetMat4("model", model);
+
+	shader->SetVec3("oMaterial.color", material->color);
+
+	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+}
+
+void Renderer::SetShaderFrame(Camera* camera, Shader* shader, Light* light)
 {
 	shader->BindShader();
 
@@ -22,27 +45,4 @@ void Renderer::SetupFrame(Camera* camera, Shader* shader, Light* light)
 	shader->SetVec3("oLight.color", light->color);
 
 	shader->SetVec3("oViewPosition", camera->GetPosition());
-}
-
-void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh, Material* material)
-{
-	mesh->BindMesh();
-	shader->BindShader();
-	
-	glm::mat4 model = glm::mat4(1.0f);
-
-	shader->SetMat4("model", model);
-
-	shader->SetVec3("oMaterial.color", material->color);
-
-	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
-}
-
-void Renderer::RenderScene(Scene* scene, Camera* camera, Light* light, Shader* shader, Mesh* mesh, Material* material)
-{
-	SetupFrame(camera, shader, light);
-
-	std::vector<Mesh*>* objectBuffer = scene->getObjectBuffer();
-	for (size_t i = 0; i < objectBuffer->size(); i++)
-		RenderMesh(camera, shader, mesh, material);
 }

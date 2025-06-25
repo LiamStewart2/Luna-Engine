@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+
 #include "Component.h"
 
 class CoolComponent : public Component
@@ -9,11 +13,28 @@ class CoolComponent : public Component
 public:
 	CoolComponent(GameObject* _gameObject) : Component(_gameObject) {}
 
+	void OnStart() override
+	{
+		startPosition = gameObject->GetComponent<Transform>().get()->position;
+	}
+
 	void Update() override
 	{
-		gameObject->GetComponent<Transform>()->position.x += 0.1f;
-		std::cout << gameObject->GetComponent<Transform>()->position.x;
+		if (!gameObject) {
+			std::cerr << "ERROR: CoolComponent has null gameObject!\n";
+			return;
+		}
+
+		auto transform = gameObject->GetComponent<Transform>();
+		if (!transform) {
+			std::cerr << "ERROR: CoolComponent missing Transform!\n";
+			return;
+		}
+		else
+			gameObject->GetComponent<Transform>()->position.x = startPosition.x + sin(glfwGetTime());
 	}
 
 	int coolNumber = 4;
+private:
+	glm::vec3 startPosition = glm::vec3(0);
 };

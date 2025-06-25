@@ -4,3 +4,4 @@
 #include "GameObject.h"
 
 #include "CoolComponent.h"
+#include "MeshRenderer.h"
