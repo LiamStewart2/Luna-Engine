@@ -60,14 +60,3 @@ void Renderer::RenderMesh(Camera* camera, Shader* shader, Mesh* mesh, Material* 
 
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
-
-void Renderer::RenderScene(Scene* scene, Camera* camera, Light* light, Shader* shader, Mesh* mesh, Material* material)
-{
-	/*
-	SetupFrame(camera, shader, light);
-
-	std::vector<Mesh*>* objectBuffer = scene->getObjectBuffer();
-	for (size_t i = 0; i < objectBuffer->size(); i++)
-		RenderMesh(camera, shader, mesh, material);
-	*/
-}

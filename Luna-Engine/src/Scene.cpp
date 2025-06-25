@@ -28,6 +28,6 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-
+	epicObject.OnRender(renderer);
 }
 

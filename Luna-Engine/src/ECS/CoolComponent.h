@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+
 #include "Component.h"
 
 class CoolComponent : public Component
@@ -11,7 +15,7 @@ public:
 
 	void Update() override
 	{
-		gameObject->GetComponent<Transform>()->position.x += 0.1f;
+		gameObject->GetComponent<Transform>()->position.x = sin(glfwGetTime());
 		std::cout << gameObject->GetComponent<Transform>()->position.x << std::endl;
 	}
 

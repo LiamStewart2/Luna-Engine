@@ -17,6 +17,7 @@ public:
 	std::string name;
 
 	void Update();
+	void OnRender(Renderer* renderer);
 
 	template <typename T, typename... Args>
 	std::shared_ptr<T> AddComponent(Args&&... args);

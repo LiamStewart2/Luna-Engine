@@ -15,7 +15,11 @@ GameObject::GameObject(glm::vec3 _position)
 void GameObject::Update()
 {
 	for (size_t i = 0; i < components.size(); i++)
-	{
 		components[i].get()->Update();
-	}
+}
+
+void GameObject::OnRender(Renderer* renderer)
+{
+	for (size_t i = 0; i < components.size(); i++)
+		components[i].get()->OnRender(renderer);
 }

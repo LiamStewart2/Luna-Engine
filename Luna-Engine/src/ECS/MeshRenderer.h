@@ -22,6 +22,6 @@ public:
 
 	void OnRender(Renderer* renderer) override
 	{
-		
+		renderer->RenderObject(gameObject->GetComponent<Transform>().get(), mesh, texture, material, shader);
 	}
 };
