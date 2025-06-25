@@ -2,7 +2,6 @@
 
 int main()
 {
-	Application* app = new Application();
-	delete app;
+	Application app = Application();
 	return 0;
 }
