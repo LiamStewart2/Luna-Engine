@@ -37,6 +37,7 @@ void Renderer::SetShaderFrame(Camera* camera, Shader* shader, Light* light)
 
 	glm::mat4 projection = glm::perspective(glm::radians(70.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);
