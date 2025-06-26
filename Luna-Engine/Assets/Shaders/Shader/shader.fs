@@ -34,7 +34,7 @@ void main()
 	float ambientStrength = 0.1;
 	vec3 ambient = ambientStrength * oLight.color;
 	
-	float specularStrength = 0.5;
+	float specularStrength = 0.23;
 	vec3 viewDirection = normalize(oViewPosition - v_fragmentPosition);
 	vec3 reflectionDirection = reflect(-lightDirection, norm);
 
