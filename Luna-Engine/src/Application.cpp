@@ -32,7 +32,6 @@ int Application::Init()
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	LoadAssets();
 	scene.Init(window);
 
 	// Hide and set mouse position
@@ -47,11 +46,6 @@ int Application::Init()
 	glFrontFace(GL_CCW);
 
 	return 0;
-}
-
-void Application::LoadAssets()
-{
-	scene.LoadAssets();
 }
 
 void Application::Terminate()

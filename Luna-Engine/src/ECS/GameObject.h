@@ -13,6 +13,7 @@ class GameObject
 public:
 	GameObject();
 	GameObject(glm::vec3 _position);
+	GameObject(glm::vec3 _position, glm::vec3 _scale, glm::vec3 _rotation);
 
 	std::string name;
 

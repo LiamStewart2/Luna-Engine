@@ -25,7 +25,6 @@ private:
 	GLFWwindow* window;
 
 	int Init();
-	void LoadAssets();
 	void Terminate();
 
 	void MainLoop();

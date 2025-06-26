@@ -11,19 +11,15 @@ Scene::~Scene()
 void Scene::Init(GLFWwindow* _window)
 {
 	window = _window;
+	LoadAssets();
 
-	for (int x = -5; x < 5; x++)
-	{
-		for (int y = -5; y < 5; y++)
-		{
-			for (int z = -5; z < 5; z++)
-			{
-				objectBuffer.Push(GameObject({x * 3, y * 3, z * 3}));
-				objectBuffer[objectBuffer.Size() - 1].AddComponent<CoolComponent>();
-				objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &shrekTexture, &material, &shader);
-			}
-		}
-	}
+
+	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 180, 0}));
+	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
+
+	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
+	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&planeMesh, &defaultTexture, &material, &shader);
+
 
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].OnStart();
@@ -35,17 +31,18 @@ void Scene::LoadAssets()
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
+	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
 
-	AssetLoader::LoadTexture(shrekTexture, "Assets/Textures/rock.png");
+	AssetLoader::LoadTexture(stoneTexture, "Assets/Textures/rock.png");
+	AssetLoader::LoadTexture(defaultTexture, "Assets/Textures/default.png");
 
-	light = { glm::vec3(0), glm::vec3(1) };
+	light = { glm::vec3(100, 100, 100), glm::vec3(1) };
 	material = { glm::vec3(1) };
 }
 
 void Scene::Update()
 {
 	camera.HandleInput(window);
-	light.position = glm::vec3(cos(glfwGetTime()) * 5, 0, sin(glfwGetTime()) * 5);
 	
 	for(size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].Update();

@@ -12,6 +12,12 @@ GameObject::GameObject(glm::vec3 _position)
 	AddComponent<Transform>(_position);
 }
 
+GameObject::GameObject(glm::vec3 _position, glm::vec3 _scale, glm::vec3 _rotation)
+{
+	components = std::vector<std::shared_ptr<Component>>();
+	AddComponent<Transform>(_position, _scale, _rotation);
+}
+
 void GameObject::OnStart()
 {
 	for (size_t i = 0; i < components.size(); i++)

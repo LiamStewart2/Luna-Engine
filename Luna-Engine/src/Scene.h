@@ -29,14 +29,16 @@ private:
 	GLFWwindow* window;
 
 	Shader shader;
-	Camera camera = Camera(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0));
+	Camera camera = Camera(glm::vec3(0, 2, -3), glm::vec3(0, 0, 0));
 
 	Light light;
 	Material material;
 
+	Mesh planeMesh;
 	Mesh monkeyMesh;
 
-	Texture shrekTexture;
+	Texture defaultTexture;
+	Texture stoneTexture;
 
 	LinkedList<GameObject> objectBuffer;
 };
