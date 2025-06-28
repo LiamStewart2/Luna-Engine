@@ -114,5 +114,7 @@
   <ItemGroup>
     <None Include="Assets\Shaders\Shader\shader.fs" />
     <None Include="Assets\Shaders\Shader\shader.vs" />
+    <None Include="Assets\Shaders\DepthShader\shader.vs" />
+    <None Include="Assets\Shaders\DepthShader\shader.fs" />
   </ItemGroup>
 </Project>

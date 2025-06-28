@@ -46,6 +46,8 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Shaders\DepthShader\shader.fs" />
+    <None Include="Assets\Shaders\DepthShader\shader.vs" />
     <None Include="Assets\Shaders\Shader\shader.fs" />
     <None Include="Assets\Shaders\Shader\shader.vs" />
   </ItemGroup>
