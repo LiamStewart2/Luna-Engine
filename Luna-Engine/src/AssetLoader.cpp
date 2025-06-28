@@ -68,7 +68,7 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 					break;
 
 				vertex.Position = vertexPositions[vertexPositionIndex];
-				vertex.TextureCoordiante = vertexTextureCoords[vertexTextureCoordinateIndex];
+				vertex.TextureCoordinate = vertexTextureCoords[vertexTextureCoordinateIndex];
 				vertex.Normal = vertexNormals[vertexNormalIndex];
 
 				// TODO use a hash map to speed up the face building phase
@@ -76,7 +76,7 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 				int vertexIndex = -1;
 				for (int i = 0; i < mesh.vertices.size(); i++)
 				{
-					if (vertex.Position == mesh.vertices[i].Position && vertex.TextureCoordiante == mesh.vertices[i].TextureCoordiante && vertex.Normal == mesh.vertices[i].Normal)
+					if (vertex.Position == mesh.vertices[i].Position && vertex.TextureCoordinate == mesh.vertices[i].TextureCoordinate && vertex.Normal == mesh.vertices[i].Normal)
 					{
 						vertexIndex = i;
 						break;

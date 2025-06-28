@@ -51,6 +51,9 @@
     <ClCompile Include="src\ECS\ECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -111,5 +114,7 @@
   <ItemGroup>
     <None Include="Assets\Shaders\Shader\shader.fs" />
     <None Include="Assets\Shaders\Shader\shader.vs" />
+    <None Include="Assets\Shaders\DepthShader\shader.vs" />
+    <None Include="Assets\Shaders\DepthShader\shader.fs" />
   </ItemGroup>
 </Project>

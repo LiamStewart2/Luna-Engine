@@ -13,8 +13,13 @@ void Scene::Init(GLFWwindow* _window)
 	window = _window;
 	LoadAssets();
 
+	shader.BindShader();
+	shader.SetInt("diffuseTexture", 0);
+	shader.SetInt("shadowMap", 1);
 
-	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 180, 0}));
+	light.BuildLight();
+
+	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 0, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
 
 	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
@@ -29,14 +34,14 @@ void Scene::LoadAssets()
 {
 	//Load all assets for the scene
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
+	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
 	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
 
 	AssetLoader::LoadTexture(stoneTexture, "Assets/Textures/rock.png");
 	AssetLoader::LoadTexture(defaultTexture, "Assets/Textures/default.png");
-
-	light = { glm::vec3(100, 100, 100), glm::vec3(1) };
+	
 	material = { glm::vec3(1) };
 }
 
@@ -50,7 +55,12 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-	renderer->SetShaderFrame(&camera, &shader, &light);
+	light.FrameSetup(&depthmapShader, &shader);
+	for (size_t i = 0; i < objectBuffer.Size(); i++)
+		light.RenderObjectToDepthmap(objectBuffer[i].GetComponent<MeshRenderer>().get()->mesh, objectBuffer[i].GetComponent<Transform>().get(), &depthmapShader);
+	light.FrameReset();
+	
+	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].OnRender(renderer);
 }
