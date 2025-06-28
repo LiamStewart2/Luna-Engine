@@ -71,6 +71,7 @@ void Light::FrameSetup(Shader* depthmapShader, Shader* shader)
 
     depthmapShader->BindShader();
     depthmapShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+    shader->BindShader();
     shader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);

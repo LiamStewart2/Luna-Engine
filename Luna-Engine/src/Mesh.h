@@ -9,7 +9,7 @@
 
 struct Vertex {
 	glm::vec3 Position;
-	glm::vec2 TextureCoordiante;
+	glm::vec2 TextureCoordinate;
 	glm::vec3 Normal;
 };
 
