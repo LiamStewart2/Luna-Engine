@@ -15,8 +15,7 @@ void Texture::BindTexture(Shader* shader)
 {
 	shader->BindShader();
 	glActiveTexture(GL_TEXTURE0);
-
-	shader->SetInt("oTexture", 0);
+	shader->SetInt("diffuseTexture", 0);
 	glBindTexture(GL_TEXTURE_2D, ID);
 }
 

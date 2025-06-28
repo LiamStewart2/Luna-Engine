@@ -19,7 +19,7 @@ void Scene::Init(GLFWwindow* _window)
 
 	light.BuildLight();
 
-	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 180, 0}));
+	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 0, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
 
 	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
@@ -55,11 +55,11 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-
 	light.FrameSetup(&depthmapShader, &shader);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		light.RenderObjectToDepthmap(objectBuffer[i].GetComponent<MeshRenderer>().get()->mesh, objectBuffer[i].GetComponent<Transform>().get(), &depthmapShader);
-
+	light.FrameReset();
+	
 	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].OnRender(renderer);
