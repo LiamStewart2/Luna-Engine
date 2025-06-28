@@ -31,7 +31,7 @@ private:
 	Shader shader;
 	Camera camera = Camera(glm::vec3(0, 2, -3), glm::vec3(0, 0, 0));
 
-	Light light;
+	Light light; 
 	Material material;
 
 	Mesh planeMesh;
