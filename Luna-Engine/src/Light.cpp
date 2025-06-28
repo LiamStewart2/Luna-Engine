@@ -34,6 +34,7 @@ void Light::BuildLight()
 
 void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader)
 {
+    glCullFace(GL_FRONT);
     depthmapShader->BindShader();
     mesh->BindMesh();
 
@@ -50,6 +51,7 @@ void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* dep
     depthmapShader->SetMat4("model", model);
 
     glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+    glCullFace(GL_BACK);
 }
 
 void Light::BindTexture(Shader* shader)
