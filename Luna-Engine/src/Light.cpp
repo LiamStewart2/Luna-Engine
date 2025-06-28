@@ -17,6 +17,6 @@ void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* dep
 {
 }
 
-void Light::BindLightTexture(Shader* shader)
+void Light::BindDepthmapTexture(Shader* shader)
 {
 }
