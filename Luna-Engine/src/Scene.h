@@ -30,6 +30,7 @@ private:
 
 	Shader shader;
 	Shader depthmapShader;
+
 	Camera camera = Camera(glm::vec3(0, 2, -3), glm::vec3(0, 0, 0));
 
 	Light light = Light(glm::vec3(5), glm::vec3(-1), glm::vec3(1));

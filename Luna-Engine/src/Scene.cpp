@@ -13,7 +13,7 @@ void Scene::Init(GLFWwindow* _window)
 	window = _window;
 	LoadAssets();
 
-	light.BuildLight();
+	light.BuildLight(&depthmapShader);
 
 	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 180, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
@@ -30,6 +30,7 @@ void Scene::LoadAssets()
 {
 	//Load all assets for the scene
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
+	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
 	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
