@@ -43,5 +43,5 @@ void main()
 
 	vec4 result = vec4((ambient + diffuse + specular) * oMaterial.color, 1);
 
-	color = texture(oTexture, v_vertexTextureCoordinate) * result;
+	color = texture(oTexture, v_vertexTextureCoordinate) * result; 
 }
