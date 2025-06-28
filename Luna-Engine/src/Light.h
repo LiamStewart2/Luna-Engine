@@ -25,6 +25,6 @@ public:
 private:
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
-	unsigned int depthmapFBO;
-	unsigned int depthmapTextureID;
+	unsigned int depthmapFBO = 0;
+	unsigned int depthmapTextureID = 0;
 };
