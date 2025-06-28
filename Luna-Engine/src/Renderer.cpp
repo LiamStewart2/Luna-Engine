@@ -31,10 +31,9 @@ void Renderer::RenderObject(Transform* transform, Mesh* mesh, Texture* texture, 
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::SetShaderFrame(Camera* camera, Shader* shader, Light* light)
+void Renderer::SetShaderFrame(Camera* camera, Shader* depthmapShader, Shader* shader, Light* light)
 {
 	shader->BindShader();
-	light->BindDepthmapTexture(shader);
 
 	glm::mat4 projection = glm::perspective(glm::radians(70.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();

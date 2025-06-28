@@ -13,7 +13,11 @@ void Scene::Init(GLFWwindow* _window)
 	window = _window;
 	LoadAssets();
 
-	light.BuildLight(&depthmapShader);
+	shader.BindShader();
+	shader.SetInt("diffuseTexture", 0);
+	shader.SetInt("shadowMap", 1);
+
+	light.BuildLight();
 
 	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 180, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
@@ -51,10 +55,12 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
+
+	light.FrameSetup(&depthmapShader, &shader);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		light.RenderObjectToDepthmap(objectBuffer[i].GetComponent<MeshRenderer>().get()->mesh, objectBuffer[i].GetComponent<Transform>().get(), &depthmapShader);
 
-	renderer->SetShaderFrame(&camera, &shader, &light);
+	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		objectBuffer[i].OnRender(renderer);
 }

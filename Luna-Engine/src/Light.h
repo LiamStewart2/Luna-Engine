@@ -13,10 +13,10 @@ public:
 	~Light();
 
 
-	void BuildLight(Shader* depthmapShader);
+	void BuildLight();
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
-	void BindDepthmapTexture(Shader* shader);
+	void FrameSetup(Shader* depthmapShader, Shader* shader);
 
 	glm::vec3 position;
 	glm::vec3 direction;

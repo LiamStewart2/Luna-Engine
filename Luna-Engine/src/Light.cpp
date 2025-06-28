@@ -9,7 +9,7 @@ Light::~Light()
 {
 }
 
-void Light::BuildLight(Shader* depthmapShader)
+void Light::BuildLight()
 {
 	glGenFramebuffers(1, &depthmapFBO);
 	glGenTextures(1, &depthmapTextureID);
@@ -21,16 +21,30 @@ void Light::BuildLight(Shader* depthmapShader)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthmapTextureID);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthmapTextureID, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);  
 }
 
 void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader)
 {
 }
 
-void Light::BindDepthmapTexture(Shader* shader)
+void Light::FrameSetup(Shader* depthmapShader, Shader* shader)
 {
+    glm::mat4 lightProjection, lightView;
+    glm::mat4 lightSpaceMatrix;
+    float near_plane = 1.0f, far_plane = 10.0f;
+    lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+    lightView = glm::lookAt(position, direction, glm::vec3(0, 1, 0));
+    lightSpaceMatrix = lightProjection * lightView;
+
+    depthmapShader->BindShader();
+    depthmapShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+    glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
 }
