@@ -23,7 +23,7 @@ public:
 
 	void DestroyScene();
 
-	//std::vector<GameObject>* getObjectBuffer() { return &objectBuffer; }
+	LinkedList<GameObject>* getObjectBuffer() { return &objectBuffer; }
 
 private:
 	GLFWwindow* window;
