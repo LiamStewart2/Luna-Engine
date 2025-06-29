@@ -13,10 +13,7 @@ class CoolComponent : public Component
 public:
 	CoolComponent(GameObject* _gameObject) : Component(_gameObject) {}
 
-	void OnStart() override
-	{
-		startPosition = gameObject->GetComponent<Transform>().get()->position;
-	}
+
 
 	void Update() override
 	{
@@ -31,10 +28,11 @@ public:
 			return;
 		}
 		else
-			gameObject->GetComponent<Transform>()->position.x = startPosition.x + sin(glfwGetTime());
+		{
+			gameObject->GetComponent<Transform>()->rotation.z += (glfwGetTime() - lastTime) * 360;
+			lastTime = glfwGetTime();
+		}
 	}
-
-	int coolNumber = 4;
 private:
-	glm::vec3 startPosition = glm::vec3(0);
+	float lastTime = 0;
 };

@@ -19,8 +19,12 @@ void Scene::Init(GLFWwindow* _window)
 
 	light.BuildLight();
 
-	objectBuffer.Push(GameObject({0, 2, 0}, {1, 1, 1}, {0, 0, 0}));
+	objectBuffer.Push(GameObject({0, 3, 0}, {1, 1, 1}, {0, 0, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
+
+	objectBuffer.Push(GameObject({ 2, 3, 2 }, { 1, 1, 1 }, { 0, 0, 0 }));
+	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
+	objectBuffer[objectBuffer.Size() - 1].AddComponent<CoolComponent>();
 
 	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&planeMesh, &defaultTexture, &material, &shader);
