@@ -26,6 +26,11 @@ uniform Light oLight;
 uniform Material oMaterial;
 uniform vec3 oViewPosition;
 
+float rand(vec2 co)
+{
+	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -43,15 +48,16 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 
 	float shadow = 0.0;
 	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-	for(int x = -1; x <= 1; ++x)
+	for(int x = -2; x <= 2; ++x)
 	{
-		for(int y = -1; y <= 1; ++y)
+		for(int y = -2; y <= 2; ++y)
 		{
-			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			vec2 offset = vec2(rand(projCoords.xy), rand(projCoords.xy + vec2(1, 1)));
+			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x + offset.x, y + offset.y) * texelSize).r; 
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
 		}    
 	}
-	shadow /= 9.0;
+	shadow /= 25.0;
 
     return shadow;
 }

@@ -51,7 +51,7 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
-	light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, 10, glm::cos(glfwGetTime()) * 5);
+	//light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, 10, glm::cos(glfwGetTime()) * 5);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
 	
