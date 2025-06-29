@@ -60,12 +60,12 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 			coordSample.x = sqrt(sampleOffset.x) * cos(6.283 * sampleOffset.y);
 			coordSample.y = sqrt(sampleOffset.x) * sin(6.283 * sampleOffset.y);
 
-			float pcfDepth = texture(shadowMap, projCoords.xy + coordSample * texelSize).r; 
+			float pcfDepth = texture(shadowMap, projCoords.xy + sampleOffset * texelSize).r; 
 
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
-	shadow /= 25.0;
+	shadow /= 45.0;
 
     return shadow;
 }
