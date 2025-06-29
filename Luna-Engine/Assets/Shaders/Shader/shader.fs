@@ -52,9 +52,17 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 	{
 		for(int y = -2; y <= 2; ++y)
 		{
-			vec2 offset = vec2(rand(projCoords.xy), rand(projCoords.xy + vec2(1, 1)));
-			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x + offset.x, y + offset.y) * texelSize).r; 
-			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+			vec2 coordSample = vec2(x, y);
+			vec2 offset = vec2(rand(v_fragmentPosition.xy), rand(v_fragmentPosition.xy));
+
+			vec2 sampleOffset = coordSample + offset;
+
+			coordSample.x = sqrt(sampleOffset.x) * cos(6.283 * sampleOffset.y);
+			coordSample.y = sqrt(sampleOffset.x) * sin(6.283 * sampleOffset.y);
+
+			float pcfDepth = texture(shadowMap, projCoords.xy + coordSample * texelSize).r; 
+
+			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
 	shadow /= 25.0;
