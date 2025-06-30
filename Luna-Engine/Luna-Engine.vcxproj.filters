@@ -54,7 +54,7 @@
     <ClCompile Include="src\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LightManager.cpp">
+    <ClCompile Include="src\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,7 +113,7 @@
     <ClInclude Include="src\LinkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LightManager.h">
+    <ClInclude Include="src\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
