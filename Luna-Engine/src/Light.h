@@ -2,6 +2,7 @@
 
 #include "GLM/glm.hpp"
 
+#include "LightManager.h"
 #include "Globals.h"
 #include "Shader.h"
 #include "Mesh.h"
@@ -18,7 +19,7 @@ public:
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
 	void BindTexture(Shader* shader);
-	void FrameSetup(Shader* depthmapShader, Shader* shader);
+	void FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader);
 	void FrameReset();
 
 	glm::vec3 position;

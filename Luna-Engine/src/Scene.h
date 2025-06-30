@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "AssetLoader.h"
 #include "Renderer.h"
+#include "LightManager.h"
 
 class Scene
 {
@@ -28,6 +29,9 @@ public:
 private:
 	GLFWwindow* window;
 
+	LinkedList<GameObject> objectBuffer;
+	LightManager lightManager;
+
 	Shader shader;
 	Shader depthmapShader;
 
@@ -42,6 +46,5 @@ private:
 	Texture defaultTexture;
 	Texture stoneTexture;
 
-	LinkedList<GameObject> objectBuffer;
 };
 

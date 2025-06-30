@@ -16,7 +16,7 @@ class Shader
 {
 public:
 	Shader() {}
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* vertexPath, const char* fragmentPat, const char* geometryPath = "0000");
 	~Shader();
 
 	void BindShader();

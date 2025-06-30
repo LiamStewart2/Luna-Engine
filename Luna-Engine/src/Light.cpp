@@ -61,14 +61,17 @@ void Light::BindTexture(Shader* shader)
     glBindTexture(GL_TEXTURE_2D, depthmapTextureID);
 }
 
-void Light::FrameSetup(Shader* depthmapShader, Shader* shader)
+void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
 {
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
     float near_plane = 0.1f, far_plane = 150.0f;
     lightProjection = glm::ortho(-30.0f, 30.0f, -30.0f, 30.0f, near_plane, far_plane);
-    
+
     lightView = glm::lookAt(position, position + glm::normalize(direction), glm::vec3(0, 1, 0));
+
+    lightView = lightManager->GenerateLightSpaceMatrix(position, direction);
+
     lightSpaceMatrix = lightProjection * lightView;
 
     depthmapShader->BindShader();

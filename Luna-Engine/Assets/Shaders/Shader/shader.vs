@@ -20,7 +20,7 @@ void main()
     v_fragmentPosition = vec3(model * vec4(vertexPosition, 1.0));
 
     v_vertexTextureCoordinate = vertexTextureCoordinate;
-    v_vertexNormal = vertexNormal;
+    v_vertexNormal = transpose(inverse(mat3(model))) * vertexNormal;
 
     v_fragmentPositionLightSpace = lightSpaceMatrix * vec4(v_fragmentPosition, 1.0);
 }
