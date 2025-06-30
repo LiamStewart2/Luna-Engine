@@ -16,6 +16,7 @@ public:
 	Camera(glm::vec3 _position, glm::vec3 _rotation);
 	~Camera();
 
+	glm::mat4 GetProjection();
 	glm::mat4 GetViewMatrix();
 	void HandleInput(GLFWwindow* window);
 
