@@ -3,12 +3,13 @@
 glm::mat4 LightManager::GenerateLightSpaceMatrix(const glm::vec3& lightPosition, const glm::vec3& lightDirection)
 {
 	std::vector<glm::vec4> corners = GetFrustumCornersWorldSpace();
-	for (int i = 0; i < corners.size(); i++)
-	{
-		for (int j = 0; j < 4; j++)
-			std::cout << corners[i][j] << " ";
-		std::cout << std::endl;
-	}
+	glm::vec3 center = GetCenterOfPoints(corners);
+
+	glm::mat4 lightView = glm::lookAt(center + glm::normalize(lightDirection), center, glm::vec3(0, 1.0f, 0.0f));
+
+	std::cout << center.x << ", " << center.y << ", " << center.z << std::endl;
+
+	return glm::mat4(1);
 }
 
 std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace()
@@ -32,4 +33,13 @@ std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace()
 		}
 	}
 	return frustumCorners;
+}
+
+glm::vec3 LightManager::GetCenterOfPoints(const std::vector<glm::vec4>& corners)
+{
+	glm::vec3 center = glm::vec3(0, 0, 0);
+	for (const glm::vec4& point : corners)
+		center +=  glm::vec3(point);
+	center /= corners.size();
+	return center;
 }

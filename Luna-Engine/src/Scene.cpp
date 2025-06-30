@@ -1,7 +1,8 @@
 #include "Scene.h"
 
-Scene::Scene()
+Scene::Scene() : lightManager(LightManager(&camera))
 {
+
 }
 
 Scene::~Scene()
@@ -61,7 +62,7 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-	light.FrameSetup(&depthmapShader, &shader);
+	light.FrameSetup(&lightManager, &depthmapShader, &shader);
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
 		light.RenderObjectToDepthmap(objectBuffer[i].GetComponent<MeshRenderer>().get()->mesh, objectBuffer[i].GetComponent<Transform>().get(), &depthmapShader);
 	light.FrameReset();
