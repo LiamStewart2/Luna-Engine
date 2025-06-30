@@ -6,10 +6,9 @@ glm::mat4 LightManager::GenerateLightSpaceMatrix(const glm::vec3& lightPosition,
 	glm::vec3 center = GetCenterOfPoints(corners);
 
 	glm::mat4 lightView = glm::lookAt(center + glm::normalize(lightDirection), center, glm::vec3(0, 1.0f, 0.0f));
+	glm::mat4 lightProjection = GetLightProjection(corners, lightView);
 
-	std::cout << center.x << ", " << center.y << ", " << center.z << std::endl;
-
-	return glm::mat4(1);
+	return lightProjection * lightView;
 }
 
 std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace()
@@ -42,4 +41,40 @@ glm::vec3 LightManager::GetCenterOfPoints(const std::vector<glm::vec4>& corners)
 		center +=  glm::vec3(point);
 	center /= corners.size();
 	return center;
+}
+
+
+glm::mat4 LightManager::GetLightProjection(std::vector<glm::vec4>& corners, const glm::mat4& lightView)
+{
+	float minX = std::numeric_limits<float>::max();
+	float maxX = std::numeric_limits<float>::lowest();
+	float minY = std::numeric_limits<float>::max();
+	float maxY = std::numeric_limits<float>::lowest();
+	float minZ = std::numeric_limits<float>::max();
+	float maxZ = std::numeric_limits<float>::lowest();
+
+	for (const glm::vec4& v : corners)
+	{
+		const auto trf = lightView * v;
+		minX = std::min(minX, trf.x);
+		maxX = std::min(maxX, trf.x);
+		minY = std::min(minY, trf.y);
+		maxY = std::min(maxY, trf.y);
+		minZ = std::min(minZ, trf.z);
+		maxZ = std::min(maxZ, trf.z);
+	}
+
+	const float zMult = 10;
+
+	if(minZ < 0)
+		minZ *= zMult;
+	else
+		minZ /= zMult;
+
+	if(maxZ < 0)
+		maxZ /= zMult;
+	else
+		maxZ *= zMult;
+
+	return glm::ortho(minX, maxX, minY, maxY, minZ, maxZ);
 }
