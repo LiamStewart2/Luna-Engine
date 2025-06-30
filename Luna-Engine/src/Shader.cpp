@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = "0000")
+Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {
 	double start = glfwGetTime();
 
