@@ -1,27 +1,47 @@
 #include "Shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = "0000")
 {
 	double start = glfwGetTime();
 
 	// Load shader code into strings ready for compilation
-	std::string vertexCodeString, fragmentCodeString;
-	std::ifstream vertexFile, fragmentFile;
+	std::string vertexCodeString, fragmentCodeString, geometryCodeString;
+	std::ifstream vertexFile, fragmentFile, geometryFile;
 
 	vertexFile.open(vertexPath); fragmentFile.open(fragmentPath);
+
 
 	if (!vertexFile)
 		std::cerr << "Cannot open file - " << vertexPath << std::endl;
 	if(!fragmentFile)
 		std::cerr << "Cannot open file - " << fragmentPath << std::endl;
 
-	std::stringstream vertexStream, fragmentStream;
+	if(geometryPath != "0000")
+	{
+		geometryFile.open(geometryPath);
+		if(!geometryFile)
+			std::cerr << "Cannot open file - " << geometryPath << std::endl;
+	}
+
+
+	std::stringstream vertexStream, fragmentStream, geometryStream;
 	vertexStream << vertexFile.rdbuf(); fragmentStream << fragmentFile.rdbuf();
 	
 	vertexFile.close(); fragmentFile.close();
 
 	vertexCodeString = vertexStream.str(); fragmentCodeString = fragmentStream.str();
 	const char* vertexCode = vertexCodeString.c_str(); const char* fragmentCode = fragmentCodeString.c_str();
+	const char* geometryCode;
+
+	if (geometryPath != "0000")
+	{
+		geometryStream << geometryFile.rdbuf();
+
+		geometryFile.close();
+
+		geometryCodeString = geometryStream.str();
+		geometryCode = geometryCodeString.c_str();	
+	}
 
 	// Compile shader code and return any errors
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -34,17 +54,32 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glCompileShader(fragmentShader);
 	checkCompileErrors(fragmentShader, "FRAGMENT");
 
+	GLuint geometryShader;
+	if (geometryPath != "0000")
+	{
+		geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geometryShader, 1, &geometryCode, NULL);
+		glCompileShader(geometryShader);
+		checkCompileErrors(geometryShader, "GEOMETRY");
+	}
+
 	// Compile whole shader
 	ID = glCreateProgram();
 
 	glAttachShader(ID, vertexShader);
 	glAttachShader(ID, fragmentShader);
+
+	if(geometryPath != "0000")
+		glAttachShader(ID, geometryShader);
+
 	glLinkProgram(ID);
 	checkCompileErrors(ID, "PROGRAM");
 
 	// Cleanup vertex and fragment shaders
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	if (geometryPath != "0000")
+		glDeleteShader(geometryShader);
 
 	std::cout << "Shader loading took " << glfwGetTime() - start << " - " << vertexPath << " : " << fragmentPath << std::endl;
 }
