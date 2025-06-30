@@ -13,7 +13,7 @@ Camera::~Camera()
 
 glm::mat4 Camera::GetProjection()
 {
-    return glm::perspective(glm::radians(70.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+    return glm::perspective(glm::radians(pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, nearPlane, farPlane);
 }
 
 glm::mat4 Camera::GetViewMatrix()

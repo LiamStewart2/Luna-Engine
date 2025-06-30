@@ -22,12 +22,16 @@ public:
 
 	glm::vec3 GetPosition(){return position;}
 
+	float nearPlane = 0.1f, farPlane = 500.0f;
+	float pov = 70.0f;
+
 private:
 	void HandleKeyboard(GLFWwindow* window);
 	void HandleMouse(GLFWwindow* window);
 
 	glm::vec3 position, forward, up;
 	glm::vec3 rotation;
+
 	
 	bool firstFrame = true;
 	float sensitivity = 0.3f;
