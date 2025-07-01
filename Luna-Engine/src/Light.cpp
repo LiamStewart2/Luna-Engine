@@ -11,6 +11,7 @@ Light::~Light()
 
 void Light::BuildLight(LightManager* lightManager)
 {
+    // Create 3D Texture Arrays
     glEnable(GL_DEPTH_TEST);
 
 	glGenFramebuffers(1, &depthmapFBO);
@@ -18,14 +19,14 @@ void Light::BuildLight(LightManager* lightManager)
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
     glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, int(lightManager->GetShadowCascadePlanes().size()) + 1, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
     float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+    glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, borderColor);
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthmapsTextureID, 0);
@@ -37,6 +38,14 @@ void Light::BuildLight(LightManager* lightManager)
         std::cerr << "[ERROR] Framebuffer is not complete" << std::endl;
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);  
+
+    // Configure UBO
+
+    glGenBuffers(1, &matricesUBO);
+    glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4x4) * 16, nullptr, GL_STATIC_DRAW);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, matricesUBO);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader)
@@ -80,6 +89,8 @@ void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shade
     lightSpaceMatrix = lightManager->GenerateLightSpaceMatrix(position, direction);
 
     //lightSpaceMatrix = lightProjection * lightView;
+
+    lightManager->GenerateLightSpaceMatrix(position, direction);
 
     depthmapShader->BindShader();
 

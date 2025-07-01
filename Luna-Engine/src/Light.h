@@ -30,6 +30,7 @@ private:
 	const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 
 	unsigned int depthmapFBO = 0;
+	unsigned int matricesUBO = 0;
 	unsigned int depthmapsTextureID = 0;
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(1);

@@ -15,12 +15,21 @@ struct Material
 layout(location = 0) in vec2 v_vertexTextureCoordinate;
 layout(location = 1) in vec3 v_vertexNormal;
 layout(location = 2) in vec3 v_fragmentPosition;
-layout(location = 3) in vec4 v_fragmentPositionLightSpace;
 
 out vec4 color;
 
 uniform sampler2D diffuseTexture;
-uniform sampler2D shadowMap;
+uniform sampler2DArray shadowMap;
+
+uniform mat4 view;
+uniform float farPlane;
+
+layout (std140) uniform LightSpaceMatrices
+{
+    mat4 lightSpaceMatrices[16];
+};
+uniform float cascadePlaneDistances[16];
+uniform int cascadeCount;
 
 uniform Light oLight;
 uniform Material oMaterial;
@@ -31,23 +40,48 @@ float rand(vec2 co)
 	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 {
-	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+	// Select cascade layer
+	vec4 fragmentPositionViewSpace = view * vec4(fragmentPositionWorldSpace, 1.0);
+	float depthValue = abs(fragmentPositionViewSpace.z);
+
+	int layer = -1;
+	for(int i = 0; i < cascadeCount; ++i)
+	{
+		if(depthValue < cascadePlaneDistances[i])
+		{
+			layer = i;
+			break;
+		}
+	}
+	if(layer == -1)
+		layer = cascadeCount;
+
+	vec4 fragmentPositionLightSpace = lightSpaceMatrices[layer] * vec4(fragmentPositionWorldSpace, 1.0);
+
+	vec3 projCoords = fragmentPositionLightSpace.xyz / fragmentPositionLightSpace.w;
     projCoords = projCoords * 0.5 + 0.5;
 
     // If the fragment is outside the light's orthographic projection
     if (projCoords.z > 1.0 || projCoords.x < 0.0 || projCoords.x > 1.0 || projCoords.y < 0.0 || projCoords.y > 1.0)
         return 0.0;
 
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
+	if(currentDepth > 1.0)
+		return 0.0;
 
     // Bias to prevent shadow acne
-    float bias = max(0.005 * (1.0 - dot(normalize(v_vertexNormal), normalize(oLight.position - v_fragmentPosition))), 0.001);
+    float bias = max(0.05 * (1.0 - dot(normalize(v_vertexNormal), normalize(oLight.direction))), 0.005);
+	const float biasModifier = 0.5;
+
+	if(layer == cascadeCount)
+		bias *= 1 / (farPlane * biasModifier);
+	else
+		bias *= 1 / (cascadePlaneDistances[layer] * biasModifier);
 
 	float shadow = 0.0;
-	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+	vec2 texelSize = 1.0 / vec2(textureSize(shadowMap, 0));
 	for(int x = -2; x <= 2; ++x)
 	{
 		for(int y = -2; y <= 2; ++y)
@@ -60,8 +94,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 			coordSample.x = sqrt(sampleOffset.x) * cos(6.283 * sampleOffset.y);
 			coordSample.y = sqrt(sampleOffset.x) * sin(6.283 * sampleOffset.y);
 
-			float pcfDepth = texture(shadowMap, projCoords.xy + sampleOffset * texelSize).r; 
-
+			float pcfDepth = texture(shadowMap, vec3(projCoords.xy + sampleOffset * texelSize, layer)).r;
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
@@ -73,22 +106,22 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 void main()
 {
 	vec3 norm = normalize(v_vertexNormal);
-	vec3 lightDirection = normalize(oLight.position - v_fragmentPosition);
+	vec3 lightDirection = normalize(oLight.direction);
 
-	float diff = max(dot(norm, lightDirection), 0.0);
+	float diff = max(dot(lightDirection, norm), 0.0);
 	vec3 diffuse = diff * oLight.color;
 
-	float ambientStrength = 0.1;
+	float ambientStrength = 0.2;
 	vec3 ambient = ambientStrength * oLight.color;
 	
-	float specularStrength = 0.23;
+	float specularStrength = 0.1;
 	vec3 viewDirection = normalize(oViewPosition - v_fragmentPosition);
 	vec3 reflectionDirection = reflect(-lightDirection, norm);
 
-	float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), 32);
+	float spec = pow(max(dot(norm, normalize(lightDirection + viewDirection)), 0.0), 32);
 	vec3 specular = specularStrength * spec * oLight.color;
 
-	float shadow = ShadowCalculation(v_fragmentPositionLightSpace);
+	float shadow = ShadowCalculation(v_fragmentPosition);
 
 	vec4 result = vec4((ambient + (1.0 - shadow) * (diffuse + specular)) * oMaterial.color, 1);
 
