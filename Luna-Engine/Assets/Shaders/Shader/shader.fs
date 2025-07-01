@@ -35,6 +35,10 @@ uniform Light oLight;
 uniform Material oMaterial;
 uniform vec3 oViewPosition;
 
+uniform int debugMode;
+
+int selectedCascade = -1;
+
 float rand(vec2 co)
 {
 	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
@@ -44,19 +48,24 @@ float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 {
 	// Select cascade layer
 	vec4 fragmentPositionViewSpace = view * vec4(fragmentPositionWorldSpace, 1.0);
-	float depthValue = abs(fragmentPositionViewSpace.z);
+	float depthValue = -fragmentPositionViewSpace.z;
 
 	int layer = -1;
 	for(int i = 0; i < cascadeCount; ++i)
 	{
 		if(depthValue < cascadePlaneDistances[i])
 		{
+			selectedCascade = i;
 			layer = i;
 			break;
 		}
 	}
 	if(layer == -1)
+	{
 		layer = cascadeCount;
+		selectedCascade = cascadeCount;
+	}
+
 
 	vec4 fragmentPositionLightSpace = lightSpaceMatrices[layer] * vec4(fragmentPositionWorldSpace, 1.0);
 
@@ -87,14 +96,14 @@ float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 		for(int y = -2; y <= 2; ++y)
 		{
 			vec2 coordSample = vec2(x, y);
-			vec2 offset = vec2(rand(v_fragmentPosition.xy), rand(v_fragmentPosition.xy));
+			vec2 offset = vec2(rand(v_fragmentPosition.xy), rand(v_fragmentPosition.xy + vec2(1, 1)));
 
 			vec2 sampleOffset = coordSample + offset;
 
 			coordSample.x = sqrt(sampleOffset.x) * cos(6.283 * sampleOffset.y);
 			coordSample.y = sqrt(sampleOffset.x) * sin(6.283 * sampleOffset.y);
 
-			float pcfDepth = texture(shadowMap, vec3(projCoords.xy + sampleOffset * texelSize, layer)).r;
+			float pcfDepth = texture(shadowMap, vec3(projCoords.xy + coordSample * texelSize, layer)).r;
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
@@ -126,4 +135,16 @@ void main()
 	vec4 result = vec4((ambient + (1.0 - shadow) * (diffuse + specular)) * oMaterial.color, 1);
 
 	color = texture(diffuseTexture, v_vertexTextureCoordinate) * result;
+
+	if(debugMode == 1)
+	{
+		vec3 debugColor;
+		if (selectedCascade == 0) debugColor = vec3(1, 0, 0);           // Red
+		else if (selectedCascade == 1) debugColor = vec3(0, 1, 0);      // Green
+		else if (selectedCascade == 2) debugColor = vec3(0, 0, 1);      // Blue
+		else if (selectedCascade == 3) debugColor = vec3(1, 1, 0);      // Yellow
+		else                          debugColor = vec3(1, 0, 1);      // Magenta (fallback)
+
+		color = vec4(debugColor, 1.0);
+	}
 }

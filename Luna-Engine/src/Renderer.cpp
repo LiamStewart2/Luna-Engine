@@ -44,6 +44,8 @@ void Renderer::SetShaderFrame(Camera* camera, Shader* depthmapShader, Shader* sh
 
 	light->BindTexture(shader);
 
+	shader->SetInt("debugMode", 0);
+
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);
 

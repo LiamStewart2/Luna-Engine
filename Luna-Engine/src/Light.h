@@ -26,7 +26,6 @@ public:
 	glm::vec3 direction;
 	glm::vec3 color;
 
-private:
 	const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 
 	unsigned int depthmapFBO = 0;
@@ -34,4 +33,5 @@ private:
 	unsigned int depthmapsTextureID = 0;
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(1);
+private:
 };

@@ -76,14 +76,14 @@ glm::mat4 LightManager::GetLightProjection(std::vector<glm::vec4>& corners, cons
 	{
 		const glm::vec4 trf = lightView * v;
 		minX = std::min(minX, trf.x);
-		maxX = std::min(maxX, trf.x);
+		maxX = std::max(maxX, trf.x);
 		minY = std::min(minY, trf.y);
-		maxY = std::min(maxY, trf.y);
+		maxY = std::max(maxY, trf.y);
 		minZ = std::min(minZ, trf.z);
-		maxZ = std::min(maxZ, trf.z);
+		maxZ = std::max(maxZ, trf.z);
 	}
 
-	constexpr float zMult = 10.0f;
+	constexpr float zMult = 10;
 
 	if(minZ < 0)
 		minZ *= zMult;

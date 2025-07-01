@@ -27,7 +27,7 @@ void Light::BuildLight(LightManager* lightManager)
 
     float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, borderColor);
-
+    
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthmapsTextureID, 0);
     glDrawBuffer(GL_NONE);
@@ -79,6 +79,8 @@ void Light::BindTexture(Shader* shader)
 
 void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
 {
+    glEnable(GL_DEPTH_TEST);
+    
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
     float near_plane = 0.1f, far_plane = 150.0f;
