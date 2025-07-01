@@ -15,7 +15,7 @@ public:
 	~Light();
 
 
-	void BuildLight();
+	void BuildLight(LightManager* lightManager);
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
 	void BindTexture(Shader* shader);
@@ -30,7 +30,7 @@ private:
 	const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 
 	unsigned int depthmapFBO = 0;
-	unsigned int depthmapTextureID = 0;
+	unsigned int depthmapsTextureID = 0;
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(1);
 };

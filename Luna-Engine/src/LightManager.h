@@ -14,6 +14,8 @@ public:
 
 	glm::mat4 GenerateLightSpaceMatrix(const glm::vec3& lightPosition, const glm::vec3& lightDirection);
 
+	std::vector<float>& GetShadowCascadePlanes() {return shadowCascadeLevels;}
+
 private:
 	Camera* camera;
 	std::vector<float> shadowCascadeLevels = {camera->farPlane / 50.0f, camera->farPlane / 25.0f, camera->farPlane / 10.0f, camera->farPlane / 2.0f};

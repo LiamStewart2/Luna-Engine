@@ -9,26 +9,33 @@ Light::~Light()
 {
 }
 
-void Light::BuildLight()
+void Light::BuildLight(LightManager* lightManager)
 {
     glEnable(GL_DEPTH_TEST);
+
 	glGenFramebuffers(1, &depthmapFBO);
-	glGenTextures(1, &depthmapTextureID);
-    glBindTexture(GL_TEXTURE_2D, depthmapTextureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glGenTextures(1, &depthmapsTextureID);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, int(lightManager->GetShadowCascadePlanes().size()) + 1, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
     float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthmapTextureID, 0);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthmapsTextureID, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
+
+    int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status != GL_FRAMEBUFFER_COMPLETE)
+        std::cerr << "[ERROR] Framebuffer is not complete" << std::endl;
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);  
 }
 
@@ -58,7 +65,7 @@ void Light::BindTexture(Shader* shader)
 {
     shader->SetInt("shadowMap", 1);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, depthmapTextureID);
+    glBindTexture(GL_TEXTURE_3D, depthmapsTextureID);
 }
 
 void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
@@ -75,12 +82,13 @@ void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shade
     //lightSpaceMatrix = lightProjection * lightView;
 
     depthmapShader->BindShader();
-    depthmapShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+
     shader->BindShader();
     shader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
-    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_TEXTURE_2D_ARRAY, depthmapsTextureID, 0);
+    glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 

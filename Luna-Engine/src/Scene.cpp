@@ -18,7 +18,7 @@ void Scene::Init(GLFWwindow* _window)
 	shader.SetInt("diffuseTexture", 0);
 	shader.SetInt("shadowMap", 1);
 
-	light.BuildLight();
+	light.BuildLight(&lightManager);
 
 	objectBuffer.Push(GameObject({0, 3, 0}, {1, 1, 1}, {0, 0, 0}));
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
