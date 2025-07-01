@@ -17,7 +17,7 @@ void Light::BuildLight(LightManager* lightManager)
 	glGenFramebuffers(1, &depthmapFBO);
 	glGenTextures(1, &depthmapsTextureID);
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, int(lightManager->GetShadowCascadePlanes().size()) + 1, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, SHADOW_WIDTH, SHADOW_HEIGHT, int(lightManager->GetShadowCascadePlanes().size()) + 1, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -50,6 +50,7 @@ void Light::BuildLight(LightManager* lightManager)
 
 void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader)
 {
+
     glCullFace(GL_FRONT);
     depthmapShader->BindShader();
     mesh->BindMesh();
@@ -72,9 +73,8 @@ void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* dep
 
 void Light::BindTexture(Shader* shader)
 {
-    shader->SetInt("shadowMap", 1);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_3D, depthmapsTextureID);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
 }
 
 void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
@@ -86,19 +86,20 @@ void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shade
 
     lightView = glm::lookAt(position, position + glm::normalize(direction), glm::vec3(0, 1, 0));
 
-    lightSpaceMatrix = lightManager->GenerateLightSpaceMatrix(position, direction);
+    lightSpaceMatrix = lightProjection * lightView;
 
-    //lightSpaceMatrix = lightProjection * lightView;
-
-    lightManager->GenerateLightSpaceMatrix(position, direction);
-
-    depthmapShader->BindShader();
+    std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(direction);
+    glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);
+    for (size_t i = 0; i < matrices.size(); i++)
+        glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(glm::mat4x4), sizeof(glm::mat4x4), &matrices[i]);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     shader->BindShader();
-    shader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+    shader->SetInt("cascadeCount", lightManager->GetShadowCascadePlanes().size());
+    for(size_t i = 0; i < lightManager->GetShadowCascadePlanes().size(); i++)
+        shader->SetFloat("cascadePlaneDistances[" + std::to_string(i) + "]", lightManager->GetShadowCascadePlanes()[i]);
 
     glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_TEXTURE_2D_ARRAY, depthmapsTextureID, 0);
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glClear(GL_DEPTH_BUFFER_BIT);
 }

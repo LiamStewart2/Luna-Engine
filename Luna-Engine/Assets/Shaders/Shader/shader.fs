@@ -108,13 +108,13 @@ void main()
 	vec3 norm = normalize(v_vertexNormal);
 	vec3 lightDirection = normalize(oLight.direction);
 
-	float diff = max(dot(lightDirection, norm), 0.0);
+	float diff = max(dot(norm, lightDirection), 0.0);
 	vec3 diffuse = diff * oLight.color;
 
-	float ambientStrength = 0.2;
+	float ambientStrength = 0.1;
 	vec3 ambient = ambientStrength * oLight.color;
 	
-	float specularStrength = 0.1;
+	float specularStrength = 0.3;
 	vec3 viewDirection = normalize(oViewPosition - v_fragmentPosition);
 	vec3 reflectionDirection = reflect(-lightDirection, norm);
 

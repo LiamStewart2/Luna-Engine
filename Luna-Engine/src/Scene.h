@@ -37,7 +37,7 @@ private:
 
 	Camera camera = Camera(glm::vec3(0, 2, -3), glm::vec3(0, 0, 0));
 
-	Light light = Light(glm::vec3(0, 10, 10), glm::vec3(0, -1, -1), glm::vec3(1));
+	Light light = Light(glm::vec3(0, 10, 10), glm::vec3(0, 1, 1), glm::vec3(1));
 	Material material;
 
 	Mesh planeMesh;

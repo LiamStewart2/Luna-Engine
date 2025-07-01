@@ -28,7 +28,7 @@ void Scene::Init(GLFWwindow* _window)
 	objectBuffer[objectBuffer.Size() - 1].AddComponent<CoolComponent>();
 
 	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
-	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&planeMesh, &defaultTexture, &material, &shader);
+	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&planeMesh, &stoneTexture, &material, &shader);
 
 
 	for (size_t i = 0; i < objectBuffer.Size(); i++)
@@ -39,7 +39,7 @@ void Scene::LoadAssets()
 {
 	//Load all assets for the scene
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
-	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs");
+	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs", "Assets/Shaders/DepthShader/shader.gs");
 
 	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
 	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
@@ -52,7 +52,7 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
-	//light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, 10, glm::cos(glfwGetTime()) * 5);
+	light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, -5, glm::cos(glfwGetTime()) * 5);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
 	
