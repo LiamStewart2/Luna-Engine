@@ -70,9 +70,9 @@ void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shade
 
     lightView = glm::lookAt(position, position + glm::normalize(direction), glm::vec3(0, 1, 0));
 
-    lightView = lightManager->GenerateLightSpaceMatrix(position, direction);
+    lightSpaceMatrix = lightManager->GenerateLightSpaceMatrix(position, direction);
 
-    lightSpaceMatrix = lightProjection * lightView;
+    //lightSpaceMatrix = lightProjection * lightView;
 
     depthmapShader->BindShader();
     depthmapShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
