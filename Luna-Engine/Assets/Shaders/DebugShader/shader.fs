@@ -1,12 +1,10 @@
 #version 460 core
 
-layout(location = 0) in vec2 v_vertexTextureCoordinate;
+uniform vec3 lineColor;
 
-uniform sampler2D textureSample;
-
-out vec4 color;
+out vec4 FragColor;
 
 void main()
 {
-    color = texture(textureSample, v_vertexTextureCoordinate);
+    FragColor = vec4(lineColor, 1.0);
 }

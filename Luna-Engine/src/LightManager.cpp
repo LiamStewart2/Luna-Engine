@@ -1,8 +1,25 @@
 #include "LightManager.h"
 
-glm::mat4 LightManager::GenerateLightSpaceMatrix(const glm::vec3& lightPosition, const glm::vec3& lightDirection)
+std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(const glm::vec3& lightDirection)
 {
-	std::vector<glm::vec4> corners = GetFrustumCornersWorldSpace();
+	std::vector<glm::mat4> matrices;
+
+	for (size_t i = 0; i < shadowCascadeLevels.size() + 1; i++)
+	{
+		if (i == 0)
+			matrices.push_back(GenerateLightSpaceMatrix(camera->nearPlane, shadowCascadeLevels[i], lightDirection));
+		else if(i < shadowCascadeLevels.size())
+			matrices.push_back(GenerateLightSpaceMatrix(shadowCascadeLevels[i - 1], shadowCascadeLevels[i], lightDirection));
+		else
+			matrices.push_back(GenerateLightSpaceMatrix(shadowCascadeLevels[i - 1], camera->farPlane, lightDirection));
+	}
+
+	return matrices;
+}
+
+glm::mat4 LightManager::GenerateLightSpaceMatrix(const float& nearPlane, const float& farPlane, const glm::vec3& lightDirection)
+{
+	std::vector<glm::vec4> corners = GetFrustumCornersWorldSpace(nearPlane, farPlane);
 	glm::vec3 center = GetCenterOfPoints(corners);
 
 	glm::mat4 lightView = glm::lookAt(center + glm::normalize(lightDirection), center, glm::vec3(0, 1.0f, 0.0f));
@@ -11,9 +28,15 @@ glm::mat4 LightManager::GenerateLightSpaceMatrix(const glm::vec3& lightPosition,
 	return lightProjection * lightView;
 }
 
-std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace()
+std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace(const float& nearPlane, const float& farPlane)
 {
-	glm::mat4 inverse = glm::inverse(camera->GetProjection() * camera->GetViewMatrix());
+	glm::mat4 projection = glm::perspective(glm::radians(camera->pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 
+		nearPlane, farPlane);
+	glm::mat4 view = camera->GetViewMatrix();
+
+	glm::mat4 matrix = projection * view;
+
+	const auto inverse = glm::inverse(matrix);
 
 	std::vector<glm::vec4> frustumCorners;
 	for (int x = 0; x < 2; x++)
@@ -55,16 +78,16 @@ glm::mat4 LightManager::GetLightProjection(std::vector<glm::vec4>& corners, cons
 
 	for (const glm::vec4& v : corners)
 	{
-		const auto trf = lightView * v;
+		const glm::vec4 trf = lightView * v;
 		minX = std::min(minX, trf.x);
-		maxX = std::min(maxX, trf.x);
+		maxX = std::max(maxX, trf.x);
 		minY = std::min(minY, trf.y);
-		maxY = std::min(maxY, trf.y);
+		maxY = std::max(maxY, trf.y);
 		minZ = std::min(minZ, trf.z);
-		maxZ = std::min(maxZ, trf.z);
+		maxZ = std::max(maxZ, trf.z);
 	}
 
-	const float zMult = 10;
+	constexpr float zMult = 10;
 
 	if(minZ < 0)
 		minZ *= zMult;
