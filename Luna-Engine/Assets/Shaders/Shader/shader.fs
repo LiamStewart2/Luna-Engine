@@ -96,7 +96,7 @@ float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 		for(int y = -1; y <= 1; ++y)
 		{
 			vec2 coordSample = vec2(x, y);
-			vec2 offset = vec2(rand(v_vertexTextureCoordinate.xy) * 1.3, rand(v_vertexTextureCoordinate.xy + vec2(1, 1)) * 1.3);
+			vec2 offset = vec2(rand(v_vertexTextureCoordinate.xy) * (cascadeCount - layer) / 2, rand(v_vertexTextureCoordinate.xy + vec2(1, 1)) * (cascadeCount - layer) / 2);
 
 			vec2 sampleOffset = coordSample + offset;
 
