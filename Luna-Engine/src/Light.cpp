@@ -80,15 +80,6 @@ void Light::BindTexture(Shader* shader)
 void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
 {
     glEnable(GL_DEPTH_TEST);
-    
-    glm::mat4 lightProjection, lightView;
-    glm::mat4 lightSpaceMatrix;
-    float near_plane = 0.1f, far_plane = 150.0f;
-    lightProjection = glm::ortho(-30.0f, 30.0f, -30.0f, 30.0f, near_plane, far_plane);
-
-    lightView = glm::lookAt(position, position + glm::normalize(direction), glm::vec3(0, 1, 0));
-
-    lightSpaceMatrix = lightProjection * lightView;
 
     std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(direction);
     glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);

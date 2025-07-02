@@ -22,7 +22,7 @@ public:
 
 	glm::vec3 GetPosition(){return position;}
 
-	float nearPlane = 0.1f, farPlane = 150.0f;
+	float nearPlane = 0.1f, farPlane = 500.0f;
 	float pov = 90.0f;
 
 private:

@@ -52,6 +52,12 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
+	shader.BindShader();
+	if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		shader.SetInt("debugMode", 1);
+	else
+		shader.SetInt("debugMode", 0);
+
 	light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, -5, glm::cos(glfwGetTime()) * 5);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);

@@ -32,7 +32,11 @@ std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace(const float& ne
 {
 	glm::mat4 projection = glm::perspective(glm::radians(camera->pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 
 		nearPlane, farPlane);
-	glm::mat4 inverse = glm::inverse(projection * camera->GetViewMatrix());
+	glm::mat4 view = camera->GetViewMatrix();
+
+	glm::mat4 matrix = projection * view;
+
+	const auto inverse = glm::inverse(matrix);
 
 	std::vector<glm::vec4> frustumCorners;
 	for (int x = 0; x < 2; x++)
