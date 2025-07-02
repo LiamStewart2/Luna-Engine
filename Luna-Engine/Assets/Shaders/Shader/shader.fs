@@ -91,23 +91,23 @@ float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 
 	float shadow = 0.0;
 	vec2 texelSize = 1.0 / vec2(textureSize(shadowMap, 0));
-	for(int x = -2; x <= 2; ++x)
+	for(int x = -1; x <= 1; ++x)
 	{
-		for(int y = -2; y <= 2; ++y)
+		for(int y = -1; y <= 1; ++y)
 		{
 			vec2 coordSample = vec2(x, y);
-			vec2 offset = vec2(rand(v_fragmentPosition.xy), rand(v_fragmentPosition.xy + vec2(1, 1)));
+			vec2 offset = vec2(rand(v_fragmentPosition.xy) / 1.3, rand(v_fragmentPosition.xy + vec2(1, 1)) / 1.3);
 
 			vec2 sampleOffset = coordSample + offset;
 
 			coordSample.x = sqrt(sampleOffset.x) * cos(6.283 * sampleOffset.y);
 			coordSample.y = sqrt(sampleOffset.x) * sin(6.283 * sampleOffset.y);
 
-			float pcfDepth = texture(shadowMap, vec3(projCoords.xy + coordSample * texelSize, layer)).r;
+			float pcfDepth = texture(shadowMap, vec3(projCoords.xy + offset * texelSize, layer)).r;
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
-	shadow /= 45.0;
+	shadow /= 15.0;
 
     return shadow;
 }
@@ -139,12 +139,12 @@ void main()
 	if(debugMode == 1)
 	{
 		vec3 debugColor;
-		if (selectedCascade == 0) debugColor = vec3(1, 0, 0);           // Red
+		if (selectedCascade == 0) debugColor = vec3(1, 1, 0);           // Yellow
 		else if (selectedCascade == 1) debugColor = vec3(0, 1, 0);      // Green
 		else if (selectedCascade == 2) debugColor = vec3(0, 0, 1);      // Blue
-		else if (selectedCascade == 3) debugColor = vec3(1, 1, 0);      // Yellow
+		else if (selectedCascade == 3) debugColor = vec3(1, 0, 0);      // Red
 		else                          debugColor = vec3(1, 0, 1);      // Magenta (fallback)
 
-		color = vec4(debugColor, 1.0);
+		color *= vec4(debugColor, 1.0);
 	}
 }

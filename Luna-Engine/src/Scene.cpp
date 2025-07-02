@@ -58,7 +58,7 @@ void Scene::Update()
 	else
 		shader.SetInt("debugMode", 0);
 
-	light.position = glm::vec3(glm::sin(glfwGetTime()) * 5, -5, glm::cos(glfwGetTime()) * 5);
+	light.position = glm::vec3(5, -5, 0);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
 	
