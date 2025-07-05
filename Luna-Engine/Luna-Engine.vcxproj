@@ -14,7 +14,6 @@
     <ClCompile Include="src\ECS\ComponentStorage.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
-    <ClCompile Include="src\ECS\GameObject.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -27,10 +26,10 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentStorage.h" />
     <ClInclude Include="src\LightManager.h" />
     <ClInclude Include="src\ECS\ECS.h" />
-    <ClInclude Include="src\ECS\GameObject.h" />
     <ClInclude Include="src\LinkedList.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Camera.h" />

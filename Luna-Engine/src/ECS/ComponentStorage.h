@@ -1,5 +1,9 @@
 #pragma once
 
+#include <unordered_map>
+
+#include "Component.h"
+
 template <typename T>
 class ComponentStorage
 {
@@ -25,7 +29,7 @@ public:
 		std::vector<T*> result;
 		result.reserve(components.size());
 		for(auto it = components._Unchecked_begin(); it != components.end(); it++)
-			results.push_back(&its->second);
+			result.push_back(&it->second);
 		return result;
 	}
 
@@ -33,4 +37,7 @@ public:
 	{
 		components.erase(objectID);
 	}
+
+private:
+
 };
