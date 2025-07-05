@@ -11,7 +11,6 @@ public:
 	T* AddComponent(Args&&... args);
 
 private:
-	static EntityComponentSystem* ECS;
 	unsigned int ID;
 };
 
