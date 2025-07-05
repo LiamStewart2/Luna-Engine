@@ -19,20 +19,9 @@ void Scene::Init(GLFWwindow* _window)
 	shader.SetInt("shadowMap", 1);
 
 	light.BuildLight(&lightManager);
-
-	objectBuffer.Push(GameObject({0, 3, 0}, {1, 1, 1}, {0, 0, 0}));
-	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
-
-	objectBuffer.Push(GameObject({ 2, 3, 2 }, { 1, 1, 1 }, { 0, 0, 0 }));
-	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&monkeyMesh, &stoneTexture, &material, &shader);
-	objectBuffer[objectBuffer.Size() - 1].AddComponent<CoolComponent>();
-
-	objectBuffer.Push(GameObject({ 0, 0, 0 }, {10, 1, 10}, {0, 0, 0}));
-	objectBuffer[objectBuffer.Size() - 1].AddComponent<MeshRenderer>(&planeMesh, &stoneTexture, &material, &shader);
-
-
-	for (size_t i = 0; i < objectBuffer.Size(); i++)
-		objectBuffer[i].OnStart();
+	
+	unsigned int gameObject = 1;
+	ECS.AddComponent<Transform>(gameObject);
 }
 
 void Scene::LoadAssets()
@@ -61,21 +50,11 @@ void Scene::Update()
 	light.position = glm::vec3(5, -5, 0);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
-	
-	for(size_t i = 0; i < objectBuffer.Size(); i++)
-		objectBuffer[i].Update();
 }
 
 void Scene::Render(Renderer* renderer)
 {
-	light.FrameSetup(&lightManager, &depthmapShader, &shader);
-	for (size_t i = 0; i < objectBuffer.Size(); i++)
-		light.RenderObjectToDepthmap(objectBuffer[i].GetComponent<MeshRenderer>().get()->mesh, objectBuffer[i].GetComponent<Transform>().get(), &depthmapShader);
-	light.FrameReset();
-	
-	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
-	for (size_t i = 0; i < objectBuffer.Size(); i++)
-		objectBuffer[i].OnRender(renderer);
+
 }
 
 

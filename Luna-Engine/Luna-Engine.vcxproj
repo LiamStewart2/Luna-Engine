@@ -28,6 +28,8 @@
   <ItemGroup>
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentStorage.h" />
+    <ClInclude Include="src\ECS\MeshComponent.h" />
+    <ClInclude Include="src\ECS\TransformComponent.h" />
     <ClInclude Include="src\LightManager.h" />
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\LinkedList.h" />

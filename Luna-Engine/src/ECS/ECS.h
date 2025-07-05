@@ -6,6 +6,9 @@
 
 #include "ComponentStorage.h"
 
+#include "TransformComponent.h"
+#include "MeshComponent.h"
+
 class EntityComponentSystem
 {
 public:
