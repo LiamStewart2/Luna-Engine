@@ -13,7 +13,7 @@ public:
 	template <typename... Args>
 	T* AddComponent(unsigned int objectID, Args&&... args)
 	{
-		T component(std::forward<Args>(args)...);
+		T component(objectID, std::forward<Args>(args)...);
 		return components[objectID] = std::move(component);
 	}
 	T* GetComponent(unsigned int objectID)
