@@ -6,7 +6,7 @@
 #include "Globals.h"
 #include "Shader.h"
 #include "Mesh.h"
-#include "ECS/Transform.h"
+#include "ECS/TransformComponent.h"
 
 class Light
 {

@@ -24,12 +24,10 @@ public:
 
 	void DestroyScene();
 
-	LinkedList<GameObject>* getObjectBuffer() { return &objectBuffer; }
-
 private:
-	GLFWwindow* window;
+	EntityComponentSystem ECS;
 
-	LinkedList<GameObject> objectBuffer;
+	GLFWwindow* window;
 
 	Shader shader;
 	Shader depthmapShader;
