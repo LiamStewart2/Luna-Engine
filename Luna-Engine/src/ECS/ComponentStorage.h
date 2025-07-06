@@ -14,7 +14,8 @@ public:
 	T* AddComponent(unsigned int objectID, Args&&... args)
 	{
 		T component(objectID, std::forward<Args>(args)...);
-		return components[objectID] = std::move(component);
+		components[objectID] = std::move(component);
+		return &components[objectID];
 	}
 	T* GetComponent(unsigned int objectID)
 	{
@@ -28,7 +29,7 @@ public:
 	{
 		std::vector<T*> result;
 		result.reserve(components.size());
-		for(auto it = components._Unchecked_begin(); it != components.end(); it++)
+		for(auto it = components.begin(); it != components.end(); it++)
 			result.push_back(&it->second);
 		return result;
 	}

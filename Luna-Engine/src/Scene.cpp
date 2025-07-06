@@ -55,7 +55,17 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
+	std::vector<Transform*> transforms = ECS.GetAllComponentsOfType<Transform>();
+	std::vector<MeshComponent*> meshComponents = ECS.GetAllComponentsOfType<MeshComponent>();
 
+	light.FrameSetup(&lightManager, &depthmapShader, &shader);
+	for (size_t i = 0; i < meshComponents.size(); i++)
+		light.RenderObjectToDepthmap(meshComponents[i]->mesh, transforms[i], &depthmapShader);
+	light.FrameReset();
+	
+	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
+	for(size_t i = 0; i < meshComponents.size(); i++)
+		renderer->RenderObject(transforms[i], meshComponents[i]->mesh, meshComponents[i]->texture, meshComponents[i]->material, meshComponents[i]->shader);
 }
 
 
