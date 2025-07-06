@@ -20,9 +20,13 @@ void Scene::Init(GLFWwindow* _window)
 
 	light.BuildLight(&lightManager);
 	
-	unsigned int gameObject = 1;
-	ECS.AddComponent<Transform>(gameObject, glm::vec3(5, 0, 0));
-	ECS.AddComponent<MeshComponent>(gameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+	unsigned int firstGameObject = 1;
+	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(0, 2, 0));
+	ECS.AddComponent<MeshComponent>(firstGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+
+	unsigned int secondGameObject = 2;
+	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
+	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &defaultTexture);
 }
 
 void Scene::LoadAssets()
