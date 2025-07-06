@@ -22,7 +22,7 @@ int Application::Init()
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 	if (glewInit() != GLEW_OK)
 	{
