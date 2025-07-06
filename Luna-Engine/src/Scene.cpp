@@ -26,7 +26,7 @@ void Scene::Init(GLFWwindow* _window)
 
 	unsigned int secondGameObject = 2;
 	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
-	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &defaultTexture);
+	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &stoneTexture);
 }
 
 void Scene::LoadAssets()
