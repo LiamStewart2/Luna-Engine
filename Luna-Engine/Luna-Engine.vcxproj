@@ -23,6 +23,7 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Component.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DepthShader\shader.fs" />
