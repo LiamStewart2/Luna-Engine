@@ -16,6 +16,26 @@ int Window::GetKey(int key)
 	return glfwGetKey(m_WindowHandle, key);
 }
 
+int Window::GetMouseButton(int button)
+{
+	return glfwGetMouseButton(m_WindowHandle, button);
+}
+
+void Window::GetCursorPosition(double* x, double* y)
+{
+	glfwGetCursorPos(m_WindowHandle, x, y);
+}
+
+void Window::SetCursorPosition(double x, double y)
+{
+	glfwSetCursorPos(m_WindowHandle, x, y);
+}
+
+void Window::SetInputMode(int mode, int value)
+{
+	glfwSetInputMode(m_WindowHandle, mode, value);
+}
+
 Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight)
 {
 	// Test GLFW init

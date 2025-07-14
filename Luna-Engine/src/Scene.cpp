@@ -47,7 +47,7 @@ void Scene::LoadAssets()
 void Scene::Update()
 {
 	shader.BindShader();
-	if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	if(window->GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		shader.SetInt("debugMode", 1);
 	else
 		shader.SetInt("debugMode", 0);

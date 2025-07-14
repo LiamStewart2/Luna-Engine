@@ -13,14 +13,11 @@ Application::~Application()
 
 int Application::Init()
 {
-	_window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+	window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-	scene.Init(_window);
-
-	// Hide and set mouse position
-	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
+	scene.Init(window);
 
 	return 0;
 }
@@ -35,14 +32,14 @@ void Application::MainLoop()
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
 
-	while (_window->IsRunning())
+	while (window->IsRunning())
 	{
 		double currentTime = glfwGetTime();
 		frameCount++;
 		if (currentTime - lastTime >= 1.0)
 		{
 			std::string title = "FPS: " + std::to_string(frameCount);
-			_window->SetNewTitle(title.c_str());
+			window->SetNewTitle(title.c_str());
 
 			frameCount = 0;
 			lastTime = currentTime;
@@ -54,15 +51,16 @@ void Application::MainLoop()
 		
 		Render();
 
-		_window->Update();
+		window->Update();
 	}
 	scene.DestroyScene();
+	Window::CloseWindow(window);
 }
 
 void Application::HandleInput()
 {
-	if(_window->GetKey(GLFW_KEY_F1) == GLFW_PRESS)
-		Window::CloseWindow(_window);
+	if(window->GetKey(GLFW_KEY_F1) == GLFW_PRESS)
+		Window::CloseWindow(window);
 }
 
 void Application::Update()

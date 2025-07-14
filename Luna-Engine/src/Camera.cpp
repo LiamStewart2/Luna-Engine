@@ -22,41 +22,41 @@ glm::mat4 Camera::GetViewMatrix()
 }
 
 
-void Camera::HandleInput(GLFWwindow* window)
+void Camera::HandleInput(Window* window)
 {
     HandleKeyboard(window);
     HandleMouse(window);
 }
 
-void Camera::HandleKeyboard(GLFWwindow* window)
+void Camera::HandleKeyboard(Window* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if (window->GetKey(GLFW_KEY_A) == GLFW_PRESS)
     {
         glm::vec3 movement = glm::normalize(glm::cross(forward, up));
         movement *= 0.03;
         position -= movement;
     }
-    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    else if (window->GetKey(GLFW_KEY_D) == GLFW_PRESS)
     {
         glm::vec3 movement = glm::normalize(glm::cross(forward, up));
         movement *= 0.03;
         position += movement;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (window->GetKey(GLFW_KEY_W) == GLFW_PRESS)
     {
         glm::vec3 movement = forward;
         movement *= 0.03;
         position += movement;
     }
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    else if (window->GetKey(GLFW_KEY_S) == GLFW_PRESS)
     {
         glm::vec3 movement = forward;
         movement *= 0.03;
         position -= movement;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    if (window->GetKey(GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         glm::vec3 movement = up;
         movement *= 0.03;
@@ -64,10 +64,10 @@ void Camera::HandleKeyboard(GLFWwindow* window)
     }
 }
 
-void Camera::HandleMouse(GLFWwindow* window)
+void Camera::HandleMouse(Window* window)
 {
     glm::dvec2 currentMousePosition = glm::vec2(0, 0);
-    glfwGetCursorPos(window, &currentMousePosition.x, &currentMousePosition.y);
+    window->GetCursorPosition(& currentMousePosition.x, & currentMousePosition.y);
 
     if(glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) == currentMousePosition)
         return;
@@ -79,7 +79,7 @@ void Camera::HandleMouse(GLFWwindow* window)
 
     CalculateDirection();
 
-    glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 void Camera::CalculateDirection()

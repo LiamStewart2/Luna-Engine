@@ -23,7 +23,7 @@ public:
 	Application();
 	~Application();
 private:
-	Window* _window;
+	Window* window;
 
 	int Init();
 	void Terminate();
