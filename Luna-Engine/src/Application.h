@@ -9,6 +9,7 @@
 
 #include "Globals.h"
 
+#include "Window.h"
 #include "Scene.h"
 #include "Material.h"
 #include "Light.h"
@@ -22,7 +23,7 @@ public:
 	Application();
 	~Application();
 private:
-	GLFWwindow* window;
+	Window* _window;
 
 	int Init();
 	void Terminate();

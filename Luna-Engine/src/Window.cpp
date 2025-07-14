@@ -34,8 +34,7 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 
 	// Create and test the GLFW window handle
 	window->m_WindowHandle = glfwCreateWindow(
-		windowWidth, windowHeight,
-		"My Game",
+		windowWidth, windowHeight, windowTitle,
 		NULL, NULL);
 
 	if (!window->m_WindowHandle)
@@ -72,10 +71,14 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 void Window::CloseWindow(Window* window)
 {
 	glfwWindowShouldClose(window->m_WindowHandle);
+	glfwTerminate();
 	window->m_IsRunning = false;
 }
 
 void Window::Update()
 {
+	glfwSwapBuffers(m_WindowHandle);
+
+	glfwPollEvents();
 }
 

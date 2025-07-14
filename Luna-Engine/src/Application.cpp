@@ -13,24 +13,7 @@ Application::~Application()
 
 int Application::Init()
 {
-	if(!glfwInit())
-		return -1;
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "FPS: 0", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
-
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return -1;
-	}
-
-	std::cout << glGetString(GL_VERSION) << std::endl;
+	_window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	scene.Init(window);
 
@@ -38,12 +21,6 @@ int Application::Init()
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-	glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
 
 	return 0;
 }
@@ -58,7 +35,7 @@ void Application::MainLoop()
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
 
-	while (!glfwWindowShouldClose(window))
+	while (_window->IsRunning())
 	{
 		double currentTime = glfwGetTime();
 		frameCount++;
@@ -77,15 +54,15 @@ void Application::MainLoop()
 		
 		Render();
 
-		glfwPollEvents();
+		_window->Update();
 	}
 	scene.DestroyScene();
 }
 
 void Application::HandleInput()
 {
-	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+	if(_window->GetKey(GLFW_KEY_F1) == GLFW_PRESS)
+		Window::CloseWindow(_window);
 }
 
 void Application::Update()
@@ -99,6 +76,4 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene.Render(&renderer);
-
-	glfwSwapBuffers(window);
 }
