@@ -15,7 +15,7 @@ int Application::Init()
 {
 	_window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	scene.Init(window);
+	scene.Init(_window);
 
 	// Hide and set mouse position
 	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -42,7 +42,7 @@ void Application::MainLoop()
 		if (currentTime - lastTime >= 1.0)
 		{
 			std::string title = "FPS: " + std::to_string(frameCount);
-			glfwSetWindowTitle(window, title.c_str());
+			_window->SetNewTitle(title.c_str());
 
 			frameCount = 0;
 			lastTime = currentTime;

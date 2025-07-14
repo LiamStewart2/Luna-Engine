@@ -75,6 +75,11 @@ void Window::CloseWindow(Window* window)
 	window->m_IsRunning = false;
 }
 
+void Window::SetNewTitle(const char* newTitle)
+{
+	glfwSetWindowTitle(m_WindowHandle, newTitle);
+}
+
 void Window::Update()
 {
 	glfwSwapBuffers(m_WindowHandle);

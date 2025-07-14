@@ -9,7 +9,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(GLFWwindow* _window)
+void Scene::Init(Window* _window)
 {
 	window = _window;
 	LoadAssets();

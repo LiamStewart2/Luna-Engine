@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Window.h"
 #include "ECS/ECS.h"
 #include "LinkedList.h"
 #include "AssetLoader.h"
@@ -16,7 +17,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(GLFWwindow* window);
+	void Init(Window* window);
 	void LoadAssets();
 
 	void Update();
@@ -27,7 +28,7 @@ public:
 private:
 	EntityComponentSystem ECS;
 
-	GLFWwindow* window;
+	Window* window;
 
 	Shader shader;
 	Shader depthmapShader;
