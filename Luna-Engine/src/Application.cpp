@@ -13,37 +13,11 @@ Application::~Application()
 
 int Application::Init()
 {
-	if(!glfwInit())
-		return -1;
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "FPS: 0", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
-
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return -1;
-	}
-
-	std::cout << glGetString(GL_VERSION) << std::endl;
+	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+	window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 	scene.Init(window);
-
-	// Hide and set mouse position
-	glfwSetCursorPos(window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-	glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
 
 	return 0;
 }
@@ -58,14 +32,14 @@ void Application::MainLoop()
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
 
-	while (!glfwWindowShouldClose(window))
+	while (window->IsRunning())
 	{
 		double currentTime = glfwGetTime();
 		frameCount++;
 		if (currentTime - lastTime >= 1.0)
 		{
 			std::string title = "FPS: " + std::to_string(frameCount);
-			glfwSetWindowTitle(window, title.c_str());
+			window->SetNewTitle(title.c_str());
 
 			frameCount = 0;
 			lastTime = currentTime;
@@ -77,15 +51,16 @@ void Application::MainLoop()
 		
 		Render();
 
-		glfwPollEvents();
+		window->Update();
 	}
 	scene.DestroyScene();
+	Window::CloseWindow(window);
 }
 
 void Application::HandleInput()
 {
-	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+	if(window->GetKey(GLFW_KEY_F1) == GLFW_PRESS)
+		Window::CloseWindow(window);
 }
 
 void Application::Update()
@@ -99,6 +74,4 @@ void Application::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene.Render(&renderer);
-
-	glfwSwapBuffers(window);
 }

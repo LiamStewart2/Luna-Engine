@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Window.h"
 #include "Time.h"
 #include "Globals.h"
 
@@ -18,7 +19,7 @@ public:
 
 	glm::mat4 GetProjection();
 	glm::mat4 GetViewMatrix();
-	void HandleInput(GLFWwindow* window);
+	void HandleInput(Window* window);
 
 	glm::vec3 GetPosition(){return position;}
 
@@ -26,8 +27,8 @@ public:
 	float pov = 90.0f;
 
 private:
-	void HandleKeyboard(GLFWwindow* window);
-	void HandleMouse(GLFWwindow* window);
+	void HandleKeyboard(Window* window);
+	void HandleMouse(Window* window);
 
 	glm::vec3 position, forward, up;
 	glm::vec3 rotation;
