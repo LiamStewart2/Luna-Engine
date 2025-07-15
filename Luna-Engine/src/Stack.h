@@ -16,6 +16,11 @@ public:
 		delete[] m_StackArray;
 	}
 
+	void ResetStack()
+	{
+		m_Top = 0;
+	}
+
 	void Push(T value)
 	{
 		if(m_Top >= m_Size)

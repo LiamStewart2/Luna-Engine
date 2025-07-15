@@ -17,9 +17,9 @@ public:
 	void KillBranch(unsigned int gameObject, SceneGraphNode* parentNode = nullptr);
 
 	std::vector<SceneGraphNode*>* getNodes() { return &m_Nodes; }
-
+	unsigned int GetGameObject() {return m_GameObject;}
 private:
-	std::vector<SceneGraphNode*> m_Nodes;
+	std::vector<SceneGraphNode*> m_Nodes = std::vector<SceneGraphNode*>();
 	SceneGraphNode* m_ParentNode = nullptr;
 	unsigned int m_GameObject = 0;
 };

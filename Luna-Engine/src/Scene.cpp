@@ -20,13 +20,18 @@ void Scene::Init(Window* _window)
 
 	light.BuildLight(&lightManager);
 	
-	unsigned int firstGameObject = 2;
-	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(0, 2, 0));
-	ECS.AddComponent<MeshComponent>(firstGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+	unsigned int sceneObject = 0;
+	ECS.AddComponent<Transform>(sceneObject, Transform());
 
-	unsigned int secondGameObject = 1;
-	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
-	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &defaultTexture);
+	unsigned int firstGameObject = 1;
+	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
+	ECS.AddComponent<MeshComponent>(firstGameObject, &planeMesh, &shader, &material, &defaultTexture);
+
+	unsigned int secondGameObject = 2;
+	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 2, 0));
+	ECS.AddComponent<MeshComponent>(secondGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+
+	sceneGraph = SceneGraph(sceneObject);
 
 	sceneGraph.InsertNode(firstGameObject);
 
@@ -53,6 +58,8 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
+	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
+
 	shader.BindShader();
 	if(window->GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		shader.SetInt("debugMode", 1);

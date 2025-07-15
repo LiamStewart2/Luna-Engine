@@ -2,6 +2,7 @@
 
 #include "GLM/glm.hpp"
 
+#include "Stack.h"
 #include "SceneGraph.h"
 #include "ECS/ECS.h"
 
@@ -14,5 +15,7 @@ public:
 	void UpdateTransformationMatricies(SceneGraph* sceneGraph, EntityComponentSystem* ECS);
 
 private:
-	void UpdateTransform();
+	const int Mat4StackSize = 15;
+	Stack<glm::mat4> m_Stack = Stack<glm::mat4>(Mat4StackSize);
+	void UpdateTransform(SceneGraphNode* node, std::vector<Transform*>* transformComponents);
 };

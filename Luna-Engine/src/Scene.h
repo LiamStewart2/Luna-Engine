@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "TransformationManager.h"
 #include "Window.h"
 #include "SceneGraph.h"
 #include "ECS/ECS.h"
@@ -29,6 +30,8 @@ public:
 private:
 	EntityComponentSystem ECS;
 	SceneGraph sceneGraph;
+
+	TransformationManager transformationManager;
 
 	Window* window;
 
