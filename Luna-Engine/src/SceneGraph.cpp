@@ -29,7 +29,10 @@ SceneGraphNode* SceneGraphNode::GetNode(unsigned int gameObject, SceneGraphNode*
 void SceneGraphNode::InsertNode(unsigned int gameObject, SceneGraphNode* parentNode)
 {
 	if (parentNode == nullptr || parentNode == this)
+	{
 		m_Nodes.push_back(new SceneGraphNode(gameObject));
+		m_Nodes[m_Nodes.size() - 1]->m_ParentNode = this;
+	}
 	else
 		parentNode->InsertNode(gameObject, nullptr);
 }
@@ -50,6 +53,7 @@ void SceneGraphNode::RemoveNode(unsigned int gameObject, SceneGraphNode* parentN
 
 		if(index != -1 && node != nullptr)
 		{
+
 			m_Nodes.erase(m_Nodes.begin() + index);
 			delete node;
 		}
@@ -61,6 +65,26 @@ void SceneGraphNode::RemoveNode(unsigned int gameObject, SceneGraphNode* parentN
 }
 
 
+void SceneGraphNode::KillBranch(unsigned int gameObject, SceneGraphNode* parentNode)
+{
+	if (parentNode == nullptr || parentNode == this)
+	{
+		for (SceneGraphNode* node : m_Nodes)
+			node->KillBranch(gameObject, node);
+		m_ParentNode->RemoveNode(m_GameObject, this);
+	}
+	else
+	{
+		parentNode->KillBranch(gameObject, parentNode);
+	}
+}
+
+
 SceneGraph::SceneGraph(unsigned int gameObject = 0) : SceneGraphNode(gameObject)
 {
+}
+
+SceneGraph::~SceneGraph()
+{
+	KillBranch(0);
 }
