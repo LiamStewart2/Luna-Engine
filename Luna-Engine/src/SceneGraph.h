@@ -4,21 +4,27 @@
 
 class SceneGraphNode
 {
-
-};
-
-class SceneGraph
-{
 public:
-	SceneGraph();
-	~SceneGraph();
+	SceneGraphNode(unsigned int gameObject);
+	~SceneGraphNode();
+	
+	// node - the node which will own the game object
+	SceneGraphNode* GetNode(unsigned int gameObject, SceneGraphNode* node);
 
 	// ParentNode - the node which will own the game object
-	void InsertNode(SceneGraphNode* parentNode, unsigned int gameObject);
-	// parentNode - the node which owns the game object you wish to remove
-	void RemoveNode(SceneGraphNode* parentNode, unsigned int gameObject);
+	void InsertNode(unsigned int gameObject, SceneGraphNode* parentNode = nullptr);
+	// parentNode - the node which owns the Scene Graph Node you wish to remove
+	void RemoveNode(unsigned int gameObject, SceneGraphNode* parentNode = nullptr);
 
-	std::vector<SceneGraphNode*>* getNodes() { return &nodes; }
+	std::vector<SceneGraphNode*>* getNodes() { return &m_Nodes; }
+
 private:
-	std::vector<SceneGraphNode*> nodes;
+	std::vector<SceneGraphNode*> m_Nodes;
+	unsigned int m_GameObject = 0;
+};
+
+class SceneGraph : public SceneGraphNode
+{
+public:
+	SceneGraph(unsigned int gameObject);
 };
