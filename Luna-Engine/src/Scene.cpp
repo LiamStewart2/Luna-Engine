@@ -21,7 +21,7 @@ void Scene::Init(Window* _window)
 	light.BuildLight(&lightManager);
 	
 	unsigned int sceneObject = 0;
-	ECS.AddComponent<Transform>(sceneObject, Transform());
+	ECS.AddComponent<Transform>(sceneObject);
 
 	unsigned int firstGameObject = 1;
 	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
