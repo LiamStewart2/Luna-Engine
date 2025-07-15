@@ -5,13 +5,9 @@ SceneGraphNode::SceneGraphNode(unsigned int gameObject = 0)
 	m_GameObject = gameObject;
 }
 
-SceneGraphNode::~SceneGraphNode()
-{
-}
-
 SceneGraphNode* SceneGraphNode::GetNode(unsigned int gameObject, SceneGraphNode* node = nullptr)
 {
-	if(m_GameObject = gameObject)
+	if(m_GameObject == gameObject)
 		return this;
 
 	if (node == nullptr || node == this)
@@ -80,7 +76,7 @@ void SceneGraphNode::KillBranch(unsigned int gameObject, SceneGraphNode* parentN
 }
 
 
-SceneGraph::SceneGraph(unsigned int gameObject = 0) : SceneGraphNode(gameObject)
+SceneGraph::SceneGraph(unsigned int gameObject) : SceneGraphNode(gameObject)
 {
 }
 

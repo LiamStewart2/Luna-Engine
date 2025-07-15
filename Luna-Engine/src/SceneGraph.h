@@ -27,6 +27,6 @@ private:
 class SceneGraph : public SceneGraphNode
 {
 public:
-	SceneGraph(unsigned int gameObject);
+	SceneGraph(unsigned int gameObject = 0);
 	~SceneGraph();
 };

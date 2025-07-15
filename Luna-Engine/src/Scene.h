@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Window.h"
+#include "SceneGraph.h"
 #include "ECS/ECS.h"
 #include "LinkedList.h"
 #include "AssetLoader.h"
@@ -27,6 +28,7 @@ public:
 
 private:
 	EntityComponentSystem ECS;
+	SceneGraph sceneGraph;
 
 	Window* window;
 
