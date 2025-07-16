@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <iostream>
 
 #include "Component.h"
 
@@ -13,6 +14,7 @@ public:
 	template <typename... Args>
 	T* AddComponent(unsigned int objectID, Args&&... args)
 	{
+		auto argsTuple = std::forward_as_tuple(args...); 
 		T component(objectID, std::forward<Args>(args)...);
 		components[objectID] = std::move(component);
 		return &components[objectID];
@@ -25,12 +27,11 @@ public:
 		return nullptr;
 	}
 
-	std::vector<T*> GetComponents()
+	std::unordered_map<unsigned int, T*> GetComponents()
 	{
-		std::vector<T*> result;
-		result.reserve(components.size());
-		for(auto it = components.begin(); it != components.end(); it++)
-			result.push_back(&it->second);
+		std::unordered_map<unsigned int, T*> result;
+		for (auto& [id, component] : components)
+			result[id] = &component;
 		return result;
 	}
 

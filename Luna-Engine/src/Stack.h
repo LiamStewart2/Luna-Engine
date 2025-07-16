@@ -25,18 +25,16 @@ public:
 	{
 		if(m_Top >= m_Size)
 			std::cerr << "STACK EXCEEDS STACK SIZE OF " << m_Size << std::endl;
-		m_StackArray[m_Top] = value;
-		m_Top += 1;
+		m_StackArray[m_Top++] = value;
 	}
 	T Pop()
 	{
-		m_Top -= 1;
-		return m_StackArray[m_Top + 1];
+		return m_StackArray[--m_Top];
 	}
 
 	T Peek()
 	{
-		return m_StackArray[m_Top];
+		return m_StackArray[m_Top - 1];
 	}
 private:
 	int m_Size;

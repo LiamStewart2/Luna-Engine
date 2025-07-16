@@ -17,5 +17,5 @@ public:
 private:
 	const int Mat4StackSize = 15;
 	Stack<glm::mat4> m_Stack = Stack<glm::mat4>(Mat4StackSize);
-	void UpdateTransform(SceneGraphNode* node, std::vector<Transform*>* transformComponents);
+	void UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents);
 };

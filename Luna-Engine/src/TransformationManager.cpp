@@ -3,13 +3,13 @@
 void TransformationManager::UpdateTransformationMatricies(SceneGraph* sceneGraph, EntityComponentSystem* ECS)
 {
 	m_Stack.ResetStack(); m_Stack.Push(glm::mat4(1));
-	std::vector<Transform*> transformComponents = ECS->GetAllComponentsOfType<Transform>();
+	std::unordered_map<unsigned int, Transform*> transformComponents = ECS->GetAllComponentsOfType<Transform>();
 
 	UpdateTransform(sceneGraph, &transformComponents);
 }
 
 
-void TransformationManager::UpdateTransform(SceneGraphNode* node, std::vector<Transform*>* transformComponents)
+void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents)
 {
 	glm::mat4 matrix = m_Stack.Peek();
 
