@@ -20,13 +20,28 @@ void Scene::Init(Window* _window)
 
 	light.BuildLight(&lightManager);
 	
+	unsigned int sceneObject = 0;
+	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
+
 	unsigned int firstGameObject = 1;
-	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(0, 2, 0));
-	ECS.AddComponent<MeshComponent>(firstGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(2, -2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<MeshComponent>(firstGameObject, &planeMesh, &shader, &material, &defaultTexture);
 
 	unsigned int secondGameObject = 2;
-	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10));
-	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &defaultTexture);
+	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &stoneTexture);
+
+	unsigned int thirdGameObject = 3;
+	ECS.AddComponent<Transform>(thirdGameObject, glm::vec3(0, 2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<MeshComponent>(thirdGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
+
+	sceneGraph = SceneGraph(sceneObject);
+
+	sceneGraph.InsertNode(firstGameObject);
+	sceneGraph.InsertNode(secondGameObject);
+
+	SceneGraphNode* node = sceneGraph.GetNode(secondGameObject, &sceneGraph);
+	sceneGraph.InsertNode(thirdGameObject, node);
 }
 
 void Scene::LoadAssets()
@@ -46,6 +61,10 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
+
+	ECS.GetObjectComponent<Transform>(1)->position.x = sin(glfwGetTime());
+	ECS.GetObjectComponent<Transform>(2)->rotation.y = sin(glfwGetTime());
+
 	shader.BindShader();
 	if(window->GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		shader.SetInt("debugMode", 1);
@@ -55,21 +74,33 @@ void Scene::Update()
 	light.position = glm::vec3(5, -5, 0);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
+
+	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 
 void Scene::Render(Renderer* renderer)
 {
-	std::vector<Transform*> transforms = ECS.GetAllComponentsOfType<Transform>();
-	std::vector<MeshComponent*> meshComponents = ECS.GetAllComponentsOfType<MeshComponent>();
+	std::unordered_map<unsigned int, Transform*> transforms = ECS.GetAllComponentsOfType<Transform>();
+	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS.GetAllComponentsOfType<MeshComponent>();
 
 	light.FrameSetup(&lightManager, &depthmapShader, &shader);
-	for (size_t i = 0; i < meshComponents.size(); i++)
-		light.RenderObjectToDepthmap(meshComponents[i]->mesh, transforms[i], &depthmapShader);
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+			light.RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, &depthmapShader);
+	}
 	light.FrameReset();
 	
 	renderer->SetShaderFrame(&camera, &depthmapShader, &shader, &light);
-	for(size_t i = 0; i < meshComponents.size(); i++)
-		renderer->RenderObject(transforms[i], meshComponents[i]->mesh, meshComponents[i]->texture, meshComponents[i]->material, meshComponents[i]->shader);
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+		{
+			renderer->RenderObject(transformIt->second, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
+		}
+	}
 }
 
 
