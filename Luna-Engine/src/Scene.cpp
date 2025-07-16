@@ -71,7 +71,7 @@ void Scene::Update()
 	else
 		shader.SetInt("debugMode", 0);
 
-	light.position = glm::vec3(5, -5, 0);
+	light.position = glm::vec3(1, -7, 0);
 	light.direction = -glm::normalize(light.position);
 	camera.HandleInput(window);
 

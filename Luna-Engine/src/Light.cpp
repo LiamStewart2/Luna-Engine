@@ -55,17 +55,7 @@ void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* dep
     depthmapShader->BindShader();
     mesh->BindMesh();
 
-    glm::mat4 model = glm::mat4(1.0f);
-
-    model = glm::translate(model, transform->position);
-
-    model = glm::rotate(model, glm::radians(transform->rotation.x), { 1, 0, 0 });
-    model = glm::rotate(model, glm::radians(transform->rotation.y), { 0, 1, 0 });
-    model = glm::rotate(model, glm::radians(transform->rotation.z), { 0, 0, 1 });
-
-    model = glm::scale(model, transform->scale);
-
-    depthmapShader->SetMat4("model", model);
+    depthmapShader->SetMat4("model", transform->transformMatrix);
 
     glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
     //glCullFace(GL_BACK);
