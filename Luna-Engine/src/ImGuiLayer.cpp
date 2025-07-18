@@ -47,7 +47,7 @@ void ImGuiLayer::Update()
 	}
 
 	{
-		ImGui::Begin("Dont add game object");
+		ImGui::Begin("Inspector");
 
 		ImGui::InputFloat3("Position", m_PlacementPosition);
 		ImGui::InputFloat3("Rotation", m_RotationPlacement);
