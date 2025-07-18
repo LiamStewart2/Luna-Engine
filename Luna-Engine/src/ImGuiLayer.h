@@ -29,5 +29,8 @@ private:
 
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
-	float* m_PlacementPosition = new float[3] {1, 1, 1};
+
+	float* m_PlacementPosition = new float[3] {0, 0, 0};
+	float* m_RotationPlacement = new float[3] {0, 0, 0};
+	float* m_ScalePlacement = new float[3] {1, 1, 1};
 };

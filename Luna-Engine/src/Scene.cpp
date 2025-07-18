@@ -25,7 +25,7 @@ void Scene::Init(Window* _window)
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
 
-	AddObject(2, 2, 2);
+	AddObject();
 }
 
 void Scene::LoadAssets()
@@ -83,10 +83,10 @@ void Scene::Render(Renderer* renderer)
 	}
 }
 
-void Scene::AddObject(float x, float y, float z)
+void Scene::AddObject(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
-	ECS.AddComponent<Transform>(object, glm::vec3(x, y, z), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<Transform>(object, position, rotation, scale);
 	ECS.AddComponent<MeshComponent>(object, &monkeyMesh, &shader, &material, &stoneTexture);
 
 	sceneGraph.InsertNode(object);

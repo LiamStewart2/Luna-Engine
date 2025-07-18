@@ -34,11 +34,29 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("Add Game Object");
 
-		ImGui::InputFloat3("position", m_PlacementPosition);
-		if (ImGui::Button("Add Object"))
-			m_Scene->AddObject(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]);
+		ImGui::InputFloat3("Position", m_PlacementPosition);
+		ImGui::InputFloat3("Rotation", m_RotationPlacement);
+		ImGui::InputFloat3("Scale", m_ScalePlacement);
 
-		ImGui::Text("epicccc");
+		if (ImGui::Button("Add Object"))
+			m_Scene->AddObject(glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
+				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
+				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
+
+		ImGui::End();
+	}
+
+	{
+		ImGui::Begin("Dont add game object");
+
+		ImGui::InputFloat3("Position", m_PlacementPosition);
+		ImGui::InputFloat3("Rotation", m_RotationPlacement);
+		ImGui::InputFloat3("Scale", m_ScalePlacement);
+
+		if (ImGui::Button("Add Object"))
+			m_Scene->AddObject(glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
+				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
+				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
 
 		ImGui::End();
 	}
@@ -46,7 +64,6 @@ void ImGuiLayer::Update()
 
 void ImGuiLayer::Render()
 {
-	std::cout << "fortnite";
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
