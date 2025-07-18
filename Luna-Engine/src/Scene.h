@@ -25,11 +25,14 @@ public:
 	void Update();
 	void Render(Renderer* renderer);
 
+	void AddObject(float x, float y, float z);
+
 	void DestroyScene();
 
 private:
 	EntityComponentSystem ECS;
 	SceneGraph sceneGraph;
+	std::vector<unsigned int> gameObjects;
 
 	TransformationManager transformationManager;
 
