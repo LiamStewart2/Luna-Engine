@@ -25,11 +25,14 @@ public:
 	void Update();
 	void Render(Renderer* renderer);
 
+	void AddObject(glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
+
 	void DestroyScene();
 
 private:
 	EntityComponentSystem ECS;
 	SceneGraph sceneGraph;
+	std::vector<unsigned int> gameObjects;
 
 	TransformationManager transformationManager;
 

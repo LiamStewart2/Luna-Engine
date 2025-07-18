@@ -24,7 +24,7 @@ public:
 	static void CloseWindow(Window* window);
 
 	void SetNewTitle(const char* newTitle);
-
+	GLFWwindow* GetHandle(){return m_WindowHandle;}
 	void Update();
 private:
 	GLFWwindow* m_WindowHandle = nullptr;

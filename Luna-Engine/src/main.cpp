@@ -2,6 +2,6 @@
 
 int main()
 {
-	Application app = Application();
+	Application application;
 	return 0;
 }

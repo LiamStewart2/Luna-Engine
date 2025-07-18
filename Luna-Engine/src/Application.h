@@ -6,6 +6,7 @@
 #include "ECS/ECS.h"
 #include "Renderer.h"
 #include "AssetLoader.h"
+#include "ImGuiLayer.h"
 
 #include "Globals.h"
 
@@ -36,4 +37,9 @@ private:
 	
 	Renderer renderer;
 	Scene scene;
+	ImGuiLayer imGuiLayer;
+
+	float main_scale;
+	bool showAddObjectWindow = true;
+	float* placementPosition = new float[3] {1, 1, 1};
 };

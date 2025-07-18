@@ -13,12 +13,16 @@ Application::~Application()
 
 int Application::Init()
 {
+	glfwInit();
+
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 	window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		
+	imGuiLayer = ImGuiLayer(window, &scene);
 
 	scene.Init(window);
-
+	
 	return 0;
 }
 
@@ -32,7 +36,7 @@ void Application::MainLoop()
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
 
-	while (window->IsRunning())
+	while (!glfwWindowShouldClose(window->GetHandle()))
 	{
 		double currentTime = glfwGetTime();
 		frameCount++;
@@ -65,13 +69,17 @@ void Application::HandleInput()
 
 void Application::Update()
 {
+	imGuiLayer.Update();
 	scene.Update();
 }
 
 void Application::Render()
 {
+
 	glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene.Render(&renderer);
+
+	imGuiLayer.Render();
 }

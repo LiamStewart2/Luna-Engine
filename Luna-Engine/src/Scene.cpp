@@ -22,26 +22,10 @@ void Scene::Init(Window* _window)
 	
 	unsigned int sceneObject = 0;
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
-
-	unsigned int firstGameObject = 1;
-	ECS.AddComponent<Transform>(firstGameObject, glm::vec3(2, -2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<MeshComponent>(firstGameObject, &planeMesh, &shader, &material, &defaultTexture);
-
-	unsigned int secondGameObject = 2;
-	ECS.AddComponent<Transform>(secondGameObject, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<MeshComponent>(secondGameObject, &planeMesh, &shader, &material, &stoneTexture);
-
-	unsigned int thirdGameObject = 3;
-	ECS.AddComponent<Transform>(thirdGameObject, glm::vec3(0, 2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<MeshComponent>(thirdGameObject, &monkeyMesh, &shader, &material, &stoneTexture);
-
 	sceneGraph = SceneGraph(sceneObject);
+	gameObjects = std::vector<unsigned int>({0});
 
-	sceneGraph.InsertNode(firstGameObject);
-	sceneGraph.InsertNode(secondGameObject);
-
-	SceneGraphNode* node = sceneGraph.GetNode(secondGameObject, &sceneGraph);
-	sceneGraph.InsertNode(thirdGameObject, node);
+	AddObject();
 }
 
 void Scene::LoadAssets()
@@ -61,10 +45,6 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
-
-	ECS.GetObjectComponent<Transform>(1)->position.x = sin(glfwGetTime());
-	ECS.GetObjectComponent<Transform>(2)->rotation.y = sin(glfwGetTime());
-
 	shader.BindShader();
 	if(window->GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		shader.SetInt("debugMode", 1);
@@ -101,6 +81,16 @@ void Scene::Render(Renderer* renderer)
 			renderer->RenderObject(transformIt->second, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
 		}
 	}
+}
+
+void Scene::AddObject(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+{
+	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
+	ECS.AddComponent<Transform>(object, position, rotation, scale);
+	ECS.AddComponent<MeshComponent>(object, &monkeyMesh, &shader, &material, &stoneTexture);
+
+	sceneGraph.InsertNode(object);
+	gameObjects.push_back(object);
 }
 
 
