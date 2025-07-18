@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\imgui\main.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
     <ClCompile Include="src\Light.cpp" />
@@ -32,6 +35,8 @@
     <ClInclude Include="src\ECS\ComponentStorage.h" />
     <ClInclude Include="src\ECS\MeshComponent.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
+    <ClInclude Include="src\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="src\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="src\LightManager.h" />
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\LinkedList.h" />
