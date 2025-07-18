@@ -55,7 +55,7 @@ void ImGuiLayer::Update()
 
 		if (ImGui::Button("Add Object"))
 			m_Scene->AddObject(glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
-				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
+				glm::vec3(glm::radians(m_RotationPlacement[0]), glm::radians(m_RotationPlacement[1]), glm::radians(m_RotationPlacement[2])),
 				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
 
 		ImGui::End();

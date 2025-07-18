@@ -25,7 +25,14 @@ glm::mat4 Camera::GetViewMatrix()
 void Camera::HandleInput(Window* window)
 {
     HandleKeyboard(window);
-    //HandleMouse(window);
+    if(window->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+        HandleMouse(window);
+    else if(firstMousePressFrame == true)
+    {
+        firstMousePressFrame = false;
+        window->SetCursorPosition(lastMousePosition.x, lastMousePosition.y);
+        window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 }
 
 void Camera::HandleKeyboard(Window* window)
@@ -66,6 +73,15 @@ void Camera::HandleKeyboard(Window* window)
 
 void Camera::HandleMouse(Window* window)
 {
+    if(firstMousePressFrame == false)
+    {
+        firstMousePressFrame = true;
+        window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        window->GetCursorPosition(&lastMousePosition.x, &lastMousePosition.y);
+        window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        return;
+    }
+
     glm::dvec2 currentMousePosition = glm::vec2(0, 0);
     window->GetCursorPosition(& currentMousePosition.x, & currentMousePosition.y);
 
