@@ -2,6 +2,9 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include "ECS/ECS.h"
 #include "Renderer.h"
@@ -36,4 +39,8 @@ private:
 	
 	Renderer renderer;
 	Scene scene;
+
+	float main_scale;
+	bool showAddObjectWindow = true;
+	float* placementPosition = new float[3] {1, 1, 1};
 };

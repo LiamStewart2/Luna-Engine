@@ -51,6 +51,9 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 	window->m_WindowTitle = windowTitle;
 	window->m_WindowWidth = windowWidth;
 	window->m_WindowHeight = windowHeight;
+	
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 	// Create and test the GLFW window handle
 	window->m_WindowHandle = glfwCreateWindow(

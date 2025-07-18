@@ -25,7 +25,7 @@ glm::mat4 Camera::GetViewMatrix()
 void Camera::HandleInput(Window* window)
 {
     HandleKeyboard(window);
-    HandleMouse(window);
+    //HandleMouse(window);
 }
 
 void Camera::HandleKeyboard(Window* window)

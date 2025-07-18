@@ -24,6 +24,8 @@ void Scene::Init(Window* _window)
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
+
+	AddObject(2, 2, 2);
 }
 
 void Scene::LoadAssets()
