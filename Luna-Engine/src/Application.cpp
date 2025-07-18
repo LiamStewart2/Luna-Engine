@@ -15,28 +15,14 @@ int Application::Init()
 {
 	glfwInit();
 
-	main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 	window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-
-	ImGuiStyle& style = ImGui::GetStyle();
-	style.ScaleAllSizes(main_scale);
-	style.FontScaleDpi = main_scale;
-	ImGui::StyleColorsDark();
+		
+	imGuiLayer = ImGuiLayer(window, &scene);
 
 	scene.Init(window);
-
-	ImGui_ImplGlfw_InitForOpenGL(window->GetHandle(), true);
-	const char* glsl_version = "#version 460";
-	ImGui_ImplOpenGL3_Init(glsl_version);
-
+	
 	return 0;
 }
 
@@ -63,10 +49,6 @@ void Application::MainLoop()
 			lastTime = currentTime;
 		}
 
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
 		HandleInput();
 
 		Update();
@@ -87,28 +69,17 @@ void Application::HandleInput()
 
 void Application::Update()
 {
-	{
-		ImGui::Begin("Add Game Object");
-
-		ImGui::InputFloat3("position", placementPosition);
-		if(ImGui::Button("Add Object"))
-			scene.AddObject(placementPosition[0], placementPosition[1], placementPosition[2]);
-
-		ImGui::Text("epicccc");
-
-		ImGui::End();
-	}
+	imGuiLayer.Update();
 	scene.Update();
 }
 
 void Application::Render()
 {
-	ImGui::Render();
 
 	glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene.Render(&renderer);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+	imGuiLayer.Render();
 }

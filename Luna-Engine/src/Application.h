@@ -2,13 +2,11 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
 
 #include "ECS/ECS.h"
 #include "Renderer.h"
 #include "AssetLoader.h"
+#include "ImGuiLayer.h"
 
 #include "Globals.h"
 
@@ -39,6 +37,7 @@ private:
 	
 	Renderer renderer;
 	Scene scene;
+	ImGuiLayer imGuiLayer;
 
 	float main_scale;
 	bool showAddObjectWindow = true;
