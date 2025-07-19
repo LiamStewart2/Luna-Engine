@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Window.h"
-#include "Scene.h"
-
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+
+#include "Window.h"
+#include "Scene.h"
 
 class ImGuiLayer
 {
@@ -33,4 +33,6 @@ private:
 	float* m_PlacementPosition = new float[3] {0, 0, 0};
 	float* m_RotationPlacement = new float[3] {0, 0, 0};
 	float* m_ScalePlacement = new float[3] {1, 1, 1};
+
+	int m_CurrentInspectorGameObject = 0;
 };
