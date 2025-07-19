@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Window.h"
-#include "Scene.h"
-
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+
+#include "Window.h"
+#include "Scene.h"
 
 class ImGuiLayer
 {
