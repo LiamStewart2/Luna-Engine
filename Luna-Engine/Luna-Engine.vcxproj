@@ -36,6 +36,7 @@
     <ClCompile Include="src\TransformationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ECS\NameComponent.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentStorage.h" />

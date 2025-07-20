@@ -6,6 +6,7 @@
 
 #include "ComponentStorage.h"
 
+#include "NameComponent.h"
 #include "TransformComponent.h"
 #include "MeshComponent.h"
 

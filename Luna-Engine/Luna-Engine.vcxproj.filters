@@ -179,11 +179,15 @@
     <ClInclude Include="src\ImGuiLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ECS\NameComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Shader\shader.fs" />
     <None Include="Assets\Shaders\Shader\shader.vs" />
     <None Include="Assets\Shaders\DepthShader\shader.vs" />
     <None Include="Assets\Shaders\DepthShader\shader.fs" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>
