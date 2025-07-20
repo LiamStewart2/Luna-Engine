@@ -15,9 +15,9 @@ void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered
 
 	matrix = glm::translate(matrix, transformComponents->at(node->GetGameObject())->position);
 
-	matrix = glm::rotate(matrix, transformComponents->at(node->GetGameObject())->rotation.x, {1, 0, 0});
-	matrix = glm::rotate(matrix, transformComponents->at(node->GetGameObject())->rotation.y, { 0, 1, 0 });
-	matrix = glm::rotate(matrix, transformComponents->at(node->GetGameObject())->rotation.z, { 0, 0, 1 });
+	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.x), {1, 0, 0});
+	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.y), { 0, 1, 0 });
+	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.z), { 0, 0, 1 });
 
 	matrix = glm::scale(matrix, transformComponents->at(node->GetGameObject())->scale);
 
