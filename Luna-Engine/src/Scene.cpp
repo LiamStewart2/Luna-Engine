@@ -83,13 +83,13 @@ void Scene::Render(Renderer* renderer)
 	}
 }
 
-void Scene::AddObject(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+void Scene::AddObject(unsigned int parent, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
 	ECS.AddComponent<Transform>(object, position, rotation, scale);
 	ECS.AddComponent<MeshComponent>(object, &monkeyMesh, &shader, &material, &stoneTexture);
 
-	sceneGraph.InsertNode(object);
+	sceneGraph.InsertNode(object, sceneGraph.GetNode(parent, nullptr));
 	gameObjects.push_back(object);
 }
 
