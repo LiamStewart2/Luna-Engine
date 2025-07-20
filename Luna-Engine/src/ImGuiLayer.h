@@ -7,6 +7,8 @@
 #include "Window.h"
 #include "Scene.h"
 
+#include <unordered_map>
+
 class ImGuiLayer
 {
 public:
@@ -30,13 +32,16 @@ private:
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
 
+	unsigned int NameCharacterLimit = 100;
+	float Indentation = 10.0f;
+
 	int m_ParentObject = 0;
+	char* m_Name = new char[NameCharacterLimit]();
 	float* m_PlacementPosition = new float[3] {0, 0, 0};
 	float* m_RotationPlacement = new float[3] {0, 0, 0};
 	float* m_ScalePlacement = new float[3] {1, 1, 1};
 
 	int m_CurrentInspectorGameObject = 0;
 
-	void BuildHiearchyText(SceneGraphNode* node);
-	float m_Indentation = 10.0f;
+	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names);
 };

@@ -21,6 +21,7 @@ void Scene::Init(Window* _window)
 	light.BuildLight(&lightManager);
 	
 	unsigned int sceneObject = 0;
+	ECS.AddComponent<NameComponent>(sceneObject, "Scene");
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
@@ -83,9 +84,10 @@ void Scene::Render(Renderer* renderer)
 	}
 }
 
-void Scene::AddObject(unsigned int parent, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+void Scene::AddObject(unsigned int parent, std::string name, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
+	ECS.AddComponent<NameComponent>(object, name);
 	ECS.AddComponent<Transform>(object, position, rotation, scale);
 	ECS.AddComponent<MeshComponent>(object, &monkeyMesh, &shader, &material, &stoneTexture);
 

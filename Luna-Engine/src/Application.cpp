@@ -16,10 +16,9 @@ int Application::Init()
 	glfwInit();
 
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
-		
-	imGuiLayer = ImGuiLayer(window, &scene);
-
 	scene.Init(window);
+
+	imGuiLayer = ImGuiLayer(window, &scene);
 	
 	return 0;
 }

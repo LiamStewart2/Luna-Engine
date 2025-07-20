@@ -48,12 +48,14 @@ void ImGuiLayer::Update()
 
 		ImGui::InputInt("ParentObject", &m_ParentObject);
 
+		ImGui::InputText("Object Name", m_Name, NameCharacterLimit);
+
 		ImGui::InputFloat3("Position", m_PlacementPosition);
 		ImGui::InputFloat3("Rotation", m_RotationPlacement);
 		ImGui::InputFloat3("Scale", m_ScalePlacement);
 
 		if (ImGui::Button("Add Object"))
-			m_Scene->AddObject((unsigned int)m_ParentObject,
+			m_Scene->AddObject((unsigned int)m_ParentObject, m_Name,
 				glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
 				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
 				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
@@ -89,19 +91,20 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("Hieararcy");
 
-		BuildHiearchyText(m_Scene->GetSceneGraph());
+		std::unordered_map<unsigned int, NameComponent*> names = m_Scene->GetECS()->GetAllComponentsOfType<NameComponent>();
+		BuildHiearchyText(m_Scene->GetSceneGraph(), &names);
 
 		ImGui::End();
 	}
 }
 
-void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node)
+void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
 {
-	ImGui::Text(std::to_string(node->GetGameObject()).c_str());
-	ImGui::Indent(m_Indentation);
+	ImGui::Text(names->at(node->GetGameObject())->m_Name.c_str());
+	ImGui::Indent(Indentation);
 	for(SceneGraphNode* n : *node->getNodes())
-		BuildHiearchyText(n);
-	ImGui::Unindent(m_Indentation);
+		BuildHiearchyText(n, names);
+	ImGui::Unindent(Indentation);
 }
 
 void ImGuiLayer::Render()
