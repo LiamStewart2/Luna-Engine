@@ -59,7 +59,6 @@ void ImGuiLayer::Update()
 				glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
 				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
 				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
-
 		ImGui::End();
 	}
 
@@ -67,6 +66,8 @@ void ImGuiLayer::Update()
 		ImGui::Begin("Inspector");
 
 		ImGui::InputInt("Game Object", &m_CurrentInspectorGameObject);
+
+		ImGui::Text(m_Scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
 
 		ImGui::Text("Position");
 		ImGui::InputFloat("position x", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.x);
