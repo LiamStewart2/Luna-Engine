@@ -58,7 +58,7 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 	// Create and test the GLFW window handle
 	window->m_WindowHandle = glfwCreateWindow(
 		windowWidth, windowHeight, windowTitle,
-		NULL, NULL);
+		NULL, NULL); 
 
 	if (!window->m_WindowHandle)
 	{
@@ -69,6 +69,7 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 
 	// Set GLFW window settings
 	glfwMakeContextCurrent(window->m_WindowHandle);
+	glfwMaximizeWindow(window->m_WindowHandle);
 	glfwSwapInterval(1);
 
 	// Init OpenGL

@@ -16,8 +16,6 @@ int Application::Init()
 	glfwInit();
 
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
-	window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		
 	imGuiLayer = ImGuiLayer(window, &scene);
 

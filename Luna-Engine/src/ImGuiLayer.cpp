@@ -7,6 +7,7 @@ void ImGuiLayer::Init()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
@@ -30,6 +31,17 @@ void ImGuiLayer::StartFrame()
 void ImGuiLayer::Update()
 {
 	StartFrame();
+
+	if (m_Window->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+	{
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+		m_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
+	else
+	{
+		ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+		m_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 
 	{
 		ImGui::Begin("Add Game Object");
