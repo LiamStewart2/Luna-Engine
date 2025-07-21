@@ -101,11 +101,31 @@ void ImGuiLayer::Update()
 
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
 {
-	ImGui::Text(names->at(node->GetGameObject())->m_Name.c_str());
-	ImGui::Indent(Indentation);
-	for(SceneGraphNode* n : *node->getNodes())
-		BuildHiearchyText(n, names);
-	ImGui::Unindent(Indentation);
+	unsigned int id = node->GetGameObject();
+	const std::string& name = names->at(id)->m_Name;
+	bool selected = (id == m_CurrentInspectorGameObject);
+
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+	if (selected)
+		flags |= ImGuiTreeNodeFlags_Selected;
+
+	bool hasChildren = !node->getNodes()->empty();
+	if (!hasChildren)
+		flags |= ImGuiTreeNodeFlags_Leaf;
+
+	// Create the tree node
+	bool nodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, "%s", name.c_str());
+
+	// Detect click
+	if (ImGui::IsItemClicked()) {
+		m_CurrentInspectorGameObject = id;
+	}
+
+	if (nodeOpen) {
+		for (SceneGraphNode* child : *node->getNodes())
+			BuildHiearchyText(child, names);
+		ImGui::TreePop();
+	}
 }
 
 void ImGuiLayer::Render()
