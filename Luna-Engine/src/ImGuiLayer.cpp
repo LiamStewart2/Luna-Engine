@@ -46,8 +46,6 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("Add Game Object");
 
-		ImGui::InputInt("ParentObject", &m_ParentObject);
-
 		ImGui::InputText("Object Name", m_Name, NameCharacterLimit);
 
 		ImGui::InputFloat3("Position", m_PlacementPosition);
@@ -55,7 +53,7 @@ void ImGuiLayer::Update()
 		ImGui::InputFloat3("Scale", m_ScalePlacement);
 
 		if (ImGui::Button("Add Object"))
-			m_Scene->AddObject((unsigned int)m_ParentObject, m_Name,
+			m_Scene->AddObject((unsigned int)m_CurrentInspectorGameObject, m_Name,
 				glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
 				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
 				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
@@ -64,8 +62,6 @@ void ImGuiLayer::Update()
 
 	{
 		ImGui::Begin("Inspector");
-
-		ImGui::InputInt("Game Object", &m_CurrentInspectorGameObject);
 
 		ImGui::Text(m_Scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
 
@@ -113,10 +109,8 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 	if (!hasChildren)
 		flags |= ImGuiTreeNodeFlags_Leaf;
 
-	// Create the tree node
 	bool nodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, "%s", name.c_str());
 
-	// Detect click
 	if (ImGui::IsItemClicked()) {
 		m_CurrentInspectorGameObject = id;
 	}
