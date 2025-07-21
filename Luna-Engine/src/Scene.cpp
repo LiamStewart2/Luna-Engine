@@ -26,6 +26,13 @@ void Scene::Init(Window* _window)
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
 
+	unsigned int plane = 1;
+	ECS.AddComponent<NameComponent>(plane, "Plane");
+	ECS.AddComponent<Transform>(plane, glm::vec3(0, -2, 0), glm::vec3(0, 0, 0), glm::vec3(5, 1, 5));
+	ECS.AddComponent<MeshComponent>(plane, &planeMesh, &shader, &material, &defaultTexture);
+	sceneGraph.InsertNode(plane);
+	gameObjects.push_back(1);
+
 	AddObject();
 }
 
@@ -35,7 +42,7 @@ void Scene::LoadAssets()
 	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
 	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs", "Assets/Shaders/DepthShader/shader.gs");
 
-	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkeysmoothed.obj");
+	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
 	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
 
 	AssetLoader::LoadTexture(stoneTexture, "Assets/Textures/rock.png");

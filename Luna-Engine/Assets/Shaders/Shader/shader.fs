@@ -107,7 +107,7 @@ float ShadowCalculation(vec3 fragmentPositionWorldSpace)
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}    
 	}
-	shadow /= 15.0;
+	shadow /= (9 * 2);
 
     return shadow;
 }
