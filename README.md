@@ -24,7 +24,7 @@ The engine includes a custom editor built using ImGui, providing:
 
 ## 📌 Roadmap / TODO
 
-- [ ] Dynamic Asset Loader
+- [x] Dynamic Asset Loader
 - [ ] Full Integration of the ECS
 - [ ] Time and Input System
 - [ ] Physics Engine
