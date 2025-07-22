@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AssetManager.h" />
+    <ClInclude Include="src\ECS\CameraComponent.h" />
+    <ClInclude Include="src\ECS\LightComponent.h" />
     <ClInclude Include="src\ECS\NameComponent.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\ECS\Component.h" />
