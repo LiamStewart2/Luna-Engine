@@ -20,7 +20,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	{
 		geometryFile.open(geometryPath);
 		if(!geometryFile)
+		{
 			std::cerr << "Cannot open file - " << geometryPath << std::endl;
+			geometryPath = "0000";
+		}
 	}
 
 

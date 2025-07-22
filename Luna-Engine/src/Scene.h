@@ -6,10 +6,9 @@
 #include "Window.h"
 #include "SceneGraph.h"
 #include "ECS/ECS.h"
+#include "AssetManager.h"
 #include "LinkedList.h"
-#include "AssetLoader.h"
 #include "Mesh.h"
-#include "AssetLoader.h"
 #include "Renderer.h"
 #include "LightManager.h"
 
@@ -38,23 +37,14 @@ private:
 	std::vector<unsigned int> gameObjects;
 
 	TransformationManager transformationManager;
+	AssetManager assetManager;
 
 	Window* window;
-
-	Shader shader;
-	Shader depthmapShader;
 
 	Camera camera = Camera(glm::vec3(0, 2, -3), glm::vec3(0, 0, 0));
 	LightManager lightManager;
 
 	Light light = Light(glm::vec3(0, 10, 10), glm::vec3(0, 1, 1), glm::vec3(1));
 	Material material;
-
-	Mesh planeMesh;
-	Mesh monkeyMesh;
-
-	Texture defaultTexture;
-	Texture stoneTexture;
-
 };
 

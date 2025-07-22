@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
-void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
+void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 {
 	double startTime = glfwGetTime();
 
@@ -25,7 +25,7 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 
 
 		if(prefix == "o")
-			ss >> mesh.name;
+			ss >> mesh->name;
 
 		else if (prefix == "v") 
 		{
@@ -74,9 +74,9 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 				// TODO use a hash map to speed up the face building phase
 
 				int vertexIndex = -1;
-				for (int i = 0; i < mesh.vertices.size(); i++)
+				for (int i = 0; i < mesh->vertices.size(); i++)
 				{
-					if (vertex.Position == mesh.vertices[i].Position && vertex.TextureCoordinate == mesh.vertices[i].TextureCoordinate && vertex.Normal == mesh.vertices[i].Normal)
+					if (vertex.Position == mesh->vertices[i].Position && vertex.TextureCoordinate == mesh->vertices[i].TextureCoordinate && vertex.Normal == mesh->vertices[i].Normal)
 					{
 						vertexIndex = i;
 						break;
@@ -85,30 +85,30 @@ void AssetLoader::LoadMeshOBJ(Mesh& mesh, const char* filepath)
 
 				if (vertexIndex == -1)
 				{
-					mesh.vertices.push_back(vertex);
-					mesh.indices.push_back(mesh.vertices.size() - 1);
+					mesh->vertices.push_back(vertex);
+					mesh->indices.push_back(mesh->vertices.size() - 1);
 				}
 				else
-					mesh.indices.push_back(vertexIndex);
+					mesh->indices.push_back(vertexIndex);
 
 				//std::cout << "Building face takes " << glfwGetTime() - startTime << std::endl;
 			}
 		}
 	}
-	mesh.BuildMesh();
+	mesh->BuildMesh();
 
-	std::cout << "Mesh Loaded - " << mesh.name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+	std::cout << "Mesh Loaded - " << mesh->name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 }
 
 
-void AssetLoader::LoadTexture(Texture& texture, const char* filepath)
+void AssetLoader::LoadTexture(std::shared_ptr<Texture> texture, const char* filepath)
 {
 	double startTime = glfwGetTime();
 
-	unsigned char* data = stbi_load(filepath, &texture.width, &texture.height, &texture.channels, 0);
+	unsigned char* data = stbi_load(filepath, &texture->width, &texture->height, &texture->channels, 0);
 
 	if (data)
-		texture.BuildTexture(data);
+		texture->BuildTexture(data);
 	else
 		std::cerr << "Failed to load texture: " << filepath << std::endl;
 	stbi_image_free(data);

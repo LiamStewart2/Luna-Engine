@@ -14,8 +14,8 @@
 class AssetLoader
 {
 public:
-	static void LoadTexture(Texture& texture, const char* filepath);
+	static void LoadTexture(std::shared_ptr<Texture> texture, const char* filepath);
 
-	static void LoadMeshOBJ(Mesh& mesh, const char* filepath);
+	static void LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath);
 };
 
