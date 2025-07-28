@@ -40,17 +40,6 @@ void Scene::Init(Window* _window)
 
 void Scene::LoadAssets()
 {
-	//Load all assets for the scene
-	/*
-	shader = Shader("Assets/Shaders/Shader/shader.vs", "Assets/Shaders/Shader/shader.fs");
-	depthmapShader = Shader("Assets/Shaders/DepthShader/shader.vs", "Assets/Shaders/DepthShader/shader.fs", "Assets/Shaders/DepthShader/shader.gs");
-
-	AssetLoader::LoadMeshOBJ(monkeyMesh, "Assets/Models/monkey.obj");
-	AssetLoader::LoadMeshOBJ(planeMesh, "Assets/Models/planeobj.obj");
-
-	AssetLoader::LoadTexture(stoneTexture, "Assets/Textures/rock.png");
-	AssetLoader::LoadTexture(defaultTexture, "Assets/Textures/default.png");
-	*/
 	assetManager.GetShader("Assets/Shaders/Shader");
 	assetManager.GetShader("Assets/Shaders/DepthShader");
 
@@ -67,11 +56,6 @@ void Scene::Update()
 {
 	std::shared_ptr<Shader> shader = assetManager.GetShader("Assets/Shaders/Shader");
 	shader->BindShader();
-
-	if(window->GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-		shader->SetInt("debugMode", 1);
-	else
-		shader->SetInt("debugMode", 0);
 
 	light.position = glm::vec3(1, -7, 0);
 	light.direction = -glm::normalize(light.position);
