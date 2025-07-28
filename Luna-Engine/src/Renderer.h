@@ -21,7 +21,7 @@ public:
 	Renderer();
 	~Renderer();
 	
-	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, Shader* shader, Shader* depthMapShader, Light* _light);
+	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, Light* _light);
 
 	void SetShaderFrame(Camera* camera, Shader* depthmapShader, Shader* shader, Light* _light);
 	void SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, Light* _light);

@@ -8,7 +8,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, Shader* shader, Shader* depthMapShader, Light* _light)
+void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, Light* _light)
 {
 	std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
 	unsigned int mainCamera = 0;
@@ -27,7 +27,27 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, Shader* sha
 		return;
 	}
 
+	std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
+	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 
+	light = _light;
+	light->FrameSetup(lightManager, depthMapShader, shader);
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+			light->RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, depthMapShader);
+	}
+	light->FrameReset();
+
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+		{
+			RenderObject(transformIt->second, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
+		}
+	}
 }
 
 void Renderer::RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader)

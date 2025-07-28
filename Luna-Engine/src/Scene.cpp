@@ -33,7 +33,14 @@ void Scene::Init(Window* _window)
 	ECS.AddComponent<Transform>(plane, glm::vec3(0, -2, 0), glm::vec3(0, 0, 0), glm::vec3(5, 1, 5));
 	ECS.AddComponent<MeshComponent>(plane, assetManager.GetMesh("Assets/Models/planeobj.obj").get(), shader.get(), &material, assetManager.GetTexture("Assets/Textures/default.png").get());
 	sceneGraph.InsertNode(plane);
-	gameObjects.push_back(1);
+	gameObjects.push_back(plane);
+
+	unsigned int camera = 2;
+	ECS.AddComponent<NameComponent>(camera, "Camera");
+	ECS.AddComponent<Transform>(camera, glm::vec3(-10, 2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<CameraComponent>(camera);
+	sceneGraph.InsertNode(camera);
+	gameObjects.push_back(camera);
 
 	AddObject();
 }
@@ -66,27 +73,7 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-	std::unordered_map<unsigned int, Transform*> transforms = ECS.GetAllComponentsOfType<Transform>();
-	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS.GetAllComponentsOfType<MeshComponent>();
-
-	light.FrameSetup(&lightManager, assetManager.GetShader("Assets/Shaders/DepthShader").get(), assetManager.GetShader("Assets/Shaders/Shader").get());
-	for (auto& [id, meshComponent] : meshComponents)
-	{
-		auto transformIt = transforms.find(meshComponent->gameObject);
-		if (transformIt != transforms.end())
-			light.RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, assetManager.GetShader("Assets/Shaders/DepthShader").get());
-	}
-	light.FrameReset();
-	
-	renderer->SetShaderFrame(&camera, assetManager.GetShader("Assets/Shaders/DepthShader").get(), assetManager.GetShader("Assets/Shaders/Shader").get(), &light);
-	for (auto& [id, meshComponent] : meshComponents)
-	{
-		auto transformIt = transforms.find(meshComponent->gameObject);
-		if (transformIt != transforms.end())
-		{
-			renderer->RenderObject(transformIt->second, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
-		}
-	}
+	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager.GetShader("Assets/Shaders/Shader").get(), assetManager.GetShader("Assets/Shaders/DepthShader").get(), &light);
 }
 
 void Scene::AddObject(unsigned int parent, std::string name, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
