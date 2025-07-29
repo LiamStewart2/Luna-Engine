@@ -40,6 +40,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	}
 	light->FrameReset();
 
+	SetShaderFrame(ECS, mainCamera, depthMapShader, shader, light);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
