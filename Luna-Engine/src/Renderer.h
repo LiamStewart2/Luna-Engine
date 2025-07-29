@@ -5,7 +5,9 @@
 
 #include "Globals.h"
 
+#include "ECS/ECS.h"
 #include "ECS/TransformComponent.h"
+#include "ECS/CameraComponent.h"
 
 #include "Light.h"
 #include "Material.h"
@@ -19,7 +21,10 @@ public:
 	Renderer();
 	~Renderer();
 	
+	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, Light* _light);
+
 	void SetShaderFrame(Camera* camera, Shader* depthmapShader, Shader* shader, Light* _light);
+	void SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, Light* _light);
 	void RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader);
 
 	Light* light;

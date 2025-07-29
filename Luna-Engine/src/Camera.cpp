@@ -24,79 +24,10 @@ glm::mat4 Camera::GetViewMatrix()
 
 void Camera::HandleInput(Window* window)
 {
-    HandleKeyboard(window);
-    if(window->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-        HandleMouse(window);
-    else if(firstMousePressFrame == true)
-    {
-        firstMousePressFrame = false;
-        window->SetCursorPosition(lastMousePosition.x, lastMousePosition.y);
-        window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    }
+    
 }
 
-void Camera::HandleKeyboard(Window* window)
-{
-    if (window->GetKey(GLFW_KEY_A) == GLFW_PRESS)
-    {
-        glm::vec3 movement = glm::normalize(glm::cross(forward, up));
-        movement *= 0.03;
-        position -= movement;
-    }
-    else if (window->GetKey(GLFW_KEY_D) == GLFW_PRESS)
-    {
-        glm::vec3 movement = glm::normalize(glm::cross(forward, up));
-        movement *= 0.03;
-        position += movement;
-    }
 
-    if (window->GetKey(GLFW_KEY_W) == GLFW_PRESS)
-    {
-        glm::vec3 movement = forward;
-        movement *= 0.03;
-        position += movement;
-    }
-    else if (window->GetKey(GLFW_KEY_S) == GLFW_PRESS)
-    {
-        glm::vec3 movement = forward;
-        movement *= 0.03;
-        position -= movement;
-    }
-
-    if (window->GetKey(GLFW_KEY_SPACE) == GLFW_PRESS)
-    {
-        glm::vec3 movement = up;
-        movement *= 0.03;
-        position += movement;
-    }
-}
-
-void Camera::HandleMouse(Window* window)
-{
-    if(firstMousePressFrame == false)
-    {
-        firstMousePressFrame = true;
-        window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-        window->GetCursorPosition(&lastMousePosition.x, &lastMousePosition.y);
-        window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-        return;
-    }
-
-    glm::dvec2 currentMousePosition = glm::vec2(0, 0);
-    window->GetCursorPosition(& currentMousePosition.x, & currentMousePosition.y);
-
-    if(glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) == currentMousePosition)
-        return;
-
-    glm::dvec2 mouseMovement = currentMousePosition - glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-    rotation.z -= mouseMovement.x * sensitivity;
-    rotation.y += mouseMovement.y * sensitivity;
-
-    CalculateDirection();
-
-    window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-}
 
 void Camera::CalculateDirection()
 {

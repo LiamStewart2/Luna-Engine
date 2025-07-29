@@ -27,16 +27,9 @@ public:
 	float pov = 90.0f;
 
 private:
-	void HandleKeyboard(Window* window);
-	void HandleMouse(Window* window);
 
 	glm::vec3 position, forward, up;
 	glm::vec3 rotation;
-
-	bool firstFrame = true;
-	bool firstMousePressFrame = false;
-	float sensitivity = 0.3f;
-	glm::dvec2 lastMousePosition = glm::dvec2();
 
 	void CalculateDirection();
 };
