@@ -66,7 +66,6 @@ void Scene::Update()
 
 	light.position = glm::vec3(1, -7, 0);
 	light.direction = -glm::normalize(light.position);
-	camera.HandleInput(window);
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }

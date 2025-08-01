@@ -76,8 +76,8 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 	light = _light;
 	shader->BindShader();
 
-	glm::mat4 projection = glm::perspective(glm::radians(cameraComponent->m_Pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, cameraComponent->m_NearPlane, cameraComponent->m_FarPlane);
-	glm::mat4 view = glm::lookAt(transformComponent->position, transformComponent->position + cameraComponent->m_Forward, cameraComponent->m_Up);
+	glm::mat4 projection = cameraComponent->m_Camera->GetProjection();
+	glm::mat4 view = cameraComponent->m_Camera->GetView(transformComponent);
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	light->BindTexture(shader);
@@ -89,42 +89,11 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 	shader->SetVec3("oLight.direction", light->direction);
 	shader->SetVec3("oLight.color", light->color);
 
-	shader->SetFloat("farPlane", cameraComponent->m_FarPlane);
+	shader->SetFloat("farPlane", cameraComponent->m_Camera->m_FarPlane);
 
 	shader->SetVec3("oViewPosition", transformComponent->position);
 
-	std::vector<float> shadowCascadeLevels = { cameraComponent->m_FarPlane / 50.0f, cameraComponent->m_FarPlane / 25.0f, cameraComponent->m_FarPlane / 10.0f, cameraComponent->m_FarPlane / 2.0f };
-	shader->SetInt("cascadeCount", shadowCascadeLevels.size());
-	for (size_t i = 0; i < shadowCascadeLevels.size(); ++i)
-	{
-		shader->SetFloat("cascadePlaneDistances[" + std::to_string(i) + "]", shadowCascadeLevels[i]);
-	}
-}
-
-void Renderer::SetShaderFrame(Camera* camera, Shader* depthmapShader, Shader* shader, Light* _light)
-{
-
-	light = _light;
-	shader->BindShader();
-
-	glm::mat4 projection = camera->GetProjection();
-	glm::mat4 view = camera->GetViewMatrix();
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	light->BindTexture(shader);
-
-	shader->SetMat4("projection", projection);
-	shader->SetMat4("view", view);
-
-	shader->SetVec3("oLight.position", light->position);
-	shader->SetVec3("oLight.direction", light->direction);
-	shader->SetVec3("oLight.color", light->color);
-
-	shader->SetFloat("farPlane", camera->farPlane);
-
-	shader->SetVec3("oViewPosition", camera->GetPosition());
-
-	std::vector<float> shadowCascadeLevels = { camera->farPlane / 50.0f, camera->farPlane / 25.0f, camera->farPlane / 10.0f, camera->farPlane / 2.0f };
+	std::vector<float> shadowCascadeLevels = { cameraComponent->m_Camera->m_FarPlane / 50.0f, cameraComponent->m_Camera->m_FarPlane / 25.0f, cameraComponent->m_Camera->m_FarPlane / 10.0f, cameraComponent->m_Camera->m_FarPlane / 2.0f };
 	shader->SetInt("cascadeCount", shadowCascadeLevels.size());
 	for (size_t i = 0; i < shadowCascadeLevels.size(); ++i)
 	{

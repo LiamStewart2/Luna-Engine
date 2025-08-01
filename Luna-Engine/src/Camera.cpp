@@ -7,5 +7,5 @@ glm::mat4 PerspectiveCamera::GetProjection()
 
 glm::mat4 PerspectiveCamera::GetView(Transform* transform)
 {
-    return glm::lookAt(transform->position, transform->position + transform.forward, transform.up);
+    return glm::lookAt(transform->position, transform->position + transform->Forward(), transform->Up());
 }
