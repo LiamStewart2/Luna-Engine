@@ -14,7 +14,7 @@ struct Transform : public Component
 
 	glm::vec3 Forward()
 	{
-		return glm::vec3(sin(rotation.y), cos(rotation.x), cos(rotation.y));
+		return glm::vec3(sin(glm::radians(rotation.y)), cos(glm::radians(rotation.x + 90)), cos(glm::radians(rotation.y)));
 	}
 	glm::vec3 Up()
 	{

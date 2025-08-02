@@ -7,11 +7,11 @@ std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(const glm::vec3&
 	for (size_t i = 0; i < shadowCascadeLevels.size() + 1; i++)
 	{
 		if (i == 0)
-			matrices.push_back(GenerateLightSpaceMatrix(camera->nearPlane, shadowCascadeLevels[i], lightDirection));
+			matrices.push_back(GenerateLightSpaceMatrix(camera->m_NearPlane, shadowCascadeLevels[i], lightDirection));
 		else if(i < shadowCascadeLevels.size())
 			matrices.push_back(GenerateLightSpaceMatrix(shadowCascadeLevels[i - 1], shadowCascadeLevels[i], lightDirection));
 		else
-			matrices.push_back(GenerateLightSpaceMatrix(shadowCascadeLevels[i - 1], camera->farPlane, lightDirection));
+			matrices.push_back(GenerateLightSpaceMatrix(shadowCascadeLevels[i - 1], camera->m_FarPlane, lightDirection));
 	}
 
 	return matrices;
@@ -30,10 +30,10 @@ glm::mat4 LightManager::GenerateLightSpaceMatrix(const float& nearPlane, const f
 
 std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace(const float& nearPlane, const float& farPlane)
 {
-	glm::mat4 projection = glm::perspective(glm::radians(camera->pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 
+	glm::mat4 projection = glm::perspective(glm::radians(camera->m_Pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 
 		nearPlane, farPlane);
-	glm::mat4 view = camera->GetViewMatrix();
-
+	//glm::mat4 view = camera->GetView(nullptr);
+	glm::mat4 view = glm::lookAt(glm::vec3(0), glm::vec3(1, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 matrix = projection * view;
 
 	const auto inverse = glm::inverse(matrix);

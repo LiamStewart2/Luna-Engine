@@ -3,6 +3,7 @@
 #include "GLM/glm.hpp"
 
 #include "Component.h"
+#include "../Camera.h"
 
 struct CameraComponent : public Component
 {
