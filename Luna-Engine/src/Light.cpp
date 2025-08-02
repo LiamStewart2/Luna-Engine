@@ -67,11 +67,11 @@ void Light::BindTexture(Shader* shader)
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
 }
 
-void Light::FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader)
+void Light::FrameSetup(LightManager* lightManager, Transform* cameraTransform, Shader* depthmapShader, Shader* shader)
 {
     glEnable(GL_DEPTH_TEST);
 
-    std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(direction);
+    std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(cameraTransform, direction);
     glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);
     for (size_t i = 0; i < matrices.size(); i++)
         glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(glm::mat4x4), sizeof(glm::mat4x4), &matrices[i]);

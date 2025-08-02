@@ -38,7 +38,9 @@ void Scene::Init(Window* _window)
 	unsigned int camera = 2;
 	ECS.AddComponent<NameComponent>(camera, "Camera");
 	ECS.AddComponent<Transform>(camera, glm::vec3(-10, 2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<CameraComponent>(camera, new PerspectiveCamera(), true);
+	Camera* perspectiveCamera = new PerspectiveCamera();
+	ECS.AddComponent<CameraComponent>(camera, perspectiveCamera, true);
+	lightManager = LightManager(perspectiveCamera);
 	sceneGraph.InsertNode(camera);
 	gameObjects.push_back(camera);
 

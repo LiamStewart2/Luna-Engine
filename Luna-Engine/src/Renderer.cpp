@@ -31,7 +31,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 
 	light = _light;
-	light->FrameSetup(lightManager, depthMapShader, shader);
+	light->FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), depthMapShader, shader);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
