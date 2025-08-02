@@ -19,7 +19,7 @@ public:
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
 	void BindTexture(Shader* shader);
-	void FrameSetup(LightManager* lightManager, Shader* depthmapShader, Shader* shader);
+	void FrameSetup(LightManager* lightManager, Transform* cameraTransform, Shader* depthmapShader, Shader* shader);
 	void FrameReset();
 
 	glm::vec3 position;

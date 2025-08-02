@@ -11,4 +11,13 @@ struct Transform : public Component
 	
 	glm::vec3 position, rotation, scale;
 	glm::mat4 transformMatrix;
+
+	glm::vec3 Forward()
+	{
+		return glm::vec3(sin(glm::radians(rotation.y)), cos(glm::radians(rotation.x + 90)), cos(glm::radians(rotation.y)));
+	}
+	glm::vec3 Up()
+	{
+		return glm::vec3(0, 1, 0);
+	}
 };

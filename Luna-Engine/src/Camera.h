@@ -9,27 +9,26 @@
 
 #include "Window.h"
 #include "Time.h"
+#include "ECS/TransformComponent.h"
 #include "Globals.h"
 
 class Camera
 {
 public:
-	Camera(glm::vec3 _position, glm::vec3 _rotation);
-	~Camera();
+	Camera() {}
+	~Camera() {}
 
-	glm::mat4 GetProjection();
-	glm::mat4 GetViewMatrix();
-	void HandleInput(Window* window);
+	virtual glm::mat4 GetProjection() = 0;
+	virtual glm::mat4 GetView(Transform* transform) = 0;
 
-	glm::vec3 GetPosition(){return position;}
+	const float m_NearPlane = 0.1f, m_FarPlane = 250.0f;
+	const float m_Pov = 90.0f;
+};
 
-	float nearPlane = 0.1f, farPlane = 250.0f;
-	float pov = 90.0f;
 
-private:
-
-	glm::vec3 position, forward, up;
-	glm::vec3 rotation;
-
-	void CalculateDirection();
+class PerspectiveCamera : public Camera
+{
+public:
+	glm::mat4 GetProjection() override;
+	glm::mat4 GetView(Transform* transform) override;
 };

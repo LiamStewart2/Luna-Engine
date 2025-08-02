@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene() : lightManager(LightManager(&camera))
+Scene::Scene() : lightManager(LightManager(camera))
 {
 
 }
@@ -38,7 +38,9 @@ void Scene::Init(Window* _window)
 	unsigned int camera = 2;
 	ECS.AddComponent<NameComponent>(camera, "Camera");
 	ECS.AddComponent<Transform>(camera, glm::vec3(-10, 2, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<CameraComponent>(camera);
+	Camera* perspectiveCamera = new PerspectiveCamera();
+	ECS.AddComponent<CameraComponent>(camera, perspectiveCamera, true);
+	lightManager = LightManager(perspectiveCamera);
 	sceneGraph.InsertNode(camera);
 	gameObjects.push_back(camera);
 
@@ -66,7 +68,6 @@ void Scene::Update()
 
 	light.position = glm::vec3(1, -7, 0);
 	light.direction = -glm::normalize(light.position);
-	camera.HandleInput(window);
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
