@@ -44,7 +44,6 @@ private:
 	Camera* camera = new PerspectiveCamera();
 	LightManager lightManager;
 
-	Light light = Light(glm::vec3(0, 10, 10), glm::vec3(0, 1, 1), glm::vec3(1));
 	Material material;
 };
 

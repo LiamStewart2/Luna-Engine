@@ -7,7 +7,8 @@
 
 struct LightComponent : public Component
 {
-	LightComponent(unsigned int _gameObject = 0, glm::vec3 lightColor = glm::vec3(255, 255, 255)) : Component(_gameObject), m_LightColor(lightColor) {}
+	LightComponent(unsigned int _gameObject = 0, glm::vec3 lightColor = glm::vec3(1, 1, 1)) : 
+		Component(_gameObject), m_LightColor(lightColor) {}
 
 	Light m_Light;
 	glm::vec3 m_LightColor;

@@ -22,7 +22,7 @@ public:
 	void FrameReset();
 
 
-	const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+	unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 
 	unsigned int m_DepthmapFBO = 0;
 	unsigned int m_MatricesUBO = 0;

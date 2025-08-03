@@ -8,7 +8,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, Light* _light)
+void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader)
 {
 	std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
 	unsigned int mainCamera = 0;
@@ -27,36 +27,43 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 		return;
 	}
 
+	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+	Transform* lightTransform = nullptr; LightComponent* lightComponent = nullptr;
+	for (auto& [id, LC] : lightComponents)
+	{
+		lightComponent = LC;
+		lightTransform = ECS->GetObjectComponent<Transform>(id);
+	}
+
 	std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
-
-	light = _light;
-	light->FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), , shader);
+	
+	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
 		if (transformIt != transforms.end())
-			light->RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, depthMapShader);
+			lightComponent->m_Light.RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, depthMapShader);
 	}
-	light->FrameReset();
+	lightComponent->m_Light.FrameReset();
 
-	SetShaderFrame(ECS, mainCamera, depthMapShader, shader, light);
+	SetShaderFrame(ECS, mainCamera, depthMapShader, shader);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
 		if (transformIt != transforms.end())
 		{
-			RenderObject(transformIt->second, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
+			RenderObject(transformIt->second, lightComponent, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
 		}
 	}
 }
 
-void Renderer::RenderObject(Transform* transform, Mesh* mesh, Texture* texture, Material* material, Shader* shader)
+void Renderer::RenderObject(Transform* transform, LightComponent* light, Mesh* mesh, Texture* texture, Material* material, Shader* shader)
 {
 	shader->BindShader();
 	texture->BindTexture(shader);
 	mesh->BindMesh();
-	light->BindTexture(shader);
+	light->m_Light.BindTexture(shader);
 
 	glm::mat4 model = transform->transformMatrix;
 
@@ -67,7 +74,7 @@ void Renderer::RenderObject(Transform* transform, Mesh* mesh, Texture* texture, 
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, Light* _light)
+void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader)
 {
 
 	CameraComponent* cameraComponent = ECS->GetObjectComponent<CameraComponent>(camera);
@@ -87,14 +94,17 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 	glm::mat4 view = cameraComponent->m_Camera->GetView(transformComponent);
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	light->BindTexture(shader);
 
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);
 
-	shader->SetVec3("oLight.position", lightTransform->position);
-	shader->SetVec3("oLight.direction", lightTransform->Forward());
-	shader->SetVec3("oLight.color", lightComponent->m_LightColor);
+	if(lightTransform != nullptr && lightComponent != nullptr)
+	{
+		lightComponent->m_Light.BindTexture(shader);
+		shader->SetVec3("oLight.position", lightTransform->position);
+		shader->SetVec3("oLight.direction", lightTransform->Forward());
+		shader->SetVec3("oLight.color", lightComponent->m_LightColor);
+	}
 
 	shader->SetFloat("farPlane", cameraComponent->m_Camera->m_FarPlane);
 
