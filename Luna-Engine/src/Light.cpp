@@ -1,22 +1,13 @@
 #include "Light.h"
 
-Light::Light(glm::vec3 _position, glm::vec3 _direction, glm::vec3 _color) : position(_position), direction(_direction), color(_color)
-{
-
-}
-
-Light::~Light()
-{
-}
-
 void Light::BuildLight(LightManager* lightManager)
 {
     // Create 3D Texture Arrays
     glEnable(GL_DEPTH_TEST);
 
-	glGenFramebuffers(1, &depthmapFBO);
-	glGenTextures(1, &depthmapsTextureID);
-    glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
+	glGenFramebuffers(1, &m_DepthmapFBO);
+	glGenTextures(1, &m_DepthmapsTextureID);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, m_DepthmapsTextureID);
     glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, SHADOW_WIDTH, SHADOW_HEIGHT, int(lightManager->GetShadowCascadePlanes().size()) + 1, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
     glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -28,8 +19,8 @@ void Light::BuildLight(LightManager* lightManager)
     float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, borderColor);
     
-    glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthmapsTextureID, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_DepthmapFBO);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_DepthmapsTextureID, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
 
@@ -41,10 +32,10 @@ void Light::BuildLight(LightManager* lightManager)
 
     // Configure UBO
 
-    glGenBuffers(1, &matricesUBO);
-    glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);
+    glGenBuffers(1, &m_MatricesUBO);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_MatricesUBO);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4x4) * 16, nullptr, GL_STATIC_DRAW);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, matricesUBO);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_MatricesUBO);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
@@ -64,15 +55,15 @@ void Light::RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* dep
 void Light::BindTexture(Shader* shader)
 {
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D_ARRAY, depthmapsTextureID);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, m_DepthmapsTextureID);
 }
 
-void Light::FrameSetup(LightManager* lightManager, Transform* cameraTransform, Shader* depthmapShader, Shader* shader)
+void Light::FrameSetup(LightManager* lightManager, Transform* cameraTransform, Transform* lightTransform, Shader* shader)
 {
     glEnable(GL_DEPTH_TEST);
 
-    std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(cameraTransform, direction);
-    glBindBuffer(GL_UNIFORM_BUFFER, matricesUBO);
+    std::vector<glm::mat4> matrices = lightManager->GenerateLightSpaceMatrices(cameraTransform, lightTransform->Forward());
+    glBindBuffer(GL_UNIFORM_BUFFER, m_MatricesUBO);
     for (size_t i = 0; i < matrices.size(); i++)
         glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(glm::mat4x4), sizeof(glm::mat4x4), &matrices[i]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -82,7 +73,7 @@ void Light::FrameSetup(LightManager* lightManager, Transform* cameraTransform, S
     for(size_t i = 0; i < lightManager->GetShadowCascadePlanes().size(); i++)
         shader->SetFloat("cascadePlaneDistances[" + std::to_string(i) + "]", lightManager->GetShadowCascadePlanes()[i]);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, depthmapFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_DepthmapFBO);
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glClear(GL_DEPTH_BUFFER_BIT);
 }

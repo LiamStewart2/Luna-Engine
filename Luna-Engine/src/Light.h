@@ -11,26 +11,22 @@
 class Light
 {
 public:
-	Light(glm::vec3 _position, glm::vec3 _direction, glm::vec3 _color);
-	~Light();
-
+	Light() {}
+	~Light() {}
 
 	void BuildLight(LightManager* lightManager);
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
 	void BindTexture(Shader* shader);
-	void FrameSetup(LightManager* lightManager, Transform* cameraTransform, Shader* depthmapShader, Shader* shader);
+	void FrameSetup(LightManager* lightManager, Transform* cameraTransform, Transform* lightTransform, Shader* shader);
 	void FrameReset();
 
-	glm::vec3 position;
-	glm::vec3 direction;
-	glm::vec3 color;
 
 	const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 
-	unsigned int depthmapFBO = 0;
-	unsigned int matricesUBO = 0;
-	unsigned int depthmapsTextureID = 0;
+	unsigned int m_DepthmapFBO = 0;
+	unsigned int m_MatricesUBO = 0;
+	unsigned int m_DepthmapsTextureID = 0;
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(1);
 private:

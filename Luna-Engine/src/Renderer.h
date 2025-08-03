@@ -8,6 +8,7 @@
 #include "ECS/ECS.h"
 #include "ECS/TransformComponent.h"
 #include "ECS/CameraComponent.h"
+#include "ECS/LightComponent.h"
 
 #include "Light.h"
 #include "Material.h"

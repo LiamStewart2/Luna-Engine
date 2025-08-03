@@ -31,7 +31,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 
 	light = _light;
-	light->FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), depthMapShader, shader);
+	light->FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), , shader);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
@@ -73,7 +73,14 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 	CameraComponent* cameraComponent = ECS->GetObjectComponent<CameraComponent>(camera);
 	Transform* transformComponent = ECS->GetObjectComponent<Transform>(camera);
 
-	light = _light;
+	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+	Transform* lightTransform = nullptr; LightComponent* lightComponent = nullptr;
+	for (auto& [id, LC] : lightComponents)
+	{
+		lightTransform = ECS->GetObjectComponent<Transform>(id);
+		lightComponent = LC;
+	}
+
 	shader->BindShader();
 
 	glm::mat4 projection = cameraComponent->m_Camera->GetProjection();
@@ -85,9 +92,9 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);
 
-	shader->SetVec3("oLight.position", light->position);
-	shader->SetVec3("oLight.direction", light->direction);
-	shader->SetVec3("oLight.color", light->color);
+	shader->SetVec3("oLight.position", lightTransform->position);
+	shader->SetVec3("oLight.direction", lightTransform->Forward());
+	shader->SetVec3("oLight.color", lightComponent->m_LightColor);
 
 	shader->SetFloat("farPlane", cameraComponent->m_Camera->m_FarPlane);
 
