@@ -44,7 +44,7 @@ void Scene::Init(Window* _window)
 
 	unsigned int light = 3;
 	ECS.AddComponent<NameComponent>(light, "Light");
-	ECS.AddComponent<Transform>(light, glm::vec3(0, 5, 0), glm::vec3(180, 0, 0), glm::vec3(1, 1, 1));
+	ECS.AddComponent<Transform>(light, glm::vec3(0, 5, 0), glm::vec3(-90, 30, 0), glm::vec3(1, 1, 1));
 	ECS.AddComponent<LightComponent>(light, glm::vec3(1, 1, 1));
 	ECS.GetObjectComponent<LightComponent>(light)->m_Light.BuildLight(&lightManager);
 	sceneGraph.InsertNode(light);
