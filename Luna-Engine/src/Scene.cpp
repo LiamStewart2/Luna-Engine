@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "SceneManager.h"
 
 Scene::Scene() : lightManager(LightManager(camera))
 {
@@ -74,6 +75,8 @@ void Scene::Update()
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
+
+
 
 void Scene::Render(Renderer* renderer)
 {

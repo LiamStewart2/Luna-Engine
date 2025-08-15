@@ -1,0 +1,19 @@
+{
+    "name":"scene-1",
+    "objects":
+    {
+        "1":{"Transform":{}, "Renderer":{}}, 
+        "2":{"Transform":{}, "Renderer":{}}
+    },
+
+    "relations":
+    {
+        "1":
+        {
+            "2":
+            {
+
+            }
+        }
+    }
+}

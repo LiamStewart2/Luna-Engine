@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\AssetManager.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\TransformationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\AssetManager.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />
     <ClInclude Include="src\ECS\LightComponent.h" />
