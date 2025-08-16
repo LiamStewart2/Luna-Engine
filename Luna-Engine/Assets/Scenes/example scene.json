@@ -1,5 +1,6 @@
 {
     "scene-name":"scene-1",
+    "object-count":2,
     "objects":
     [
         {"Name":["Fortnite"], "Transform":[], "Renderer":[]}, 
@@ -7,13 +8,16 @@
     ],
 
     "relations":
-    {
-        "1":
-        {
-            "2":
-            {
-
+    [
+        {"ObjectID":1,
+        "Children":
+        [
+            {"ObjectID":2,
+            "Children":
+            [
+                
+            ]
             }
-        }
-    }
+        ]}
+    ]
 }
