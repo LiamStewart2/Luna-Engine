@@ -1,5 +1,9 @@
 #pragma once
 
+#include <fstream>
+
+#include "JSON/json.hpp"
+
 #include "Scene.h"
 
 class SceneManager

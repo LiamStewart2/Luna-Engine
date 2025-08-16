@@ -1,10 +1,10 @@
 {
-    "name":"scene-1",
+    "scene-name":"scene-1",
     "objects":
-    {
-        "1":{"Transform":{}, "Renderer":{}}, 
-        "2":{"Transform":{}, "Renderer":{}}
-    },
+    [
+        {"Name":["Fortnite"], "Transform":[], "Renderer":[]}, 
+        {"Name":["Fortnite"], "Transform":[], "Renderer":[]}
+    ],
 
     "relations":
     {
