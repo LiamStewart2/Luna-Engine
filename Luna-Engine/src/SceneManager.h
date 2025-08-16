@@ -18,7 +18,11 @@ public:
 
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
+
+	Scene* GetCurrentScene() const { return m_Scene; }
 private:
+	void LoadRelations(const nlohmann::json& jsonData);
+
 	Scene* m_Scene = nullptr;
 };
 

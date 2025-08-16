@@ -11,6 +11,7 @@
 #include "Globals.h"
 
 #include "Window.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "Material.h"
 #include "Light.h"
@@ -36,7 +37,7 @@ private:
 	void Render();
 	
 	Renderer renderer;
-	Scene scene;
+	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
 
 	float main_scale;

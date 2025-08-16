@@ -30,8 +30,20 @@ void SceneManager::LoadNewScene(const char* filepath)
 	std::ifstream file(filepath);
 	nlohmann::json jsonData = nlohmann::json::parse(file);
 
-	std::cout << "Scene name: " << jsonData["scene-name"] << std::endl;
+	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
+	m_Scene = new Scene();
+	m_Scene->Init(Window::m_FocusedWindow);
+
+
+}
+
+void SceneManager::LoadRelations(const nlohmann::json& jsonData)
+{
+	for (auto data : jsonData)
+	{
+		
+	}
 }
 
 void SceneManager::UnloadCurrentScene()

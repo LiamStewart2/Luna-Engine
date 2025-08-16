@@ -16,9 +16,9 @@ int Application::Init()
 	glfwInit();
 
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
-	scene.Init(window);
+	sceneManager.LoadNewScene("Assets/Scenes/example scene.json");
 
-	imGuiLayer = ImGuiLayer(window, &scene);
+	imGuiLayer = ImGuiLayer(window, sceneManager.GetCurrentScene());
 	
 	return 0;
 }
@@ -54,7 +54,7 @@ void Application::MainLoop()
 
 		window->Update();
 	}
-	scene.DestroyScene();
+	sceneManager.UnloadCurrentScene();
 	Window::CloseWindow(window);
 }
 
@@ -67,7 +67,7 @@ void Application::HandleInput()
 void Application::Update()
 {
 	imGuiLayer.Update();
-	scene.Update();
+	sceneManager.Update();
 }
 
 void Application::Render()
@@ -76,7 +76,7 @@ void Application::Render()
 	glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	scene.Render(&renderer);
+	sceneManager.Render(&renderer);
 
 	imGuiLayer.Render();
 }
