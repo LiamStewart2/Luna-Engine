@@ -50,8 +50,6 @@ void Scene::Init(Window* _window)
 	ECS.GetObjectComponent<LightComponent>(light)->m_Light.BuildLight(&lightManager);
 	sceneGraph.InsertNode(light);
 	gameObjects.push_back(light);
-
-	AddObject();
 }
 
 void Scene::LoadAssets()

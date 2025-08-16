@@ -25,6 +25,11 @@ public:
 	void Render(Renderer* renderer);
 
 	void AddObject(unsigned int parent = 0);
+	template <typename T, typename... Args>
+	T* AddComponent(unsigned int gameObject, Args&&... args)
+	{
+		return ECS.AddComponent<T>(gameObject, std::forward<Args>(args)...);
+	}
 
 	EntityComponentSystem* GetECS() {return &ECS;}
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
