@@ -35,7 +35,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 	m_Scene = new Scene();
 	m_Scene->Init(Window::m_FocusedWindow);
 
-	LoadRelations(jsonData["relations"], 0);
+	LoadRelations(jsonData["relations"][0], 0);
 }
 
 void SceneManager::LoadRelations(const nlohmann::json& jsonData, unsigned int parentObjectID)
@@ -43,6 +43,7 @@ void SceneManager::LoadRelations(const nlohmann::json& jsonData, unsigned int pa
 	unsigned int objectID = m_Scene->AddObject(parentObjectID);
 
 	m_Scene->AddComponent<NameComponent>(objectID, "Fortnite");
+	m_Scene->AddComponent<Transform>(objectID);
 
 	for (nlohmann::json data : jsonData["Children"])
 		LoadRelations(data, objectID);
