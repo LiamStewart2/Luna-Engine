@@ -83,12 +83,9 @@ void Scene::Render(Renderer* renderer)
 	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager.GetShader("Assets/Shaders/Shader").get(), assetManager.GetShader("Assets/Shaders/DepthShader").get());
 }
 
-void Scene::AddObject(unsigned int parent, std::string name, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+void Scene::AddObject(unsigned int parent)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
-	ECS.AddComponent<NameComponent>(object, name);
-	ECS.AddComponent<Transform>(object, position, rotation, scale);
-	ECS.AddComponent<MeshComponent>(object, assetManager.GetMesh("Assets/Models/monkey.obj").get(), assetManager.GetShader("Assets/Shaders/Shader").get(), &material, assetManager.GetTexture("Assets/Textures/rock.png").get());
 
 	sceneGraph.InsertNode(object, sceneGraph.GetNode(parent, nullptr));
 	gameObjects.push_back(object);
@@ -97,7 +94,7 @@ void Scene::AddObject(unsigned int parent, std::string name, glm::vec3 position,
 
 void Scene::DestroyScene()
 {
-	sceneGraph.KillBranch(0);
+	sceneGraph.RemoveNode(0, nullptr);
 
 	assetManager.GetShader("Assets/Shaders/DepthShader")->DestroyShader();
 	assetManager.GetShader("Assets/Shaders/Shader")->DestroyShader();

@@ -24,7 +24,7 @@ public:
 	void Update();
 	void Render(Renderer* renderer);
 
-	void AddObject(unsigned int parent = 0, std::string name = "Game Object", glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
+	void AddObject(unsigned int parent = 0);
 
 	EntityComponentSystem* GetECS() {return &ECS;}
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
