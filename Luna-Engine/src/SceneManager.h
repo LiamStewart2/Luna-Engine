@@ -21,7 +21,7 @@ public:
 
 	Scene* GetCurrentScene() const { return m_Scene; }
 private:
-	void LoadRelations(const nlohmann::json& jsonData, unsigned int parentObjectID);
+	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
 	Scene* m_Scene = nullptr;
 };
