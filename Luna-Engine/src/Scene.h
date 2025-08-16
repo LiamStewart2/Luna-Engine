@@ -24,7 +24,7 @@ public:
 	void Update();
 	void Render(Renderer* renderer);
 
-	void AddObject(unsigned int parent = 0);
+	unsigned int AddObject(unsigned int parent = 0);
 	template <typename T, typename... Args>
 	T* AddComponent(unsigned int gameObject, Args&&... args)
 	{

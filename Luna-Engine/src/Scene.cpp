@@ -81,12 +81,14 @@ void Scene::Render(Renderer* renderer)
 	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager.GetShader("Assets/Shaders/Shader").get(), assetManager.GetShader("Assets/Shaders/DepthShader").get());
 }
 
-void Scene::AddObject(unsigned int parent)
+unsigned int Scene::AddObject(unsigned int parent)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;
 
 	sceneGraph.InsertNode(object, sceneGraph.GetNode(parent, nullptr));
 	gameObjects.push_back(object);
+
+	return object;
 }
 
 
