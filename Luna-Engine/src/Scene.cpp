@@ -97,6 +97,8 @@ void Scene::AddObject(unsigned int parent, std::string name, glm::vec3 position,
 
 void Scene::DestroyScene()
 {
+	sceneGraph.KillBranch(0);
+
 	assetManager.GetShader("Assets/Shaders/DepthShader")->DestroyShader();
 	assetManager.GetShader("Assets/Shaders/Shader")->DestroyShader();
 }
