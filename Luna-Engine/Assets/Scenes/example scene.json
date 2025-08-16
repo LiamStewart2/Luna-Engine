@@ -3,8 +3,14 @@
     "object-count":2,
     "objects":
     [
-        {"Name":["Fortnite"], "Transform":[], "Renderer":[]}, 
-        {"Name":["Fortnite"], "Transform":[], "Renderer":[]}
+        [
+            {"component-type":"NameComponent", "component-args":["Fortnite 1"]},
+            {"component-type":"TransformComponent", "component-args":[3, 1, 3]}
+        ], 
+        [
+            {"component-type":"NameComponent", "component-args":["Fortnite 2"]},
+            {"component-type":"TransformComponent", "component-args":[0, -3, 0]}
+        ]
     ],
 
     "relations":
