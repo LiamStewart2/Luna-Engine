@@ -23,6 +23,10 @@ public:
 private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
+	AssetManager assetManager;
+
+	Material defaultMat = Material(glm::vec3(1));
+
 	Scene* m_Scene = nullptr;
 };
 

@@ -18,7 +18,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(Window* window);
+	void Init(Window* window, AssetManager* _assetManager);
 	void LoadAssets();
 
 	void Update();
@@ -42,7 +42,7 @@ private:
 	std::vector<unsigned int> gameObjects;
 
 	TransformationManager transformationManager;
-	AssetManager assetManager;
+	AssetManager* assetManager;
 
 	Window* window;
 

@@ -10,12 +10,13 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(Window* _window)
+void Scene::Init(Window* _window, AssetManager* _assetManager)
 {
 	window = _window;
+	assetManager = _assetManager;
 	LoadAssets();
 
-	std::shared_ptr<Shader> shader = assetManager.GetShader("Assets/Shaders/Shader");
+	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
 
 	shader->BindShader();
 	shader->SetInt("diffuseTexture", 0);
@@ -30,7 +31,7 @@ void Scene::Init(Window* _window)
 	unsigned int plane = 1;
 	ECS.AddComponent<NameComponent>(plane, "Plane");
 	ECS.AddComponent<Transform>(plane, glm::vec3(0, -2, 0), glm::vec3(0, 0, 0), glm::vec3(5, 1, 5));
-	ECS.AddComponent<MeshComponent>(plane, assetManager.GetMesh("Assets/Models/planeobj.obj").get(), shader.get(), &material, assetManager.GetTexture("Assets/Textures/default.png").get());
+	ECS.AddComponent<MeshComponent>(plane, assetManager->GetMesh("Assets/Models/planeobj.obj").get(), shader.get(), &material, assetManager->GetTexture("Assets/Textures/default.png").get());
 	sceneGraph.InsertNode(plane);
 	gameObjects.push_back(plane);
 
@@ -54,21 +55,12 @@ void Scene::Init(Window* _window)
 
 void Scene::LoadAssets()
 {
-	assetManager.GetShader("Assets/Shaders/Shader");
-	assetManager.GetShader("Assets/Shaders/DepthShader");
-
-	assetManager.GetMesh("Assets/Models/monkey.obj");
-	assetManager.GetMesh("Assets/Models/planeobj.obj");
-
-	assetManager.GetTexture("Assets/Textures/rock.png");
-	assetManager.GetTexture("Assets/Textures/default.png");
-	
 	material = { glm::vec3(1) };
 }
 
 void Scene::Update()
 {
-	std::shared_ptr<Shader> shader = assetManager.GetShader("Assets/Shaders/Shader");
+	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
 	shader->BindShader();
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
@@ -78,7 +70,7 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager.GetShader("Assets/Shaders/Shader").get(), assetManager.GetShader("Assets/Shaders/DepthShader").get());
+	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
 }
 
 unsigned int Scene::AddObject(unsigned int parent)
@@ -96,6 +88,6 @@ void Scene::DestroyScene()
 {
 	sceneGraph.RemoveNode(0, nullptr);
 
-	assetManager.GetShader("Assets/Shaders/DepthShader")->DestroyShader();
-	assetManager.GetShader("Assets/Shaders/Shader")->DestroyShader();
+	assetManager->GetShader("Assets/Shaders/DepthShader")->DestroyShader();
+	assetManager->GetShader("Assets/Shaders/Shader")->DestroyShader();
 }
