@@ -46,9 +46,9 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 	for (nlohmann::json componentData : originalData["objects"][jsonData["ObjectID"].get<unsigned int>()])
 	{
 		if (componentData["component-type"] == "NameComponent")
-		{
 			m_Scene->AddComponent<NameComponent>(objectID, componentData["component-args"][0]);
-		}
+		else if(componentData["component-type"] == "TransformComponent")
+			m_Scene->AddComponent<Transform>(objectID, glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]));
 	}
 
 	for (nlohmann::json data : jsonData["Children"])
