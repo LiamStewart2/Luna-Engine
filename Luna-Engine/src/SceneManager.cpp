@@ -47,7 +47,7 @@ void SceneManager::SaveCurrentScene()
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
+		else if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
 		{
 			Transform* component = m_Scene->GetECS()->GetObjectComponent<Transform>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
@@ -58,6 +58,14 @@ void SceneManager::SaveCurrentScene()
 					component->scale.x, component->scale.y, component->scale.z
 				}}
 			});
+		}
+
+		else if (m_Scene->GetECS()->HasComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			MeshComponent* component = m_Scene->GetECS()->GetObjectComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "MeshComponent"},
+				{"component-args", {component->mesh->path, component->shader->path, component->texture->path}}});
 		}
 
 		jsonData["objects"].push_back(objectComponents);
