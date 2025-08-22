@@ -19,7 +19,8 @@ public:
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
 
-	void SaveScene();
+	void SaveCurrentScene();
+	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
 
 	Scene* GetCurrentScene() const { return m_Scene; }
 private:

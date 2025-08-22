@@ -33,6 +33,9 @@ public:
 
 	EntityComponentSystem* GetECS() {return &ECS;}
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
+	std::vector<unsigned int>* GetGameObjects() {return &gameObjects;}
+
+	std::string GetSceneName() {return sceneName;}
 
 	void DestroyScene();
 

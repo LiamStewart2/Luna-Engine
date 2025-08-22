@@ -21,6 +21,26 @@ void SceneManager::Render(Renderer* renderer)
 	m_Scene->Render(renderer);
 }
 
+void SceneManager::SaveCurrentScene()
+{
+	if(m_Scene == nullptr)
+		return;
+
+	nlohmann::json jsonData;
+	
+	jsonData["scene-name"] = m_Scene->GetSceneName();
+
+	SceneGraphNode* sceneGraph = m_Scene->GetSceneGraph();
+	for(int i = 0; i < sceneGraph->getNodes()->size(); i++)
+		SaveSceneNode(jsonData, sceneGraph->getNodes()->at(i));
+}
+
+void SceneManager::SaveSceneNode(nlohmann::json& data, SceneGraphNode* node)
+{
+
+}
+
+
 void SceneManager::LoadNewScene(const char* filepath)
 {
 	// Unload the current scene if it exists

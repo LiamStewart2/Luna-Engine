@@ -27,6 +27,13 @@ public:
 		return GetOrCreatePool<T>().AddComponent(gameObject, std::forward<Args>(args)...);
 	}
 
+	// checks if gameObject contains component of type T
+	template <typename T>
+	bool HasComponent(unsigned int gameObject)
+	{
+		return GetOrCreatePool<T>().contains(gameObject);
+	}
+
 	// removes a component of type T from gameObject
 	template <typename T>
 	void RemoveComponent(unsigned int gameObject)
