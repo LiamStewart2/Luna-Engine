@@ -82,8 +82,9 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("File");
 
+		ImGui::InputText("filepath: ", filepathForScene, 50);
 		if(ImGui::Button("Save Scene"))
-			m_SceneManager->SaveCurrentScene();
+			m_SceneManager->SaveCurrentScene(filepathForScene);
 
 		ImGui::End();
 	}

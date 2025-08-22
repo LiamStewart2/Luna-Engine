@@ -21,7 +21,7 @@ void SceneManager::Render(Renderer* renderer)
 	m_Scene->Render(renderer);
 }
 
-void SceneManager::SaveCurrentScene()
+void SceneManager::SaveCurrentScene(std::string optionalPath)
 {
 	if(m_Scene == nullptr)
 		return;
@@ -78,8 +78,16 @@ void SceneManager::SaveCurrentScene()
 	SaveSceneNode(jsonData["relations"], sceneGraph);
 
 	// Write to file
-	std::ofstream file(std::string("Assets/Scenes/") + std::string(m_Scene->GetSceneName()));
-	file << jsonData.dump(4);
+	if(optionalPath == "")
+	{
+		std::ofstream file(std::string("Assets/Scenes/") + std::string(m_Scene->GetSceneName()) + std::string(".json"));
+		file << jsonData.dump(4);
+	}
+	else
+	{
+		std::ofstream file(std::string("Assets/Scenes/") + optionalPath);
+		file << jsonData.dump(4);
+	}
 }
 
 void SceneManager::SaveSceneNode(nlohmann::json& data, SceneGraphNode* node)

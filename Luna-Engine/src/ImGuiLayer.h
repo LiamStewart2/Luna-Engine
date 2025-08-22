@@ -41,6 +41,8 @@ private:
 	float* m_RotationPlacement = new float[3] {0, 0, 0};
 	float* m_ScalePlacement = new float[3] {1, 1, 1};
 
+	char* filepathForScene = new char[50]("");
+
 	int m_CurrentInspectorGameObject = 0;
 
 	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names);
