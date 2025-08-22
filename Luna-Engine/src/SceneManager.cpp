@@ -26,6 +26,8 @@ void SceneManager::LoadNewScene(const char* filepath)
 	// Unload the current scene if it exists
 	UnloadCurrentScene();
 
+	double startTime = glfwGetTime();
+
 	// Load the scene file using json :: ToDo change json to a more suitable format
 	std::ifstream file(filepath);
 	nlohmann::json jsonData = nlohmann::json::parse(file);
@@ -36,10 +38,13 @@ void SceneManager::LoadNewScene(const char* filepath)
 	m_Scene->Init(Window::m_FocusedWindow, &assetManager);
 
 	LoadRelations(jsonData, jsonData["relations"][0], 0);
+
+	std::cout << "time to load scene - " << glfwGetTime() - startTime << std::endl;
 }
 
 void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID)
 {
+
 	unsigned int objectID = m_Scene->AddObject(parentObjectID);
 
 	//LoadComponents
@@ -49,7 +54,11 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			m_Scene->AddComponent<NameComponent>(objectID, componentData["component-args"][0]);
 		else if(componentData["component-type"] == "TransformComponent")
 		{
-			m_Scene->AddComponent<Transform>(objectID, glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]));
+			glm::vec3 position = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
+			glm::vec3 rotation = glm::vec3(componentData["component-args"][3], componentData["component-args"][4], componentData["component-args"][5]);
+			glm::vec3 scale = glm::vec3(componentData["component-args"][6], componentData["component-args"][7], componentData["component-args"][8]);
+
+			m_Scene->AddComponent<Transform>(objectID, position, rotation, scale);
 		}
 		else if(componentData["component-type"] == "MeshComponent")
 		{
@@ -62,6 +71,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 
 	for (nlohmann::json data : jsonData["Children"])
 		LoadRelations(originalData, data, objectID);
+
 }
 
 void SceneManager::UnloadCurrentScene()

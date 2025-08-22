@@ -4,16 +4,16 @@
     [
         [
             {"component-type":"NameComponent", "component-args":["Fortnite 1"]},
-            {"component-type":"TransformComponent", "component-args":[3, 1, 3, 0, 0, 0, 0, 0, 0]},
+            {"component-type":"TransformComponent", "component-args":[3, 1, 3, 0, 0, 0, 1, 1, 1]},
             {"component-type":"MeshComponent", "component-args": ["monkey.obj", "Shader", "rock.png"]}
         ], 
         [
             {"component-type":"NameComponent", "component-args":["Fortnite 2"]},
-            {"component-type":"TransformComponent", "component-args":[0, -3, 0, 0, 0, 0, 0, 0, 0]}
+            {"component-type":"TransformComponent", "component-args":[0, -3, 0, 0, 0, 0, 1, 1, 1]}
         ],
         [
             {"component-type": "NameComponent","component-args": [ "Plane" ]},
-            {"component-type": "TransformComponent","component-args": [ 0, 0, 0, 0, 0, 0, 5, 1, 5]},
+            {"component-type": "TransformComponent","component-args": [ 0, 0, 0, 0, 0, 0, 1, 1, 1]},
             {"component-type": "MeshComponent","component-args": [ "planeobj.obj", "Shader", "rock.png" ]}
         ]
     ],

@@ -148,6 +148,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
