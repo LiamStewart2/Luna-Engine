@@ -15,6 +15,7 @@ public:
 	void BuildTexture(unsigned char* data);
 
 	int width, height, channels;
+	std::string path;
 
 private:
 	unsigned int ID;

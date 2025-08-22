@@ -27,6 +27,11 @@ public:
 		return nullptr;
 	}
 
+	bool HasComponent(unsigned int objectID)
+	{
+		return components.contains(objectID);
+	}
+
 	std::unordered_map<unsigned int, T*> GetComponents()
 	{
 		std::unordered_map<unsigned int, T*> result;

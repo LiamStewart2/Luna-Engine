@@ -1,8 +1,10 @@
 #include "Shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+Shader::Shader(const char* filepath, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {
 	double start = glfwGetTime();
+
+	path = std::string(filepath);
 
 	// Load shader code into strings ready for compilation
 	std::string vertexCodeString, fragmentCodeString, geometryCodeString;

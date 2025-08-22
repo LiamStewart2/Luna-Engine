@@ -31,7 +31,7 @@ public:
 	template <typename T>
 	bool HasComponent(unsigned int gameObject)
 	{
-		return GetOrCreatePool<T>().contains(gameObject);
+		return GetOrCreatePool<T>().HasComponent(gameObject);
 	}
 
 	// removes a component of type T from gameObject
