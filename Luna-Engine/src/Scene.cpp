@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-Scene::Scene() : lightManager(LightManager(camera))
+Scene::Scene()
 {
 
 }
@@ -10,10 +10,9 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(Window* _window, AssetManager* _assetManager)
+void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
 {
-	window = _window;
-	assetManager = _assetManager;
+	assetManager = _assetManager; sceneName = _sceneName;
 	LoadAssets();
 
 	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
@@ -38,7 +37,6 @@ void Scene::Init(Window* _window, AssetManager* _assetManager)
 	unsigned int camera = 2;
 	ECS.AddComponent<NameComponent>(camera, "Camera");
 	ECS.AddComponent<Transform>(camera, glm::vec3(0, 2, 5), glm::vec3(20, 180, 0), glm::vec3(1, 1, 1));
-	Camera* perspectiveCamera = new PerspectiveCamera();
 	ECS.AddComponent<CameraComponent>(camera, perspectiveCamera, true);
 	lightManager = LightManager(perspectiveCamera);
 	sceneGraph.InsertNode(camera);

@@ -35,7 +35,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
 	m_Scene = new Scene();
-	m_Scene->Init(Window::m_FocusedWindow, &assetManager);
+	m_Scene->Init(&assetManager, jsonData["scene-name"]);
 
 	LoadRelations(jsonData, jsonData["relations"][0], 0);
 

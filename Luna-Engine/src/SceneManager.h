@@ -19,6 +19,8 @@ public:
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
 
+	void SaveScene();
+
 	Scene* GetCurrentScene() const { return m_Scene; }
 private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);

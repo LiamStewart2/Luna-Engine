@@ -9,7 +9,10 @@
 class LightManager
 {
 public:
-	LightManager(Camera* _camera) : camera(_camera) {}
+	LightManager() : camera(nullptr) {}
+	LightManager(Camera* _camera) : camera(_camera) {
+		shadowCascadeLevels = { camera->m_FarPlane / 50.0f, camera->m_FarPlane / 25.0f, camera->m_FarPlane / 10.0f, camera->m_FarPlane / 2.0f };
+	}
 	~LightManager() {}
 
 	std::vector<glm::mat4>  GenerateLightSpaceMatrices(Transform* cameraTransform, const glm::vec3& lightDirection);
@@ -18,7 +21,7 @@ public:
 	std::vector<float>& GetShadowCascadePlanes() {return shadowCascadeLevels;}
 
 	Camera* camera;
-	std::vector<float> shadowCascadeLevels = {camera->m_FarPlane / 50.0f, camera->m_FarPlane / 25.0f, camera->m_FarPlane / 10.0f, camera->m_FarPlane / 2.0f};
+	std::vector<float> shadowCascadeLevels;
 
 	std::vector<glm::vec4> GetFrustumCornersWorldSpace(Camera* camera, Transform* cameraTransform, const float& nearPlane, const float& farPlane);
 	glm::vec3 GetCenterOfPoints(const std::vector<glm::vec4>& corners);

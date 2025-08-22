@@ -18,7 +18,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(Window* window, AssetManager* _assetManager);
+	void Init(AssetManager* _assetManager, std::string _sceneName);
 	void LoadAssets();
 
 	void Update();
@@ -41,12 +41,12 @@ private:
 	SceneGraph sceneGraph;
 	std::vector<unsigned int> gameObjects;
 
+	std::string sceneName = "";
+
 	TransformationManager transformationManager;
 	AssetManager* assetManager;
 
-	Window* window;
-
-	Camera* camera = new PerspectiveCamera();
+	Camera* perspectiveCamera = new PerspectiveCamera();
 	LightManager lightManager;
 
 	Material material = Material(glm::vec3(1));
