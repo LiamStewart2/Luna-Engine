@@ -1,0 +1,89 @@
+{
+    "objects": [
+        [
+            {
+                "component-args": [
+                    "Scene"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Plane"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Light"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Plane"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Fortnite 1"
+                ],
+                "component-type": "NameComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Fortnite 2"
+                ],
+                "component-type": "NameComponent"
+            }
+        ]
+    ],
+    "relations": [
+        {
+            "Children": [],
+            "ObjectID": 1
+        },
+        {
+            "Children": [],
+            "ObjectID": 2
+        },
+        {
+            "Children": [],
+            "ObjectID": 3
+        },
+        {
+            "Children": [
+                {
+                    "Children": [
+                        {
+                            "Children": [],
+                            "ObjectID": 6
+                        }
+                    ],
+                    "ObjectID": 5
+                }
+            ],
+            "ObjectID": 4
+        }
+    ],
+    "scene-name": "example scene"
+}

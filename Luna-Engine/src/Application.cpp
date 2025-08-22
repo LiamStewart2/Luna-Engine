@@ -18,7 +18,7 @@ int Application::Init()
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 	sceneManager.LoadNewScene("Assets/Scenes/example scene.json");
 
-	imGuiLayer = ImGuiLayer(window, sceneManager.GetCurrentScene());
+	imGuiLayer = ImGuiLayer(window, &sceneManager);
 	
 	return 0;
 }

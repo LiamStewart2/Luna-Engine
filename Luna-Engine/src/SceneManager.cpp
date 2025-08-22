@@ -70,16 +70,29 @@ void SceneManager::SaveCurrentScene()
 
 		jsonData["objects"].push_back(objectComponents);
 	}
-
-
+	
+	// Load relations from scene graph
+	jsonData["relations"] = nlohmann::json::array();
 	SceneGraphNode* sceneGraph = m_Scene->GetSceneGraph();
-	for(int i = 0; i < sceneGraph->getNodes()->size(); i++)
-		SaveSceneNode(jsonData, sceneGraph->getNodes()->at(i));
+
+	SaveSceneNode(jsonData["relations"], sceneGraph);
+
+	// Write to file
+	std::ofstream file(std::string("Assets/Scenes/") + std::string(m_Scene->GetSceneName()));
+	file << jsonData.dump(4);
 }
 
 void SceneManager::SaveSceneNode(nlohmann::json& data, SceneGraphNode* node)
 {
-
+	for (int i = 0; i < node->getNodes()->size(); i++)
+	{
+		data.push_back(
+			{
+				{"ObjectID", node->getNodes()->at(i)->GetGameObject()},
+				{"Children", nlohmann::json::array()}
+			});
+		SaveSceneNode(data[data.size() - 1]["Children"], node->getNodes()->at(i));
+	}
 }
 
 
