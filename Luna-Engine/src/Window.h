@@ -11,6 +11,8 @@ public:
 	Window();
 	~Window();
 
+	static Window* m_FocusedWindow;
+
 	bool IsRunning() {return m_IsRunning;}
 
 	int GetKey(int key);
@@ -19,6 +21,8 @@ public:
 
 	void SetCursorPosition(double x, double y);
 	void SetInputMode(int mode, int value);
+
+	void FocusWindow();
 
 	static Window* CreateWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight);
 	static void CloseWindow(Window* window);

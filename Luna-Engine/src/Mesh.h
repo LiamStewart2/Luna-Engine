@@ -15,7 +15,7 @@ struct Vertex {
 
 class Mesh {
 public:
-	std::string name = "Static Mesh";
+	std::string path;
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

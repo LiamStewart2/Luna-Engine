@@ -43,44 +43,29 @@ void ImGuiLayer::Update()
 		m_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	{
-		ImGui::Begin("Add Game Object");
-
-		ImGui::InputText("Object Name", m_Name, NameCharacterLimit);
-
-		ImGui::InputFloat3("Position", m_PlacementPosition);
-		ImGui::InputFloat3("Rotation", m_RotationPlacement);
-		ImGui::InputFloat3("Scale", m_ScalePlacement);
-
-		if (ImGui::Button("Add Object"))
-			m_Scene->AddObject((unsigned int)m_CurrentInspectorGameObject, m_Name,
-				glm::vec3(m_PlacementPosition[0], m_PlacementPosition[1], m_PlacementPosition[2]),
-				glm::vec3(m_RotationPlacement[0], m_RotationPlacement[1], m_RotationPlacement[2]),
-				glm::vec3(m_ScalePlacement[0], m_ScalePlacement[1], m_ScalePlacement[2]));
-		ImGui::End();
-	}
+	Scene* scene = m_SceneManager->GetCurrentScene();
 
 	{
 		ImGui::Begin("Inspector");
 
-		ImGui::Text(m_Scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
+		ImGui::Text(scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
 
 		ImGui::Text("Position");
-		ImGui::InputFloat("position x", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.x);
-		ImGui::InputFloat("position y", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.y);
-		ImGui::InputFloat("position z", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.z);
+		ImGui::InputFloat("position x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.x);
+		ImGui::InputFloat("position y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.y);
+		ImGui::InputFloat("position z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.z);
 
 
 		ImGui::Text("Rotation");
-		ImGui::InputFloat("rotation x", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.x);
-		ImGui::InputFloat("rotation y", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.y);
-		ImGui::InputFloat("rotation z", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.z);
+		ImGui::InputFloat("rotation x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.x);
+		ImGui::InputFloat("rotation y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.y);
+		ImGui::InputFloat("rotation z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.z);
 
 
 		ImGui::Text("Scale");
-		ImGui::InputFloat("scale x", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.x);
-		ImGui::InputFloat("scale y", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.y);
-		ImGui::InputFloat("scale z", &m_Scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.z);
+		ImGui::InputFloat("scale x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.x);
+		ImGui::InputFloat("scale y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.y);
+		ImGui::InputFloat("scale z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.z);
 
 		ImGui::End();
 	}
@@ -88,8 +73,18 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("Hieararcy");
 
-		std::unordered_map<unsigned int, NameComponent*> names = m_Scene->GetECS()->GetAllComponentsOfType<NameComponent>();
-		BuildHiearchyText(m_Scene->GetSceneGraph(), &names);
+		std::unordered_map<unsigned int, NameComponent*> names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
+		BuildHiearchyText(scene->GetSceneGraph(), &names);
+
+		ImGui::End();
+	}
+
+	{
+		ImGui::Begin("File");
+
+		ImGui::InputText("filepath: ", filepathForScene, 50);
+		if(ImGui::Button("Save Scene"))
+			m_SceneManager->SaveCurrentScene(filepathForScene);
 
 		ImGui::End();
 	}

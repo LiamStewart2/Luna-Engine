@@ -1,5 +1,7 @@
 #include "Window.h"
 
+Window* Window::m_FocusedWindow = nullptr;
+
 Window::Window()
 {
 	m_WindowTitle = "";
@@ -88,8 +90,14 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 
 	// Only set is running to true if all phases of init pass
 	window->m_IsRunning = true;
+	Window::m_FocusedWindow = window;
 
 	return window;
+}
+
+void Window::FocusWindow()
+{
+	Window::m_FocusedWindow = this;
 }
 
 void Window::CloseWindow(Window* window)

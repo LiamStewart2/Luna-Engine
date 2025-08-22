@@ -18,16 +18,24 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(Window* window);
+	void Init(AssetManager* _assetManager, std::string _sceneName);
 	void LoadAssets();
 
 	void Update();
 	void Render(Renderer* renderer);
 
-	void AddObject(unsigned int parent = 0, std::string name = "Game Object", glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
+	unsigned int AddObject(unsigned int parent = 0);
+	template <typename T, typename... Args>
+	T* AddComponent(unsigned int gameObject, Args&&... args)
+	{
+		return ECS.AddComponent<T>(gameObject, std::forward<Args>(args)...);
+	}
 
 	EntityComponentSystem* GetECS() {return &ECS;}
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
+	std::vector<unsigned int>* GetGameObjects() {return &gameObjects;}
+
+	std::string GetSceneName() {return sceneName;}
 
 	void DestroyScene();
 
@@ -36,14 +44,14 @@ private:
 	SceneGraph sceneGraph;
 	std::vector<unsigned int> gameObjects;
 
+	std::string sceneName = "";
+
 	TransformationManager transformationManager;
-	AssetManager assetManager;
+	AssetManager* assetManager;
 
-	Window* window;
-
-	Camera* camera = new PerspectiveCamera();
+	Camera* perspectiveCamera = new PerspectiveCamera();
 	LightManager lightManager;
 
-	Material material;
+	Material material = Material(glm::vec3(1));
 };
 

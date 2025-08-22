@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\AssetManager.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\TransformationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\AssetManager.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />
     <ClInclude Include="src\ECS\LightComponent.h" />
@@ -146,6 +148,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

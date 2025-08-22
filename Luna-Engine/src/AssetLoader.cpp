@@ -13,6 +13,8 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 		return;
 	}
 
+	mesh->path = std::string(filepath);
+
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec3> vertexNormals;
 	std::vector<glm::vec2> vertexTextureCoords;
@@ -23,11 +25,7 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 		std::string prefix;
 		ss >> prefix;
 
-
-		if(prefix == "o")
-			ss >> mesh->name;
-
-		else if (prefix == "v") 
+		if (prefix == "v") 
 		{
 			vertexPositions.push_back(glm::vec3());
 
@@ -97,13 +95,15 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 	}
 	mesh->BuildMesh();
 
-	std::cout << "Mesh Loaded - " << mesh->name << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+	std::cout << "Mesh Loaded - " << mesh->path << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 }
 
 
 void AssetLoader::LoadTexture(std::shared_ptr<Texture> texture, const char* filepath)
 {
 	double startTime = glfwGetTime();
+
+	texture->path = filepath;
 
 	unsigned char* data = stbi_load(filepath, &texture->width, &texture->height, &texture->channels, 0);
 

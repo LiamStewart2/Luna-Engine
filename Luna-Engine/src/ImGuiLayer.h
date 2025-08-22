@@ -5,16 +5,16 @@
 #include "imgui/imgui_impl_opengl3.h"
 
 #include "Window.h"
-#include "Scene.h"
+#include "SceneManager.h"
 
 #include <unordered_map>
 
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(Window* window = nullptr, Scene* scene = nullptr) : m_Window(window), m_Scene(scene) 
+	ImGuiLayer(Window* window = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_SceneManager(sceneManager)
 	{
-		if(window != nullptr && scene != nullptr)
+		if(window != nullptr && m_SceneManager != nullptr)
 			Init();
 	}
 	~ImGuiLayer() {}
@@ -27,7 +27,7 @@ public:
 	void Render();
 private:
 	Window* m_Window = nullptr;
-	Scene* m_Scene = nullptr;
+	SceneManager* m_SceneManager = nullptr;
 
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
@@ -40,6 +40,8 @@ private:
 	float* m_PlacementPosition = new float[3] {0, 0, 0};
 	float* m_RotationPlacement = new float[3] {0, 0, 0};
 	float* m_ScalePlacement = new float[3] {1, 1, 1};
+
+	char* filepathForScene = new char[50]("");
 
 	int m_CurrentInspectorGameObject = 0;
 

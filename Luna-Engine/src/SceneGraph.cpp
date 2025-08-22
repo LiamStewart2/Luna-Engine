@@ -5,12 +5,12 @@ SceneGraphNode::SceneGraphNode(unsigned int gameObject = 0)
 	m_GameObject = gameObject;
 }
 
-SceneGraphNode* SceneGraphNode::GetNode(unsigned int gameObject, SceneGraphNode* node = nullptr)
+SceneGraphNode* SceneGraphNode::GetNode(unsigned int gameObject, SceneGraphNode* parentNode = nullptr)
 {
 	if(m_GameObject == gameObject)
 		return this;
 
-	if (node == nullptr || node == this)
+	if (parentNode == nullptr || parentNode == this)
 	{
 		for(SceneGraphNode* node : m_Nodes)
 		{
@@ -33,45 +33,16 @@ void SceneGraphNode::InsertNode(unsigned int gameObject, SceneGraphNode* parentN
 		parentNode->InsertNode(gameObject, nullptr);
 }
 
-void SceneGraphNode::RemoveNode(unsigned int gameObject, SceneGraphNode* parentNode)
+void SceneGraphNode::RemoveNode(unsigned int gameObject, SceneGraphNode* node)
 {
-	if (parentNode == nullptr || parentNode == this)
+	if (node == nullptr || (node == this && gameObject == m_GameObject))
 	{
-		int index = -1;	SceneGraphNode* node = nullptr;
-		for (int i = 0; i < m_Nodes.size(); i++)
+		for(SceneGraphNode* childNode : m_Nodes)
 		{
-			if(m_Nodes[i]->m_GameObject == gameObject)
-			{
-				index = i; 
-				node = m_Nodes[i];
-			}
+			childNode->RemoveNode(childNode->GetGameObject(), childNode);
+			delete childNode;
 		}
-
-		if(index != -1 && node != nullptr)
-		{
-
-			m_Nodes.erase(m_Nodes.begin() + index);
-			delete node;
-		}
-	}
-	else
-	{
-		parentNode->RemoveNode(gameObject, parentNode);
-	}
-}
-
-
-void SceneGraphNode::KillBranch(unsigned int gameObject, SceneGraphNode* parentNode)
-{
-	if (parentNode == nullptr || parentNode == this)
-	{
-		for (SceneGraphNode* node : m_Nodes)
-			node->KillBranch(gameObject, node);
-		m_ParentNode->RemoveNode(m_GameObject, this);
-	}
-	else
-	{
-		parentNode->KillBranch(gameObject, parentNode);
+		m_Nodes.clear();
 	}
 }
 
@@ -82,5 +53,5 @@ SceneGraph::SceneGraph(unsigned int gameObject) : SceneGraphNode(gameObject)
 
 SceneGraph::~SceneGraph()
 {
-	KillBranch(0);
+	RemoveNode(0, nullptr); // Remove all nodes starting from the root
 }
