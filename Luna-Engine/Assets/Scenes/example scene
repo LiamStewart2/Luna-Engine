@@ -6,6 +6,20 @@
                     "Scene"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
             }
         ],
         [
@@ -14,6 +28,28 @@
                     "Plane"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    -2.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    5.0,
+                    1.0,
+                    5.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
             }
         ],
         [
@@ -22,6 +58,20 @@
                     "Camera"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    2.0,
+                    5.0,
+                    20.0,
+                    180.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
             }
         ],
         [
@@ -30,6 +80,20 @@
                     "Light"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    5.0,
+                    0.0,
+                    -90.0,
+                    30.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
             }
         ],
         [
@@ -38,6 +102,28 @@
                     "Plane"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -5.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/rock.png"
+                ],
+                "component-type": "MeshComponent"
             }
         ],
         [
@@ -46,6 +132,28 @@
                     "Fortnite 1"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    2.0,
+                    1.0,
+                    3.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/monkey.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/rock.png"
+                ],
+                "component-type": "MeshComponent"
             }
         ],
         [
@@ -54,6 +162,20 @@
                     "Fortnite 2"
                 ],
                 "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    -3.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
             }
         ]
     ],

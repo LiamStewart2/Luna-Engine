@@ -47,7 +47,7 @@ void SceneManager::SaveCurrentScene()
 			});
 		}
 
-		else if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
+		if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
 		{
 			Transform* component = m_Scene->GetECS()->GetObjectComponent<Transform>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
@@ -60,7 +60,7 @@ void SceneManager::SaveCurrentScene()
 			});
 		}
 
-		else if (m_Scene->GetECS()->HasComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (m_Scene->GetECS()->HasComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i)))
 		{
 			MeshComponent* component = m_Scene->GetECS()->GetObjectComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
