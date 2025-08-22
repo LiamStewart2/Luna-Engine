@@ -30,6 +30,40 @@ void SceneManager::SaveCurrentScene()
 	
 	jsonData["scene-name"] = m_Scene->GetSceneName();
 
+	// Save objects to json data
+
+	jsonData["objects"] = nlohmann::json::array();
+
+	for (int i = 0; i < m_Scene->GetGameObjects()->size(); i++)
+	{
+		nlohmann::json objectComponents = nlohmann::json::array();
+
+		if (m_Scene->GetECS()->HasComponent<NameComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			NameComponent* component = m_Scene->GetECS()->GetObjectComponent<NameComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "NameComponent"},
+				{"component-args", {component->m_Name}}
+			});
+		}
+
+		if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
+		{
+			Transform* component = m_Scene->GetECS()->GetObjectComponent<Transform>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "TransformComponent"},
+				{"component-args", {
+					component->position.x, component->position.y, component->position.z,
+					component->rotation.x, component->rotation.y, component->rotation.z,
+					component->scale.x, component->scale.y, component->scale.z
+				}}
+			});
+		}
+
+		jsonData["objects"].push_back(objectComponents);
+	}
+
+
 	SceneGraphNode* sceneGraph = m_Scene->GetSceneGraph();
 	for(int i = 0; i < sceneGraph->getNodes()->size(); i++)
 		SaveSceneNode(jsonData, sceneGraph->getNodes()->at(i));
