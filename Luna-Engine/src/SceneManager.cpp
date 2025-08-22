@@ -39,7 +39,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	LoadRelations(jsonData, jsonData["relations"][0], 0);
 
-	std::cout << "time to load scene - " << glfwGetTime() - startTime << std::endl;
+	std::cout << "time to load " << jsonData["scene-name"] << " - " << glfwGetTime() - startTime << std::endl;
 }
 
 void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID)
