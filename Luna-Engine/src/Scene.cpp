@@ -28,14 +28,7 @@ void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
 
-	unsigned int plane = 1;
-	ECS.AddComponent<NameComponent>(plane, "Plane");
-	ECS.AddComponent<Transform>(plane, glm::vec3(0, -2, 0), glm::vec3(0, 0, 0), glm::vec3(5, 1, 5));
-	ECS.AddComponent<MeshComponent>(plane, assetManager->GetMesh("Assets/Models/planeobj.obj").get(), shader.get(), &material, assetManager->GetTexture("Assets/Textures/default.png").get());
-	sceneGraph.InsertNode(plane);
-	gameObjects.push_back(plane);
-
-	unsigned int camera = 2;
+	unsigned int camera = 1;
 	ECS.AddComponent<NameComponent>(camera, "Camera");
 	ECS.AddComponent<Transform>(camera, glm::vec3(0, 2, 5), glm::vec3(20, 180, 0), glm::vec3(1, 1, 1));
 	ECS.AddComponent<CameraComponent>(camera, perspectiveCamera, true);
@@ -43,7 +36,7 @@ void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
 	sceneGraph.InsertNode(camera);
 	gameObjects.push_back(camera);
 
-	unsigned int light = 3;
+	unsigned int light = 2;
 	ECS.AddComponent<NameComponent>(light, "Light");
 	ECS.AddComponent<Transform>(light, glm::vec3(0, 5, 0), glm::vec3(-90, 30, 0), glm::vec3(1, 1, 1));
 	ECS.AddComponent<LightComponent>(light, glm::vec3(1, 1, 1));

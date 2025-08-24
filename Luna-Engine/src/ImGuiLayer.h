@@ -45,5 +45,8 @@ private:
 
 	int m_CurrentInspectorGameObject = 0;
 
+	int m_ParentObjectID = 0;
+	char* m_ObjectName = new char[50]("");
+
 	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names);
 };

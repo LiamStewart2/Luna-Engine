@@ -165,3 +165,10 @@ void SceneManager::UnloadCurrentScene()
 	m_Scene->DestroyScene();
 	delete m_Scene;
 }
+
+void SceneManager::AddObject(unsigned int parent, std::string objectName)
+{
+	unsigned int object = m_Scene->AddObject(parent);
+	m_Scene->AddComponent<NameComponent>(object, objectName);
+	m_Scene->AddComponent<Transform>(object); 
+}

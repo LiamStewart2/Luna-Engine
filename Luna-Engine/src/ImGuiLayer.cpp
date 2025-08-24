@@ -88,6 +88,18 @@ void ImGuiLayer::Update()
 
 		ImGui::End();
 	}
+
+	{
+		ImGui::Begin("Add Object");
+
+		ImGui::InputText("Object Name: ", m_ObjectName, 50);
+		ImGui::InputInt("Parent Object ID:", &m_ParentObjectID);
+
+		if(ImGui::Button("Add Object"))
+			m_SceneManager->AddObject(m_ParentObjectID, std::string(m_ObjectName));
+
+		ImGui::End();
+	}
 }
 
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)

@@ -23,6 +23,8 @@ public:
 	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
 
 	Scene* GetCurrentScene() const { return m_Scene; }
+
+	void AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 

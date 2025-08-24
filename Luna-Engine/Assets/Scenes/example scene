@@ -69,50 +69,6 @@
         [
             {
                 "component-args": [
-                    "Camera"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    2.0,
-                    5.0,
-                    20.0,
-                    180.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Light"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    5.0,
-                    0.0,
-                    -90.0,
-                    30.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
                     "Plane"
                 ],
                 "component-type": "NameComponent"
@@ -311,30 +267,22 @@
             "ObjectID": 5
         },
         {
-            "Children": [],
-            "ObjectID": 6
-        },
-        {
-            "Children": [],
-            "ObjectID": 7
-        },
-        {
             "Children": [
                 {
                     "Children": [
                         {
                             "Children": [],
-                            "ObjectID": 10
+                            "ObjectID": 8
                         }
                     ],
-                    "ObjectID": 9
+                    "ObjectID": 7
                 }
             ],
-            "ObjectID": 8
+            "ObjectID": 6
         },
         {
             "Children": [],
-            "ObjectID": 11
+            "ObjectID": 9
         }
     ],
     "scene-name": "example scene"
