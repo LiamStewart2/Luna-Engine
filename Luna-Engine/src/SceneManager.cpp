@@ -68,6 +68,24 @@ void SceneManager::SaveCurrentScene(std::string optionalPath)
 				{"component-args", {component->mesh->path, component->shader->path, component->texture->path}}});
 		}
 
+		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			CameraComponent* component = m_Scene->GetECS()->GetObjectComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "CameraComponent"},
+				{"component-args", {component->m_MainCamera}}
+			});
+		}
+
+		if (m_Scene->GetECS()->HasComponent<LightComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			LightComponent* component = m_Scene->GetECS()->GetObjectComponent<LightComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "LightComponent"},
+				{"component-args", {component->m_LightColor.x, component->m_LightColor.y, component->m_LightColor.z}}
+			});
+		}
+
 		jsonData["objects"].push_back(objectComponents);
 	}
 	
