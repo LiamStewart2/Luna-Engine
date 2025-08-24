@@ -15,6 +15,7 @@ void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
 	assetManager = _assetManager; sceneName = _sceneName;
 	LoadAssets();
 
+	std::cout << "Loading Shader from scene" << std::endl;
 	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
 
 	shader->BindShader();
