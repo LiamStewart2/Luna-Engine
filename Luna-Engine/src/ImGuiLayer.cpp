@@ -89,32 +89,6 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
-		ImGui::Begin("Add Object");
-
-		ImGui::InputText("Object Name: ", m_ObjectName, 50);
-		ImGui::InputInt("Parent Object ID:", &m_ParentObjectID);
-
-		if(ImGui::Button("Add Object"))
-			m_SceneManager->AddObject(m_ParentObjectID, std::string(m_ObjectName));
-
-		ImGui::End();
-	}
-
-	{
-		ImGui::Begin("Remove Object");
-		
-
-		ImGui::InputInt("Object ID:", &m_ObjectToRemoveID);
-		if(ImGui::Button("Remove Object"))
-		{
-			m_SceneManager->GetCurrentScene()->DestroyGameObject(m_ObjectToRemoveID);
-			m_CurrentInspectorGameObject = 0;
-		}
-
-		ImGui::End();
-	}
-
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
 		m_SceneManager->AddObject(parent, name);
