@@ -17,7 +17,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 		auto cameraIt = cameras.find(cameraComponent->gameObject);
 		if(cameraIt == cameras.end())
 			return;
-		else
+		else if(cameraComponent->m_MainCamera)
 			mainCamera = id;
 	}
 

@@ -86,6 +86,13 @@ void ImGuiLayer::Update()
 			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
 		}
 
+		if (scene->GetECS()->HasComponent<CameraComponent>(m_CurrentInspectorGameObject))
+		{
+			ImGui::SeparatorText("Camera");
+
+			ImGui::Checkbox("Main Camera", &scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_MainCamera);
+		}
+
 		ImGui::End();
 	}
 
@@ -154,6 +161,9 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 			ImGui::SeparatorText("Components");
 			if(ImGui::MenuItem("Mesh"))
 				m_SceneManager->GetCurrentScene()->AddComponent<MeshComponent>(m_CurrentInspectorGameObject, m_AssetManager->GetMesh("Assets/Models/planeobj.obj").get(), m_AssetManager->GetShader("Assets/Shaders/Shader").get(), new Material(glm::vec3(1, 1, 1)), m_AssetManager->GetTexture("Assets/Textures/default.png").get());
+
+			if(ImGui::MenuItem("Camera"))
+				std::cout << "fortnite" << std::endl;
 
 			ImGui::EndMenu();
 		}
