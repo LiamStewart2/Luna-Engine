@@ -89,6 +89,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
+	ImGui::ShowDemoWindow();
+
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
 		m_SceneManager->AddObject(parent, name);
@@ -129,6 +131,16 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 	{
 		if(ImGui::MenuItem("Add Object"))
 			m_ObjectsToAdd.push_back({id, "New Object"});
+		
+		if (ImGui::BeginMenu("Add Component"))
+		{
+			ImGui::SeparatorText("Components");
+			if(ImGui::MenuItem("Mesh"))
+				m_SceneManager->GetCurrentScene()->AddComponent<Mesh>(m_CurrentInspectorGameObject);
+
+			ImGui::EndMenu();
+		}
+			
 
 		if (ImGui::MenuItem("Delete Object"))
 			m_ObjectsToDelete.push_back({id});

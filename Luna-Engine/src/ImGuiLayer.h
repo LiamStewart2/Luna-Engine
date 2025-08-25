@@ -12,7 +12,7 @@
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(Window* window = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_SceneManager(sceneManager)
+	ImGuiLayer(Window* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
 	{
 		if(window != nullptr && m_SceneManager != nullptr)
 			Init();
@@ -28,6 +28,7 @@ public:
 private:
 	Window* m_Window = nullptr;
 	SceneManager* m_SceneManager = nullptr;
+	AssetManager* m_AssetManager = nullptr;
 
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
