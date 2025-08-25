@@ -9,6 +9,8 @@
 #include "NameComponent.h"
 #include "TransformComponent.h"
 #include "MeshComponent.h"
+#include "LightComponent.h"
+#include "CameraComponent.h"
 
 class EntityComponentSystem
 {
@@ -32,6 +34,25 @@ public:
 	bool HasComponent(unsigned int gameObject)
 	{
 		return GetOrCreatePool<T>().HasComponent(gameObject);
+	}
+
+	// removes all components from gameObject
+	void RemoveAllComponents(unsigned int gameObject)
+	{
+		if (HasComponent<NameComponent>(gameObject))
+			RemoveComponent<NameComponent>(gameObject);
+
+		if (HasComponent<Transform>(gameObject))
+			RemoveComponent<Transform>(gameObject);
+
+		if (HasComponent<MeshComponent>(gameObject))
+			RemoveComponent<MeshComponent>(gameObject);
+
+		if (HasComponent<LightComponent>(gameObject))
+			RemoveComponent<LightComponent>(gameObject);
+
+		if (HasComponent<CameraComponent>(gameObject))
+			RemoveComponent<CameraComponent>(gameObject);
 	}
 
 	// removes a component of type T from gameObject
