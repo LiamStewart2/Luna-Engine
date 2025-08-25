@@ -115,6 +115,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
+	ImGui::ShowDemoWindow();
+
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
 		m_SceneManager->AddObject(parent, name);
@@ -134,7 +136,7 @@ void ImGuiLayer::Update()
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
 {
 	unsigned int id = node->GetGameObject();
-	const std::string& name = names->at(id)->m_Name;
+	std::string& name = names->at(id)->m_Name;
 	bool selected = (id == m_CurrentInspectorGameObject);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -149,6 +151,11 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 
 	if (ImGui::IsItemClicked()) {
 		m_CurrentInspectorGameObject = id;
+	}
+
+	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+		m_RenamingGameObject = id;
+		std::snprintf(m_RenameBuffer, sizeof(m_RenameBuffer), "%s", name.c_str());
 	}
 
 	if (ImGui::BeginPopupContextItem())

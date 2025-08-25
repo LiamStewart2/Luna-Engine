@@ -49,6 +49,9 @@ private:
 	int m_ParentObjectID = 0;
 	char* m_ObjectName = new char[50]("");
 
+	unsigned int m_RenamingGameObject = 0;
+	char m_RenameBuffer[128] = "";
+
 	int m_ObjectToRemoveID = 0;
 
 	std::vector<unsigned int> m_ObjectsToDelete;
