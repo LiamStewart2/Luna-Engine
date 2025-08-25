@@ -38,7 +38,8 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 	
-	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader);
+	lightManager->InitCascadeLevels(ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera);
+	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);

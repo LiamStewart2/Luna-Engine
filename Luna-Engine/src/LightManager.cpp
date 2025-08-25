@@ -1,6 +1,6 @@
 #include "LightManager.h"
 
-std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(Transform* cameraTransform, const glm::vec3& lightDirection)
+std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(Camera* camera, Transform* cameraTransform, const glm::vec3& lightDirection)
 {
 	std::vector<glm::mat4> matrices;
 

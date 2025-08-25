@@ -24,6 +24,7 @@ public:
 
 	Scene* GetCurrentScene() const { return m_Scene; }
 	AssetManager* GetAssetManager() { return &assetManager; }
+	LightManager* GetLightManager() { return &lightManager; }
 
 	void AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
