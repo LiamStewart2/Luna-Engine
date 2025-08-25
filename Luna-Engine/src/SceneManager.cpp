@@ -70,7 +70,6 @@ void SceneManager::SaveCurrentScene(std::string optionalPath)
 
 		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
 		{
-			std::cout << "TRUE" << std::endl;
 			CameraComponent* component = m_Scene->GetECS()->GetObjectComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "CameraComponent"},

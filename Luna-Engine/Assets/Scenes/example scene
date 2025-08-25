@@ -42,6 +42,12 @@
                     1.0
                 ],
                 "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    true
+                ],
+                "component-type": "CameraComponent"
             }
         ],
         [
@@ -57,13 +63,21 @@
                     5.0,
                     0.0,
                     -90.0,
-                    30.0,
+                    -50.0,
                     0.0,
                     1.0,
                     1.0,
                     1.0
                 ],
                 "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "LightComponent"
             }
         ],
         [
@@ -83,7 +97,7 @@
                     0.0,
                     5.0,
                     1.0,
-                    5.0
+                    2.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -99,45 +113,31 @@
         [
             {
                 "component-args": [
-                    "Camera"
+                    "New Object"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     0.0,
-                    2.0,
-                    5.0,
-                    20.0,
-                    180.0,
+                    3.0,
+                    -4.0,
+                    0.0,
+                    0.0,
                     0.0,
                     1.0,
                     1.0,
                     1.0
                 ],
                 "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Light"
-                ],
-                "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    0.0,
-                    5.0,
-                    0.0,
-                    -90.0,
-                    30.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
                 ],
-                "component-type": "TransformComponent"
+                "component-type": "MeshComponent"
             }
         ],
         [
@@ -149,7 +149,7 @@
             },
             {
                 "component-args": [
-                    0.0,
+                    -1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -173,15 +173,15 @@
         [
             {
                 "component-args": [
-                    "Fortnite 1"
+                    "New Object"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     3.0,
-                    1.0,
-                    3.0,
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     0.0,
@@ -193,55 +193,11 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/monkey.obj",
+                    "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/rock.png"
+                    "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Fortnite 2"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    -3.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Fortnite"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
             }
         ]
     ],
@@ -255,34 +211,22 @@
             "ObjectID": 2
         },
         {
-            "Children": [],
+            "Children": [
+                {
+                    "Children": [],
+                    "ObjectID": 4
+                }
+            ],
             "ObjectID": 3
-        },
-        {
-            "Children": [],
-            "ObjectID": 4
-        },
-        {
-            "Children": [],
-            "ObjectID": 5
         },
         {
             "Children": [
                 {
-                    "Children": [
-                        {
-                            "Children": [],
-                            "ObjectID": 8
-                        }
-                    ],
-                    "ObjectID": 7
+                    "Children": [],
+                    "ObjectID": 6
                 }
             ],
-            "ObjectID": 6
-        },
-        {
-            "Children": [],
-            "ObjectID": 9
+            "ObjectID": 5
         }
     ],
     "scene-name": "example scene"
