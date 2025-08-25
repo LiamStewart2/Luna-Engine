@@ -18,8 +18,8 @@ SceneGraphNode* SceneGraphNode::GetNode(unsigned int gameObject, SceneGraphNode*
 			if(n != nullptr)
 				return n;
 		}
-		return nullptr;
 	}
+	return nullptr;
 }
 
 void SceneGraphNode::InsertNode(unsigned int gameObject, SceneGraphNode* parentNode)
@@ -33,16 +33,57 @@ void SceneGraphNode::InsertNode(unsigned int gameObject, SceneGraphNode* parentN
 		parentNode->InsertNode(gameObject, nullptr);
 }
 
-void SceneGraphNode::RemoveNode(unsigned int gameObject, SceneGraphNode* node)
+bool SceneGraphNode::RemoveNode(unsigned int gameObject, EntityComponentSystem* ECS, std::vector<unsigned int>* gameObjects)
 {
-	if (node == nullptr || (node == this && gameObject == m_GameObject))
+	if (m_GameObject == gameObject)
 	{
-		for(SceneGraphNode* childNode : m_Nodes)
+		if (m_ParentNode)
 		{
-			childNode->RemoveNode(childNode->GetGameObject(), childNode);
-			delete childNode;
+			auto& siblings = m_ParentNode->m_Nodes;
+			for (size_t i = 0; i < siblings.size(); i++)
+			{
+				if (siblings[i] == this)
+				{
+					this->DestroySubtree(ECS, gameObjects);
+					delete this;
+					siblings.erase(siblings.begin() + i);
+					return true;
+				}
+			}
+			return false;
 		}
-		m_Nodes.clear();
+		else
+		{
+			this->DestroySubtree(ECS, gameObjects);
+			return true;
+		}
+	}
+
+	for (size_t i = 0; i < m_Nodes.size(); i++)
+	{
+		if(m_Nodes[i]->RemoveNode(gameObject, ECS, gameObjects))
+			return true;
+	}
+	return false;
+}
+
+void SceneGraphNode::DestroySubtree(EntityComponentSystem* ECS, std::vector<unsigned int>* gameObjects)
+{
+	// Destroy all children first
+	for (SceneGraphNode* child : m_Nodes)
+	{
+		child->DestroySubtree(ECS, gameObjects);
+		delete child;
+	}
+	m_Nodes.clear();
+
+	// Remove ECS components and gameObject listing
+	if (ECS) ECS->RemoveAllComponents(m_GameObject);
+
+	if (gameObjects)
+	{
+		auto it = std::find(gameObjects->begin(), gameObjects->end(), m_GameObject);
+		if (it != gameObjects->end()) gameObjects->erase(it);
 	}
 }
 

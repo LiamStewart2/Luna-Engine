@@ -31,6 +31,8 @@ public:
 		return ECS.AddComponent<T>(gameObject, std::forward<Args>(args)...);
 	}
 
+	void DestroyGameObject(unsigned int gameObject = 0);
+
 	EntityComponentSystem* GetECS() {return &ECS;}
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
 	std::vector<unsigned int>* GetGameObjects() {return &gameObjects;}

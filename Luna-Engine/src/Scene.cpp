@@ -59,10 +59,15 @@ unsigned int Scene::AddObject(unsigned int parent)
 	return object;
 }
 
+void Scene::DestroyGameObject(unsigned int gameObject)
+{
+	sceneGraph.RemoveNode(gameObject, &ECS, &gameObjects);
+}
+
 
 void Scene::DestroyScene()
 {
-	sceneGraph.RemoveNode(0, nullptr);
+	sceneGraph.RemoveNode(0, &ECS, &gameObjects);
 
 	assetManager->GetShader("Assets/Shaders/DepthShader")->DestroyShader();
 	assetManager->GetShader("Assets/Shaders/Shader")->DestroyShader();
