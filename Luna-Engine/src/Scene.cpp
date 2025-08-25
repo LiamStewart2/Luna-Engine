@@ -10,9 +10,9 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
+void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName)
 {
-	assetManager = _assetManager; sceneName = _sceneName;
+	assetManager = _assetManager; lightManager = _lightManager; sceneName = _sceneName;
 	LoadAssets();
 
 	std::cout << "Loading Shader from scene" << std::endl;
@@ -27,22 +27,6 @@ void Scene::Init(AssetManager* _assetManager, std::string _sceneName)
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
-
-	unsigned int camera = 1;
-	ECS.AddComponent<NameComponent>(camera, "Camera");
-	ECS.AddComponent<Transform>(camera, glm::vec3(0, 2, 5), glm::vec3(20, 180, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<CameraComponent>(camera, perspectiveCamera, true);
-	lightManager = LightManager(perspectiveCamera);
-	sceneGraph.InsertNode(camera);
-	gameObjects.push_back(camera);
-
-	unsigned int light = 2;
-	ECS.AddComponent<NameComponent>(light, "Light");
-	ECS.AddComponent<Transform>(light, glm::vec3(0, 5, 0), glm::vec3(-90, 30, 0), glm::vec3(1, 1, 1));
-	ECS.AddComponent<LightComponent>(light, glm::vec3(1, 1, 1));
-	ECS.GetObjectComponent<LightComponent>(light)->m_Light.BuildLight(&lightManager);
-	sceneGraph.InsertNode(light);
-	gameObjects.push_back(light);
 }
 
 void Scene::LoadAssets()
@@ -62,7 +46,7 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer)
 {
-	renderer->RenderSceneFromMainCamera(&ECS, &lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
+	renderer->RenderSceneFromMainCamera(&ECS, lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
 }
 
 unsigned int Scene::AddObject(unsigned int parent)

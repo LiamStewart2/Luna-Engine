@@ -70,6 +70,7 @@ void SceneManager::SaveCurrentScene(std::string optionalPath)
 
 		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
 		{
+			std::cout << "TRUE" << std::endl;
 			CameraComponent* component = m_Scene->GetECS()->GetObjectComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "CameraComponent"},
@@ -136,7 +137,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
 	m_Scene = new Scene();
-	m_Scene->Init(&assetManager, jsonData["scene-name"]);
+	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])
 	LoadRelations(jsonData, data, 0);
@@ -167,7 +168,20 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			std::shared_ptr<Mesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
 			std::shared_ptr<Shader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
 			std::shared_ptr<Texture> texture = assetManager.GetTexture(componentData["component-args"][2].get<std::string>());
+
 			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), &defaultMat, texture.get());
+		}
+		else if (componentData["component-type"] == "CameraComponent")
+		{
+			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), componentData["component-args"][0]);
+
+			lightManager.InitCascadeLevels(m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera);
+		}
+		else if (componentData["component-type"] == "LightComponent")
+		{
+			glm::vec3 lightColour = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
+			m_Scene->AddComponent<LightComponent>(objectID, lightColour);
+			m_Scene->GetECS()->GetObjectComponent<LightComponent>(objectID)->m_Light.BuildLight(&lightManager);
 		}
 	}
 

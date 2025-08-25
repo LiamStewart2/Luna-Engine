@@ -10,11 +10,14 @@ class LightManager
 {
 public:
 	LightManager() : camera(nullptr) {}
-	LightManager(Camera* _camera) : camera(_camera) {
-		shadowCascadeLevels = { camera->m_FarPlane / 50.0f, camera->m_FarPlane / 25.0f, camera->m_FarPlane / 10.0f, camera->m_FarPlane / 2.0f };
-	}
 	~LightManager() {}
 
+	void InitCascadeLevels(Camera* _camera)
+	{
+		camera = _camera;
+		shadowCascadeLevels = { camera->m_FarPlane / 50.0f, camera->m_FarPlane / 25.0f, camera->m_FarPlane / 10.0f, camera->m_FarPlane / 2.0f };
+	}
+	
 	std::vector<glm::mat4>  GenerateLightSpaceMatrices(Transform* cameraTransform, const glm::vec3& lightDirection);
 	glm::mat4 GenerateLightSpaceMatrix(Camera* camera, Transform* cameraTransform, const float& nearPlane, const float& farPlane, const glm::vec3& lightDirection);
 

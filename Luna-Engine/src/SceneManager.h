@@ -29,6 +29,7 @@ private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
 	AssetManager assetManager;
+	LightManager lightManager;
 
 	Material defaultMat = Material(glm::vec3(1));
 

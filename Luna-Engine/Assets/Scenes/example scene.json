@@ -42,6 +42,64 @@
                     1.0
                 ],
                 "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    true
+                ],
+                "component-type": "CameraComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Light"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    5.0,
+                    0.0,
+                    -90.0,
+                    30.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "LightComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    2.0,
+                    5.0,
+                    20.0,
+                    180.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
             }
         ],
         [
@@ -287,6 +345,28 @@
                 ],
                 "component-type": "TransformComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "Fortnite5"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
         ]
     ],
     "relations": [
@@ -319,22 +399,34 @@
             "ObjectID": 7
         },
         {
+            "Children": [],
+            "ObjectID": 8
+        },
+        {
+            "Children": [],
+            "ObjectID": 9
+        },
+        {
             "Children": [
                 {
                     "Children": [
                         {
                             "Children": [],
-                            "ObjectID": 10
+                            "ObjectID": 12
                         }
                     ],
-                    "ObjectID": 9
+                    "ObjectID": 11
                 }
             ],
-            "ObjectID": 8
+            "ObjectID": 10
         },
         {
             "Children": [],
-            "ObjectID": 11
+            "ObjectID": 13
+        },
+        {
+            "Children": [],
+            "ObjectID": 14
         }
     ],
     "scene-name": "example scene"
