@@ -113,6 +113,28 @@
         [
             {
                 "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
                     "Plane"
                 ],
                 "component-type": "NameComponent"
@@ -181,17 +203,22 @@
             "ObjectID": 2
         },
         {
-            "Children": [],
+            "Children": [
+                {
+                    "Children": [],
+                    "ObjectID": 4
+                }
+            ],
             "ObjectID": 3
         },
         {
             "Children": [
                 {
                     "Children": [],
-                    "ObjectID": 5
+                    "ObjectID": 6
                 }
             ],
-            "ObjectID": 4
+            "ObjectID": 5
         }
     ],
     "scene-name": "example scene"
