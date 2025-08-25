@@ -89,8 +89,6 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	ImGui::ShowDemoWindow();
-
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
 		m_SceneManager->AddObject(parent, name);
@@ -136,7 +134,7 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 		{
 			ImGui::SeparatorText("Components");
 			if(ImGui::MenuItem("Mesh"))
-				m_SceneManager->GetCurrentScene()->AddComponent<Mesh>(m_CurrentInspectorGameObject);
+				m_SceneManager->GetCurrentScene()->AddComponent<MeshComponent>(m_CurrentInspectorGameObject, m_AssetManager->GetMesh("Assets/Models/planeobj.obj").get(), m_AssetManager->GetShader("Assets/Shaders/Shader").get(), new Material(glm::vec3(1, 1, 1)), m_AssetManager->GetTexture("Assets/Textures/default.png").get());
 
 			ImGui::EndMenu();
 		}

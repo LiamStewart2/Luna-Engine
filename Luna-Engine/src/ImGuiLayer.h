@@ -14,7 +14,7 @@ class ImGuiLayer
 public:
 	ImGuiLayer(Window* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
 	{
-		if(window != nullptr && m_SceneManager != nullptr)
+		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr)
 			Init();
 	}
 	~ImGuiLayer() {}

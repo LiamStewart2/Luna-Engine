@@ -63,7 +63,7 @@
                     5.0,
                     0.0,
                     -90.0,
-                    30.0,
+                    -50.0,
                     0.0,
                     1.0,
                     1.0,
@@ -141,7 +141,7 @@
             },
             {
                 "component-args": [
-                    0.0,
+                    -1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -165,15 +165,15 @@
         [
             {
                 "component-args": [
-                    "Fortnite 1"
+                    "New Object"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    2.0,
-                    1.0,
                     3.0,
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     0.0,
@@ -185,9 +185,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/monkey.obj",
+                    "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/rock.png"
+                    "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
             }

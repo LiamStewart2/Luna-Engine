@@ -23,6 +23,7 @@ public:
 	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
 
 	Scene* GetCurrentScene() const { return m_Scene; }
+	AssetManager* GetAssetManager() { return &assetManager; }
 
 	void AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
