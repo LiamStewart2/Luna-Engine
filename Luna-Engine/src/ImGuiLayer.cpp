@@ -48,24 +48,43 @@ void ImGuiLayer::Update()
 	{
 		ImGui::Begin("Inspector");
 
-		ImGui::Text(scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
+		if(scene->GetECS()->HasComponent<NameComponent>(m_CurrentInspectorGameObject))
+		{
+			ImGui::SeparatorText("Name");
 
-		ImGui::Text("Position");
-		ImGui::InputFloat("position x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.x);
-		ImGui::InputFloat("position y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.y);
-		ImGui::InputFloat("position z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.z);
+			ImGui::Text(scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
+		}
+
+		if (scene->GetECS()->HasComponent<Transform>(m_CurrentInspectorGameObject))
+		{
+			ImGui::SeparatorText("Transform");
+
+			ImGui::Text("Position");
+			ImGui::InputFloat("position x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.x);
+			ImGui::InputFloat("position y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.y);
+			ImGui::InputFloat("position z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->position.z);
 
 
-		ImGui::Text("Rotation");
-		ImGui::InputFloat("rotation x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.x);
-		ImGui::InputFloat("rotation y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.y);
-		ImGui::InputFloat("rotation z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.z);
+			ImGui::Text("Rotation");
+			ImGui::InputFloat("rotation x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.x);
+			ImGui::InputFloat("rotation y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.y);
+			ImGui::InputFloat("rotation z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->rotation.z);
 
 
-		ImGui::Text("Scale");
-		ImGui::InputFloat("scale x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.x);
-		ImGui::InputFloat("scale y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.y);
-		ImGui::InputFloat("scale z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.z);
+			ImGui::Text("Scale");
+			ImGui::InputFloat("scale x", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.x);
+			ImGui::InputFloat("scale y", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.y);
+			ImGui::InputFloat("scale z", &scene->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->scale.z);
+		}
+
+		if (scene->GetECS()->HasComponent<MeshComponent>(m_CurrentInspectorGameObject))
+		{
+			ImGui::SeparatorText("Mesh");
+
+			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str());
+			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->shader->path.c_str());
+			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
+		}
 
 		ImGui::End();
 	}
