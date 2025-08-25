@@ -114,6 +114,21 @@ void ImGuiLayer::Update()
 
 		ImGui::End();
 	}
+
+	for (auto& [parent, name] : m_ObjectsToAdd)
+	{
+		m_SceneManager->AddObject(parent, name);
+	}
+	m_ObjectsToAdd.clear();
+
+	// Process queued deletes
+	for (unsigned int id : m_ObjectsToDelete)
+	{
+		m_SceneManager->GetCurrentScene()->DestroyGameObject(id);
+		if (m_CurrentInspectorGameObject == id)
+			m_CurrentInspectorGameObject = 0;
+	}
+	m_ObjectsToDelete.clear();
 }
 
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
@@ -134,6 +149,17 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 
 	if (ImGui::IsItemClicked()) {
 		m_CurrentInspectorGameObject = id;
+	}
+
+	if (ImGui::BeginPopupContextItem())
+	{
+		if(ImGui::MenuItem("Add Object"))
+			m_ObjectsToAdd.push_back({id, "New Object"});
+
+		if (ImGui::MenuItem("Delete Object"))
+			m_ObjectsToDelete.push_back({id});
+
+		ImGui::EndPopup();
 	}
 
 	if (nodeOpen) {

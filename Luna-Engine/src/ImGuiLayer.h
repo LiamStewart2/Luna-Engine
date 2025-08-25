@@ -50,5 +50,8 @@ private:
 
 	int m_ObjectToRemoveID = 0;
 
+	std::vector<unsigned int> m_ObjectsToDelete;
+	std::vector<std::pair<unsigned int, std::string>> m_ObjectsToAdd;
+
 	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names);
 };
