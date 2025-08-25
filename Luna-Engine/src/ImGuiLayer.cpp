@@ -100,6 +100,20 @@ void ImGuiLayer::Update()
 
 		ImGui::End();
 	}
+
+	{
+		ImGui::Begin("Remove Object");
+		
+
+		ImGui::InputInt("Object ID:", &m_ObjectToRemoveID);
+		if(ImGui::Button("Remove Object"))
+		{
+			m_SceneManager->GetCurrentScene()->DestroyGameObject(m_ObjectToRemoveID);
+			m_CurrentInspectorGameObject = 0;
+		}
+
+		ImGui::End();
+	}
 }
 
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
