@@ -115,7 +115,7 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
