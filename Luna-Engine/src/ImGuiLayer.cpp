@@ -52,7 +52,7 @@ void ImGuiLayer::Update()
 		{
 			ImGui::SeparatorText("Name");
 
-			ImGui::Text(scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name.c_str());
+			ImGui::InputText("##", &scene->GetECS()->GetObjectComponent<NameComponent>(m_CurrentInspectorGameObject)->m_Name);
 		}
 
 		if (scene->GetECS()->HasComponent<Transform>(m_CurrentInspectorGameObject))
