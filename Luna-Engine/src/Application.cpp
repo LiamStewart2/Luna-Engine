@@ -16,7 +16,7 @@ int Application::Init()
 	glfwInit();
 
 	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
-	sceneManager.LoadNewScene("Assets/Scenes/example scene.json");
+	sceneManager.LoadNewScene("Assets/Scenes/second scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 	
