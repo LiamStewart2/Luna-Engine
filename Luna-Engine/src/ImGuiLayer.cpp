@@ -93,6 +93,17 @@ void ImGuiLayer::Update()
 			ImGui::Checkbox("Main Camera", &scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_MainCamera);
 		}
 
+		if (scene->GetECS()->HasComponent<LightComponent>(m_CurrentInspectorGameObject))
+		{
+			ImGui::SeparatorText("Light");
+
+			LightComponent* component = scene->GetECS()->GetObjectComponent<LightComponent>(m_CurrentInspectorGameObject);
+
+			float* lightColor = new float[3] {component->m_LightColor.x, component->m_LightColor.y, component->m_LightColor.z};
+			ImGui::InputFloat3("Light Color", lightColor);
+			component->m_LightColor = glm::vec3(lightColor[0], lightColor[1], lightColor[2]);
+		}
+
 		ImGui::End();
 	}
 
