@@ -1,0 +1,224 @@
+{
+    "objects": [
+        [
+            {
+                "component-args": [
+                    "Scene"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    3.0,
+                    7.0,
+                    30.0,
+                    180.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    true
+                ],
+                "component-type": "CameraComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Light"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    5.0,
+                    0.0,
+                    -90.0,
+                    -50.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "LightComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Enviroment"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Plane"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    -2.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    5.0,
+                    1.0,
+                    5.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Big Cube"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -2.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Small Cube"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    2.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ]
+    ],
+    "relations": [
+        {
+            "Children": [],
+            "ObjectID": 1
+        },
+        {
+            "Children": [],
+            "ObjectID": 2
+        },
+        {
+            "Children": [
+                {
+                    "Children": [],
+                    "ObjectID": 4
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 5
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 6
+                }
+            ],
+            "ObjectID": 3
+        }
+    ],
+    "scene-name": "example scene"
+}
