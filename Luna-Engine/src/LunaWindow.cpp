@@ -1,44 +1,44 @@
-#include "Window.h"
+#include "LunaWindow.h"
 
-Window* Window::m_FocusedWindow = nullptr;
+LunaWindow* LunaWindow::m_FocusedWindow = nullptr;
 
-Window::Window()
+LunaWindow::LunaWindow()
 {
 	m_WindowTitle = "";
 	m_WindowWidth = m_WindowHeight = 0;
 }
 
-Window::~Window()
+LunaWindow::~LunaWindow()
 {
 
 }
 
-int Window::GetKey(int key)
+int LunaWindow::GetKey(int key)
 {
 	return glfwGetKey(m_WindowHandle, key);
 }
 
-int Window::GetMouseButton(int button)
+int LunaWindow::GetMouseButton(int button)
 {
 	return glfwGetMouseButton(m_WindowHandle, button);
 }
 
-void Window::GetCursorPosition(double* x, double* y)
+void LunaWindow::GetCursorPosition(double* x, double* y)
 {
 	glfwGetCursorPos(m_WindowHandle, x, y);
 }
 
-void Window::SetCursorPosition(double x, double y)
+void LunaWindow::SetCursorPosition(double x, double y)
 {
 	glfwSetCursorPos(m_WindowHandle, x, y);
 }
 
-void Window::SetInputMode(int mode, int value)
+void LunaWindow::SetInputMode(int mode, int value)
 {
 	glfwSetInputMode(m_WindowHandle, mode, value);
 }
 
-Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight)
+LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight)
 {
 	// Test GLFW init
 	if (!glfwInit())
@@ -48,7 +48,7 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 	}
 
 	// Initialize window class instance with member variables
-	Window* window = new Window();
+	LunaWindow* window = new LunaWindow();
 
 	window->m_WindowTitle = windowTitle;
 	window->m_WindowWidth = windowWidth;
@@ -90,29 +90,29 @@ Window* Window::CreateWindow(const char* windowTitle, uint32_t windowWidth, uint
 
 	// Only set is running to true if all phases of init pass
 	window->m_IsRunning = true;
-	Window::m_FocusedWindow = window;
+	LunaWindow::m_FocusedWindow = window;
 
 	return window;
 }
 
-void Window::FocusWindow()
+void LunaWindow::FocusWindow()
 {
-	Window::m_FocusedWindow = this;
+	LunaWindow::m_FocusedWindow = this;
 }
 
-void Window::CloseWindow(Window* window)
+void LunaWindow::CloseWindow(LunaWindow* window)
 {
 	glfwWindowShouldClose(window->m_WindowHandle);
 	glfwTerminate();
 	window->m_IsRunning = false;
 }
 
-void Window::SetNewTitle(const char* newTitle)
+void LunaWindow::SetNewTitle(const char* newTitle)
 {
 	glfwSetWindowTitle(m_WindowHandle, newTitle);
 }
 
-void Window::Update()
+void LunaWindow::Update()
 {
 	glfwSwapBuffers(m_WindowHandle);
 

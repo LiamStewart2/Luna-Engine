@@ -5,7 +5,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_stdlib.h"
 
-#include "Window.h"
+#include "Platform/FileNavigatorOpen.h"
+#include "LunaWindow.h"
 #include "SceneManager.h"
 
 #include <unordered_map>
@@ -13,7 +14,7 @@
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(Window* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
+	ImGuiLayer(LunaWindow* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
 	{
 		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr)
 			Init();
@@ -27,7 +28,7 @@ public:
 
 	void Render();
 private:
-	Window* m_Window = nullptr;
+	LunaWindow* m_Window = nullptr;
 	SceneManager* m_SceneManager = nullptr;
 	AssetManager* m_AssetManager = nullptr;
 
