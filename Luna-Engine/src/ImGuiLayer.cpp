@@ -80,10 +80,9 @@ void ImGuiLayer::Update()
 		if (scene->GetECS()->HasComponent<MeshComponent>(m_CurrentInspectorGameObject))
 		{
 			ImGui::SeparatorText("Mesh");
-
-			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str());
-			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->shader->path.c_str());
-			ImGui::Text(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
+			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str());
+			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->shader->path.c_str());
+			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
 		}
 
 		if (scene->GetECS()->HasComponent<CameraComponent>(m_CurrentInspectorGameObject))

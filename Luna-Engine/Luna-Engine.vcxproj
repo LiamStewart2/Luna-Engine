@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\FileNavigatorOpen.cpp" />
     <ClCompile Include="src\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\AssetManager.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="src\TransformationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\FileNavigatorOpen.h" />
     <ClInclude Include="src\imgui\imgui_stdlib.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\AssetManager.h" />
