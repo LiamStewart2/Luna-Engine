@@ -36,7 +36,7 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\LunaWindow.cpp" />
     <ClCompile Include="src\TransformationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +76,7 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Stack.h" />
     <ClInclude Include="src\Texture.h" />
-    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\LunaWindow.h" />
     <ClInclude Include="src\TransformationManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +140,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +160,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

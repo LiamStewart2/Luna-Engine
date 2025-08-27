@@ -5,13 +5,13 @@
 
 #include <iostream>
 
-class Window
+class LunaWindow
 {
 public:
-	Window();
-	~Window();
+	LunaWindow();
+	~LunaWindow();
 
-	static Window* m_FocusedWindow;
+	static LunaWindow* m_FocusedWindow;
 
 	bool IsRunning() {return m_IsRunning;}
 
@@ -24,8 +24,8 @@ public:
 
 	void FocusWindow();
 
-	static Window* CreateWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight);
-	static void CloseWindow(Window* window);
+	static LunaWindow* NewWindow(const char* windowTitle, uint32_t windowWidth, uint32_t windowHeight);
+	static void CloseWindow(LunaWindow* window);
 
 	void SetNewTitle(const char* newTitle);
 	GLFWwindow* GetHandle(){return m_WindowHandle;}

@@ -10,7 +10,7 @@
 
 #include "Globals.h"
 
-#include "Window.h"
+#include "LunaWindow.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Material.h"
@@ -25,7 +25,7 @@ public:
 	Application();
 	~Application();
 private:
-	Window* window;
+	LunaWindow* window;
 
 	int Init();
 	void Terminate();

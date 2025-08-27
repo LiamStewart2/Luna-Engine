@@ -15,7 +15,7 @@ int Application::Init()
 {
 	glfwInit();
 
-	window = Window::CreateWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+	window = LunaWindow::NewWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 	sceneManager.LoadNewScene("Assets/Scenes/second scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
@@ -55,13 +55,13 @@ void Application::MainLoop()
 		window->Update();
 	}
 	sceneManager.UnloadCurrentScene();
-	Window::CloseWindow(window);
+	LunaWindow::CloseWindow(window);
 }
 
 void Application::HandleInput()
 {
 	if(window->GetKey(GLFW_KEY_F1) == GLFW_PRESS)
-		Window::CloseWindow(window);
+		LunaWindow::CloseWindow(window);
 }
 
 void Application::Update()
