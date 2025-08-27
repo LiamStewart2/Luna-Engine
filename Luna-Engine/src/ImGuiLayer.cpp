@@ -83,7 +83,8 @@ void ImGuiLayer::Update()
 			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str()))
 			{
 				FileNavigatorOpen filenav;
-				filenav.OpenFileDialog();
+				std::string fpath = filenav.OpenFileDialog();
+				scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh = m_AssetManager->GetMesh(fpath).get();
 			}
 			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->shader->path.c_str());
 			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
