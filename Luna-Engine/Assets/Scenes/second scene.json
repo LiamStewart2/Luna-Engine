@@ -155,9 +155,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
                 ],
                 "component-type": "MeshComponent"
             }

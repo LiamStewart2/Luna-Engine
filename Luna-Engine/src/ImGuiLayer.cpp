@@ -83,11 +83,24 @@ void ImGuiLayer::Update()
 			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str()))
 			{
 				FileNavigatorOpen filenav;
-				std::string fpath = filenav.OpenFileDialog();
-				scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh = m_AssetManager->GetMesh(fpath).get();
+				std::string fpath = filenav.OpenFileDialog({
+					{L"Mesh Files", L"*.obj"},
+					{L"All Files", L"*.*"}
+				}, 1);
+				if (!fpath.empty())
+					scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh = m_AssetManager->GetMesh(fpath).get();
 			}
-			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->shader->path.c_str());
-			ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str());
+				
+			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str()))
+			{
+				FileNavigatorOpen filenav;
+				std::string fpath = filenav.OpenFileDialog({
+					{L"Texture Files", L"*.png;*.jpg"},
+					{L"All Files", L"*.*"}
+				}, 1);
+				if(!fpath.empty())
+					scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture = m_AssetManager->GetTexture(fpath).get();
+			}
 		}
 
 		if (scene->GetECS()->HasComponent<CameraComponent>(m_CurrentInspectorGameObject))
