@@ -147,7 +147,7 @@ void ImGuiLayer::Update()
 
 	for (auto& [parent, name] : m_ObjectsToAdd)
 	{
-		m_SceneManager->AddObject(parent, name);
+		unsigned int id = m_SceneManager->AddObject(parent, name);
 	}
 	m_ObjectsToAdd.clear();
 
@@ -190,7 +190,9 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 	{
 		m_CurrentInspectorGameObject = id;
 		if(ImGui::MenuItem("Add Object"))
-			m_ObjectsToAdd.push_back({id, "New Object"});
+		{
+			m_ObjectsToAdd.push_back({ id, "New Object" });
+		}
 		
 		if (ImGui::BeginMenu("Add Component"))
 		{

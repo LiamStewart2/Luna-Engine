@@ -26,7 +26,7 @@ public:
 	AssetManager* GetAssetManager() { return &assetManager; }
 	LightManager* GetLightManager() { return &lightManager; }
 
-	void AddObject(unsigned int parent = 0, std::string objectName = "");
+	unsigned int AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
