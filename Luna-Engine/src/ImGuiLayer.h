@@ -1,9 +1,9 @@
 #pragma once
 
 #include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
-#include "imgui/imgui_stdlib.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui/misc/cpp/imgui_stdlib.h"
 
 #include "Platform/FileNavigatorOpen.h"
 #include "LunaWindow.h"
@@ -34,6 +34,11 @@ private:
 
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
+
+	bool m_ShowScene = true;
+	bool m_ShowHierachy = true;
+	bool m_ShowFile = true;
+	bool m_ShowInspector = true;
 
 	unsigned int NameCharacterLimit = 100;
 	float Indentation = 10.0f;

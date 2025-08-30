@@ -10,11 +10,19 @@ void ImGuiLayer::Init()
 	io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);
 	style.FontScaleDpi = m_MainScale;
 	ImGui::StyleColorsDark();
+
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
 
 	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
 	const char* glsl_version = "#version 460";
@@ -28,25 +36,84 @@ void ImGuiLayer::StartFrame()
 	ImGui::NewFrame();
 }
 
+// DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
 void ImGuiLayer::Update()
 {
 	StartFrame();
 
-	if (m_Window->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-		m_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	}
-	else
-	{
-		ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-		m_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
-
 	Scene* scene = m_SceneManager->GetCurrentScene();
 
+	static bool dockspaceOpen = true;
+	static bool opt_fullscreen_persistant = true;
+	bool opt_fullscreen = opt_fullscreen_persistant;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+	// because it would be confusing to have two docking targets within each others.
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	if (opt_fullscreen)
 	{
-		ImGui::Begin("Inspector");
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->Pos);
+		ImGui::SetNextWindowSize(viewport->Size);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	}
+
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+	ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
+
+	// DockSpace
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuiStyle& style = ImGui::GetStyle();
+	float minWinSizeX = style.WindowMinSize.x;
+	style.WindowMinSize.x = 250.0f;
+	style.WindowMinSize.y = 250.0f;
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
+
+	style.WindowMinSize.x = minWinSizeX;
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+
+			ImGui::EndMenu();
+		}
+
+
+		if (ImGui::BeginMenu("View"))
+		{
+			if(ImGui::MenuItem("Scene"))
+				m_ShowScene = true;
+			if (ImGui::MenuItem("Inspector"))
+				m_ShowInspector = true;
+			if (ImGui::MenuItem("Show File"))
+				m_ShowFile = true;
+			if (ImGui::MenuItem("Hiearchy"))
+				m_ShowHierachy = true;
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
+
+	if(m_ShowInspector){
+		ImGui::Begin("Inspector", &m_ShowInspector);
 
 		if(scene->GetECS()->HasComponent<NameComponent>(m_CurrentInspectorGameObject))
 		{
@@ -124,8 +191,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
-		ImGui::Begin("Hieararcy");
+	if(m_ShowHierachy){
+		ImGui::Begin("Hieararcy", &m_ShowHierachy);
 
 		std::unordered_map<unsigned int, NameComponent*> names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
 		BuildHiearchyText(scene->GetSceneGraph(), &names);
@@ -133,8 +200,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
-		ImGui::Begin("File");
+	if(m_ShowFile){
+		ImGui::Begin("File", &m_ShowFile);
 
 		ImGui::InputText("filepath: ", filepathForScene, 50);
 		if(ImGui::Button("Save Scene"))
@@ -142,6 +209,29 @@ void ImGuiLayer::Update()
 
 		ImGui::End();
 	}
+
+	if(m_ShowScene){
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+		ImGui::Begin("Scene", &m_ShowScene);
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		ImVec2 imageBlitSize = ImVec2{std::min(viewportPanelSize.x, viewportPanelSize.y), std::min(viewportPanelSize.x, viewportPanelSize.y)};
+
+		ImVec2 imageOffset = {
+			(float)(viewportPanelSize.x - imageBlitSize.x) / 2,
+			(float)(viewportPanelSize.y - imageBlitSize.y) / 2
+		};
+		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
+
+		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
+		
+
+		ImGui::End();
+		ImGui::PopStyleVar();
+	}
+
+	ImGui::End();
 
 	//ImGui::ShowDemoWindow();
 
@@ -224,4 +314,12 @@ void ImGuiLayer::Render()
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	}
 }

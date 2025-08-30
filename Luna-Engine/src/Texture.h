@@ -17,6 +17,5 @@ public:
 	int width, height, channels;
 	std::string path;
 
-private:
 	unsigned int ID;
 };
