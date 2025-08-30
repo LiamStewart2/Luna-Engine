@@ -216,13 +216,24 @@ void ImGuiLayer::Update()
 	}
 
 	{
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene");
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		ImVec2 imageBlitSize = ImVec2{std::min(viewportPanelSize.x, viewportPanelSize.y), std::min(viewportPanelSize.x, viewportPanelSize.y)};
 
-		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, viewportPanelSize, ImVec2{0, 1}, ImVec2{1, 0});
+		ImVec2 imageOffset = {
+			(float)(viewportPanelSize.x - imageBlitSize.x) / 2,
+			(float)(viewportPanelSize.y - imageBlitSize.y) / 2
+		};
+		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
+
+		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
+		
 
 		ImGui::End();
+		ImGui::PopStyleVar();
 	}
 
 	ImGui::End();
