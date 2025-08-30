@@ -38,6 +38,8 @@ public:
 
 	unsigned int GetAttatchmentID(unsigned int index = 0);
 
+	const FramebufferSpecification* GetSpecs() {return &m_Specification;}
+
 private:
 	unsigned int m_ID = 0;
 	FramebufferSpecification m_Specification;

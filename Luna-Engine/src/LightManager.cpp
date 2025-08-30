@@ -1,25 +1,25 @@
 #include "LightManager.h"
 
-std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(Camera* camera, Transform* cameraTransform, const glm::vec3& lightDirection)
+std::vector<glm::mat4> LightManager::GenerateLightSpaceMatrices(Camera* camera, Transform* cameraTransform, FrameBuffer* framebuffer, const glm::vec3& lightDirection)
 {
 	std::vector<glm::mat4> matrices;
 
 	for (size_t i = 0; i < shadowCascadeLevels.size() + 1; i++)
 	{
 		if (i == 0)
-			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, camera->m_NearPlane, shadowCascadeLevels[i], lightDirection));
+			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, framebuffer, camera->m_NearPlane, shadowCascadeLevels[i], lightDirection));
 		else if(i < shadowCascadeLevels.size())
-			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, shadowCascadeLevels[i - 1], shadowCascadeLevels[i], lightDirection));
+			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, framebuffer, shadowCascadeLevels[i - 1], shadowCascadeLevels[i], lightDirection));
 		else
-			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, shadowCascadeLevels[i - 1], camera->m_FarPlane, lightDirection));
+			matrices.push_back(GenerateLightSpaceMatrix(camera, cameraTransform, framebuffer, shadowCascadeLevels[i - 1], camera->m_FarPlane, lightDirection));
 	}
 
 	return matrices;
 }
 
-glm::mat4 LightManager::GenerateLightSpaceMatrix(Camera* camera, Transform* cameraTransform, const float& nearPlane, const float& farPlane, const glm::vec3& lightDirection)
+glm::mat4 LightManager::GenerateLightSpaceMatrix(Camera* camera, Transform* cameraTransform, FrameBuffer* framebuffer, const float& nearPlane, const float& farPlane, const glm::vec3& lightDirection)
 {
-	std::vector<glm::vec4> corners = GetFrustumCornersWorldSpace(camera, cameraTransform, nearPlane, farPlane);
+	std::vector<glm::vec4> corners = GetFrustumCornersWorldSpace(camera, cameraTransform, framebuffer, nearPlane, farPlane);
 	glm::vec3 center = GetCenterOfPoints(corners);
 
 	glm::mat4 lightView = glm::lookAt(center + glm::normalize(lightDirection), center, glm::vec3(0, 1.0f, 0.0f));
@@ -28,7 +28,7 @@ glm::mat4 LightManager::GenerateLightSpaceMatrix(Camera* camera, Transform* came
 	return lightProjection * lightView;
 }
 
-std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace(Camera* camera, Transform* cameraTransform, const float& nearPlane, const float& farPlane)
+std::vector<glm::vec4> LightManager::GetFrustumCornersWorldSpace(Camera* camera, Transform* cameraTransform, FrameBuffer* framebuffer, const float& nearPlane, const float& farPlane)
 {
 	glm::mat4 projection = glm::perspective(glm::radians(camera->m_Pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 
 		nearPlane, farPlane);

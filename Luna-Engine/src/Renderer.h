@@ -15,15 +15,15 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"
-
+#include "FrameBuffer.h"
 
 class Renderer {
 public:
 	Renderer();
 	~Renderer();
 	
-	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader);
+	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, FrameBuffer* framebuffer);
 
-	void SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader);
+	void SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer);
 	void RenderObject(Transform* transform, LightComponent* light, Mesh* mesh, Texture* texture, Material* material, Shader* shader);
 };
