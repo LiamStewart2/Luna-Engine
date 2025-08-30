@@ -15,7 +15,6 @@ FrameBuffer::FrameBuffer(const FramebufferSpecification& specification)
 		else
 			m_DepthAttatchment = attatchment;
 	}
-	Update();
 }
 
 FrameBuffer::~FrameBuffer()
@@ -32,10 +31,10 @@ void FrameBuffer::Update()
 		glDeleteFramebuffers(1, &m_ID);
 		glDeleteTextures(m_ColorIDs.size(), m_ColorIDs.data());
 		glDeleteTextures(1, &m_DepthID);
-
-		m_ColorIDs.clear();
-		m_DepthID = 0;
 	}
+
+	m_ColorIDs.clear();
+	m_DepthID = 0;
 
 	glCreateFramebuffers(1, &m_ID);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
