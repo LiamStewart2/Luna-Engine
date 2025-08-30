@@ -5,19 +5,21 @@
 ## ✨ Features
 
 - **Custom Rendering Pipeline** with OpenGL
-- **ImGui Editor Layer** with:
+- **ImGui Docking Editor Layer** with:
   - Hierarchy View
   - Inspector Panel
   - Object Creation Tools
-- **Camera System** with free movement and rotation
-- **Scene Graph** for hierarchical object transforms
-- **Lighting System** supporting multiple light types
-- **Asset Loader** for meshes and materials
-- **Modular Engine Architecture**
+  - Scene View Panel
+- **Camera System**
+- **Scene Graph**
+- **Lighting System**
+- **Asset Loader**
+- **ECS**
 
 ## 🎮 Dev Tools
 The engine includes a custom editor built using ImGui, providing:
 
+- Docking
 - Real-time hierarchy browsing
 - Object selection and editing
 - Simple object creation tools
@@ -26,6 +28,7 @@ The engine includes a custom editor built using ImGui, providing:
 
 - [x] Dynamic Asset Loader
 - [x] Full Integration of the ECS
+- [x] ImGui Editor
 - [ ] Time and Input System
 - [ ] Physics Engine
 - [ ] Scripting implementation
