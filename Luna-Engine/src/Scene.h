@@ -11,6 +11,7 @@
 #include "Mesh.h"
 #include "Renderer.h"
 #include "LightManager.h"
+#include "EditorCamera.h"
 
 class Scene
 {
@@ -54,5 +55,7 @@ private:
 	LightManager* lightManager;
 
 	Material material = Material(glm::vec3(1));
+
+	EditorCamera camera = EditorCamera(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 };
 
