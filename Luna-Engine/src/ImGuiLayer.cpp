@@ -91,33 +91,21 @@ void ImGuiLayer::Update()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Open Project...", "Ctrl+O"))
-				return;
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("New Scene", "Ctrl+N"))
-				return;
-
-			if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
-				return;
-
-			if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
-				return;
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Exit"))
-				return;
 
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Script"))
-		{
-			if (ImGui::MenuItem("Reload assembly", "Ctrl+R"))
-				return;
 
+		if (ImGui::BeginMenu("View"))
+		{
+			if(ImGui::MenuItem("Scene"))
+				m_ShowScene = true;
+			if (ImGui::MenuItem("Inspector"))
+				m_ShowInspector = true;
+			if (ImGui::MenuItem("Show File"))
+				m_ShowFile = true;
+			if (ImGui::MenuItem("Hiearchy"))
+				m_ShowHierachy = true;
 			ImGui::EndMenu();
 		}
 
