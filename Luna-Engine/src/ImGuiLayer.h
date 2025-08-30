@@ -35,6 +35,11 @@ private:
 	float m_MainScale = 0;
 	bool m_ShowAddObject = true;
 
+	bool m_ShowScene = true;
+	bool m_ShowHierachy = true;
+	bool m_ShowFile = true;
+	bool m_ShowInspector = true;
+
 	unsigned int NameCharacterLimit = 100;
 	float Indentation = 10.0f;
 

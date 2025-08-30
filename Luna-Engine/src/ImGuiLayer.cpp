@@ -11,11 +11,18 @@ void ImGuiLayer::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);
 	style.FontScaleDpi = m_MainScale;
 	ImGui::StyleColorsDark();
+
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
 
 	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
 	const char* glsl_version = "#version 460";
@@ -117,8 +124,8 @@ void ImGuiLayer::Update()
 		ImGui::EndMenuBar();
 	}
 
-	{
-		ImGui::Begin("Inspector");
+	if(m_ShowInspector){
+		ImGui::Begin("Inspector", &m_ShowInspector);
 
 		if(scene->GetECS()->HasComponent<NameComponent>(m_CurrentInspectorGameObject))
 		{
@@ -196,8 +203,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
-		ImGui::Begin("Hieararcy");
+	if(m_ShowHierachy){
+		ImGui::Begin("Hieararcy", &m_ShowHierachy);
 
 		std::unordered_map<unsigned int, NameComponent*> names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
 		BuildHiearchyText(scene->GetSceneGraph(), &names);
@@ -205,8 +212,8 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
-		ImGui::Begin("File");
+	if(m_ShowFile){
+		ImGui::Begin("File", &m_ShowFile);
 
 		ImGui::InputText("filepath: ", filepathForScene, 50);
 		if(ImGui::Button("Save Scene"))
@@ -215,10 +222,10 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	{
+	if(m_ShowScene){
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-		ImGui::Begin("Scene");
+		ImGui::Begin("Scene", &m_ShowScene);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		ImVec2 imageBlitSize = ImVec2{std::min(viewportPanelSize.x, viewportPanelSize.y), std::min(viewportPanelSize.x, viewportPanelSize.y)};
@@ -319,4 +326,12 @@ void ImGuiLayer::Render()
 {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	}
 }
