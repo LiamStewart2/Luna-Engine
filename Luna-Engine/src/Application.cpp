@@ -21,6 +21,8 @@ int Application::Init()
 	sceneManager.LoadNewScene("Assets/Scenes/second scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
+
+	sceneManager.GetFrameBuffer()->Update();
 	
 	return 0;
 }

@@ -9,6 +9,7 @@
 #include "LunaWindow.h"
 #include "SceneManager.h"
 
+#include <math.h>
 #include <unordered_map>
 
 class ImGuiLayer
