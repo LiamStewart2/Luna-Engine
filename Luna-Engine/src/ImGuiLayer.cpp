@@ -224,8 +224,10 @@ void ImGuiLayer::Update()
 		};
 		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
 
-		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
+		ImGui::Image((ImTextureID)(intptr_t)m_SceneManager->GetFrameBuffer()->GetAttatchmentID(0), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
 		
+		std::cout << "Framebuffer: " << (ImTextureID)(intptr_t)m_SceneManager->GetFrameBuffer()->GetAttatchmentID(0) << std::endl;
+		std::cout << "IO: " << io.Fonts->TexID.GetTexID() << std::endl;
 
 		ImGui::End();
 		ImGui::PopStyleVar();

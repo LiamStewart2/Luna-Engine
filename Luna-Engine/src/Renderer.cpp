@@ -39,7 +39,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 	
 	lightManager->InitCascadeLevels(ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera);
-	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader);
+	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader, framebuffer);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
@@ -80,6 +80,12 @@ void Renderer::RenderObject(Transform* transform, LightComponent* light, Mesh* m
 
 void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer)
 {
+	if (framebuffer != nullptr)
+		framebuffer->Bind();
+	else
+		glViewport(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	CameraComponent* cameraComponent = ECS->GetObjectComponent<CameraComponent>(camera);
 	Transform* transformComponent = ECS->GetObjectComponent<Transform>(camera);
@@ -96,11 +102,6 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 
 	glm::mat4 projection = cameraComponent->m_Camera->GetProjection();
 	glm::mat4 view = cameraComponent->m_Camera->GetView(transformComponent);
-	if (framebuffer != nullptr)
-		framebuffer->Bind();
-	else
-		glViewport(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
-
 
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);

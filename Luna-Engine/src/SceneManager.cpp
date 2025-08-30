@@ -8,7 +8,11 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	m_FrameBuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({RGBA8, DEPTH})));
+}
+
+void SceneManager::InitFramebuffer()
+{
+	m_FrameBuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 }
 
 void SceneManager::Update()

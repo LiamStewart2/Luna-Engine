@@ -12,6 +12,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
+	void InitFramebuffer();
 
 	void Update();
 	void Render(Renderer* renderer);
