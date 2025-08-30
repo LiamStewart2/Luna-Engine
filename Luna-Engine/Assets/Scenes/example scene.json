@@ -32,9 +32,9 @@
             {
                 "component-args": [
                     0.0,
-                    2.0,
-                    5.0,
-                    20.0,
+                    3.0,
+                    7.0,
+                    30.0,
                     180.0,
                     0.0,
                     1.0,
@@ -63,7 +63,7 @@
                     5.0,
                     0.0,
                     -90.0,
-                    -50.0,
+                    30.0,
                     0.0,
                     1.0,
                     1.0,
@@ -83,6 +83,28 @@
         [
             {
                 "component-args": [
+                    "Enviroment"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
                     "Plane"
                 ],
                 "component-type": "NameComponent"
@@ -97,7 +119,7 @@
                     0.0,
                     5.0,
                     1.0,
-                    2.0
+                    5.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -113,21 +135,51 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Big Cube"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
+                    -2.0,
+                    1.0,
                     0.0,
-                    3.0,
-                    -4.0,
                     0.0,
                     0.0,
                     0.0,
                     1.0,
                     1.0,
                     1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
+                    "Assets/Shaders/Shader",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Small Cube"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    2.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
                 ],
                 "component-type": "TransformComponent"
             },
@@ -143,15 +195,15 @@
         [
             {
                 "component-args": [
-                    "Plane"
+                    "Camera 2"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    -1.0,
-                    0.0,
-                    0.0,
+                    1.0,
+                    1.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -163,41 +215,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/Shader",
-                    "Assets/Textures/rock.png"
+                    false
                 ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "New Object"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    3.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
-                ],
-                "component-type": "MeshComponent"
+                "component-type": "CameraComponent"
             }
         ]
     ],
@@ -215,18 +235,21 @@
                 {
                     "Children": [],
                     "ObjectID": 4
-                }
-            ],
-            "ObjectID": 3
-        },
-        {
-            "Children": [
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 5
+                },
                 {
                     "Children": [],
                     "ObjectID": 6
                 }
             ],
-            "ObjectID": 5
+            "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"
