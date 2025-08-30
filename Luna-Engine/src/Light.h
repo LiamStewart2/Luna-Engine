@@ -18,7 +18,7 @@ public:
 	void RenderObjectToDepthmap(Mesh* mesh, Transform* transform, Shader* depthmapShader);
 
 	void BindTexture(Shader* shader);
-	void FrameSetup(LightManager* lightManager, Camera* camera, Transform* cameraTransform, Transform* lightTransform, Shader* shader);
+	void FrameSetup(LightManager* lightManager, Camera* camera, Transform* cameraTransform, Transform* lightTransform, Shader* shader, FrameBuffer* framebuffer);
 	void FrameReset();
 
 

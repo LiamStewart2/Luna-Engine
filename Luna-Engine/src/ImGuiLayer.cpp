@@ -215,8 +215,15 @@ void ImGuiLayer::Update()
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene", &m_ShowScene);
 
+		FrameBuffer* framebuffer = m_SceneManager->GetFrameBuffer();
+		const FramebufferSpecification* specs = framebuffer->GetSpecs();
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		ImVec2 imageBlitSize = ImVec2{std::min(viewportPanelSize.x, viewportPanelSize.y), std::min(viewportPanelSize.x, viewportPanelSize.y)};
+
+		float aspectRatio = (float)specs->Width / (float)specs->Height;
+		ImVec2 imageBlitSize = ImVec2{
+			std::min(viewportPanelSize.y * aspectRatio, viewportPanelSize.x), std::min(viewportPanelSize.x / aspectRatio, viewportPanelSize.y)
+		};
 
 		ImVec2 imageOffset = {
 			(float)(viewportPanelSize.x - imageBlitSize.x) / 2,
@@ -224,9 +231,8 @@ void ImGuiLayer::Update()
 		};
 		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
 
-		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
+		ImGui::Image(m_SceneManager->GetFrameBuffer()->GetAttatchmentID(), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
 		
-
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}

@@ -8,7 +8,12 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
+}
 
+void SceneManager::InitFramebuffer()
+{
+	m_FrameBuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
+	m_FrameBuffer.Update();
 }
 
 void SceneManager::Update()
@@ -18,7 +23,7 @@ void SceneManager::Update()
 
 void SceneManager::Render(Renderer* renderer)
 {
-	m_Scene->Render(renderer);
+	m_Scene->Render(renderer, &m_FrameBuffer);
 }
 
 void SceneManager::SaveCurrentScene(std::string optionalPath)

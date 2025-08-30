@@ -12,6 +12,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
+	void InitFramebuffer();
 
 	void Update();
 	void Render(Renderer* renderer);
@@ -25,6 +26,7 @@ public:
 	Scene* GetCurrentScene() const { return m_Scene; }
 	AssetManager* GetAssetManager() { return &assetManager; }
 	LightManager* GetLightManager() { return &lightManager; }
+	FrameBuffer* GetFrameBuffer() {return &m_FrameBuffer;}
 
 	unsigned int AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
@@ -32,6 +34,8 @@ private:
 
 	AssetManager assetManager;
 	LightManager lightManager;
+
+	FrameBuffer m_FrameBuffer;
 
 	Material defaultMat = Material(glm::vec3(1));
 

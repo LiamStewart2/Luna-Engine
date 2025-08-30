@@ -22,7 +22,7 @@ public:
 	void LoadAssets();
 
 	void Update();
-	void Render(Renderer* renderer);
+	void Render(Renderer* renderer, FrameBuffer* framebuffer);
 
 	unsigned int AddObject(unsigned int parent = 0);
 	template <typename T, typename... Args>

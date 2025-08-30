@@ -8,7 +8,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader)
+void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, FrameBuffer* framebuffer)
 {
 	std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
 	unsigned int mainCamera = 0;
@@ -39,7 +39,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
 	
 	lightManager->InitCascadeLevels(ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera);
-	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader);
+	lightComponent->m_Light.FrameSetup(lightManager, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), lightTransform, shader, framebuffer);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
@@ -48,7 +48,7 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	}
 	lightComponent->m_Light.FrameReset();
 
-	SetShaderFrame(ECS, mainCamera, depthMapShader, shader);
+	SetShaderFrame(ECS, mainCamera, depthMapShader, shader, framebuffer);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
@@ -57,6 +57,9 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 			RenderObject(transformIt->second, lightComponent, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
 		}
 	}
+
+	if (framebuffer != nullptr)
+		framebuffer->Unbind();
 }
 
 void Renderer::RenderObject(Transform* transform, LightComponent* light, Mesh* mesh, Texture* texture, Material* material, Shader* shader)
@@ -75,8 +78,14 @@ void Renderer::RenderObject(Transform* transform, LightComponent* light, Mesh* m
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader)
+void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer)
 {
+	if (framebuffer != nullptr)
+		framebuffer->Bind();
+	else
+		glViewport(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	CameraComponent* cameraComponent = ECS->GetObjectComponent<CameraComponent>(camera);
 	Transform* transformComponent = ECS->GetObjectComponent<Transform>(camera);
@@ -93,8 +102,6 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 
 	glm::mat4 projection = cameraComponent->m_Camera->GetProjection();
 	glm::mat4 view = cameraComponent->m_Camera->GetView(transformComponent);
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
 
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);

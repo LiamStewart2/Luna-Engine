@@ -63,7 +63,7 @@
                     5.0,
                     0.0,
                     -90.0,
-                    -50.0,
+                    30.0,
                     0.0,
                     1.0,
                     1.0,
@@ -127,7 +127,7 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\Grass.jpg"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -185,11 +185,39 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\Grass.jpg"
                 ],
                 "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera 2"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    false
+                ],
+                "component-type": "CameraComponent"
             }
         ]
     ],
@@ -218,6 +246,10 @@
                 }
             ],
             "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"
