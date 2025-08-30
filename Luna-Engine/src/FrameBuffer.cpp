@@ -25,7 +25,6 @@ FrameBuffer::~FrameBuffer()
 	glDeleteTextures(1, &m_DepthID);
 }
 
-#include <iostream>
 void FrameBuffer::Update()
 {
 	if (m_ID)
@@ -33,59 +32,41 @@ void FrameBuffer::Update()
 		glDeleteFramebuffers(1, &m_ID);
 		glDeleteTextures(m_ColorIDs.size(), m_ColorIDs.data());
 		glDeleteTextures(1, &m_DepthID);
+
+		m_ColorIDs.clear();
+		m_DepthID = 0;
 	}
 
 	glCreateFramebuffers(1, &m_ID);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
 
-	m_ColorIDs.clear();
-	m_DepthID = 0;
-
-	for (unsigned int i = 0; i < m_ColorAttatchments.size(); i++)
+	if (m_ColorAttatchments.size())
 	{
-		GLuint texID;
-		glGenTextures(1, &texID);
-		glBindTexture(GL_TEXTURE_2D, texID);
+		m_ColorIDs.resize(m_ColorAttatchments.size());
+		glCreateTextures(GL_TEXTURE_2D, m_ColorIDs.size(), m_ColorIDs.data());
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Width,
-			0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER,
-			GL_COLOR_ATTACHMENT0 + i,
-			GL_TEXTURE_2D, texID, 0);
-
-		m_ColorIDs.push_back(texID);
+		for (size_t i = 0; i < m_ColorIDs.size(); i++)
+		{
+			glBindTexture(GL_TEXTURE_2D, m_ColorIDs[i]);
+			switch (m_ColorAttatchments[i])
+			{
+			case RGBA8:
+				AddColorAttatchment(m_ColorIDs[i], GL_RGBA8, GL_RGBA, i);
+				break;
+			}
+		}
 	}
 
 	if (m_DepthAttatchment != None)
 	{
-		glGenRenderbuffers(1, &m_DepthID);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_DepthID);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
-			GL_RENDERBUFFER, m_DepthID);
-	}
-
-	if (!m_ColorIDs.empty())
-	{
-		std::vector<GLenum> bufs(m_ColorIDs.size());
-		for (size_t i = 0; i < bufs.size(); ++i)
-			bufs[i] = GL_COLOR_ATTACHMENT0 + (GLenum)i;
-		glDrawBuffers((GLsizei)bufs.size(), bufs.data());
-	}
-	else
-	{
-		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE);
-	}
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		std::cerr << "[FrameBuffer] Incomplete framebuffer!" << std::endl;
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthID);
+		glBindTexture(GL_TEXTURE_2D, m_DepthID);
+		switch (m_DepthAttatchment)
+		{
+		case DEPTH:
+			AddDepthAttatchment(m_DepthID, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT);
+			break;
+		}
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -119,7 +100,7 @@ unsigned int FrameBuffer::GetAttatchmentID(unsigned int index)
 {
 	if(index >= m_ColorIDs.size())
 		return 0;
-	return m_ColorIDs.at(index);
+	return m_ColorIDs[index];
 }
 
 void FrameBuffer::AddColorAttatchment(unsigned int id, GLenum internalFormat, GLenum format, int index)

@@ -224,11 +224,9 @@ void ImGuiLayer::Update()
 		};
 		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
 
-		ImGui::Image((ImTextureID)(intptr_t)m_SceneManager->GetFrameBuffer()->GetAttatchmentID(0), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
+		ImGui::Image(m_SceneManager->GetFrameBuffer()->GetAttatchmentID(), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
 		
-		std::cout << "Framebuffer: " << (ImTextureID)(intptr_t)m_SceneManager->GetFrameBuffer()->GetAttatchmentID(0) << std::endl;
-		std::cout << "IO: " << io.Fonts->TexID.GetTexID() << std::endl;
-
+		m_SceneManager->GetFrameBuffer()->Update();
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
