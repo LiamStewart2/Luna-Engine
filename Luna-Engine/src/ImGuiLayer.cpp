@@ -29,6 +29,7 @@ void ImGuiLayer::StartFrame()
 	ImGui::NewFrame();
 }
 
+// DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
 void ImGuiLayer::Update()
 {
 	StartFrame();
@@ -55,15 +56,9 @@ void ImGuiLayer::Update()
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
 
-	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
-	// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-	// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
-	// all active windows docked into it will lose their parent and become undocked.
-	// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
-	// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
 	ImGui::PopStyleVar();
@@ -75,7 +70,8 @@ void ImGuiLayer::Update()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 	float minWinSizeX = style.WindowMinSize.x;
-	style.WindowMinSize.x = 370.0f;
+	style.WindowMinSize.x = 250.0f;
+	style.WindowMinSize.y = 250.0f;
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -221,6 +217,10 @@ void ImGuiLayer::Update()
 
 	{
 		ImGui::Begin("Scene");
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+
+		ImGui::Image(m_AssetManager->GetTexture("Assets/Textures/grass.jpg").get()->ID, viewportPanelSize, ImVec2{0, 1}, ImVec2{1, 0});
 
 		ImGui::End();
 	}
