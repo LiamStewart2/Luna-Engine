@@ -10,6 +10,7 @@ void ImGuiLayer::Init()
 	io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);

@@ -51,19 +51,10 @@
     <ClCompile Include="src\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\SceneGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TransformationManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_impl_glfw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui\imgui_tables.cpp">
@@ -90,10 +81,19 @@
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\imgui\imgui_stdlib.cpp">
+    <ClCompile Include="src\Platform\FileNavigatorOpen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\FileNavigatorOpen.cpp">
+    <ClCompile Include="src\LunaWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,9 +152,6 @@
     <ClInclude Include="src\ECS\MeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SceneGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,12 +159,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imgui_impl_glfw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\imgui\imgui_internal.h">
@@ -206,10 +197,22 @@
     <ClInclude Include="src\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\imgui\imgui_stdlib.h">
+    <ClInclude Include="src\Platform\FileNavigatorOpen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\FileNavigatorOpen.h">
+    <ClInclude Include="src\LunaWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
