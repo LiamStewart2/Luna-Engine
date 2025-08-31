@@ -16,14 +16,34 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "FrameBuffer.h"
+#include "EditorCamera.h"
 
 class Renderer {
 public:
 	Renderer();
 	~Renderer();
 	
-	void RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManager* lightManager, Shader* shader, Shader* depthMapShader, FrameBuffer* framebuffer);
+	void RenderSceneFromMainCamera(
+		EntityComponentSystem* ECS, 
+		LightManager* lightManager, 
+		Shader* shader, Shader* depthMapShader, 
+		FrameBuffer* framebuffer
+	);
 
-	void SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer);
+	void EditorRenderPass(
+		EntityComponentSystem* ECS,
+		LightManager* lightManager, 
+		EditorCamera* camera,
+		Shader* shader, Shader* depthMapShader,
+		FrameBuffer* framebuffer
+	);
+
+	void SetShaderFrame(
+		EntityComponentSystem* ECS, 
+		Camera* camera, Transform* cameraTransform, 
+		Shader* depthmapShader, Shader* shader,
+		FrameBuffer* framebuffer
+	);
+
 	void RenderObject(Transform* transform, LightComponent* light, Mesh* mesh, Texture* texture, Material* material, Shader* shader);
 };
