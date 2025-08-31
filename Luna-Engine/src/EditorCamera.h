@@ -22,4 +22,10 @@ private:
 	void HandleMovement();
 	void HandleRotation();
 
+	glm::vec3 Forward();
+
+	float m_MovementSpeed = 0.2f;
+	float m_Sensitivity = 1.0f;
+	bool m_FirstMousePressFrame = true;
+	glm::dvec2 m_LastMousePosition = glm::dvec2(0);
 };

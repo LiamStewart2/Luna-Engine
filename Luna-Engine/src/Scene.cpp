@@ -40,6 +40,7 @@ void Scene::Update()
 	shader->BindShader();
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
+	camera.Update();
 }
 
 
