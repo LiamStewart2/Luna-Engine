@@ -33,9 +33,9 @@ void EditorCamera::HandleMovement()
     if(window->GetKey(GLFW_KEY_S))
         m_Position -= Forward() * m_MovementSpeed;
     if(window->GetKey(GLFW_KEY_D))
-        m_Position += glm::cross(Forward(), glm::vec3(0, 1, 0)) * m_MovementSpeed;
+        m_Position += normalize(glm::cross(Forward(), glm::vec3(0, 1, 0))) * m_MovementSpeed;
     if (window->GetKey(GLFW_KEY_A))
-        m_Position -= glm::cross(Forward(), glm::vec3(0, 1, 0)) * m_MovementSpeed;
+        m_Position -= normalize(glm::cross(Forward(), glm::vec3(0, 1, 0))) * m_MovementSpeed;
 }
 
 void EditorCamera::HandleRotation()
@@ -59,13 +59,23 @@ void EditorCamera::HandleRotation()
 
     glm::dvec2 mouseMovement = currentMousePosition - glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-    m_Rotation.x -= mouseMovement.x * m_Sensitivity;
-    m_Rotation.y += mouseMovement.y * m_Sensitivity;
+    m_Rotation.x += mouseMovement.x * m_Sensitivity;
+    m_Rotation.y -= mouseMovement.y * m_Sensitivity;
+
+    m_Rotation.y = glm::clamp(m_Rotation.y, -89.0f, 89.0f);
 
     window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 glm::vec3 EditorCamera::Forward()
 {
-    return glm::vec3(sin(glm::radians(m_Rotation.y)), cos(glm::radians(m_Rotation.x + 90)), cos(glm::radians(m_Rotation.y)));
+    float yaw = glm::radians(m_Rotation.x);
+    float pitch = glm::radians(m_Rotation.y);
+
+    glm::vec3 forward;
+    forward.x = cos(pitch) * cos(yaw);
+    forward.y = sin(pitch);
+    forward.z = cos(pitch) * sin(yaw);
+
+    return glm::normalize(forward);
 }
