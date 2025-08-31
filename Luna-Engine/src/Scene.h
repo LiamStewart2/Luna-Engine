@@ -56,6 +56,6 @@ private:
 
 	Material material = Material(glm::vec3(1));
 
-	EditorCamera camera = EditorCamera(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
+	EditorCamera camera = EditorCamera(glm::vec3(0, 2, 6), glm::vec3(25, 180, 0));
 };
 

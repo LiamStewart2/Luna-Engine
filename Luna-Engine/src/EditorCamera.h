@@ -15,10 +15,11 @@ public:
 	glm::mat4 GetView(Transform* transform = nullptr) override;
 
 	void Update();
+
+	glm::vec3 m_Position;
+	glm::vec3 m_Rotation;
 private:
 	void HandleMovement();
 	void HandleRotation();
 
-	glm::vec3 m_Position;
-	glm::vec3 m_Rotation;
 };

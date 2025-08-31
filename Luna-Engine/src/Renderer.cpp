@@ -48,7 +48,50 @@ void Renderer::RenderSceneFromMainCamera(EntityComponentSystem* ECS, LightManage
 	}
 	lightComponent->m_Light.FrameReset();
 
-	SetShaderFrame(ECS, mainCamera, depthMapShader, shader, framebuffer);
+	SetShaderFrame(ECS, ECS->GetObjectComponent<CameraComponent>(mainCamera)->m_Camera, ECS->GetObjectComponent<Transform>(mainCamera), depthMapShader, shader, framebuffer);
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+		{
+			RenderObject(transformIt->second, lightComponent, meshComponent->mesh, meshComponent->texture, meshComponent->material, meshComponent->shader);
+		}
+	}
+
+	if (framebuffer != nullptr)
+		framebuffer->Unbind();
+}
+
+void Renderer::EditorRenderPass(EntityComponentSystem* ECS, LightManager* lightManager, EditorCamera* camera, Shader* shader, Shader* depthMapShader, FrameBuffer* framebuffer)
+{
+	if(ECS == nullptr) {std::cout << "NO ECS PASSED" << std::endl; return; }
+	if(camera == nullptr) {std::cout << "NO CAMERA PASSED" << std::endl; return; }
+	if(shader == nullptr) {std::cout << "NO SHADER PASSED" << std::endl; return; }
+	if(framebuffer == nullptr) {std::cout << "NO FRAMEBUFFER PASSED" << std::endl; return; }
+
+	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+	Transform* lightTransform = nullptr; LightComponent* lightComponent = nullptr;
+	for (auto& [id, LC] : lightComponents)
+	{
+		lightComponent = LC;
+		lightTransform = ECS->GetObjectComponent<Transform>(id);
+	}
+
+	std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
+	std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
+
+	lightManager->InitCascadeLevels((Camera*)camera);
+	Transform cameraTransform = Transform(0, camera->m_Position, camera->m_Rotation);
+	lightComponent->m_Light.FrameSetup(lightManager, (Camera*)camera, &cameraTransform, lightTransform, shader, framebuffer);
+	for (auto& [id, meshComponent] : meshComponents)
+	{
+		auto transformIt = transforms.find(meshComponent->gameObject);
+		if (transformIt != transforms.end())
+			lightComponent->m_Light.RenderObjectToDepthmap(meshComponent->mesh, transformIt->second, depthMapShader);
+	}
+	lightComponent->m_Light.FrameReset();
+
+	SetShaderFrame(ECS, (Camera*)camera, &cameraTransform, depthMapShader, shader, framebuffer);
 	for (auto& [id, meshComponent] : meshComponents)
 	{
 		auto transformIt = transforms.find(meshComponent->gameObject);
@@ -78,7 +121,7 @@ void Renderer::RenderObject(Transform* transform, LightComponent* light, Mesh* m
 	glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer)
+void Renderer::SetShaderFrame(EntityComponentSystem* ECS, Camera* camera, Transform* cameraTransform, Shader* depthmapShader, Shader* shader, FrameBuffer* framebuffer)
 {
 	if (framebuffer != nullptr)
 		framebuffer->Bind();
@@ -86,9 +129,6 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
 	glClearColor(0.4f, 0.95f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	CameraComponent* cameraComponent = ECS->GetObjectComponent<CameraComponent>(camera);
-	Transform* transformComponent = ECS->GetObjectComponent<Transform>(camera);
 
 	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
 	Transform* lightTransform = nullptr; LightComponent* lightComponent = nullptr;
@@ -100,8 +140,8 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 
 	shader->BindShader();
 
-	glm::mat4 projection = cameraComponent->m_Camera->GetProjection();
-	glm::mat4 view = cameraComponent->m_Camera->GetView(transformComponent);
+	glm::mat4 projection = camera->GetProjection();
+	glm::mat4 view = camera->GetView(cameraTransform);
 
 	shader->SetMat4("projection", projection);
 	shader->SetMat4("view", view);
@@ -114,11 +154,11 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, unsigned int camera, S
 		shader->SetVec3("oLight.color", lightComponent->m_LightColor);
 	}
 
-	shader->SetFloat("farPlane", cameraComponent->m_Camera->m_FarPlane);
+	shader->SetFloat("farPlane", camera->m_FarPlane);
 
-	shader->SetVec3("oViewPosition", transformComponent->position);
+	shader->SetVec3("oViewPosition", cameraTransform->position);
 
-	std::vector<float> shadowCascadeLevels = { cameraComponent->m_Camera->m_FarPlane / 50.0f, cameraComponent->m_Camera->m_FarPlane / 25.0f, cameraComponent->m_Camera->m_FarPlane / 10.0f, cameraComponent->m_Camera->m_FarPlane / 2.0f };
+	std::vector<float> shadowCascadeLevels = { camera->m_FarPlane / 50.0f, camera->m_FarPlane / 25.0f, camera->m_FarPlane / 10.0f, camera->m_FarPlane / 2.0f };
 	shader->SetInt("cascadeCount", shadowCascadeLevels.size());
 	for (size_t i = 0; i < shadowCascadeLevels.size(); ++i)
 	{

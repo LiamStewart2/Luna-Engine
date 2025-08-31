@@ -46,7 +46,7 @@ void Scene::Update()
 
 void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer)
 {
-	renderer->RenderSceneFromMainCamera(&ECS, lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get(), framebuffer);
+	renderer->EditorRenderPass(&ECS, lightManager, &camera, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get(), framebuffer);
 }
 
 unsigned int Scene::AddObject(unsigned int parent)
