@@ -15,11 +15,12 @@ glm::mat4 EditorCamera::GetView(Transform* transform)
 
 void EditorCamera::Update()
 {
-    HandleMovement();
+    if(EditorCamera::sceneWindowFocused)
+        HandleMovement();
 
     ImGuiIO& io = ImGui::GetIO();
 
-    if (EditorCamera::sceneWindowFocused && EditorCamera::sceneWindowHovered &&
+    if (EditorCamera::sceneWindowHovered &&
         LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // stop ImGui overriding

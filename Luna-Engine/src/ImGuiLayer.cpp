@@ -215,6 +215,12 @@ void ImGuiLayer::Update()
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene", &m_ShowScene);
 
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows) &&
+			ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			ImGui::SetWindowFocus("Scene");
+		}
+
 		EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 		EditorCamera::sceneWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
 
