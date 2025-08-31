@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "LunaWindow.h"
+#include "imgui/imgui.h"
 
 #include <iostream>
 
@@ -18,6 +19,8 @@ public:
 
 	glm::vec3 m_Position;
 	glm::vec3 m_Rotation;
+
+	static bool sceneWindowFocused, sceneWindowHovered;
 private:
 	void HandleMovement();
 	void HandleRotation();

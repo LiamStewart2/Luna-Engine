@@ -1,5 +1,8 @@
 #include "EditorCamera.h"
 
+bool EditorCamera::sceneWindowFocused = false;
+bool EditorCamera::sceneWindowHovered = false;
+
 glm::mat4 EditorCamera::GetProjection()
 {
     return glm::perspective(glm::radians(m_Pov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, m_NearPlane, m_FarPlane);
@@ -14,13 +17,23 @@ void EditorCamera::Update()
 {
     HandleMovement();
 
-    if (LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-        HandleRotation();
-    else if (m_FirstMousePressFrame == true)
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (EditorCamera::sceneWindowFocused && EditorCamera::sceneWindowHovered &&
+        LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
-        m_FirstMousePressFrame = false;
-        LunaWindow::m_FocusedWindow->SetCursorPosition(m_LastMousePosition.x, m_LastMousePosition.y);
-        LunaWindow::m_FocusedWindow->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // stop ImGui overriding
+        HandleRotation();
+    }
+    else
+    {
+        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange; // restore ImGui behaviour
+        if (m_FirstMousePressFrame)
+        {
+            m_FirstMousePressFrame = false;
+            LunaWindow::m_FocusedWindow->SetCursorPosition(m_LastMousePosition.x, m_LastMousePosition.y);
+            LunaWindow::m_FocusedWindow->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
     }
 }
 

@@ -215,6 +215,9 @@ void ImGuiLayer::Update()
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene", &m_ShowScene);
 
+		EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
+		EditorCamera::sceneWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
+
 		FrameBuffer* framebuffer = m_SceneManager->GetFrameBuffer();
 		const FramebufferSpecification* specs = framebuffer->GetSpecs();
 
