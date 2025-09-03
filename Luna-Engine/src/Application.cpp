@@ -69,8 +69,8 @@ void Application::HandleInput()
 
 void Application::Update()
 {
-	imGuiLayer.Update();
 	sceneManager.Update();
+	imGuiLayer.Update();
 }
 
 void Application::Render()
