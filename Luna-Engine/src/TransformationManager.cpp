@@ -9,7 +9,7 @@ void TransformationManager::UpdateTransformationMatricies(SceneGraph* sceneGraph
 }
 
 
-void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents)
+void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents, glm::mat4 parentMatrix)
 {
 	/// Calculate world matrix for the transform component
 	glm::mat4 matrix = m_Stack.Peek();
@@ -23,11 +23,12 @@ void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered
 	matrix = glm::scale(matrix, transformComponents->at(node->GetGameObject())->scale);
 
 	transformComponents->at(node->GetGameObject())->transformMatrix = matrix;
+	transformComponents->at(node->GetGameObject())->parentMatrix = parentMatrix;
 
 	m_Stack.Push(matrix);
 	/// Update all child nodes matricies
 	for (SceneGraphNode* n : *node->getNodes())
-		UpdateTransform(n, transformComponents);
+		UpdateTransform(n, transformComponents, matrix);
 
 	m_Stack.Pop();
 }

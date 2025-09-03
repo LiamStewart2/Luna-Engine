@@ -262,35 +262,43 @@ void ImGuiLayer::Update()
 				m_CurrentOperation = ImGuizmo::TRANSLATE;
 			else if (ImGui::IsKeyPressed(ImGuiKey_R))
 				m_CurrentOperation = ImGuizmo::ROTATE;
-			else if (ImGui::IsKeyPressed(ImGuiKey_S))
+			else if (ImGui::IsKeyPressed(ImGuiKey_E))
 				m_CurrentOperation = ImGuizmo::SCALE;
 
 			Transform* objectTransform = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject);
 			glm::mat4 matrix = objectTransform->transformMatrix;
-
 
 			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
 				m_CurrentOperation, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
 			if (ImGuizmo::IsUsing())
 			{
-				glm::vec3 translation, rotation, scale;
-				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix),
-					glm::value_ptr(translation),
-					glm::value_ptr(rotation),
-					glm::value_ptr(scale));
+				matrix = glm::inverse(objectTransform->parentMatrix) * matrix;
+
+				glm::vec3 translation, skew, scale;
+				glm::quat rotation;
+				glm::vec4 perspective;
+
+				// Decompose the matrix
+				glm::decompose(matrix, scale, rotation, translation, skew, perspective);
+				std::cout << rotation.x << ", " << rotation.y << ", " << rotation.z << ", " << rotation.w << std::endl;
+				glm::vec3 euler = glm::eulerAngles(rotation);
+				euler = glm::vec3(glm::degrees(euler.x), glm::degrees(euler.y), glm::degrees(euler.z));
+
+				float translation2[3], rotation2[3], scale2[3];
+
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix), translation2, rotation2, scale2);
 
 				switch (m_CurrentOperation)
 				{
 				case ImGuizmo::TRANSLATE:
-					objectTransform->position = translation;
+					objectTransform->position = glm::vec3(translation2[0], translation2[1], translation2[2]);
 					break;
 				case ImGuizmo::ROTATE:
-					glm::vec3 deltaRotation = rotation - objectTransform->rotation;
-					objectTransform->rotation += deltaRotation;
+					objectTransform->rotation = glm::vec3(rotation2[0], rotation2[1], rotation2[2]);
 					break;
 				case ImGuizmo::SCALE:
-					objectTransform->scale = scale;
+					objectTransform->scale = glm::vec3(scale2[0], scale2[1], scale2[2]);
 					break;
 				default:
 					break;
