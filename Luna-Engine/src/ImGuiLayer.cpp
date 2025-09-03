@@ -246,6 +246,7 @@ void ImGuiLayer::Update()
 		// Prepare ImGuizmo
 		ImGuizmo::SetRect(viewportPos.x + imageOffset.x, viewportPos.y + imageOffset.y, imageSize.x, imageSize.y);
 
+
 		EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
 		glm::mat4 view = editorCamera->GetView();
 		glm::mat4 proj = editorCamera->GetProjection();
@@ -268,7 +269,6 @@ void ImGuiLayer::Update()
 			glm::mat4 matrix = objectTransform->transformMatrix;
 
 
-
 			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
 				m_CurrentOperation, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
@@ -286,7 +286,8 @@ void ImGuiLayer::Update()
 					objectTransform->position = translation;
 					break;
 				case ImGuizmo::ROTATE:
-					objectTransform->rotation = rotation;
+					glm::vec3 deltaRotation = rotation - objectTransform->rotation;
+					objectTransform->rotation += deltaRotation;
 					break;
 				case ImGuizmo::SCALE:
 					objectTransform->scale = scale;
