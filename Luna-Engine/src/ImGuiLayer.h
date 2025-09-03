@@ -63,6 +63,8 @@ private:
 
 	int m_ObjectToRemoveID = 0;
 
+	ImGuizmo::OPERATION m_CurrentOperation = ImGuizmo::TRANSLATE;
+
 	std::vector<unsigned int> m_ObjectsToDelete;
 	std::vector<std::pair<unsigned int, std::string>> m_ObjectsToAdd;
 

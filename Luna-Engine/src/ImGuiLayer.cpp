@@ -255,11 +255,22 @@ void ImGuiLayer::Update()
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
+
+			// Handle Input for ImGuizmo Operation Selection
+			if(ImGui::IsKeyPressed(ImGuiKey_T))
+				m_CurrentOperation = ImGuizmo::TRANSLATE;
+			else if (ImGui::IsKeyPressed(ImGuiKey_R))
+				m_CurrentOperation = ImGuizmo::ROTATE;
+			else if (ImGui::IsKeyPressed(ImGuiKey_S))
+				m_CurrentOperation = ImGuizmo::SCALE;
+
 			Transform* objectTransform = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject);
 			glm::mat4 matrix = objectTransform->transformMatrix;
 
+
+
 			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
-				ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
+				m_CurrentOperation, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
 			if (ImGuizmo::IsUsing())
 			{
@@ -269,9 +280,20 @@ void ImGuiLayer::Update()
 					glm::value_ptr(rotation),
 					glm::value_ptr(scale));
 
-				objectTransform->position = translation;
-				objectTransform->rotation = rotation;
-				objectTransform->scale = scale;
+				switch (m_CurrentOperation)
+				{
+				case ImGuizmo::TRANSLATE:
+					objectTransform->position = translation;
+					break;
+				case ImGuizmo::ROTATE:
+					objectTransform->rotation = rotation;
+					break;
+				case ImGuizmo::SCALE:
+					objectTransform->scale = scale;
+					break;
+				default:
+					break;
+				}
 			}
 		}
 
