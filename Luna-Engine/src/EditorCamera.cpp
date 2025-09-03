@@ -21,9 +21,11 @@ void EditorCamera::Update()
     ImGuiIO& io = ImGui::GetIO();
 
     if (EditorCamera::sceneWindowHovered &&
-        LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+        LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && 
+            !ImGuizmo::IsOver() && !ImGuizmo::IsUsing())
     {
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // stop ImGui overriding
+        ImGui::SetWindowFocus("Scene");
         HandleRotation();
     }
     else

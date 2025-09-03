@@ -9,7 +9,6 @@ void ImGuiLayer::Init()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
@@ -36,6 +35,12 @@ void ImGuiLayer::StartFrame()
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
 }
+
+static const float identityMatrix[16] =
+{ 1.f, 0.f, 0.f, 0.f,
+	0.f, 1.f, 0.f, 0.f,
+	0.f, 0.f, 1.f, 0.f,
+	0.f, 0.f, 0.f, 1.f };
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
 void ImGuiLayer::Update()
@@ -211,57 +216,67 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	if(m_ShowScene){
-
+	if (m_ShowScene)
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene", &m_ShowScene);
 
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows) &&
-			ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		// Get viewport size (content region inside the window)
+		ImVec2 viewportPos = ImGui::GetWindowPos();
+		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+
+		// Center the framebuffer image in the window
+		FrameBuffer* framebuffer = m_SceneManager->GetFrameBuffer();
+		const FramebufferSpecification* specs = framebuffer->GetSpecs();
+		float aspectRatio = (float)specs->Width / (float)specs->Height;
+
+		ImVec2 imageSize{
+			std::min(viewportSize.y * aspectRatio, viewportSize.x),
+			std::min(viewportSize.x / aspectRatio, viewportSize.y)
+		};
+
+		ImVec2 imageOffset{
+			(viewportSize.x - imageSize.x) * 0.5f,
+			(viewportSize.y - imageSize.y) * 0.5f
+		};
+
+		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
+		ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		// Prepare ImGuizmo
+		ImGuizmo::SetRect(viewportPos.x + imageOffset.x, viewportPos.y + imageOffset.y, imageSize.x, imageSize.y);
+
+		EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
+		glm::mat4 view = editorCamera->GetView();
+		glm::mat4 proj = editorCamera->GetProjection();
+
+		if (m_CurrentInspectorGameObject != 0)
 		{
-			ImGui::SetWindowFocus("Scene");
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+			Transform* objectTransform = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject);
+			glm::mat4 matrix = objectTransform->transformMatrix;
+
+			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
+				ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
+
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 translation, rotation, scale;
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix),
+					glm::value_ptr(translation),
+					glm::value_ptr(rotation),
+					glm::value_ptr(scale));
+
+				objectTransform->position = translation;
+				objectTransform->rotation = rotation;
+				objectTransform->scale = scale;
+			}
 		}
 
 		EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 		EditorCamera::sceneWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
-
-		FrameBuffer* framebuffer = m_SceneManager->GetFrameBuffer();
-		const FramebufferSpecification* specs = framebuffer->GetSpecs();
-
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-
-		float aspectRatio = (float)specs->Width / (float)specs->Height;
-		ImVec2 imageBlitSize = ImVec2{
-			std::min(viewportPanelSize.y * aspectRatio, viewportPanelSize.x), std::min(viewportPanelSize.x / aspectRatio, viewportPanelSize.y)
-		};
-
-		ImVec2 imageOffset = {
-			(float)(viewportPanelSize.x - imageBlitSize.x) / 2,
-			(float)(viewportPanelSize.y - imageBlitSize.y) / 2
-		};
-		ImGui::SetCursorPos( ImVec2 { ImGui::GetCursorPosX() + imageOffset.x, ImGui::GetCursorPosY() + imageOffset.y });
-
-		ImGui::Image(m_SceneManager->GetFrameBuffer()->GetAttatchmentID(), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
-		
-		// Handle Gizmos
-
-		if(m_CurrentInspectorGameObject != 0)
-		{
-			ImGuiIO& io = ImGui::GetIO();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y,
-			ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
-
-			EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
-
-			glm::mat4 matrix = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->transformMatrix;
-
-			glm::mat4 view = editorCamera->GetView();
-			glm::mat4 proj = editorCamera->GetProjection();
-
-			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
-
-
-		}
 
 		ImGui::End();
 		ImGui::PopStyleVar();
