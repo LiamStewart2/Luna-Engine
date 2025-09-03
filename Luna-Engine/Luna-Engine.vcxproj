@@ -15,6 +15,7 @@
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\imgui\ImGuizmo.cpp" />
     <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\Platform\FileNavigatorOpen.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\imgui\ImGuizmo.h" />
     <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\Platform\FileNavigatorOpen.h" />
     <ClInclude Include="src\SceneManager.h" />

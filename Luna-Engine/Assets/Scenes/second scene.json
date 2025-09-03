@@ -63,7 +63,7 @@
                     5.0,
                     0.0,
                     -90.0,
-                    30.0,
+                    -30.0,
                     0.0,
                     1.0,
                     1.0,
@@ -177,17 +177,47 @@
                     0.0,
                     0.0,
                     0.0,
-                    0.30000001192092896,
-                    0.30000001192092896,
-                    0.30000001192092896
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    -2.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/Shader",
+                    "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -215,6 +245,10 @@
                 {
                     "Children": [],
                     "ObjectID": 6
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 7
                 }
             ],
             "ObjectID": 3

@@ -34,6 +34,7 @@ void ImGuiLayer::StartFrame()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 }
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
@@ -242,6 +243,26 @@ void ImGuiLayer::Update()
 
 		ImGui::Image(m_SceneManager->GetFrameBuffer()->GetAttatchmentID(), imageBlitSize, ImVec2{0, 1}, ImVec2{1, 0});
 		
+		// Handle Gizmos
+
+		if(m_CurrentInspectorGameObject != 0)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y,
+			ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
+
+			EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
+
+			glm::mat4 matrix = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(m_CurrentInspectorGameObject)->transformMatrix;
+
+			glm::mat4 view = editorCamera->GetView();
+			glm::mat4 proj = editorCamera->GetProjection();
+
+			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj), ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
+
+
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
