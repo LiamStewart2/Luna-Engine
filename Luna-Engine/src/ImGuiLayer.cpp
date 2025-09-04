@@ -210,12 +210,10 @@ void ImGuiLayer::Update()
 		for(int i = 0; i < sceneNode->getNodes()->size(); i++)
 			BuildHiearchyText(scene->GetSceneGraph()->GetNode(sceneNode->getNodes()->at(i)->GetGameObject(), nullptr), &names, hasRightClicked);
 		
-		if(ImGui::BeginPopupContextWindow(0, 1))
+		if(!hasRightClicked && ImGui::BeginPopupContextWindow(0, 1))
 		{
 			if (ImGui::MenuItem("Add Object"))
-			{
 				m_ObjectsToAdd.push_back({ 0, "New Object" });
-			}
 
 			ImGui::EndPopup();
 		}
@@ -351,6 +349,7 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 	{
 		m_CurrentInspectorGameObject = id;
 		hasBeenRightClicked = true;
+		
 		if(ImGui::MenuItem("Add Object"))
 		{
 			m_ObjectsToAdd.push_back({ id, "New Object" });
@@ -371,7 +370,7 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 
 		if (ImGui::MenuItem("Delete Object"))
 			m_ObjectsToDelete.push_back({id});
-
+			
 		ImGui::EndPopup();
 	}
 
