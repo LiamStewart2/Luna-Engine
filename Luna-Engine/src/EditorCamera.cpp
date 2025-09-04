@@ -15,9 +15,6 @@ glm::mat4 EditorCamera::GetView(Transform* transform)
 
 void EditorCamera::Update()
 {
-    if(EditorCamera::sceneWindowFocused)
-        HandleMovement();
-
     ImGuiIO& io = ImGui::GetIO();
 
     if (EditorCamera::sceneWindowHovered &&
@@ -27,6 +24,7 @@ void EditorCamera::Update()
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // stop ImGui overriding
         ImGui::SetWindowFocus("Scene");
         HandleRotation();
+        HandleMovement();
     }
     else
     {
