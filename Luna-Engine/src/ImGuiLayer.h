@@ -69,5 +69,5 @@ private:
 	std::vector<unsigned int> m_ObjectsToDelete;
 	std::vector<std::pair<unsigned int, std::string>> m_ObjectsToAdd;
 
-	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names);
+	void BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names, bool& HasBeenRightClicked);
 };

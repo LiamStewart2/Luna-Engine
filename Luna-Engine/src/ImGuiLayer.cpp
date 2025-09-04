@@ -200,8 +200,25 @@ void ImGuiLayer::Update()
 	if(m_ShowHierachy){
 		ImGui::Begin("Hieararcy", &m_ShowHierachy);
 
+		ImGui::SeparatorText(scene->GetSceneName().c_str());
+
 		std::unordered_map<unsigned int, NameComponent*> names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
-		BuildHiearchyText(scene->GetSceneGraph(), &names);
+
+		bool hasRightClicked = false;
+
+		SceneGraphNode* sceneNode = scene->GetSceneGraph();
+		for(int i = 0; i < sceneNode->getNodes()->size(); i++)
+			BuildHiearchyText(scene->GetSceneGraph()->GetNode(sceneNode->getNodes()->at(i)->GetGameObject(), nullptr), &names, hasRightClicked);
+		
+		if(ImGui::BeginPopupContextWindow(0, 1))
+		{
+			if (ImGui::MenuItem("Add Object"))
+			{
+				m_ObjectsToAdd.push_back({ 0, "New Object" });
+			}
+
+			ImGui::EndPopup();
+		}
 
 		ImGui::End();
 	}
@@ -305,7 +322,7 @@ void ImGuiLayer::Update()
 	m_ObjectsToDelete.clear();
 }
 
-void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names)
+void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names, bool& hasBeenRightClicked)
 {
 	unsigned int id = node->GetGameObject();
 	std::string& name = names->at(id)->m_Name;
@@ -333,6 +350,7 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 	if (ImGui::BeginPopupContextItem())
 	{
 		m_CurrentInspectorGameObject = id;
+		hasBeenRightClicked = true;
 		if(ImGui::MenuItem("Add Object"))
 		{
 			m_ObjectsToAdd.push_back({ id, "New Object" });
@@ -359,7 +377,7 @@ void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsi
 
 	if (nodeOpen) {
 		for (SceneGraphNode* child : *node->getNodes())
-			BuildHiearchyText(child, names);
+			BuildHiearchyText(child, names, hasBeenRightClicked);
 		ImGui::TreePop();
 	}
 }
