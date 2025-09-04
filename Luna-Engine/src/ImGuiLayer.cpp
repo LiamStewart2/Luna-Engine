@@ -273,40 +273,41 @@ void ImGuiLayer::Update()
 			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
 				m_CurrentOperation, ImGuizmo::LOCAL, glm::value_ptr(matrix), glm::value_ptr(deltaMatrix));
 
-			if (ImGuizmo::IsUsing())
-			{
-				float translation[3], rotation[3], scale[3], placeholder[3];
+			if (ImGuizmo::IsUsing()) 
+			{ 
+				float translation[3], rotation[3], scale[3], placeholder[3]; 
+				glm::mat4 parentTransform = objectTransform->parentMatrix; 
+				matrix = glm::inverse(parentTransform) * matrix; 
 
-				glm::mat4 parentTransform = objectTransform->parentMatrix;
-				matrix = glm::inverse(parentTransform) * matrix;
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix), translation, placeholder, scale); 
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(deltaMatrix), placeholder, rotation, placeholder); 
+				
+				switch (m_CurrentOperation) 
+				{ 
+				case ImGuizmo::TRANSLATE: 
+					objectTransform->position = glm::vec3(translation[0], translation[1], translation[2]); 
+					break; 
 
-				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix), translation, placeholder, scale);
-				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(deltaMatrix), placeholder, rotation, placeholder);
+				case ImGuizmo::ROTATE: 
+					objectTransform->rotation += glm::vec3(rotation[0], rotation[1], rotation[2]); 
 
-				switch (m_CurrentOperation)
-				{
-				case ImGuizmo::TRANSLATE:
-					objectTransform->position = glm::vec3(translation[0], translation[1], translation[2]);
+					if (objectTransform->rotation.x > 360) objectTransform->rotation.x -= 360; 
+					if (objectTransform->rotation.y > 360) objectTransform->rotation.y -= 360;
+					if (objectTransform->rotation.z > 360) objectTransform->rotation.z -= 360; 
+
+					if (objectTransform->rotation.x < 0) objectTransform->rotation.x += 360; 
+					if (objectTransform->rotation.y < 0) objectTransform->rotation.y += 360; 
+					if (objectTransform->rotation.z < 0) objectTransform->rotation.z += 360; 
+
+					break; 
+
+				case ImGuizmo::SCALE: 
+					objectTransform->scale = glm::vec3(scale[0], scale[1], scale[2]); 
+					break; 
+
+				default: 
 					break;
-				case ImGuizmo::ROTATE:
-					objectTransform->rotation += glm::vec3(rotation[0], rotation[1], rotation[2]);
-
-					if(objectTransform->rotation.x > 360) objectTransform->rotation.x -= 360;
-					if(objectTransform->rotation.y > 360) objectTransform->rotation.y -= 360;
-					if(objectTransform->rotation.z > 360) objectTransform->rotation.z -= 360;
-
-					if (objectTransform->rotation.x < 0) objectTransform->rotation.x += 360;
-					if (objectTransform->rotation.y < 0) objectTransform->rotation.y += 360;
-					if (objectTransform->rotation.z < 0) objectTransform->rotation.z += 360;
-
-					break;
-				case ImGuizmo::SCALE:
-					objectTransform->scale = glm::vec3(scale[0], scale[1], scale[2]);
-					break;
-				default:
-					break;
-				}
-			}
+				} }
 		}
 
 		EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
