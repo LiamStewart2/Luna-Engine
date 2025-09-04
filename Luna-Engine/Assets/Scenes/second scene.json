@@ -12,6 +12,7 @@
                     0.0,
                     0.0,
                     0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -32,14 +33,15 @@
             {
                 "component-args": [
                     0.0,
-                    3.0,
-                    7.0,
-                    30.0,
-                    180.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    4.064016342163086,
+                    6.240562438964844,
+                    0.11481601744890213,
+                    -0.0558025985956192,
+                    0.8920422792434692,
+                    -0.4335480332374573,
+                    0.9999953508377075,
+                    0.9999998807907104,
+                    0.9999961256980896
                 ],
                 "component-type": "TransformComponent"
             },
@@ -60,14 +62,15 @@
             {
                 "component-args": [
                     0.0,
-                    5.0,
                     0.0,
-                    -90.0,
-                    -30.0,
                     0.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    0.7470345497131348,
+                    0.42243263125419617,
+                    -0.488880455493927,
+                    0.15647974610328674,
+                    0.9999971389770508,
+                    0.9999971985816956,
+                    0.9999975562095642
                 ],
                 "component-type": "TransformComponent"
             },
@@ -92,6 +95,7 @@
                     0.0,
                     0.0,
                     0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -114,6 +118,7 @@
                     0.0,
                     -2.0,
                     0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -141,9 +146,10 @@
             },
             {
                 "component-args": [
-                    -2.0,
-                    1.0,
+                    -1.627361536026001,
                     0.0,
+                    0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -171,39 +177,10 @@
             },
             {
                 "component-args": [
-                    2.0,
+                    2.2238364219665527,
+                    0.0,
+                    0.0,
                     1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.4000000059604645,
-                    0.4000000059604645,
-                    0.4000000059604645
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
-                    "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "New Object"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    0.0,
-                    -2.0,
                     0.0,
                     0.0,
                     0.0,
@@ -215,9 +192,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\default.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -245,10 +222,6 @@
                 {
                     "Children": [],
                     "ObjectID": 6
-                },
-                {
-                    "Children": [],
-                    "ObjectID": 7
                 }
             ],
             "ObjectID": 3

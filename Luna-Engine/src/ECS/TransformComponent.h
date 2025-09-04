@@ -1,20 +1,34 @@
 #pragma once
 
 #include <GLM/glm.hpp>
+#include "GLM/gtx/matrix_decompose.hpp"
 
 #include "Component.h"
 
 struct Transform : public Component
 {
-	Transform(unsigned int _gameObject = 0, glm::vec3 _position = glm::vec3(0), glm::vec3 _rotation = glm::vec3(0), glm::vec3 _scale = glm::vec3(1)) : 
+	Transform(unsigned int _gameObject = 0, glm::vec3 _position = glm::vec3(0), glm::quat _rotation = glm::quat(1, 0, 0, 0), glm::vec3 _scale = glm::vec3(1)) : 
 		Component(_gameObject), position(_position), rotation(_rotation), scale(_scale), transformMatrix(glm::mat4(1)), parentMatrix(glm::mat4(1)) {}
 	
-	glm::vec3 position, rotation, scale;
+	glm::vec3 position, scale;
+
+	glm::quat rotation;
 	glm::mat4 transformMatrix, parentMatrix;
+
+	void SetComponentsFromMatrix(const glm::mat4& worldMatrix)
+	{
+		//transformMatrix = worldMatrix;
+
+		glm::mat4 localMatrix = glm::inverse(parentMatrix) * worldMatrix;
+
+		glm::vec3 skew; glm::vec4 perspective;
+
+		glm::decompose(localMatrix, scale, rotation, position, skew, perspective);
+	}
 
 	glm::vec3 Forward()
 	{
-		return glm::vec3(sin(glm::radians(rotation.y)), cos(glm::radians(rotation.x + 90)), cos(glm::radians(rotation.y)));
+		return rotation * glm::vec3(0, 0, -1);
 	}
 	glm::vec3 Up()
 	{

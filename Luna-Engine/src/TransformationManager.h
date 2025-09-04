@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLM/glm.hpp"
+#include "GLM/gtx/quaternion.hpp"
 
 #include "Stack.h"
 #include "SceneGraph.h"

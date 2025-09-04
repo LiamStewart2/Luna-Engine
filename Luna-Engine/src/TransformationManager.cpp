@@ -14,11 +14,11 @@ void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered
 	/// Calculate world matrix for the transform component
 	glm::mat4 matrix = m_Stack.Peek();
 
-	matrix = glm::translate(matrix, transformComponents->at(node->GetGameObject())->position);
+	Transform* transform = transformComponents->at(node->GetGameObject());
 
-	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.x), {1, 0, 0});
-	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.y), { 0, 1, 0 });
-	matrix = glm::rotate(matrix, glm::radians(transformComponents->at(node->GetGameObject())->rotation.z), { 0, 0, 1 });
+	matrix = glm::translate(matrix, transform->position);
+
+	matrix *= glm::toMat4(transform->rotation);
 
 	matrix = glm::scale(matrix, transformComponents->at(node->GetGameObject())->scale);
 

@@ -59,7 +59,7 @@ void SceneManager::SaveCurrentScene(std::string optionalPath)
 				{"component-type", "TransformComponent"},
 				{"component-args", {
 					component->position.x, component->position.y, component->position.z,
-					component->rotation.x, component->rotation.y, component->rotation.z,
+					component->rotation.w, component->rotation.x, component->rotation.y, component->rotation.z,
 					component->scale.x, component->scale.y, component->scale.z
 				}}
 			});
@@ -162,8 +162,8 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 		else if(componentData["component-type"] == "TransformComponent")
 		{
 			glm::vec3 position = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
-			glm::vec3 rotation = glm::vec3(componentData["component-args"][3], componentData["component-args"][4], componentData["component-args"][5]);
-			glm::vec3 scale = glm::vec3(componentData["component-args"][6], componentData["component-args"][7], componentData["component-args"][8]);
+			glm::quat rotation = glm::quat(componentData["component-args"][3], componentData["component-args"][4], componentData["component-args"][5], componentData["component-args"][6]);
+			glm::vec3 scale = glm::vec3(componentData["component-args"][7], componentData["component-args"][8], componentData["component-args"][9]);
 
 			m_Scene->AddComponent<Transform>(objectID, position, rotation, scale);
 		}
