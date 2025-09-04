@@ -244,7 +244,9 @@ void ImGuiLayer::Update()
 		ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		// Prepare ImGuizmo
-		ImGuizmo::SetRect(viewportPos.x + imageOffset.x, viewportPos.y + imageOffset.y, imageSize.x, imageSize.y);
+		ImVec2 topLeft = ImGui::GetItemRectMin();
+		ImVec2 size = ImGui::GetItemRectSize();
+		ImGuizmo::SetRect(topLeft.x, topLeft.y, size.x, size.y);
 
 
 		EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
