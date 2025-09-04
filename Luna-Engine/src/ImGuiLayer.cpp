@@ -269,18 +269,22 @@ void ImGuiLayer::Update()
 			glm::mat4 deltaMatrix = glm::mat4(1);
 
 			ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
-				m_CurrentOperation, ImGuizmo::WORLD, glm::value_ptr(matrix), glm::value_ptr(deltaMatrix));
+				m_CurrentOperation, ImGuizmo::LOCAL, glm::value_ptr(matrix), glm::value_ptr(deltaMatrix));
 
 			if (ImGuizmo::IsUsing())
 			{
-				float translation[3], rotation[3], scale[3];
+				float translation[3], rotation[3], scale[3], placeholder[3];
 
-				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(deltaMatrix), translation, rotation, scale);
+				glm::mat4 parentTransform = objectTransform->parentMatrix;
+				matrix = glm::inverse(parentTransform) * matrix;
+
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix), translation, placeholder, scale);
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(deltaMatrix), placeholder, rotation, placeholder);
 
 				switch (m_CurrentOperation)
 				{
 				case ImGuizmo::TRANSLATE:
-					objectTransform->position += glm::vec3(translation[0], translation[1], translation[2]);
+					objectTransform->position = glm::vec3(translation[0], translation[1], translation[2]);
 					break;
 				case ImGuizmo::ROTATE:
 					objectTransform->rotation += glm::vec3(rotation[0], rotation[1], rotation[2]);
@@ -295,7 +299,7 @@ void ImGuiLayer::Update()
 
 					break;
 				case ImGuizmo::SCALE:
-					objectTransform->scale += glm::vec3(scale[0], scale[1], scale[2]);
+					objectTransform->scale = glm::vec3(scale[0], scale[1], scale[2]);
 					break;
 				default:
 					break;
