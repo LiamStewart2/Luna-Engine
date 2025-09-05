@@ -108,10 +108,19 @@ void ImGuiLayer::Update()
 			if (ImGui::MenuItem("Save Scene", "CTRL+S"))
 				m_SceneManager->SaveScene();
 			if (ImGui::MenuItem("Save Scene As"))
-				m_SceneManager->SaveScene();
+			{
+				std::string filepath = FileNavigation::SaveAsFileDialog({
+					{L"Scene Files", L"*.json"},
+					{L"All Files", L"*.*"}
+					}, 1);
+				m_SceneManager->SaveCurrentSceneAs(filepath);
+			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
-				std::string filepath = std::string(m_SceneManager->GetCurrentScene()->filepath);
+				std::string filepath = FileNavigation::OpenFileDialog({
+					{L"Scene Files", L"*.json"},
+					{L"All Files", L"*.*"}
+					}, 1);
 				m_Actions.push_back({LOADSCENE, filepath});
 			}
 			ImGui::EndMenu();

@@ -12,6 +12,7 @@
                     0.0,
                     0.0,
                     0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -32,16 +33,23 @@
             {
                 "component-args": [
                     0.0,
-                    2.0,
-                    5.0,
-                    20.0,
-                    180.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    4.064016342163086,
+                    6.240562438964844,
+                    0.11481601744890213,
+                    -0.0558025985956192,
+                    0.8920422792434692,
+                    -0.4335480332374573,
+                    0.9999953508377075,
+                    0.9999998807907104,
+                    0.9999961256980896
                 ],
                 "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    true
+                ],
+                "component-type": "CameraComponent"
             }
         ],
         [
@@ -54,54 +62,42 @@
             {
                 "component-args": [
                     0.0,
-                    5.0,
                     0.0,
-                    -90.0,
-                    30.0,
                     0.0,
+                    0.7470345497131348,
+                    0.42243263125419617,
+                    -0.488880455493927,
+                    0.15647974610328674,
+                    0.9999971389770508,
+                    0.9999971985816956,
+                    0.9999975562095642
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
                     1.0,
                     1.0,
                     1.0
                 ],
-                "component-type": "TransformComponent"
+                "component-type": "LightComponent"
             }
         ],
         [
             {
                 "component-args": [
-                    "Camera"
+                    "Enviroment"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     0.0,
-                    2.0,
-                    5.0,
-                    20.0,
-                    180.0,
+                    0.0,
                     0.0,
                     1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Light"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
                     0.0,
-                    5.0,
                     0.0,
-                    -90.0,
-                    30.0,
                     0.0,
                     1.0,
                     1.0,
@@ -122,6 +118,7 @@
                     0.0,
                     -2.0,
                     0.0,
+                    1.0,
                     0.0,
                     0.0,
                     0.0,
@@ -135,7 +132,7 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\Grass.jpg"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -143,59 +140,16 @@
         [
             {
                 "component-args": [
-                    "Camera"
+                    "Big Cube"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    0.0,
-                    2.0,
-                    5.0,
-                    20.0,
-                    180.0,
+                    -1.5,
+                    0.5,
                     0.0,
                     1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Light"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    5.0,
-                    0.0,
-                    -90.0,
-                    30.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Plane"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    0.0,
-                    0.0,
                     0.0,
                     0.0,
                     0.0,
@@ -207,9 +161,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/rock.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -217,15 +171,16 @@
         [
             {
                 "component-args": [
-                    "Fortnite 1"
+                    "Small Cube"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    3.0,
+                    1.5,
+                    0.5,
+                    0.0,
                     1.0,
-                    3.0,
                     0.0,
                     0.0,
                     0.0,
@@ -237,55 +192,11 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/monkey.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/rock.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\default.png"
                 ],
                 "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Fortnite 2"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    -3.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Fortnite"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
             }
         ]
     ],
@@ -299,42 +210,21 @@
             "ObjectID": 2
         },
         {
-            "Children": [],
-            "ObjectID": 3
-        },
-        {
-            "Children": [],
-            "ObjectID": 4
-        },
-        {
-            "Children": [],
-            "ObjectID": 5
-        },
-        {
-            "Children": [],
-            "ObjectID": 6
-        },
-        {
-            "Children": [],
-            "ObjectID": 7
-        },
-        {
             "Children": [
                 {
-                    "Children": [
-                        {
-                            "Children": [],
-                            "ObjectID": 10
-                        }
-                    ],
-                    "ObjectID": 9
+                    "Children": [],
+                    "ObjectID": 4
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 5
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 6
                 }
             ],
-            "ObjectID": 8
-        },
-        {
-            "Children": [],
-            "ObjectID": 11
+            "ObjectID": 3
         }
     ],
     "scene-name": "example scene"
