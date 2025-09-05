@@ -109,22 +109,22 @@
         [
             {
                 "component-args": [
-                    "Plane"
+                    "Game Object"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     0.0,
-                    -2.0,
+                    0.0,
                     0.0,
                     1.0,
                     0.0,
                     0.0,
                     0.0,
-                    5.0,
                     1.0,
-                    5.0
+                    1.0,
+                    1.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -132,69 +132,7 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\Grass.jpg"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Big Cube"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    -1.5,
-                    0.5,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
-                    "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Small Cube"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    1.5,
-                    0.5,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
-                    "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\default.png"
+                    "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -214,14 +152,6 @@
                 {
                     "Children": [],
                     "ObjectID": 4
-                },
-                {
-                    "Children": [],
-                    "ObjectID": 5
-                },
-                {
-                    "Children": [],
-                    "ObjectID": 6
                 }
             ],
             "ObjectID": 3

@@ -113,7 +113,8 @@ void ImGuiLayer::Update()
 					{L"Scene Files", L"*.json"},
 					{L"All Files", L"*.*"}
 					}, 1);
-				m_SceneManager->SaveCurrentSceneAs(filepath);
+				if (!filepath.empty())
+					m_SceneManager->SaveCurrentSceneAs(filepath);
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
@@ -121,7 +122,8 @@ void ImGuiLayer::Update()
 					{L"Scene Files", L"*.json"},
 					{L"All Files", L"*.*"}
 					}, 1);
-				m_Actions.push_back({LOADSCENE, filepath});
+				if (!filepath.empty())
+					m_Actions.push_back({LOADSCENE, filepath});
 			}
 			ImGui::EndMenu();
 		}
@@ -191,7 +193,7 @@ void ImGuiLayer::Update()
 			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str()))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
-					{L"Texture Files", L"*.png;*.jpg"},
+					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
 					{L"All Files", L"*.*"}
 				}, 1);
 				if(!fpath.empty())
