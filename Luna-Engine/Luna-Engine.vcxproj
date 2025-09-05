@@ -17,7 +17,7 @@
     <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\imgui\ImGuizmo.cpp" />
     <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="src\Platform\FileNavigatorOpen.cpp" />
+    <ClCompile Include="src\Platform\FileNavigation.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\AssetManager.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
@@ -50,7 +50,7 @@
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\imgui\ImGuizmo.h" />
     <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
-    <ClInclude Include="src\Platform\FileNavigatorOpen.h" />
+    <ClInclude Include="src\Platform\FileNavigation.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\AssetManager.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />

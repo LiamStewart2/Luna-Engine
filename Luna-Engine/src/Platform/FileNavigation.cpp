@@ -1,10 +1,11 @@
-#include "FileNavigatorOpen.h"
+#include "FileNavigation.h"
+
 #include <windows.h>
 #include <shobjidl.h>
 #include <combaseapi.h>
 #include <string>
 
-std::string FileNavigatorOpen::OpenFileDialog(const std::vector<FileTypeFilter>& filters, int defaultIndex)
+std::string FileNavigation::OpenFileDialog(const std::vector<FileTypeFilter>& filters, int defaultIndex)
 {
     std::string result;
 
@@ -72,4 +73,19 @@ std::string FileNavigatorOpen::OpenFileDialog(const std::vector<FileTypeFilter>&
     }
 
     return result;
+}
+
+std::string FileNavigation::SaveAsFileDialog()
+{
+    std::string result;
+
+
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+
+    if (SUCCEEDED(hr))
+    {
+        //IFileSaveDialog* 
+    }
+
+    return std::string();
 }

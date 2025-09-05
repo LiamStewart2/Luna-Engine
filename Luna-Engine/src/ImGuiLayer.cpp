@@ -171,8 +171,7 @@ void ImGuiLayer::Update()
 			ImGui::SeparatorText("Mesh");
 			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->mesh->path.c_str()))
 			{
-				FileNavigatorOpen filenav;
-				std::string fpath = filenav.OpenFileDialog({
+				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
 					{L"All Files", L"*.*"}
 				}, 1);
@@ -182,8 +181,7 @@ void ImGuiLayer::Update()
 				
 			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture->path.c_str()))
 			{
-				FileNavigatorOpen filenav;
-				std::string fpath = filenav.OpenFileDialog({
+				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Texture Files", L"*.png;*.jpg"},
 					{L"All Files", L"*.*"}
 				}, 1);

@@ -81,7 +81,7 @@
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\FileNavigatorOpen.cpp">
+    <ClCompile Include="src\Platform\FileNavigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LunaWindow.cpp">
@@ -206,7 +206,7 @@
     <ClInclude Include="src\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\FileNavigatorOpen.h">
+    <ClInclude Include="src\Platform\FileNavigation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\LunaWindow.h">
