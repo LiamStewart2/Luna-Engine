@@ -198,6 +198,37 @@
                 ],
                 "component-type": "MeshComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    1.3590295314788818,
+                    0.0,
+                    0.9281619787216187,
+                    0.0,
+                    -0.37217652797698975,
+                    0.0,
+                    10.5003080368042,
+                    1.0,
+                    0.9999994039535522
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\turtle.obj",
+                    "Assets/Shaders/Shader",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\rock.png"
+                ],
+                "component-type": "MeshComponent"
+            }
         ]
     ],
     "relations": [
@@ -222,6 +253,10 @@
                 {
                     "Children": [],
                     "ObjectID": 6
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 7
                 }
             ],
             "ObjectID": 3
