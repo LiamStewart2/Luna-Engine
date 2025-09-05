@@ -20,7 +20,8 @@ public:
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
 
-	void SaveCurrentScene(std::string optionalPath = "");
+	void SaveScene();
+	void SaveCurrentSceneAs(std::string optionalPath = "");
 	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
 
 	Scene* GetCurrentScene() const { return m_Scene; }

@@ -26,7 +26,15 @@ void SceneManager::Render(Renderer* renderer)
 	m_Scene->Render(renderer, &m_FrameBuffer);
 }
 
-void SceneManager::SaveCurrentScene(std::string optionalPath)
+void SceneManager::SaveScene()
+{
+	if (m_Scene == nullptr)
+		return;
+
+	SaveCurrentSceneAs(m_Scene->filepath);
+}
+
+void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 {
 	if(m_Scene == nullptr)
 		return;
@@ -103,12 +111,12 @@ void SceneManager::SaveCurrentScene(std::string optionalPath)
 	// Write to file
 	if(optionalPath == "")
 	{
-		std::ofstream file(std::string("Assets/Scenes/") + std::string(m_Scene->GetSceneName()) + std::string(".json"));
+		std::ofstream file(std::string(m_Scene->GetSceneName()));
 		file << jsonData.dump(4);
 	}
 	else
 	{
-		std::ofstream file(std::string("Assets/Scenes/") + optionalPath);
+		std::ofstream file(optionalPath);
 		file << jsonData.dump(4);
 	}
 }
@@ -141,6 +149,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
 	m_Scene = new Scene();
+	m_Scene->filepath = std::string(filepath);
 	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])

@@ -40,7 +40,7 @@ private:
 
 	bool m_ShowScene = true;
 	bool m_ShowHierachy = true;
-	bool m_ShowFile = true;
+	bool m_ShowContentBrowser = true;
 	bool m_ShowInspector = true;
 
 	unsigned int NameCharacterLimit = 100;

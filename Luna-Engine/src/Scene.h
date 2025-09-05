@@ -39,6 +39,7 @@ public:
 	std::vector<unsigned int>* GetGameObjects() {return &gameObjects;}
 
 	std::string GetSceneName() {return sceneName;}
+	std::string filepath = "";
 
 	void DestroyScene();
 

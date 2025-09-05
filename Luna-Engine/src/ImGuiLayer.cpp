@@ -97,7 +97,12 @@ void ImGuiLayer::Update()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-
+			if (ImGui::MenuItem("Save Scene"))
+				m_SceneManager->SaveScene();
+			if (ImGui::MenuItem("Save Scene As"))
+				m_SceneManager->SaveScene();
+			if (ImGui::MenuItem("Load Scene"))
+				m_SceneManager->LoadNewScene(m_SceneManager->GetCurrentScene()->filepath.c_str());
 			ImGui::EndMenu();
 		}
 
@@ -108,8 +113,8 @@ void ImGuiLayer::Update()
 				m_ShowScene = true;
 			if (ImGui::MenuItem("Inspector"))
 				m_ShowInspector = true;
-			if (ImGui::MenuItem("Show File"))
-				m_ShowFile = true;
+			if (ImGui::MenuItem("Show Content Browser"))
+				m_ShowContentBrowser = true;
 			if (ImGui::MenuItem("Hiearchy"))
 				m_ShowHierachy = true;
 			ImGui::EndMenu();
@@ -221,12 +226,9 @@ void ImGuiLayer::Update()
 		ImGui::End();
 	}
 
-	if(m_ShowFile){
-		ImGui::Begin("File", &m_ShowFile);
+	if(m_ShowContentBrowser){
+		ImGui::Begin("ContentBrowser", &m_ShowContentBrowser);
 
-		ImGui::InputText("filepath: ", filepathForScene, 50);
-		if(ImGui::Button("Save Scene"))
-			m_SceneManager->SaveCurrentScene(filepathForScene);
 
 		ImGui::End();
 	}
