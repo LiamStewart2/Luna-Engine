@@ -30,7 +30,7 @@ void SceneManager::SaveScene()
 {
 	if (m_Scene == nullptr)
 		return;
-
+	std::cout << "saved scene" << std::endl;
 	SaveCurrentSceneAs(m_Scene->filepath);
 }
 
@@ -137,10 +137,19 @@ void SceneManager::SaveSceneNode(nlohmann::json& data, SceneGraphNode* node)
 
 void SceneManager::LoadNewScene(const char* filepath)
 {
+	glm::vec3 position = glm::vec3(0, 2, 6);
+	glm::vec3 rotation = glm::vec3(-90, 0, 0);
+	if(m_Scene != nullptr)
+	{
+		rotation = m_Scene->camera.m_Rotation;
+		position = m_Scene->camera.m_Position;
+	}
 	// Unload the current scene if it exists
 	UnloadCurrentScene();
 
 	double startTime = glfwGetTime();
+
+	std::cout << filepath << std::endl;
 
 	// Load the scene file using json :: ToDo change json to a more suitable format
 	std::ifstream file(filepath);
@@ -150,12 +159,13 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	m_Scene = new Scene();
 	m_Scene->filepath = std::string(filepath);
-	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"]);
+	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"], position, rotation);
 
 	for(nlohmann::json data : jsonData["relations"])
-	LoadRelations(jsonData, data, 0);
+		LoadRelations(jsonData, data, 0);
 
 	std::cout << "time to load " << jsonData["scene-name"] << " - " << glfwGetTime() - startTime << std::endl;
+	
 }
 
 void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID)

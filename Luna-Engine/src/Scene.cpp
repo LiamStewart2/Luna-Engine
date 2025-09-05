@@ -10,7 +10,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName)
+void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName, glm::vec3 position, glm::vec3 rotation)
 {
 	assetManager = _assetManager; lightManager = _lightManager; sceneName = _sceneName;
 	LoadAssets();
@@ -27,6 +27,8 @@ void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
+
+	camera.m_Position = position; camera.m_Rotation = rotation;
 }
 
 void Scene::LoadAssets()
@@ -70,6 +72,6 @@ void Scene::DestroyScene()
 {
 	sceneGraph.RemoveNode(0, &ECS, &gameObjects);
 
-	assetManager->GetShader("Assets/Shaders/DepthShader")->DestroyShader();
-	assetManager->GetShader("Assets/Shaders/Shader")->DestroyShader();
+	//assetManager->GetShader("Assets/Shaders/DepthShader")->DestroyShader();
+	//assetManager->GetShader("Assets/Shaders/Shader")->DestroyShader();
 }

@@ -17,6 +17,11 @@ void EditorCamera::Update()
 {
     ImGuiIO& io = ImGui::GetIO();
 
+    if (m_LastMousePosition == glm::dvec2(-1, -1))
+    {
+
+    }
+
     if (EditorCamera::sceneWindowHovered &&
         LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && 
             !ImGuizmo::IsOver() && !ImGuizmo::IsUsing())

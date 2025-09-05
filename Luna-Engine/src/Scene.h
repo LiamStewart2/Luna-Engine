@@ -19,7 +19,7 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName);
+	void Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName, glm::vec3 cameraPos = glm::vec3(0, 2, 6), glm::vec3 cameraRotation = glm::vec3(-90, 0, 0));
 	void LoadAssets();
 
 	void Update();

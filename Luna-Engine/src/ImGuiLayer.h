@@ -14,6 +14,11 @@
 #include <math.h>
 #include <unordered_map>
 
+enum ACTIONS
+{
+	LOADSCENE
+};
+
 class ImGuiLayer
 {
 public:
@@ -43,6 +48,8 @@ private:
 	bool m_ShowContentBrowser = true;
 	bool m_ShowInspector = true;
 
+	bool m_SaveShortcutUsed = false;
+
 	unsigned int NameCharacterLimit = 100;
 	float Indentation = 10.0f;
 
@@ -66,6 +73,7 @@ private:
 
 	ImGuizmo::OPERATION m_CurrentOperation = ImGuizmo::TRANSLATE;
 
+	std::vector<std::pair<ACTIONS, std::string>> m_Actions;
 	std::vector<unsigned int> m_ObjectsToDelete;
 	std::vector<std::pair<unsigned int, std::string>> m_ObjectsToAdd;
 

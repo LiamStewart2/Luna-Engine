@@ -93,16 +93,27 @@ void ImGuiLayer::Update()
 
 	style.WindowMinSize.x = minWinSizeX;
 
+	if(ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyDown(ImGuiKey_S) && !m_SaveShortcutUsed)
+	{
+		m_SaveShortcutUsed = true;
+		m_SceneManager->SaveScene();
+	}
+	if(m_SaveShortcutUsed && (ImGui::IsKeyReleased(ImGuiKey_S) || ImGui::IsKeyReleased(ImGuiKey_LeftCtrl)))
+		m_SaveShortcutUsed = false;
+
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Save Scene"))
+			if (ImGui::MenuItem("Save Scene", "CTRL+S"))
 				m_SceneManager->SaveScene();
 			if (ImGui::MenuItem("Save Scene As"))
 				m_SceneManager->SaveScene();
 			if (ImGui::MenuItem("Load Scene"))
-				m_SceneManager->LoadNewScene(m_SceneManager->GetCurrentScene()->filepath.c_str());
+			{
+				std::string filepath = std::string(m_SceneManager->GetCurrentScene()->filepath);
+				m_Actions.push_back({LOADSCENE, filepath});
+			}
 			ImGui::EndMenu();
 		}
 
@@ -320,6 +331,17 @@ void ImGuiLayer::Update()
 			m_CurrentInspectorGameObject = 0;
 	}
 	m_ObjectsToDelete.clear();
+
+	for (auto& [action, arguments] : m_Actions)
+	{
+		switch (action)
+		{
+		case ACTIONS::LOADSCENE:
+			m_SceneManager->LoadNewScene(arguments.c_str());
+			break;
+		}
+	}
+	m_Actions.clear();
 }
 
 void ImGuiLayer::BuildHiearchyText(SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names, bool& hasBeenRightClicked)
