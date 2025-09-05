@@ -19,7 +19,7 @@ void EditorCamera::Update()
 
     if (m_LastMousePosition == glm::dvec2(-1, -1))
     {
-
+        LunaWindow::m_FocusedWindow->GetCursorPosition(&m_LastMousePosition.x, &m_LastMousePosition.y);
     }
 
     if (EditorCamera::sceneWindowHovered &&
