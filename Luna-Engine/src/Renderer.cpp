@@ -127,7 +127,7 @@ void Renderer::SetShaderFrame(EntityComponentSystem* ECS, Camera* camera, Transf
 		framebuffer->Bind();
 	else
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
-	glClearColor(0.4f, 0.95f, 0.9f, 1.0f);
+	glClearColor(0.5f, 0.4f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
