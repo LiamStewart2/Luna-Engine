@@ -64,13 +64,13 @@
                     0.0,
                     0.0,
                     0.0,
-                    0.7470345497131348,
-                    0.42243263125419617,
-                    -0.488880455493927,
-                    0.15647974610328674,
-                    0.9999971389770508,
-                    0.9999971985816956,
-                    0.9999975562095642
+                    0.3841332197189331,
+                    0.09833434969186783,
+                    0.8059187531471252,
+                    -0.4396214485168457,
+                    0.999998152256012,
+                    0.9999960660934448,
+                    0.9999979734420776
                 ],
                 "component-type": "TransformComponent"
             },
@@ -122,9 +122,9 @@
                     0.0,
                     0.0,
                     0.0,
+                    5.0,
                     1.0,
-                    1.0,
-                    1.0
+                    5.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -133,6 +133,37 @@
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/Shader",
                     "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -1.91200590133667,
+                    3.0474488735198975,
+                    0.0,
+                    0.9198868870735168,
+                    0.11200466752052307,
+                    -0.24577075242996216,
+                    -0.28435856103897095,
+                    1.5445401668548584,
+                    1.3553929328918457,
+                    1.7525163888931274
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
+                    "Assets/Shaders/Shader",
+                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -152,6 +183,10 @@
                 {
                     "Children": [],
                     "ObjectID": 4
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 5
                 }
             ],
             "ObjectID": 3
