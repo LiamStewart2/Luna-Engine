@@ -200,10 +200,13 @@ void ImGuiLayer::Update()
 					scene->GetECS()->GetObjectComponent<MeshComponent>(m_CurrentInspectorGameObject)->texture = m_AssetManager->GetTexture(fpath).get();
 			}
 		}
-
 		if (scene->GetECS()->HasComponent<CameraComponent>(m_CurrentInspectorGameObject))
 		{
 			ImGui::SeparatorText("Camera");
+
+			ImGui::ColorEdit4("Background Colour", glm::value_ptr(scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_Camera->m_EditorBackgroundColour));
+			ImGui::ColorEdit4("Editor Colour", glm::value_ptr(((Camera*)&scene->camera)->m_EditorBackgroundColour));
+
 
 			ImGui::Checkbox("Main Camera", &scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_MainCamera);
 		}
