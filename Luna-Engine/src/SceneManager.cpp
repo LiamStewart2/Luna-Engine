@@ -86,7 +86,10 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			CameraComponent* component = m_Scene->GetECS()->GetObjectComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "CameraComponent"},
-				{"component-args", {component->m_MainCamera}}
+				{"component-args", {
+					component->m_Camera->m_EditorBackgroundColour.x, component->m_Camera->m_EditorBackgroundColour.y,
+					component->m_Camera->m_EditorBackgroundColour.z, component->m_Camera->m_EditorBackgroundColour.w,
+					component->m_MainCamera}}
 			});
 		}
 
@@ -196,8 +199,14 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 		}
 		else if (componentData["component-type"] == "CameraComponent")
 		{
-			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), componentData["component-args"][0]);
+			glm::vec4 backgroundColor = glm::vec4(
+				componentData["component-args"][0],
+				componentData["component-args"][1],
+				componentData["component-args"][2],
+				componentData["component-args"][3]);
 
+			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), backgroundColor, componentData["component-args"][4]);
+			m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera->m_EditorBackgroundColour = backgroundColor;
 			lightManager.InitCascadeLevels(m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera);
 		}
 		else if (componentData["component-type"] == "LightComponent")

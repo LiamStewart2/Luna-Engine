@@ -7,8 +7,10 @@
 
 struct CameraComponent : public Component
 {
-	CameraComponent(unsigned int _gameObject = 0, Camera* camera = nullptr, bool _mainCamera = false) :
-		Component(_gameObject), m_Camera(camera), m_MainCamera(_mainCamera) {}
+	CameraComponent(unsigned int _gameObject = 0, Camera* camera = nullptr, glm::vec4 cameraBackgroundColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), bool _mainCamera = false) :
+		Component(_gameObject), m_Camera(camera), m_MainCamera(_mainCamera)
+	{
+	}
 
 	Camera* m_Camera;
 	bool m_MainCamera = false;
