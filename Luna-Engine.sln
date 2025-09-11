@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Luna-Engine", "Luna-Engine\Luna-Engine.vcxproj", "{AFC1E9F1-04E8-492E-B1BF-E5323A492E69}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Luna-Editor", "Luna-Editor\Luna-Editor.vcxproj", "{E2C87EEB-6EEA-4490-B08F-0AEEF8B21DD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFC1E9F1-04E8-492E-B1BF-E5323A492E69} = {AFC1E9F1-04E8-492E-B1BF-E5323A492E69}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

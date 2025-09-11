@@ -47,6 +47,10 @@
             },
             {
                 "component-args": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    1.0,
                     true
                 ],
                 "component-type": "CameraComponent"
@@ -64,13 +68,13 @@
                     0.0,
                     0.0,
                     0.0,
-                    0.3841332197189331,
-                    0.09833434969186783,
-                    0.8059187531471252,
-                    -0.4396214485168457,
-                    0.999998152256012,
-                    0.9999960660934448,
-                    0.9999979734420776
+                    0.7470345497131348,
+                    0.42243263125419617,
+                    -0.488880455493927,
+                    0.15647974610328674,
+                    0.9999971389770508,
+                    0.9999971985816956,
+                    0.9999975562095642
                 ],
                 "component-type": "TransformComponent"
             },
@@ -109,7 +113,7 @@
         [
             {
                 "component-args": [
-                    "Game Object"
+                    "Plane"
                 ],
                 "component-type": "NameComponent"
             },
@@ -130,9 +134,9 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\Grass.jpg"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -140,30 +144,61 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Monkey"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    -1.91200590133667,
-                    3.0474488735198975,
+                    -2.0,
+                    2.5,
                     0.0,
-                    0.9198868870735168,
-                    0.11200466752052307,
-                    -0.24577075242996216,
-                    -0.28435856103897095,
-                    1.5445401668548584,
-                    1.3553929328918457,
-                    1.7525163888931274
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Models\\monkey.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Engine\\Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Monkey 2"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    2.0,
+                    2.5,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
+                    "Assets/Shaders/Shader",
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -187,6 +222,10 @@
                 {
                     "Children": [],
                     "ObjectID": 5
+                },
+                {
+                    "Children": [],
+                    "ObjectID": 6
                 }
             ],
             "ObjectID": 3
