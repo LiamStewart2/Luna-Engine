@@ -4,7 +4,7 @@
 
 #include "GLM/glm.hpp"
 
-#include "Camera.h"
+#include "../Core/Camera.h"
 #include "FrameBuffer.h"
 
 class LightManager

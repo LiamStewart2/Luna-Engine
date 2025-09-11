@@ -8,8 +8,8 @@
 #include <string>
 #include <array>
 
-#include "Mesh.h"
-#include "Texture.h"
+#include "../Renderer/Mesh.h"
+#include "../Renderer/Texture.h"
 
 class AssetLoader
 {

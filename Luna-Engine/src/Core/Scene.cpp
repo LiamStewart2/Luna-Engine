@@ -71,7 +71,4 @@ void Scene::DestroyGameObject(unsigned int gameObject)
 void Scene::DestroyScene()
 {
 	sceneGraph.RemoveNode(0, &ECS, &gameObjects);
-
-	//assetManager->GetShader("Assets/Shaders/DepthShader")->DestroyShader();
-	//assetManager->GetShader("Assets/Shaders/Shader")->DestroyShader();
 }

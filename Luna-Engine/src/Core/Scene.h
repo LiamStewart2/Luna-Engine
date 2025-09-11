@@ -5,13 +5,12 @@
 #include "TransformationManager.h"
 #include "LunaWindow.h"
 #include "SceneGraph.h"
-#include "ECS/ECS.h"
+#include "../ECS/ECS.h"
 #include "AssetManager.h"
 #include "LinkedList.h"
-#include "Mesh.h"
-#include "Renderer.h"
-#include "LightManager.h"
-#include "EditorCamera.h"
+#include "../Renderer/Mesh.h"
+#include "../Renderer/Renderer.h"
+#include "../Renderer/LightManager.h"
 
 class Scene
 {
@@ -42,8 +41,6 @@ public:
 	std::string filepath = "";
 
 	void DestroyScene();
-
-	EditorCamera camera = EditorCamera(glm::vec3(0, 2, 6), glm::vec3(-90, 0, 0));
 private:
 	EntityComponentSystem ECS;
 	SceneGraph sceneGraph;

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "ECS/ECS.h"
+#include "../ECS/ECS.h"
 
 class SceneGraphNode
 {

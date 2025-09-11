@@ -3,20 +3,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Globals.h"
+#include "../Core/Globals.h"
 
-#include "ECS/ECS.h"
-#include "ECS/TransformComponent.h"
-#include "ECS/CameraComponent.h"
-#include "ECS/LightComponent.h"
+#include "../ECS/ECS.h"
+#include "../Core/Camera.h"
 
 #include "Light.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "Camera.h"
 #include "FrameBuffer.h"
-#include "EditorCamera.h"
 
 class Renderer {
 public:
