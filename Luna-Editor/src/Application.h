@@ -36,9 +36,5 @@ private:
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
 
-	EditorCamera editorCamera;
-
-	float main_scale;
-	bool showAddObjectWindow = true;
-	float* placementPosition = new float[3] {1, 1, 1};
+	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));
 };

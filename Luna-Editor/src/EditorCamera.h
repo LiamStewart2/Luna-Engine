@@ -29,7 +29,7 @@ private:
 	glm::vec3 Forward();
 
 	float m_MovementSpeed = 0.12f;
-	float m_Sensitivity = 0.50f;
+	float m_Sensitivity = 0.40f;
 	bool m_FirstMousePressFrame = true;
 	glm::dvec2 m_LastMousePosition = glm::dvec2(-1, -1);
 };
