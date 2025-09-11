@@ -70,7 +70,10 @@ void Application::HandleInput()
 void Application::Update()
 {
 	sceneManager.Update();
-	imGuiLayer.Update();
+
+	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	ObjectTransformPairing<Camera> cameraPair = {(Camera*)&editorCamera, &cameraTransform};
+	imGuiLayer.Update(cameraPair);
 }
 
 void Application::Render()
@@ -79,7 +82,9 @@ void Application::Render()
 	glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	sceneManager.Render(&renderer);
+	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	sceneManager.Render(&renderer, cameraPair);
 
 	imGuiLayer.Render();
 }

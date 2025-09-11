@@ -1,8 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "ECS/ECS.h"
 #include "Renderer/Renderer.h"
 #include "Core/AssetLoader.h"
@@ -38,6 +35,8 @@ private:
 	Renderer renderer;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
+
+	EditorCamera editorCamera;
 
 	float main_scale;
 	bool showAddObjectWindow = true;

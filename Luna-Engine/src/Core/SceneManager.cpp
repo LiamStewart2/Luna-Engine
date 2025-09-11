@@ -21,9 +21,9 @@ void SceneManager::Update()
 	m_Scene->Update();
 }
 
-void SceneManager::Render(Renderer* renderer)
+void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera> camera)
 {
-	m_Scene->Render(renderer, &m_FrameBuffer, {nullptr, nullptr});
+	m_Scene->Render(renderer, &m_FrameBuffer, camera);
 }
 
 void SceneManager::SaveScene()

@@ -43,7 +43,7 @@ static const float identityMatrix[16] =
 	0.f, 0.f, 0.f, 1.f };
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update()
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
 {
 	StartFrame();
 
@@ -205,7 +205,7 @@ void ImGuiLayer::Update()
 			ImGui::SeparatorText("Camera");
 
 			ImGui::ColorEdit4("Background Colour", glm::value_ptr(scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_Camera->m_EditorBackgroundColour));
-			ImGui::ColorEdit4("Editor Colour", glm::value_ptr(((Camera*)&scene->camera)->m_EditorBackgroundColour));
+			//ImGui::ColorEdit4("Editor Colour", glm::value_ptr(((Camera*)&scene->camera)->m_EditorBackgroundColour));
 
 
 			ImGui::Checkbox("Main Camera", &scene->GetECS()->GetObjectComponent<CameraComponent>(m_CurrentInspectorGameObject)->m_MainCamera);
@@ -288,10 +288,8 @@ void ImGuiLayer::Update()
 		ImVec2 size = ImGui::GetItemRectSize();
 		ImGuizmo::SetRect(topLeft.x, topLeft.y, size.x, size.y);
 
-
-		EditorCamera* editorCamera = &m_SceneManager->GetCurrentScene()->camera;
-		glm::mat4 view = editorCamera->GetView();
-		glm::mat4 proj = editorCamera->GetProjection();
+		glm::mat4 view = camera.object->GetView(camera.objectTransform);
+		glm::mat4 proj = camera.object->GetProjection();
 
 		if (m_CurrentInspectorGameObject != 0)
 		{
