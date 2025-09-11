@@ -29,10 +29,10 @@ https://trello.com/b/48CwuQyq/opengl-engine
 - [x] Dynamic Asset Loader
 - [x] Full Integration of the ECS
 - [x] ImGui Editor
+- [x] Project Restructure
 - [ ] Time and Input System
 - [ ] Physics Engine
 - [ ] Scripting implementation
-- [ ] Project Restructure
 
 ## 🧠 Author
 Liam Stewart – https://liamstewart2.github.io/github.io/
