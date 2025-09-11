@@ -14,29 +14,34 @@
 #include "Shader.h"
 #include "FrameBuffer.h"
 
+template <class T>
+struct ObjectTransformPairing
+{
+	T* object;
+	Transform* objectTransform;
+};
+
 class Renderer {
 public:
 	Renderer();
 	~Renderer();
 	
 	void RenderSceneFromMainCamera(
-		EntityComponentSystem* ECS, 
+		ObjectTransformPairing<Camera> camera,
+		ObjectTransformPairing<LightComponent> light,
+
+		std::unordered_map<unsigned int, Transform*> transforms,
+		std::unordered_map<unsigned int, MeshComponent*> meshComponents,
+
 		LightManager* lightManager, 
 		Shader* shader, Shader* depthMapShader, 
 		FrameBuffer* framebuffer
 	);
 
-	void EditorRenderPass(
-		EntityComponentSystem* ECS,
-		LightManager* lightManager, 
-		EditorCamera* camera,
-		Shader* shader, Shader* depthMapShader,
-		FrameBuffer* framebuffer
-	);
+	void SetShaderFrame( 
+		ObjectTransformPairing<Camera>& camera, 
+		ObjectTransformPairing<LightComponent>& light, 
 
-	void SetShaderFrame(
-		EntityComponentSystem* ECS, 
-		Camera* camera, Transform* cameraTransform, 
 		Shader* depthmapShader, Shader* shader,
 		FrameBuffer* framebuffer
 	);
