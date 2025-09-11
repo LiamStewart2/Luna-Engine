@@ -7,8 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Time.h"
-#include "ECS/TransformComponent.h"
+#include "../ECS/TransformComponent.h"
 #include "Globals.h"
 
 class Camera

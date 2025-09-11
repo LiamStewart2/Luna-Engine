@@ -6,9 +6,9 @@
 
 #include "AssetLoader.h"
 
-#include "Texture.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "../Renderer/Texture.h"
+#include "../Renderer/Mesh.h"
+#include "../Renderer/Shader.h"
 
 class AssetManager
 {

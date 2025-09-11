@@ -11,87 +11,60 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\EditorCamera.cpp" />
-    <ClCompile Include="src\FrameBuffer.cpp" />
-    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\imgui\ImGuizmo.cpp" />
-    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="src\Core\AssetLoader.cpp" />
+    <ClCompile Include="src\Core\AssetManager.cpp" />
+    <ClCompile Include="src\Core\Camera.cpp" />
+    <ClCompile Include="src\Core\LunaWindow.cpp" />
+    <ClCompile Include="src\Core\Scene.cpp" />
+    <ClCompile Include="src\Core\SceneGraph.cpp" />
+    <ClCompile Include="src\Core\SceneManager.cpp" />
+    <ClCompile Include="src\Core\TransformationManager.cpp" />
     <ClCompile Include="src\Platform\FileNavigation.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\AssetManager.cpp" />
-    <ClCompile Include="src\ImGuiLayer.cpp" />
-    <ClCompile Include="src\imgui\imgui.cpp" />
-    <ClCompile Include="src\imgui\imgui_demo.cpp" />
-    <ClCompile Include="src\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\imgui\imgui_tables.cpp" />
-    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
-    <ClCompile Include="src\Light.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Mesh.cpp" />
-    <ClCompile Include="src\SceneGraph.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\AssetLoader.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\LunaWindow.cpp" />
-    <ClCompile Include="src\TransformationManager.cpp" />
+    <ClCompile Include="src\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\Renderer\Light.cpp" />
+    <ClCompile Include="src\Renderer\LightManager.cpp" />
+    <ClCompile Include="src\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EditorCamera.h" />
-    <ClInclude Include="src\FrameBuffer.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="src\imgui\ImGuizmo.h" />
-    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="src\Core\AssetLoader.h" />
+    <ClInclude Include="src\Core\AssetManager.h" />
+    <ClInclude Include="src\Core\Camera.h" />
+    <ClInclude Include="src\Core\Globals.h" />
+    <ClInclude Include="src\Core\LinkedList.h" />
+    <ClInclude Include="src\Core\LunaWindow.h" />
+    <ClInclude Include="src\Core\Scene.h" />
+    <ClInclude Include="src\Core\SceneGraph.h" />
+    <ClInclude Include="src\Core\SceneManager.h" />
+    <ClInclude Include="src\Core\Stack.h" />
+    <ClInclude Include="src\Core\TransformationManager.h" />
+    <ClInclude Include="src\Luna.h" />
     <ClInclude Include="src\Platform\FileNavigation.h" />
-    <ClInclude Include="src\SceneManager.h" />
-    <ClInclude Include="src\AssetManager.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />
     <ClInclude Include="src\ECS\LightComponent.h" />
     <ClInclude Include="src\ECS\NameComponent.h" />
-    <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentStorage.h" />
     <ClInclude Include="src\ECS\MeshComponent.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
-    <ClInclude Include="src\imgui\imconfig.h" />
-    <ClInclude Include="src\imgui\imgui.h" />
-    <ClInclude Include="src\imgui\imgui_internal.h" />
-    <ClInclude Include="src\imgui\imstb_rectpack.h" />
-    <ClInclude Include="src\imgui\imstb_textedit.h" />
-    <ClInclude Include="src\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\LightManager.h" />
     <ClInclude Include="src\ECS\ECS.h" />
-    <ClInclude Include="src\LinkedList.h" />
-    <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\Globals.h" />
-    <ClInclude Include="src\Light.h" />
-    <ClInclude Include="src\Material.h" />
-    <ClInclude Include="src\SceneGraph.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\AssetLoader.h" />
-    <ClInclude Include="src\Mesh.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Stack.h" />
-    <ClInclude Include="src\Texture.h" />
-    <ClInclude Include="src\LunaWindow.h" />
-    <ClInclude Include="src\TransformationManager.h" />
+    <ClInclude Include="src\Renderer\FrameBuffer.h" />
+    <ClInclude Include="src\Renderer\Light.h" />
+    <ClInclude Include="src\Renderer\LightManager.h" />
+    <ClInclude Include="src\Renderer\Material.h" />
+    <ClInclude Include="src\Renderer\Mesh.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Renderer\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DepthShader\shader.fs" />
     <None Include="Assets\Shaders\DepthShader\shader.vs" />
     <None Include="Assets\Shaders\Shader\shader.fs" />
     <None Include="Assets\Shaders\Shader\shader.vs" />
-    <None Include="imgui.ini" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -102,13 +75,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -127,12 +100,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)bin-int\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)bin\Engine\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\Engine\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)bin-int\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)bin\Engine\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\Engine\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

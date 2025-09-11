@@ -15,7 +15,7 @@ public:
 	void InitFramebuffer();
 
 	void Update();
-	void Render(Renderer* renderer);
+	void Render(Renderer* renderer, ObjectTransformPairing<Camera> camera);
 
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();

@@ -3,44 +3,45 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Globals.h"
+#include "../Core/Globals.h"
 
-#include "ECS/ECS.h"
-#include "ECS/TransformComponent.h"
-#include "ECS/CameraComponent.h"
-#include "ECS/LightComponent.h"
+#include "../ECS/ECS.h"
+#include "../Core/Camera.h"
 
 #include "Light.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "Camera.h"
 #include "FrameBuffer.h"
-#include "EditorCamera.h"
+
+template <class T>
+struct ObjectTransformPairing
+{
+	T* object;
+	Transform* objectTransform;
+};
 
 class Renderer {
 public:
 	Renderer();
 	~Renderer();
 	
-	void RenderSceneFromMainCamera(
-		EntityComponentSystem* ECS, 
+	void RenderPass(
+		ObjectTransformPairing<Camera> camera,
+		ObjectTransformPairing<LightComponent> light,
+
+		std::unordered_map<unsigned int, Transform*> transforms,
+		std::unordered_map<unsigned int, MeshComponent*> meshComponents,
+
 		LightManager* lightManager, 
 		Shader* shader, Shader* depthMapShader, 
 		FrameBuffer* framebuffer
 	);
 
-	void EditorRenderPass(
-		EntityComponentSystem* ECS,
-		LightManager* lightManager, 
-		EditorCamera* camera,
-		Shader* shader, Shader* depthMapShader,
-		FrameBuffer* framebuffer
-	);
+	void SetShaderFrame( 
+		ObjectTransformPairing<Camera>& camera, 
+		ObjectTransformPairing<LightComponent>& light, 
 
-	void SetShaderFrame(
-		EntityComponentSystem* ECS, 
-		Camera* camera, Transform* cameraTransform, 
 		Shader* depthmapShader, Shader* shader,
 		FrameBuffer* framebuffer
 	);

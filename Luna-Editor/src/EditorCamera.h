@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Camera.h"
-#include "LunaWindow.h"
+#include "Core/Camera.h"
+#include "Core/LunaWindow.h"
 #include "imgui/imgui.h"
 #include "imgui/ImGuizmo.h"
 

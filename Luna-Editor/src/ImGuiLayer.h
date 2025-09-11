@@ -8,8 +8,9 @@
 #include "GLM/gtx/matrix_decompose.hpp"
 
 #include "Platform/FileNavigation.h"
-#include "LunaWindow.h"
-#include "SceneManager.h"
+#include "Core/LunaWindow.h"
+#include "Core/SceneManager.h"
+#include "EditorCamera.h"
 
 #include <math.h>
 #include <unordered_map>
@@ -32,7 +33,7 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update();
+	void Update(ObjectTransformPairing<Camera>& camera);
 
 	void Render();
 private:

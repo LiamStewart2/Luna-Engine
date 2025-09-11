@@ -1,23 +1,19 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "ECS/ECS.h"
-#include "Renderer.h"
-#include "AssetLoader.h"
+#include "Renderer/Renderer.h"
+#include "Core/AssetLoader.h"
 #include "ImGuiLayer.h"
 
-#include "Globals.h"
+#include "Core/Globals.h"
 
-#include "LunaWindow.h"
-#include "SceneManager.h"
-#include "Scene.h"
-#include "Material.h"
-#include "Light.h"
-#include "Time.h"
-#include "Shader.h"
-#include "Camera.h"
+#include "Core/LunaWindow.h"
+#include "Core/SceneManager.h"
+#include "Core/Scene.h"
+#include "Renderer/Material.h"
+#include "Renderer/Light.h"
+#include "Renderer/Shader.h"
+#include "Core/Camera.h"
 
 class Application
 {
@@ -39,6 +35,8 @@ private:
 	Renderer renderer;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
+
+	EditorCamera editorCamera;
 
 	float main_scale;
 	bool showAddObjectWindow = true;
