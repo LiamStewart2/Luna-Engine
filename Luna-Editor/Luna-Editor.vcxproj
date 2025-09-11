@@ -118,6 +118,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,18 +138,41 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\EditorCamera.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\ImGuizmo.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\EditorCamera.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\ImGuizmo.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="src\imgui\misc\single_file\imgui_single_file.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
