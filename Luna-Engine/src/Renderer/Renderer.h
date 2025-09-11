@@ -26,7 +26,7 @@ public:
 	Renderer();
 	~Renderer();
 	
-	void RenderSceneFromMainCamera(
+	void RenderPass(
 		ObjectTransformPairing<Camera> camera,
 		ObjectTransformPairing<LightComponent> light,
 

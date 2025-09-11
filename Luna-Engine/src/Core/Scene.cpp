@@ -27,8 +27,6 @@ void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
 	sceneGraph = SceneGraph(sceneObject);
 	gameObjects = std::vector<unsigned int>({0});
-
-	camera.m_Position = position; camera.m_Rotation = rotation;
 }
 
 void Scene::LoadAssets()
@@ -42,14 +40,49 @@ void Scene::Update()
 	shader->BindShader();
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
-	camera.Update();
 }
 
 
 
-void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer)
+void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera> camera)
 {
-	renderer->EditorRenderPass(&ECS, lightManager, &camera, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get(), framebuffer);
+	//Find the Camera Object
+	if (camera.object == nullptr)
+	{
+		std::unordered_map<unsigned int, CameraComponent*> cameras = ECS.GetAllComponentsOfType<CameraComponent>();
+		unsigned int mainCameraID = 0;
+
+		for (auto& [id, cameraComponent] : cameras)
+		{
+			auto cameraIt = cameras.find(cameraComponent->gameObject);
+			if (cameraIt == cameras.end())
+				return;
+			else if(cameraComponent->m_MainCamera)
+			{
+				mainCameraID = id;
+				camera.object = cameraComponent->m_Camera;
+				camera.objectTransform = ECS.GetObjectComponent<Transform>(id);
+			}
+		}
+		if (mainCameraID == 0)
+		{
+			std::cerr << "NO MAIN CAMERA" << std::endl;
+			return;
+		}
+	}
+
+	// Find the Light Object
+	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS.GetAllComponentsOfType<LightComponent>();
+	ObjectTransformPairing<LightComponent> light;
+	for (auto& [id, LC] : lightComponents)
+	{
+		light.object = LC;
+		light.objectTransform = ECS.GetObjectComponent<Transform>(id);
+	}
+
+	// Start Render Pass
+	renderer->RenderPass(camera, light, ECS.GetAllComponentsOfType<Transform>(), ECS.GetAllComponentsOfType<MeshComponent>(),
+	lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get(), framebuffer);
 }
 
 unsigned int Scene::AddObject(unsigned int parent)

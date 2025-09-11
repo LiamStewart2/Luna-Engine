@@ -8,7 +8,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::RenderSceneFromMainCamera(ObjectTransformPairing<Camera> camera, ObjectTransformPairing<LightComponent> light, std::unordered_map<unsigned int, Transform*> transforms, 
+void Renderer::RenderPass(ObjectTransformPairing<Camera> camera, ObjectTransformPairing<LightComponent> light, std::unordered_map<unsigned int, Transform*> transforms,
 	std::unordered_map<unsigned int, MeshComponent*> meshComponents, LightManager* lightManager, 
 	Shader* shader, Shader* depthMapShader, FrameBuffer* framebuffer)
 {
