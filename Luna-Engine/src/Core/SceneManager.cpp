@@ -23,7 +23,7 @@ void SceneManager::Update()
 
 void SceneManager::Render(Renderer* renderer)
 {
-	m_Scene->Render(renderer, &m_FrameBuffer);
+	m_Scene->Render(renderer, &m_FrameBuffer, {nullptr, nullptr});
 }
 
 void SceneManager::SaveScene()
@@ -140,13 +140,7 @@ void SceneManager::SaveSceneNode(nlohmann::json& data, SceneGraphNode* node)
 
 void SceneManager::LoadNewScene(const char* filepath)
 {
-	glm::vec3 position = glm::vec3(0, 2, 6);
-	glm::vec3 rotation = glm::vec3(-90, 0, 0);
-	if(m_Scene != nullptr)
-	{
-		rotation = m_Scene->camera.m_Rotation;
-		position = m_Scene->camera.m_Position;
-	}
+
 	// Unload the current scene if it exists
 	UnloadCurrentScene();
 
@@ -162,7 +156,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	m_Scene = new Scene();
 	m_Scene->filepath = std::string(filepath);
-	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"], position, rotation);
+	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])
 		LoadRelations(jsonData, data, 0);

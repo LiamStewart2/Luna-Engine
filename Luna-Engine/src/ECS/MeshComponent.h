@@ -2,10 +2,10 @@
 
 #include "Component.h"
 
-#include "../Mesh.h"
-#include "../Shader.h"
-#include "../Texture.h"
-#include "../Material.h"
+#include "../Renderer/Mesh.h"
+#include "../Renderer/Shader.h"
+#include "../Renderer/Texture.h"
+#include "../Renderer/Material.h"
 
 struct MeshComponent : public Component
 {

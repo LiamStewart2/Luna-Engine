@@ -10,7 +10,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName, glm::vec3 position, glm::vec3 rotation)
+void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName)
 {
 	assetManager = _assetManager; lightManager = _lightManager; sceneName = _sceneName;
 	LoadAssets();

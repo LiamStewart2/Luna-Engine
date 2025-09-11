@@ -3,7 +3,7 @@
 #include "GLM/glm.hpp"
 
 #include "LightManager.h"
-#include "Globals.h"
+#include "../Core/Globals.h"
 #include "Shader.h"
 #include "Mesh.h"
 #include "../ECS/TransformComponent.h"

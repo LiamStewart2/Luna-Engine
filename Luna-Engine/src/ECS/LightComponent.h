@@ -3,7 +3,7 @@
 #include "GLM/glm.hpp"
 
 #include "Component.h"
-#include "../Light.h"
+#include "../Renderer/Light.h"
 
 struct LightComponent : public Component
 {
