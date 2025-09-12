@@ -167,7 +167,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
 
 	if (m_ShowGame)
 	{
-		ImGui::Begin("Game", &m_ShowContentBrowser);
+		ImGui::Begin("Game", &m_ShowGame);
 
 
 		ImGui::End();
