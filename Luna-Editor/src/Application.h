@@ -5,15 +5,7 @@
 #include "Core/AssetLoader.h"
 #include "ImGuiLayer.h"
 
-#include "Core/Globals.h"
-
-#include "Core/LunaWindow.h"
-#include "Core/SceneManager.h"
-#include "Core/Scene.h"
-#include "Renderer/Material.h"
-#include "Renderer/Light.h"
-#include "Renderer/Shader.h"
-#include "Core/Camera.h"
+#include "Luna.h"
 
 class Application
 {

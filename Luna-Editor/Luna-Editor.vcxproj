@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Panels\InspectorPanel.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\EditorCamera.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
@@ -158,6 +159,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Panels\InspectorPanel.h" />
+    <ClInclude Include="src\Panels\ImGuiPanel.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\EditorCamera.h" />
     <ClInclude Include="src\ImGuiLayer.h" />

@@ -133,6 +133,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
 		{
 			if(ImGui::MenuItem("Scene"))
 				m_ShowScene = true;
+			if(ImGui::MenuItem("Game"))
+				m_ShowGame = true;
 			if (ImGui::MenuItem("Inspector"))
 				m_ShowInspector = true;
 			if (ImGui::MenuItem("Show Content Browser"))
@@ -322,6 +324,13 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
+
+
+	if (m_ShowGame)
+	{
+
+	}
+
 
 	ImGui::End();
 

@@ -7,9 +7,7 @@
 #include "imgui/ImGuizmo.h"
 #include "GLM/gtx/matrix_decompose.hpp"
 
-#include "Platform/FileNavigation.h"
-#include "Core/LunaWindow.h"
-#include "Core/SceneManager.h"
+#include "Luna.h"
 #include "EditorCamera.h"
 
 #include <math.h>
@@ -45,6 +43,7 @@ private:
 	bool m_ShowAddObject = true;
 
 	bool m_ShowScene = true;
+	bool m_ShowGame = true;
 	bool m_ShowHierachy = true;
 	bool m_ShowContentBrowser = true;
 	bool m_ShowInspector = true;
@@ -60,12 +59,12 @@ private:
 	float* m_RotationPlacement = new float[3] {0, 0, 0};
 	float* m_ScalePlacement = new float[3] {1, 1, 1};
 
-	char* filepathForScene = new char[50]("");
+	char* filepathForScene = new char[MAX_OBJECT_NAME_SIZE]("");
 
 	int m_CurrentInspectorGameObject = 0;
 
 	int m_ParentObjectID = 0;
-	char* m_ObjectName = new char[50]("");
+	char* m_ObjectName = new char[MAX_OBJECT_NAME_SIZE]("");
 
 	unsigned int m_RenamingGameObject = 0;
 	char m_RenameBuffer[128] = "";
