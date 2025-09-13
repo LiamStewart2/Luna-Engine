@@ -1,6 +1,6 @@
 #include "ScenePanel.h"
 
-void ScenePanel::Update(unsigned int& inspectorID)
+void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer)
 {
 	if(m_Show == false)
 		return;
@@ -13,7 +13,6 @@ void ScenePanel::Update(unsigned int& inspectorID)
 	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
 	// Center the framebuffer image in the window
-	FrameBuffer* framebuffer = m_SceneManager->GetFrameBuffer();
 	const FramebufferSpecification* specs = framebuffer->GetSpecs();
 	float aspectRatio = (float)specs->Width / (float)specs->Height;
 

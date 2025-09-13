@@ -11,7 +11,7 @@ public:
 	ScenePanel(SceneManager* sceneManager = nullptr) : ImGuiPanel(sceneManager) {}
 #
 	// MUST BOTH BE CALLED
-	void Update(unsigned int& inspectorID) override;
+	void UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer);
 	void UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<Camera>& camera);
 
 private:

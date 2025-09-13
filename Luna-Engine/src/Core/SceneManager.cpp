@@ -10,20 +10,14 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::InitFramebuffer()
-{
-	m_FrameBuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	m_FrameBuffer.Update();
-}
-
 void SceneManager::Update()
 {
 	m_Scene->Update();
 }
 
-void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera> camera)
+void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera> camera, FrameBuffer* framebuffer)
 {
-	m_Scene->Render(renderer, &m_FrameBuffer, camera);
+	m_Scene->Render(renderer, framebuffer, camera);
 }
 
 void SceneManager::SaveScene()

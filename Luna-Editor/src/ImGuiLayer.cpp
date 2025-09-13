@@ -43,7 +43,7 @@ static const float identityMatrix[16] =
 	0.f, 0.f, 0.f, 1.f };
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer)
 {
 	StartFrame();
 
@@ -150,7 +150,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera)
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 
-	m_ScenePanel.Update(m_CurrentInspectorGameObject);
+	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 

@@ -42,7 +42,7 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update(ObjectTransformPairing<Camera>& camera);
+	void Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer);
 
 	void Render();
 private:
