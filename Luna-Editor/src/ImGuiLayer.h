@@ -14,6 +14,7 @@
 #include "Panels/InspectorPanel.h"
 #include "Panels/HierarchyPanel.h"
 #include "Panels/ScenePanel.h"
+#include "Panels/GamePanel.h"
 
 #include <math.h>
 #include <unordered_map>
@@ -35,6 +36,7 @@ public:
 			m_InspectorPanel = InspectorPanel(m_SceneManager);
 			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
 			m_ScenePanel = ScenePanel(m_SceneManager);
+			m_GamePanel = GamePanel(m_SceneManager);
 		}
 	}
 	~ImGuiLayer() {}
@@ -64,5 +66,6 @@ private:
 
 	InspectorPanel m_InspectorPanel;
 	HierarchyPanel m_HierarchyPanel;
-	ScenePanel m_ScenePanel;
+	ScenePanel m_ScenePanel; 
+	GamePanel m_GamePanel;
 };

@@ -15,7 +15,7 @@ void SceneManager::Update()
 	m_Scene->Update();
 }
 
-void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera> camera, FrameBuffer* framebuffer)
+void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera, FrameBuffer* framebuffer)
 {
 	m_Scene->Render(renderer, framebuffer, camera);
 }

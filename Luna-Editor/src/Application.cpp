@@ -18,8 +18,8 @@ int Application::Init()
 	window = LunaWindow::NewWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 	m_SceneFramebuffer.Update();
+	m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 	m_GameFramebuffer.Update();
 
 	sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
@@ -77,7 +77,7 @@ void Application::Update()
 	editorCamera.Update();
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	ObjectTransformPairing<Camera> cameraPair = {(Camera*)&editorCamera, &cameraTransform};
+	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
 	imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer);
 }
 
@@ -89,9 +89,10 @@ void Application::Render()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-
 	sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
-	sceneManager.Render(&renderer, {nullptr, nullptr}, &m_SceneFramebuffer);
+
+	//cameraPair = {nullptr, nullptr};
+	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
 	imGuiLayer.Render();
 }

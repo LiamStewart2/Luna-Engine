@@ -36,15 +36,13 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
-	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
-	shader->BindShader();
 
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 
 
 
-void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera> camera)
+void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera>& camera)
 {
 	//Find the Camera Object
 	if (camera.object == nullptr)

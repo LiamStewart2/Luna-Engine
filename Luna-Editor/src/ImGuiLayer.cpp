@@ -134,7 +134,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 			if(ImGui::MenuItem("Scene"))
 				m_ScenePanel.Open();
 			if(ImGui::MenuItem("Game"))
-				m_ShowGame = true;
+				m_GamePanel.Open();
 			if (ImGui::MenuItem("Inspector"))
 				m_InspectorPanel.Open();
 			if (ImGui::MenuItem("Content Browser"))
@@ -149,6 +149,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
+	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer);
 
 	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
@@ -160,18 +161,6 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 
 
 		ImGui::End();
-	}
-
-	
-
-
-	if (m_ShowGame)
-	{
-		ImGui::Begin("Game", &m_ShowGame);
-
-
-		ImGui::End();
-
 	}
 
 
