@@ -34,4 +34,16 @@ struct Transform : public Component
 	{
 		return glm::vec3(0, 1, 0);
 	}
+
+	// Returns the rotation in radians
+	glm::vec3 GetEulerRotation()
+	{
+		return glm::eulerAngles(rotation);
+	}
+
+	// sets the rotation in radians
+	void SetEulerRotation(glm::vec3 rot)
+	{
+		rotation = glm::quat(rot);
+	}
 };

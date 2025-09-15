@@ -25,11 +25,17 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::InputFloat("position y", &transform->position.y);
 			ImGui::InputFloat("position z", &transform->position.z);
 
+			if (glm::quat(glm::radians(m_EulerDegrees)) != transform->rotation)
+			{
+				m_EulerDegrees = glm::degrees(transform->GetEulerRotation());
+			}
 
 			ImGui::Text("Rotation");
-			ImGui::InputFloat("rotation x", &transform->rotation.x);
-			ImGui::InputFloat("rotation y", &transform->rotation.y);
-			ImGui::InputFloat("rotation z", &transform->rotation.z);
+			ImGui::InputFloat("rotation x", &m_EulerDegrees.x);
+			ImGui::InputFloat("rotation y", &m_EulerDegrees.y);
+			ImGui::InputFloat("rotation z", &m_EulerDegrees.z);
+
+			transform->SetEulerRotation(glm::radians(m_EulerDegrees));
 
 
 			ImGui::Text("Scale");
