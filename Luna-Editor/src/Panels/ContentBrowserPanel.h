@@ -4,6 +4,7 @@
 #include "Luna.h"
 
 #include <filesystem>
+#include <set>
 
 class ContentBrowserPanel : public ImGuiPanel
 {
