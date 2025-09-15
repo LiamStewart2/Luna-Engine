@@ -132,7 +132,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 			if (ImGui::MenuItem("Inspector"))
 				m_InspectorPanel.Open();
 			if (ImGui::MenuItem("Content Browser"))
-				m_ShowContentBrowser = true;
+				m_ContentBrowserPanel.Open();
 			if (ImGui::MenuItem("Hiearchy"))
 				m_HierarchyPanel.Open();
 			ImGui::EndMenu();
@@ -143,19 +143,12 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
+	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
+
 	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer);
 
 	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
-
-
-
-	if(m_ShowContentBrowser){
-		ImGui::Begin("ContentBrowser", &m_ShowContentBrowser);
-
-
-		ImGui::End();
-	}
 
 
 	ImGui::End();

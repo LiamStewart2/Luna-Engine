@@ -13,6 +13,7 @@
 
 #include "Panels/InspectorPanel.h"
 #include "Panels/HierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 #include "Panels/ScenePanel.h"
 #include "Panels/GamePanel.h"
 
@@ -35,6 +36,7 @@ public:
 
 			m_InspectorPanel = InspectorPanel(m_SceneManager);
 			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
+			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
 			m_ScenePanel = ScenePanel(m_SceneManager);
 			m_GamePanel = GamePanel(m_SceneManager);
 		}
@@ -66,6 +68,7 @@ private:
 
 	InspectorPanel m_InspectorPanel;
 	HierarchyPanel m_HierarchyPanel;
+	ContentBrowserPanel m_ContentBrowserPanel;
 	ScenePanel m_ScenePanel; 
 	GamePanel m_GamePanel;
 };
