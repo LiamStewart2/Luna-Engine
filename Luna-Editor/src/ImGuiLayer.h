@@ -20,11 +20,6 @@
 #include <math.h>
 #include <unordered_map>
 
-enum ACTIONS
-{
-	LOADSCENE
-};
-
 class ImGuiLayer
 {
 public:

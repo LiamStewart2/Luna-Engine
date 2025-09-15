@@ -149,7 +149,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 
 	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer);
 
-	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer);
+	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer, &m_Actions);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 
@@ -162,6 +162,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 		switch (action)
 		{
 		case ACTIONS::LOADSCENE:
+			m_CurrentInspectorGameObject = 0;
 			m_SceneManager->LoadNewScene(arguments.c_str());
 			break;
 		}

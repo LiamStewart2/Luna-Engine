@@ -11,7 +11,7 @@ public:
 	ScenePanel(SceneManager* sceneManager = nullptr) : ImGuiPanel(sceneManager) {}
 
 	// MUST BOTH BE CALLED
-	void UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer);
+	void UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer, std::vector<std::pair<ACTIONS, std::string>>* actions);
 	void UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<Camera>& camera);
 
 private:

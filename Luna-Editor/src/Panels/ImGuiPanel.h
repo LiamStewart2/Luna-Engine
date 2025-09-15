@@ -7,6 +7,11 @@
 #include "../imgui/backends/imgui_impl_opengl3.h"
 #include "../imgui/misc/cpp/imgui_stdlib.h"
 
+enum ACTIONS
+{
+	LOADSCENE
+};
+
 class ImGuiPanel
 {
 public:

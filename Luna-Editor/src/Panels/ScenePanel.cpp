@@ -1,6 +1,6 @@
 #include "ScenePanel.h"
 
-void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer)
+void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer, std::vector<std::pair<ACTIONS, std::string>>* actions)
 {
 	if(m_Show == false)
 		return;
@@ -29,6 +29,16 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
 	ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 	EditorCamera::sceneWindowHovered = ImGui::IsItemHovered();
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		{
+			const char* path = (const char*)payload->Data;
+			actions->push_back({LOADSCENE, std::string(path)});
+		}
+		ImGui::EndDragDropTarget();
+	}
 }
 
 void ScenePanel::UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<Camera>& camera)

@@ -8,7 +8,9 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 	{
 		if(ImGui::Button("<-"))
 			m_CurrentDirectory = m_CurrentDirectory.parent_path();
+		ImGui::SameLine();
 	}
+	ImGui::Text(m_CurrentDirectory.string().c_str());
 
 	static float padding = 16.0f;
 	static float thumbnailSize = 96.0f;
@@ -43,11 +45,36 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 
 	for (auto& path : sortedFiles)
 	{
+		ImGui::PushID(path.path().filename().string().c_str());
+
 		ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
+
+		if (GetFileExtension(path.path().filename().string()) == "json")
+		{
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+			{
+				ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
+				
+				std::string itemPath = path.path().string().c_str();
+
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath.c_str(), itemPath.size() + 1);
+				ImGui::EndDragDropSource();
+				ImGui::TextWrapped(path.path().filename().string().c_str());
+			}
+		}
+
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 
 		ImGui::NextColumn();
+
+		ImGui::PopID();
 	}
 
 	ImGui::End();
+}
+
+std::string ContentBrowserPanel::GetFileExtension(std::string filename)
+{
+	size_t extension = filename.find(".");
+	return filename.substr(extension + 1);
 }

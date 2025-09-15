@@ -26,5 +26,7 @@ private:
 
 	std::shared_ptr<Texture> m_FolderIcon;
 	std::shared_ptr<Texture> m_FileIcon;
+
+	std::string GetFileExtension(std::string filename);
 };
 
