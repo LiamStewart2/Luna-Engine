@@ -23,8 +23,7 @@ void EditorCamera::Update()
     }
 
     if (EditorCamera::sceneWindowHovered &&
-        LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && 
-            !ImGuizmo::IsOver() && !ImGuizmo::IsUsing())
+        LunaWindow::m_FocusedWindow->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // stop ImGui overriding
         ImGui::SetWindowFocus("Scene");
@@ -66,24 +65,24 @@ void EditorCamera::HandleRotation()
         m_FirstMousePressFrame = true;
         window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         window->GetCursorPosition(&m_LastMousePosition.x, &m_LastMousePosition.y);
-        window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        window->SetCursorPosition(m_LastMousePosition.x, m_LastMousePosition.y);
         return;
     }
 
     glm::dvec2 currentMousePosition = glm::vec2(0, 0);
     window->GetCursorPosition(&currentMousePosition.x, &currentMousePosition.y);
 
-    if (glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) == currentMousePosition)
+    if (m_LastMousePosition == currentMousePosition)
         return;
 
-    glm::dvec2 mouseMovement = currentMousePosition - glm::dvec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    glm::dvec2 mouseMovement = currentMousePosition - m_LastMousePosition;
 
     m_Rotation.x += mouseMovement.x * m_Sensitivity;
     m_Rotation.y -= mouseMovement.y * m_Sensitivity;
 
     m_Rotation.y = glm::clamp(m_Rotation.y, -89.0f, 89.0f);
 
-    window->SetCursorPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    window->SetCursorPosition(m_LastMousePosition.x, m_LastMousePosition.y);
 }
 
 glm::vec3 EditorCamera::Forward()

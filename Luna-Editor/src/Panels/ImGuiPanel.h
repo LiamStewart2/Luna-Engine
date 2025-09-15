@@ -19,8 +19,6 @@ public:
 	virtual void StartFrame() {}
 	virtual void Update(unsigned int& inspectorID) {}
 	virtual void EndFrame(unsigned int& inspectorID) {}
-
-
 protected:
 	SceneManager* m_SceneManager;
 	bool m_Show = true;

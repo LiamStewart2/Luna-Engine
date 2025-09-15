@@ -74,11 +74,13 @@ void Application::Update()
 {
 	sceneManager.Update();
 
-	editorCamera.Update();
-
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
 	imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer);
+
+	editorCamera.Update();
+
+
 }
 
 void Application::Render()
@@ -91,8 +93,8 @@ void Application::Render()
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
 	sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
 
-	//cameraPair = {nullptr, nullptr};
-	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
+	cameraPair = {nullptr, nullptr};
+	sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
 	imGuiLayer.Render();
 }

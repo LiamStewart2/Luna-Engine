@@ -6,7 +6,7 @@ void GamePanel::UpdateGame(unsigned int& inspectorID, FrameBuffer* framebuffer)
 		return;
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-	ImGui::Begin("Game", &m_Show);
+	ImGui::Begin("Game");
 
 	// Get viewport size (content region inside the window)
 	ImVec2 viewportPos = ImGui::GetWindowPos();
@@ -27,7 +27,7 @@ void GamePanel::UpdateGame(unsigned int& inspectorID, FrameBuffer* framebuffer)
 	};
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{0, 1}, ImVec2{1, 0});
 
 	ImGui::End();
 	ImGui::PopStyleVar();

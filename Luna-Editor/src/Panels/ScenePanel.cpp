@@ -28,6 +28,7 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
 	ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	EditorCamera::sceneWindowHovered = ImGui::IsItemHovered();
 }
 
 void ScenePanel::UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<Camera>& camera)
@@ -66,8 +67,6 @@ void ScenePanel::UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<
 	}
 
 	EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
-	EditorCamera::sceneWindowHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
-
 	ImGui::End();
 	ImGui::PopStyleVar();
 }
