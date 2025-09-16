@@ -39,7 +39,7 @@ void Application::MainLoop()
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
 
-	while (!glfwWindowShouldClose(window->GetHandle()))
+	while (!window->ShouldClose())
 	{
 		double currentTime = glfwGetTime();
 		frameCount++;
