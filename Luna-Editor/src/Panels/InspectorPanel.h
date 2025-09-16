@@ -11,7 +11,7 @@ public:
 	{
 		if(sceneManager == nullptr) return;
 
-		//m_ModelIcon = sceneManager->GetAssetManager()->GetTexture("").get();
+		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/model.png").get();
 	}
 
 	void Update(unsigned int& inspectorID) override;

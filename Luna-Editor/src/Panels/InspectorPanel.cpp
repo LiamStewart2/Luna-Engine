@@ -47,7 +47,10 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			ImGui::SeparatorText("Mesh");
-			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh->path.c_str()))
+
+			Mesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
+
+			if (ImGui::ImageButton(mesh->path.c_str(), m_ModelIcon->ID, ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
@@ -56,6 +59,18 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				if (!fpath.empty())
 					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh = m_SceneManager->GetAssetManager()->GetMesh(fpath).get();
 			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MODEL"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh = m_SceneManager->GetAssetManager()->GetMesh(path).get();
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+
 
 			Texture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
 			if (ImGui::ImageButton(texture->path.c_str(), texture->ID, ImVec2{ 96.0f, 96.0f }))
