@@ -57,7 +57,8 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh = m_SceneManager->GetAssetManager()->GetMesh(fpath).get();
 			}
 
-			if (ImGui::Button(scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture->path.c_str()))
+			Texture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
+			if (ImGui::ImageButton(texture->path.c_str(), texture->ID, ImVec2{ 96.0f, 96.0f }))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
@@ -65,6 +66,16 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 					}, 1);
 				if (!fpath.empty())
 					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture = m_SceneManager->GetAssetManager()->GetTexture(fpath).get();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture = m_SceneManager->GetAssetManager()->GetTexture(path).get();
+				}
+				ImGui::EndDragDropTarget();
 			}
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))

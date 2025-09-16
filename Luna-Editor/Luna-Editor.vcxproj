@@ -114,6 +114,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Luna-Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +140,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

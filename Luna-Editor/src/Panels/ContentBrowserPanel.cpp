@@ -47,7 +47,10 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 	{
 		ImGui::PushID(path.path().filename().string().c_str());
 
-		ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
+		if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
+			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, { thumbnailSize, thumbnailSize });
+		else
+			ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
 
 		if (GetFileExtension(path.path().filename().string()) == "json")
 		{
@@ -57,9 +60,21 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 				
 				std::string itemPath = path.path().string().c_str();
 
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath.c_str(), itemPath.size() + 1);
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath.c_str(), itemPath.size() + 1);
 				ImGui::EndDragDropSource();
-				ImGui::TextWrapped(path.path().filename().string().c_str());
+			}
+		}
+
+		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
+		{
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+			{
+				ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, {thumbnailSize, thumbnailSize});
+
+				std::string itemPath = path.path().string().c_str();
+
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath.c_str(), itemPath.size() + 1);
+				ImGui::EndDragDropSource();
 			}
 		}
 

@@ -32,7 +32,7 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer
 
 	if (ImGui::BeginDragDropTarget())
 	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_SCENE"))
 		{
 			const char* path = (const char*)payload->Data;
 			actions->push_back({LOADSCENE, std::string(path)});

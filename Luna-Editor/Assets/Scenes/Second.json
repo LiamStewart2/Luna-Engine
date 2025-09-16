@@ -213,7 +213,7 @@
             {
                 "component-args": [
                     0.0,
-                    0.0,
+                    3.2909631729125977,
                     0.0,
                     1.0,
                     0.0,
@@ -227,7 +227,7 @@
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
                     "Assets/Textures/default.png"
                 ],
