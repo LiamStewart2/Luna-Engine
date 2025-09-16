@@ -1,3 +1,5 @@
+// Luna Engine - Linked List
+
 #pragma once
 
 #include <iostream>
@@ -9,11 +11,17 @@ struct LinkedListNode
 	LinkedListNode* next;
 };
 
+
+/*
+Basic Linked List implementation to support storage of data that shouldn't move in memory
+class T - the data type wanting to be stored in the Linked List
+*/
 template <class T>
 class LinkedList
 {
 public:
 	LinkedList() {}
+	// Iterativly deletes all nodes in the list
 	~LinkedList()
 	{
 		LinkedListNode<T>* current = first;
@@ -26,9 +34,11 @@ public:
 		}
 	}
 
+	// Returns the number of elements in the list
 	int Size() { return size; }
 
-	// Push element to the back of the list
+	// Pushes element to the back of the list
+	// T data - the object you want storing in the list node
 	void Push(T data)
 	{
 		LinkedListNode<T>* element = new LinkedListNode<T>();
@@ -43,7 +53,8 @@ public:
 		size += 1;
 	}
 
-	// get the nth element of the lsit
+	// Returns the n'th element of the list
+	// int index - the index of the node wanting to be accessed
 	T& operator[] (int index)
 	{
 		if (index > size)

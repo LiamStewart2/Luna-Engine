@@ -1,12 +1,27 @@
+// Luna Engine - Asset Loader
+
+/* 
+Collection of file loading methods for various object types currently including
+ - OBJ to mesh loading
+ - stb_image supported files loading to texture
+*/
+
 #include "AssetLoader.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
 
+// void LoadMeshOBJ - Loads a mesh object from an OBJ file
+// OBJ files must be triangulated and only contain one mesh
+// std::shared_ptr<Mesh> mesh - a reference to the mesh object the data should be loaded into
+// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
+
 void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 {
 	double startTime = glfwGetTime();
 
+	// stop the process if filepath is invalid
+	// this wont crash anything, but will result in the mesh buffers being empty - nothing will render
 	std::ifstream file(filepath); std::string line;
 	if (!file) {
 		std::cerr << "Cannot open file: " << filepath << std::endl;
@@ -15,6 +30,7 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 
 	mesh->path = std::string(filepath);
 
+	// Create buffers for the mesh vertex data
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec3> vertexNormals;
 	std::vector<glm::vec2> vertexTextureCoords;
@@ -49,6 +65,7 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 			ss >> vertexTextureCoords[vertexTextureCoords.size() - 1].y;
 		}
 
+		// Generate the face data, combining indices together for the meshes IBO
 		else if (prefix == "f")
 		{
 			std::string indicies; Vertex vertex;
@@ -89,7 +106,6 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 				else
 					mesh->indices.push_back(vertexIndex);
 
-				//std::cout << "Building face takes " << glfwGetTime() - startTime << std::endl;
 			}
 		}
 	}
@@ -99,6 +115,10 @@ void AssetLoader::LoadMeshOBJ(std::shared_ptr<Mesh> mesh, const char* filepath)
 }
 
 
+// void LoadTexture - Loads a texture from any stb_image supported file
+// Supports both RGB and RGBA channelled images
+// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
+// const char* filepath - the file path of the image file
 void AssetLoader::LoadTexture(std::shared_ptr<Texture> texture, const char* filepath)
 {
 	double startTime = glfwGetTime();
