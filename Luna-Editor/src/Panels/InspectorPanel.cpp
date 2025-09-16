@@ -47,9 +47,12 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			ImGui::SeparatorText("Mesh");
-
+			
 			Mesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
+			ImGui::Columns(2, "Mesh", false);
 
+			ImGui::Text("Mesh:"); 
+			ImGui::NextColumn();
 			if (ImGui::ImageButton(mesh->path.c_str(), m_ModelIcon->ID, ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
@@ -70,9 +73,12 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				ImGui::EndDragDropTarget();
 			}
 
-
+			ImGui::NextColumn();
 
 			Texture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
+			ImGui::Columns(2, "Texture", false);
+			ImGui::Text("Texture:");
+			ImGui::NextColumn();
 			if (ImGui::ImageButton(texture->path.c_str(), texture->ID, ImVec2{ 96.0f, 96.0f }))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
