@@ -1,5 +1,10 @@
+// Luna Engine - Transformation Manager
+
 #include "TransformationManager.h"
 
+// void UpdateTransformationMatricies() - iterates through all transform components in the ECS to update their world matrix
+// SceneGraph* sceneGraph - a reference to the root node of the scenes scene graph
+// EntityComponentSystem* ECS - a reference to the ECS of the scene
 void TransformationManager::UpdateTransformationMatricies(SceneGraph* sceneGraph, EntityComponentSystem* ECS)
 {
 	m_Stack.ResetStack(); m_Stack.Push(glm::mat4(1));
@@ -8,7 +13,10 @@ void TransformationManager::UpdateTransformationMatricies(SceneGraph* sceneGraph
 	UpdateTransform(sceneGraph, &transformComponents);
 }
 
-
+// void UpdateTransform() - the recursive function called for each scene graph node in the tree to set the world matrix
+// SceneGraphNode* node - the current node being calculated
+// std::unordered_map<unsigned int, Transform*>* transformComponents - a reference to all of the scenes transform components
+// glm::mat4 parentMatrix - the matrix of the parent transform of the current node
 void TransformationManager::UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents, glm::mat4 parentMatrix)
 {
 	/// Calculate world matrix for the transform component
