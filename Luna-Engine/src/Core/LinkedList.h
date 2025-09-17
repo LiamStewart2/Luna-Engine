@@ -4,6 +4,9 @@
 
 #include <iostream>
 
+/*
+The node class used to store the data of each node of type T
+*/
 template <class T>
 struct LinkedListNode
 {
