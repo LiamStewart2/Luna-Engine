@@ -137,5 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\testing.lua" />
+    <None Include="Assets\Scripts\testing.py" />
+    <None Include="Assets\Scripts\LunaBehaviour.py" />
   </ItemGroup>
 </Project>

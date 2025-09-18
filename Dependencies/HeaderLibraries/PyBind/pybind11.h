@@ -23,6 +23,7 @@
 #include "trampoline_self_life_support.h"
 #include "typing.h"
 
+#include <Python.h>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>

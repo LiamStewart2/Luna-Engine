@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e2c87eeb-6eea-4490-b08f-0aeef8b21dd6}</ProjectGuid>
-    <RootNamespace>LunaEditor</RootNamespace>
+    <ProjectGuid>{fc4177cc-1851-408a-8372-7c4773d58bbe}</ProjectGuid>
+    <RootNamespace>LunaBindings</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -46,7 +46,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,13 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)bin\Editor\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\Editor\$(Configuration)\$(Platform)\</IntDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin\Editor\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\Editor\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)bin\ScriptingBindings\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\ScriptingBindings\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,17 +108,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\64-bit\python-3.1.3\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <UndefinePreprocessorDefinitions>
-      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;lua54.lib;python313.lib;Luna-Engine.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64;$(SolutionDir)Dependencies\64-bit\python-3.1.3\libs;$(SolutionDir)bin\Engine\Debug\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Dependencies\64-bit\python-3.1.3\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>A:\C++\Luna-Engine\Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Dependencies\64-bit\python-3.1.3\include;A:\C++\Luna-Engine\Luna-Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -141,62 +130,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;lua54.lib;python313.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64;$(SolutionDir)bin\Engine\Release\x64;A:\C++\Luna-Engine\Dependencies\64-bit\python-3.1.3\libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\Engine\Release\x64;A:\C++\Luna-Engine\Dependencies\64-bit\python-3.1.3\libs</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Luna-Engine.lib;Python313.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)luna.pyd</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
-    <ClCompile Include="src\Panels\GamePanel.cpp" />
-    <ClCompile Include="src\Panels\ScenePanel.cpp" />
-    <ClCompile Include="src\Panels\HierarchyPanel.cpp" />
-    <ClCompile Include="src\Panels\InspectorPanel.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\EditorCamera.cpp" />
-    <ClCompile Include="src\ImGuiLayer.cpp" />
-    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\imgui\imgui.cpp" />
-    <ClCompile Include="src\imgui\ImGuizmo.cpp" />
-    <ClCompile Include="src\imgui\imgui_demo.cpp" />
-    <ClCompile Include="src\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\imgui\imgui_tables.cpp" />
-    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
-    <ClInclude Include="src\Panels\GamePanel.h" />
-    <ClInclude Include="src\Panels\ScenePanel.h" />
-    <ClInclude Include="src\Panels\HierarchyPanel.h" />
-    <ClInclude Include="src\Panels\InspectorPanel.h" />
-    <ClInclude Include="src\Panels\ImGuiPanel.h" />
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\EditorCamera.h" />
-    <ClInclude Include="src\ImGuiLayer.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="src\imgui\imconfig.h" />
-    <ClInclude Include="src\imgui\imgui.h" />
-    <ClInclude Include="src\imgui\ImGuizmo.h" />
-    <ClInclude Include="src\imgui\imgui_internal.h" />
-    <ClInclude Include="src\imgui\imstb_rectpack.h" />
-    <ClInclude Include="src\imgui\imstb_textedit.h" />
-    <ClInclude Include="src\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
-    <ClInclude Include="src\imgui\misc\single_file\imgui_single_file.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Luna-Engine\Luna-Engine.vcxproj">
-      <Project>{afc1e9f1-04e8-492e-b1bf-e5323a492e69}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Scripts\LunaBehaviour.py" />
-    <None Include="Assets\Scripts\testing.lua" />
-    <None Include="Assets\Scripts\testing.py" />
+    <ClCompile Include="src\Bindings.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
