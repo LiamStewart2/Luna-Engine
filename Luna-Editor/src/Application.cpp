@@ -26,6 +26,29 @@ int Application::Init()
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 	
+	std::string cmd = "a = 7 + 11 + math.sin(23.88)";
+	lua_State* L = luaL_newstate();
+
+	luaL_openlibs(L);
+
+	int r = luaL_dofile(L, "Assets/Scripts/testing.lua");
+
+	if (r == LUA_OK)
+	{
+		lua_getglobal(L, "a");
+		if (lua_isnumber(L, -1))
+		{
+			float a_in_cpp = (float)lua_tonumber(L, -1);
+			std::cout << "a_in_cpp = " << a_in_cpp << std::endl;
+		}
+	}
+	else
+	{
+		std::string errormsg = lua_tostring(L, -1);
+		std::cout << errormsg << std::endl;
+	}
+	lua_close(L);
+
 	return 0;
 }
 

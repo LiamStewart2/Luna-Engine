@@ -112,15 +112,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Luna-Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;lua54.lib;Luna-Engine.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64;$(SolutionDir)bin\Engine\Debug\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Luna-Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -139,8 +139,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;A:\C++\Luna-Engine\bin\Engine\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;Luna-Engine.lib;lua54.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64;$(SolutionDir)bin\Engine\Release\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -190,6 +190,9 @@
     <ProjectReference Include="..\Luna-Engine\Luna-Engine.vcxproj">
       <Project>{afc1e9f1-04e8-492e-b1bf-e5323a492e69}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Scripts\testing.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
