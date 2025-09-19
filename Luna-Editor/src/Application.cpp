@@ -26,6 +26,8 @@ int Application::Init()
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 	
+
+	//// LUA EXAMPLE
 	std::string cmd = "a = 7 + 11 + math.sin(23.88)";
 	lua_State* L = luaL_newstate();
 
@@ -48,6 +50,11 @@ int Application::Init()
 		std::cout << errormsg << std::endl;
 	}
 	lua_close(L);
+
+
+
+
+
 
 	return 0;
 }

@@ -10,8 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Luna-Editor", "Luna-Editor\
 		{AFC1E9F1-04E8-492E-B1BF-E5323A492E69} = {AFC1E9F1-04E8-492E-B1BF-E5323A492E69}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Luna-Bindings", "Luna-Bindings\Luna-Bindings.vcxproj", "{FC4177CC-1851-408A-8372-7C4773D58BBE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,14 +34,6 @@ Global
 		{E2C87EEB-6EEA-4490-B08F-0AEEF8B21DD6}.Release|x64.Build.0 = Release|x64
 		{E2C87EEB-6EEA-4490-B08F-0AEEF8B21DD6}.Release|x86.ActiveCfg = Release|Win32
 		{E2C87EEB-6EEA-4490-B08F-0AEEF8B21DD6}.Release|x86.Build.0 = Release|Win32
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Debug|x64.ActiveCfg = Debug|x64
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Debug|x64.Build.0 = Debug|x64
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Debug|x86.ActiveCfg = Debug|Win32
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Debug|x86.Build.0 = Debug|Win32
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Release|x64.ActiveCfg = Release|x64
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Release|x64.Build.0 = Release|x64
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Release|x86.ActiveCfg = Release|Win32
-		{FC4177CC-1851-408A-8372-7C4773D58BBE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
