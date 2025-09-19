@@ -13,9 +13,6 @@ extern "C" {
 	#include "lualib.h"
 }
 
-#include "mono/jit/jit.h"
-#include "mono/metadata/assembly.h"
-
 class Application
 {
 public:
