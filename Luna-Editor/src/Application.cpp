@@ -28,7 +28,11 @@ int Application::Init()
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 
-	m_ScriptManager.OnSceneLoad("Assets/Scripts/testing.lua");
+
+	m_Script = new Script("Assets/Scripts/testing.lua");
+	m_Script->Execute();
+
+	//m_ScriptManager.OnSceneLoad("Assets/Scripts/testing.lua");
 
 	return 0;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#define SOL_ALL_SAFETIES_ON 1
 #include <SOL/sol.hpp>
 
 #include <fstream>
@@ -11,7 +10,7 @@ public:
 	ScriptManager();
 	~ScriptManager();
 
-	void OnSceneLoad(const char* scriptFilepath);
+	void OnSceneLoad();
 	void OnSceneUpdate();
 	void OnSceneClose();
 

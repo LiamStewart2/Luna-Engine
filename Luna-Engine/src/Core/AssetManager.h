@@ -11,6 +11,7 @@
 #include "../Renderer/Texture.h"
 #include "../Renderer/Mesh.h"
 #include "../Renderer/Shader.h"
+#include "../Scripting/Script.h"
 
 /*
 	Uses Luna Engine - AssetLoader to load and manage buffers of all assets used in the lifetime of an application
@@ -35,9 +36,14 @@ public:
 	// std::string filepath - the file path of the shader folder
 	std::shared_ptr<Shader> GetShader(std::string filepath);
 
+	// std::shared_ptr<Script> GetScript - Loads a script and returns a reference to the object from the buffer
+	// std::string filepath - the file path of the script file
+	std::shared_ptr<Script> GetScript(std::string filepath);
+
 private:
 	std::unordered_map<std::string, std::shared_ptr<Texture>> m_Textures;
 	std::unordered_map<std::string, std::shared_ptr<Mesh>> m_Meshes;
 	std::unordered_map<std::string, std::shared_ptr<Shader>> m_Shaders;
+	std::unordered_map<std::string, std::shared_ptr<Script>> m_Scripts;
 };
 

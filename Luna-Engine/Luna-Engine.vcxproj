@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scripting\Script.cpp" />
     <ClCompile Include="src\Scripting\ScriptManager.cpp" />
     <ClCompile Include="src\Core\AssetLoader.cpp" />
     <ClCompile Include="src\Core\AssetManager.cpp" />
@@ -31,6 +32,8 @@
     <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Scripting\Script.h" />
+    <ClInclude Include="src\ECS\ScriptComponent.h" />
     <ClInclude Include="src\Scripting\ScriptManager.h" />
     <ClInclude Include="src\Core\AssetLoader.h" />
     <ClInclude Include="src\Core\AssetManager.h" />

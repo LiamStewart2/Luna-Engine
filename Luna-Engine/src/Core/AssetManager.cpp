@@ -58,3 +58,14 @@ std::shared_ptr<Shader> AssetManager::GetShader(std::string filepath)
 	}
 	return m_Shaders[filepath];
 }
+
+std::shared_ptr<Script> AssetManager::GetScript(std::string filepath)
+{
+	if (m_Scripts.find(filepath) == m_Scripts.end())
+	{
+		std::cout << filepath << std::endl;
+		std::shared_ptr<Script> script = m_Scripts[filepath] = std::make_shared<Script>(filepath);
+		
+	}
+	return m_Scripts[filepath];
+}
