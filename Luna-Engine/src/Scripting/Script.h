@@ -12,6 +12,7 @@ public:
 
 	void Execute();
 
+	std::string GetFilepath() {return m_Filepath;}
 private:
 	sol::state m_Lua;
 	sol::load_result m_CompiledScript;

@@ -44,6 +44,16 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::InputFloat("scale z", &transform->scale.z);
 		}
 
+		if (scene->GetECS()->HasComponent<ScriptComponent>(inspectorID))
+		{
+			ImGui::SeparatorText("Script");
+
+			ScriptComponent* component = scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID);
+
+			ImGui::Text("Script name: ");
+			ImGui::Text(component->m_Script.get()->GetFilepath().c_str());
+		}
+
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			ImGui::SeparatorText("Mesh");

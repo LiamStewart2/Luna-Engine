@@ -7,7 +7,7 @@
 
 struct ScriptComponent : public Component
 {
-	ScriptComponent(unsigned int _gameObject = 0, std::shared_ptr<Script> script) :
+	ScriptComponent(unsigned int _gameObject = 0, std::shared_ptr<Script> script = nullptr) :
 		Component(_gameObject), m_Script(script)
 	{
 	}

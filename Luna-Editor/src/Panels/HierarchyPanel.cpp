@@ -69,6 +69,12 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/Shader").get(), new Material(glm::vec3(1, 1, 1)), 
 					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get());
 
+			if(ImGui::MenuItem("Script"))
+			{
+				m_SceneManager->GetCurrentScene()->AddComponent<ScriptComponent>(inspectorID,
+					m_SceneManager->GetAssetManager()->GetScript("Assets/Scripts/testing.lua"));
+			}
+
 			if (ImGui::MenuItem("Camera"))
 				m_SceneManager->GetCurrentScene()->AddComponent<CameraComponent>(inspectorID, new PerspectiveCamera(), glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), false);
 
