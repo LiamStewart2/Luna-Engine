@@ -31,5 +31,7 @@ private:
 	FrameBuffer m_SceneFramebuffer;
 	FrameBuffer m_GameFramebuffer;
 
+	ScriptManager m_ScriptManager;
+
 	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));
 };

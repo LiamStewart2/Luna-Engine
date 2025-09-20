@@ -1,6 +1,9 @@
 #pragma once
 
-#include "SOL/sol.hpp"
+#define SOL_ALL_SAFETIES_ON 1
+#include <SOL/sol.hpp>
+
+#include <fstream>
 
 class ScriptManager
 {

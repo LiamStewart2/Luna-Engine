@@ -2,7 +2,8 @@
 
 ScriptManager::ScriptManager()
 {
-	m_LuaState.open_libraries(sol::lib::base);
+	m_LuaState.open_libraries(sol::lib::base, sol::lib::math);
+
 }
 
 ScriptManager::~ScriptManager()
@@ -11,7 +12,7 @@ ScriptManager::~ScriptManager()
 
 void ScriptManager::OnSceneLoad(const char* scriptFilepath)
 {
-
+	m_LuaState.script_file(scriptFilepath);
 }
 
 void ScriptManager::OnSceneUpdate()
