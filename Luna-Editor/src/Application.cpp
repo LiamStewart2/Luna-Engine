@@ -35,7 +35,7 @@ int Application::Init()
 	luaL_openlibs(L);
 
 	int r = luaL_dofile(L, "Assets/Scripts/testing.lua");
-
+	
 	if (r == LUA_OK)
 	{
 		lua_getglobal(L, "a");

@@ -7,12 +7,6 @@
 
 #include "Luna.h"
 
-extern "C" {
-	#include "lua.h"
-	#include "lauxlib.h"
-	#include "lualib.h"
-}
-
 class Application
 {
 public:

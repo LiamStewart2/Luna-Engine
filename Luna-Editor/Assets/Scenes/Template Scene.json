@@ -198,7 +198,7 @@
                 "component-args": [
                     "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png"
+                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\open-folder.jpg"
                 ],
                 "component-type": "MeshComponent"
             }
