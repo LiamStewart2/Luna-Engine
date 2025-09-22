@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\testing.lua" />
+    <None Include="Assets\Scripts\testing2.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -49,16 +49,39 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::SeparatorText("Script");
 
 			ScriptComponent* component = scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID);
+			
+			ImGui::Columns(2, "Script", false);
 
-			ImGui::Text("Script name: ");
-			ImGui::Text(component->m_Script.get()->GetFilepath().c_str());
+			ImGui::Text("Script:");
+			ImGui::NextColumn();
+			if (ImGui::ImageButton(component->m_Script->GetFilepath().c_str(), m_CodeIcon->ID, ImVec2{96.0f, 96.0f}))
+			{
+				std::string fpath = FileNavigation::OpenFileDialog({
+					{L"Script Files", L"*.lua"},
+					{L"All Files", L"*.*"}
+					}, 1);
+				if (!fpath.empty())
+					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script = m_SceneManager->GetAssetManager()->GetScript(fpath);
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_SCRIPT"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script = m_SceneManager->GetAssetManager()->GetScript(path);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::TextWrapped(component->m_Script->GetFilepath().c_str());
+			ImGui::Columns(1);
 		}
 
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
-			ImGui::SeparatorText("Mesh");
 			
 			Mesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
+			ImGui::SeparatorText("Mesh");
 			ImGui::Columns(2, "Mesh", false);
 
 			ImGui::Text("Mesh:"); 
@@ -108,6 +131,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				}
 				ImGui::EndDragDropTarget();
 			}
+			ImGui::Columns(1);
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))
 		{
