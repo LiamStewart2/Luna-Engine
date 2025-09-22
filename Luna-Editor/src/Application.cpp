@@ -30,6 +30,7 @@ int Application::Init()
 
 
 	m_Script = new Script("Assets/Scripts/testing.lua");
+	m_Script->m_ECS = sceneManager.GetCurrentScene()->GetECS();
 	m_Script->Execute();
 
 	//m_ScriptManager.OnSceneLoad("Assets/Scripts/testing.lua");

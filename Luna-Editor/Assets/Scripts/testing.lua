@@ -9,4 +9,5 @@ end
 function Update()
 	print("neverr")
 	sneaky()
+	CoolFunction()
 end

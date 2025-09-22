@@ -73,6 +73,7 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 			{
 				m_SceneManager->GetCurrentScene()->AddComponent<ScriptComponent>(inspectorID,
 					m_SceneManager->GetAssetManager()->GetScript("Assets/Scripts/testing.lua"));
+				m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script->m_ECS = m_SceneManager->GetCurrentScene()->GetECS();
 			}
 
 			if (ImGui::MenuItem("Camera"))

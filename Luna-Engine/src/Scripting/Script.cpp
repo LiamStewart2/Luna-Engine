@@ -25,6 +25,8 @@ void Script::Compile(std::string filepath)
 		return;
 	}
 
+	m_Lua.set_function("CoolFunction", [this]() { this->Cool(); });
+
 	sol::protected_function_result result = m_CompiledScript();
 	if (!result.valid())
 	{
@@ -51,4 +53,9 @@ void Script::Execute()
 			std::cerr << "[SCRIPT] " << m_Filepath << " ERROR: " << err.what() << std::endl;
 		}
 	}
+}
+
+void Script::Cool()
+{
+	std::cout << m_Filepath << std::endl;
 }

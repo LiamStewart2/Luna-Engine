@@ -11,7 +11,7 @@ public:
 	ScriptManager();
 	~ScriptManager();
 	void OnSceneLoad();
-	void OnSceneUpdate(std::unordered_map<unsigned int, ScriptComponent>& scriptComponents);
+	void OnSceneUpdate();
 	void OnSceneClose();
 
 private:

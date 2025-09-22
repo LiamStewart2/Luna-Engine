@@ -3,7 +3,8 @@
 #include <string>
 
 #include "Component.h"
-#include "../Scripting/script.h"
+
+class Script;
 
 struct ScriptComponent : public Component
 {
