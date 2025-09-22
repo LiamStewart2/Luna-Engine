@@ -14,3 +14,7 @@
 // RENDERER
 
 #include "Renderer/Renderer.h"
+
+// SCRIPTING
+
+#include "Scripting/ScriptManager.h"

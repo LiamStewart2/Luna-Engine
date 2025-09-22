@@ -93,6 +93,19 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 			}
 		}
 
+		else if (GetFileExtension(path.path().filename().string()) == "lua")
+		{
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+			{
+				ImGui::Image(m_CodeIcon->ID, { thumbnailSize, thumbnailSize });
+
+				std::string itemPath = path.path().string().c_str();
+
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath.c_str(), itemPath.size() + 1);
+				ImGui::EndDragDropSource();
+			}
+		}
+
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 
 		ImGui::NextColumn();

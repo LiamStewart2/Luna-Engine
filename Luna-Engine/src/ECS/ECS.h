@@ -11,6 +11,7 @@
 #include "MeshComponent.h"
 #include "LightComponent.h"
 #include "CameraComponent.h"
+#include "ScriptComponent.h"
 
 class EntityComponentSystem
 {

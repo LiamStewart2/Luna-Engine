@@ -17,6 +17,7 @@ public:
 		m_FolderIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/open-folder.png");
 		m_FileIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/document.png");
 		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/model.png");
+		m_CodeIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/web-programming.png");
 	}
 
 	void Update(unsigned int& inspectorID) override;
@@ -28,6 +29,7 @@ private:
 	std::shared_ptr<Texture> m_FolderIcon;
 	std::shared_ptr<Texture> m_FileIcon;
 	std::shared_ptr<Texture> m_ModelIcon;
+	std::shared_ptr<Texture> m_CodeIcon;
 
 	std::string GetFileExtension(std::string filename);
 };

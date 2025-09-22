@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include <iostream>
+
 Application::Application()
 {
 	Init();
@@ -25,7 +27,6 @@ int Application::Init()
 	sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
-	
 	return 0;
 }
 

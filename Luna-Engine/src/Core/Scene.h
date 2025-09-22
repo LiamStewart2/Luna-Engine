@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "TransformationManager.h"
+#include "../Scripting/ScriptManager.h"
 #include "LunaWindow.h"
 #include "SceneGraph.h"
 #include "../ECS/ECS.h"
@@ -48,6 +49,7 @@ private:
 
 	std::string sceneName = "";
 
+	ScriptManager scriptManager;
 	TransformationManager transformationManager;
 
 	AssetManager* assetManager;

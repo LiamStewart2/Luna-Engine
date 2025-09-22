@@ -202,37 +202,6 @@
                 ],
                 "component-type": "MeshComponent"
             }
-        ],
-        [
-            {
-                "component-args": [
-                    "New Object"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    3.2909631729125977,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
-                    "Assets/Shaders/Shader",
-                    "Assets/Textures/default.png"
-                ],
-                "component-type": "MeshComponent"
-            }
         ]
     ],
     "relations": [
@@ -257,10 +226,6 @@
                 {
                     "Children": [],
                     "ObjectID": 6
-                },
-                {
-                    "Children": [],
-                    "ObjectID": 7
                 }
             ],
             "ObjectID": 3
