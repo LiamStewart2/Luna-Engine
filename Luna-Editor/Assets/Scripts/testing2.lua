@@ -1,5 +1,8 @@
 function Update()
-	if(IsKeyDown("a")) then
-		print("fortnite")
+	if(IsKeyDown("w")) then
+		Translate(0, 0.3, 0)
+	end
+	if(IsKeyDown("s")) then
+		Translate(0, -0.3, 0)
 	end
 end

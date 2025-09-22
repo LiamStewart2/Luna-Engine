@@ -61,7 +61,10 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
+				{
 					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script = m_SceneManager->GetAssetManager()->GetScript(fpath);
+					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script->m_ECS = scene->GetECS();
+				}
 			}
 
 			if (ImGui::BeginDragDropTarget())
@@ -70,6 +73,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				{
 					const char* path = (const char*)payload->Data;
 					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script = m_SceneManager->GetAssetManager()->GetScript(path);
+					scene->GetECS()->GetObjectComponent<ScriptComponent>(inspectorID)->m_Script->m_ECS = scene->GetECS();
 				}
 				ImGui::EndDragDropTarget();
 			}
