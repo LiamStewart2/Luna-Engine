@@ -10,15 +10,14 @@ public:
 	~Script();
 
 	void Compile(std::string filepath = "");
+	void BindFunctions();
 
-	void Execute();
-
-	void Cool();
+	void Execute(unsigned int gameobject);
 
 	std::string GetFilepath() {return m_Filepath;}
 	EntityComponentSystem* m_ECS = nullptr;
 private:
-
+	unsigned int m_GameObject = 0;
 	sol::state m_Lua;
 	sol::load_result m_CompiledScript;
 

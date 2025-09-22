@@ -1,5 +1,8 @@
 #include "Script.h"
 
+#include <cctype>
+#include "../Core/LunaWindow.h"
+
 Script::Script(std::string filepath)
 {
 	Compile(filepath);
@@ -25,7 +28,7 @@ void Script::Compile(std::string filepath)
 		return;
 	}
 
-	m_Lua.set_function("CoolFunction", [this]() { this->Cool(); });
+	BindFunctions();
 
 	sol::protected_function_result result = m_CompiledScript();
 	if (!result.valid())
@@ -39,8 +42,24 @@ void Script::Compile(std::string filepath)
 	m_Update = m_Lua["Update"];
 }
 
-void Script::Execute()
+void Script::BindFunctions()
 {
+	m_Lua.set_function("IsKeyDown", [this](const char c) {
+		if(LunaWindow::m_FocusedWindow->GetKey(GLFW_KEY_A + (std::toupper(c) - 'A')) == GLFW_PRESS)
+			return true;
+		return false;
+
+	});
+
+	m_Lua.set_function("Translate", [this](float x, float y, float z) {
+		Transform* transform = this->m_ECS->GetObjectComponent<Transform>(this->m_GameObject);
+		transform->position += glm::vec3(x, y, z);
+	});
+}
+
+void Script::Execute(unsigned int gameobject)
+{
+	m_GameObject = gameobject;
 	if(!m_CompiledScript.valid())
 		return;
 
@@ -53,9 +72,4 @@ void Script::Execute()
 			std::cerr << "[SCRIPT] " << m_Filepath << " ERROR: " << err.what() << std::endl;
 		}
 	}
-}
-
-void Script::Cool()
-{
-	std::cout << m_Filepath << std::endl;
 }
