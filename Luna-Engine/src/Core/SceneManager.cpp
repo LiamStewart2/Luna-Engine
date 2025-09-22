@@ -96,6 +96,15 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			});
 		}
 
+		if (m_Scene->GetECS()->HasComponent<ScriptComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			ScriptComponent* component = m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "ScriptComponent"},
+				{"component-args", {component->m_Script->GetFilepath()}}
+			});
+		}
+
 		jsonData["objects"].push_back(objectComponents);
 	}
 	
@@ -202,6 +211,13 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			glm::vec3 lightColour = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
 			m_Scene->AddComponent<LightComponent>(objectID, lightColour);
 			m_Scene->GetECS()->GetObjectComponent<LightComponent>(objectID)->m_Light.BuildLight(&lightManager);
+		}
+		else if (componentData["component-type"] == "ScriptComponent")
+		{
+			std::shared_ptr<Script> script = assetManager.GetScript(componentData["component-args"][0].get<std::string>());
+
+			m_Scene->AddComponent<ScriptComponent>(objectID, script);
+			m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();
 		}
 	}
 

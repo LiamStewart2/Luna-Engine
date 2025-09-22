@@ -27,13 +27,6 @@ int Application::Init()
 	sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
-
-
-	m_Script = new Script("Assets/Scripts/testing.lua");
-	m_Script->m_ECS = sceneManager.GetCurrentScene()->GetECS();
-
-	//m_ScriptManager.OnSceneLoad("Assets/Scripts/testing.lua");
-
 	return 0;
 }
 
@@ -80,7 +73,6 @@ void Application::HandleInput()
 
 void Application::Update()
 {
-	m_Script->Execute(4);
 	sceneManager.Update();
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));

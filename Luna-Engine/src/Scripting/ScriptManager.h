@@ -3,6 +3,7 @@
 #include <SOL/sol.hpp>
 #include <fstream>
 
+#include "Script.h"
 #include "../ECS/ECS.h"
 
 class ScriptManager
@@ -10,8 +11,8 @@ class ScriptManager
 public:
 	ScriptManager();
 	~ScriptManager();
-	void OnSceneLoad();
-	void OnSceneUpdate();
+	void OnSceneLoad(EntityComponentSystem* ECS);
+	void OnSceneUpdate(EntityComponentSystem* ECS);
 	void OnSceneClose();
 
 private:

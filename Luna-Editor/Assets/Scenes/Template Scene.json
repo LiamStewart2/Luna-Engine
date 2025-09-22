@@ -181,7 +181,7 @@
             },
             {
                 "component-args": [
-                    2.0,
+                    1.2000000476837158,
                     2.5,
                     0.0,
                     1.0,
@@ -201,6 +201,12 @@
                     "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\open-folder.jpg"
                 ],
                 "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Scripts/testing.lua"
+                ],
+                "component-type": "ScriptComponent"
             }
         ]
     ],

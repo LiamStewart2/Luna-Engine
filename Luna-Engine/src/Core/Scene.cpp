@@ -36,7 +36,7 @@ void Scene::LoadAssets()
 
 void Scene::Update()
 {
-
+	scriptManager.OnSceneUpdate(&ECS);
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 
