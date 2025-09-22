@@ -14,8 +14,9 @@ void ScriptManager::OnSceneLoad()
 	
 }
 
-void ScriptManager::OnSceneUpdate()
+void ScriptManager::OnSceneUpdate(std::unordered_map<unsigned int, ScriptComponent>& scriptComponents)
 {
+
 }
 
 void ScriptManager::OnSceneClose()

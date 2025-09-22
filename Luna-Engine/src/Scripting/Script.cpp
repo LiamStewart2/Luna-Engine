@@ -22,7 +22,19 @@ void Script::Compile(std::string filepath)
 	{
 		sol::error err = m_CompiledScript;
 		std::cerr << "[SCRIPT] " << m_Filepath << " filepath failed to compile: " <<err.what() << std::endl;
+		return;
 	}
+
+	sol::protected_function_result result = m_CompiledScript();
+	if (!result.valid())
+	{
+		sol::error err = result;
+		std::cerr << "[SCRIPT]" << m_Filepath << " runtime error: " << err.what() << std::endl;
+		return;
+	}
+
+	m_Start = m_Lua["Start"];
+	m_Update = m_Lua["Update"];
 }
 
 void Script::Execute()
@@ -30,19 +42,9 @@ void Script::Execute()
 	if(!m_CompiledScript.valid())
 		return;
 
-	sol::protected_function_result result = m_CompiledScript();
-	if (!result.valid()) 
+	if (m_Update.valid())
 	{
-		sol::error err = result;
-		std::cerr << "[SCRIPT] " << m_Filepath << " filepath failed to compile: " << err.what() << std::endl;
-		return;
-	}
-
-
-	sol::protected_function f = m_Lua["Update"];
-	if (f.valid()) 
-	{
-		sol::protected_function_result updateResult = f();
+		sol::protected_function_result updateResult = m_Update();
 		if (!updateResult.valid())
 		{
 			sol::error err = updateResult;

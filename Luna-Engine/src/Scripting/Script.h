@@ -17,6 +17,9 @@ private:
 	sol::state m_Lua;
 	sol::load_result m_CompiledScript;
 
+	sol::protected_function m_Update;
+	sol::protected_function m_Start;
+
 	std::string m_Filepath;
 };
 
