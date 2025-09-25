@@ -11,6 +11,9 @@ class ScriptManager
 public:
 	ScriptManager();
 	~ScriptManager();
+
+	void RecompileUpdatedScripts(EntityComponentSystem* ECS);
+
 	void OnSceneLoad(EntityComponentSystem* ECS);
 	void OnSceneUpdate(EntityComponentSystem* ECS);
 	void OnSceneClose();

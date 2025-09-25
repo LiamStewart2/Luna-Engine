@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SOL/sol.hpp>
+#include <filesystem>
 #include "../ECS/ECS.h"
 
 class Script
@@ -14,10 +15,13 @@ public:
 
 	void Execute(unsigned int gameobject);
 
+	bool NeedsCompiling();
+
 	std::string GetFilepath() {return m_Filepath;}
 	EntityComponentSystem* m_ECS = nullptr;
 private:
 	unsigned int m_GameObject = 0;
+	std::filesystem::file_time_type m_LastCompilationTime;
 	sol::state m_Lua;
 	sol::load_result m_CompiledScript;
 

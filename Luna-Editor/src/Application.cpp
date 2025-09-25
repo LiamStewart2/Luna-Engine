@@ -73,6 +73,7 @@ void Application::HandleInput()
 
 void Application::Update()
 {
+	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
 	sceneManager.Update();
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));

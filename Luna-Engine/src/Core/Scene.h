@@ -38,6 +38,8 @@ public:
 	SceneGraph* GetSceneGraph() {return &sceneGraph; }
 	std::vector<unsigned int>* GetGameObjects() {return &gameObjects;}
 
+	ScriptManager* GetScriptManager() {return &scriptManager;}
+
 	std::string GetSceneName() {return sceneName;}
 	std::string filepath = "";
 

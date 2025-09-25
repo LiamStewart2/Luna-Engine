@@ -9,6 +9,16 @@ ScriptManager::~ScriptManager()
 {
 }
 
+void ScriptManager::RecompileUpdatedScripts(EntityComponentSystem* ECS)
+{
+	std::unordered_map<unsigned int, ScriptComponent*> scriptComponents = ECS->GetAllComponentsOfType<ScriptComponent>();
+	for (auto [id, component] : scriptComponents)
+	{
+		if(component->m_Script->NeedsCompiling())
+			component->m_Script->Compile();
+	}
+}
+
 void ScriptManager::OnSceneLoad(EntityComponentSystem* ECS)
 {
 	std::unordered_map<unsigned int, ScriptComponent*> scriptComponents = ECS->GetAllComponentsOfType<ScriptComponent>();

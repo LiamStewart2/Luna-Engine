@@ -17,6 +17,8 @@ void Script::Compile(std::string filepath)
 	if(filepath == "") filepath = m_Filepath;
 	else m_Filepath = filepath;
 
+	m_LastCompilationTime = std::filesystem::last_write_time(filepath);
+
 	m_Lua.open_libraries(sol::lib::base, sol::lib::math);
 
 	m_CompiledScript = m_Lua.load_file(filepath);
@@ -72,4 +74,9 @@ void Script::Execute(unsigned int gameobject)
 			std::cerr << "[SCRIPT] " << m_Filepath << " ERROR: " << err.what() << std::endl;
 		}
 	}
+}
+
+bool Script::NeedsCompiling()
+{
+	return (std::filesystem::last_write_time(m_Filepath) > m_LastCompilationTime);
 }
