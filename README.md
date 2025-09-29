@@ -10,11 +10,13 @@
   - Inspector Panel
   - Object Creation Tools
   - Scene View Panel
+  - Content Browser
 - **Camera System**
 - **Scene Graph**
 - **Lighting System**
 - **Asset Loader**
 - **ECS**
+- **Scripting**
 
 ## 🎮 Dev Tools
 The engine includes a custom editor built using ImGui, providing:
@@ -23,6 +25,8 @@ The engine includes a custom editor built using ImGui, providing:
 - Real-time hierarchy browsing
 - Object selection and editing
 - Simple object creation tools
+- Content Browser
+- Scripting
 
 ## 📌 Roadmap / TODO
 https://trello.com/b/48CwuQyq/opengl-engine
@@ -30,9 +34,9 @@ https://trello.com/b/48CwuQyq/opengl-engine
 - [x] Full Integration of the ECS
 - [x] ImGui Editor
 - [x] Project Restructure
-- [ ] Time and Input System
+- [x] Scripting implementation
 - [ ] Physics Engine
-- [ ] Scripting implementation
+- [ ] Run Time
 
 ## 🧠 Author
 Liam Stewart – https://liamstewart2.github.io/github.io/
