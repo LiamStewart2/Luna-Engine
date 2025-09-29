@@ -74,15 +74,13 @@ void Application::HandleInput()
 void Application::Update()
 {
 	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
-	sceneManager.Update();
+	sceneManager.Update(runtime);
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer);
+	imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer, runtime);
 
 	editorCamera.Update();
-
-
 }
 
 void Application::Render()

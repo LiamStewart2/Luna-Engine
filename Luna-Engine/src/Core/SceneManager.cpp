@@ -10,9 +10,9 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Update()
+void SceneManager::Update(bool runtime)
 {
-	m_Scene->Update();
+	m_Scene->Update(runtime);
 }
 
 void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera, FrameBuffer* framebuffer)

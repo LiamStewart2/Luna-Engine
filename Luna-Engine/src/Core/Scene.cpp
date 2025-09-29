@@ -34,9 +34,10 @@ void Scene::LoadAssets()
 	material = { glm::vec3(1) };
 }
 
-void Scene::Update()
+void Scene::Update(bool runtime)
 {
-	scriptManager.OnSceneUpdate(&ECS);
+	if(runtime)
+		scriptManager.OnSceneUpdate(&ECS);
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 

@@ -14,6 +14,7 @@ public:
 	~Application();
 private:
 	LunaWindow* window;
+	bool runtime = false;
 
 	int Init();
 	void Terminate();

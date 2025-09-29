@@ -22,7 +22,7 @@ public:
 	void Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName);
 	void LoadAssets();
 
-	void Update();
+	void Update(bool runtime = false);
 	void Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera>& camera);
 
 	unsigned int AddObject(unsigned int parent = 0);

@@ -12,7 +12,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	void Update();
+	void Update(bool runtime = false);
 	void Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera, FrameBuffer* framebuffer);
 
 	void LoadNewScene(const char* filepath);

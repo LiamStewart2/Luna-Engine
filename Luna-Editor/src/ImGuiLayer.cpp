@@ -37,7 +37,7 @@ void ImGuiLayer::StartFrame()
 }
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer)
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer, bool& runtime)
 {
 	StartFrame();
 
@@ -147,7 +147,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
 
-	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer);
+	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer, runtime);
 
 	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer, &m_Actions);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
