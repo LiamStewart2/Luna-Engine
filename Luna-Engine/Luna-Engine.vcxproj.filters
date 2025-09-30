@@ -18,7 +18,7 @@
     <ClCompile Include="src\ECS\ECS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\FileNavigation.cpp">
+    <ClCompile Include="src\Platform\Windows\FileNavigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\AssetLoader.cpp">
@@ -72,6 +72,12 @@
     <ClCompile Include="src\Scripting\Script.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer-2\RendererAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\ECS.h">
@@ -98,7 +104,7 @@
     <ClInclude Include="src\ECS\LightComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\FileNavigation.h">
+    <ClInclude Include="src\Platform\Windows\FileNavigation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\AssetLoader.h">
@@ -168,6 +174,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Scripting\Script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer-2\RendererAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer-2\ReworkedRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
