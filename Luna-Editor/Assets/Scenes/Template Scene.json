@@ -196,7 +196,7 @@
             },
             {
                 "component-args": [
-                    "Assets\\Models\\monkey.obj",
+                    "Assets\\Models\\smoothMonkey.obj",
                     "Assets/Shaders/Shader",
                     "Assets\\Textures\\open-folder.jpg"
                 ],

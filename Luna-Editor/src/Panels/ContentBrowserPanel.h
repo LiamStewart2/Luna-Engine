@@ -23,6 +23,8 @@ public:
 	void Update(unsigned int& inspectorID) override;
 
 private:
+	void BeginPayload(std::string payloadID, std::string data, unsigned int textureID, float thumbnailSize);
+
 	std::filesystem::path m_ProjectDirectory;
 	std::filesystem::path m_CurrentDirectory;
 

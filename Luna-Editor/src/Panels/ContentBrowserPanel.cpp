@@ -54,57 +54,18 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		else
 			ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
 
+		std::string itemPath = std::filesystem::relative(path.path(), m_ProjectDirectory).string().c_str();
 		if (GetFileExtension(path.path().filename().string()) == "json")
-		{
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-			{
-				ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
-				
-				std::string itemPath = path.path().string().c_str();
-
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath.c_str(), itemPath.size() + 1);
-				ImGui::EndDragDropSource();
-			}
-		}
+			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon.get()->ID, thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-		{
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-			{
-				ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, {thumbnailSize, thumbnailSize});
-
-				std::string itemPath = path.path().string().c_str();
-
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath.c_str(), itemPath.size() + 1);
-				ImGui::EndDragDropSource();
-			}
-		}
+			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "obj")
-		{
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-			{
-				ImGui::Image(m_ModelIcon->ID, {thumbnailSize, thumbnailSize});
-
-				std::string itemPath = path.path().string().c_str();
-
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath.c_str(), itemPath.size() + 1);
-				ImGui::EndDragDropSource();
-			}
-		}
+			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon.get()->ID, thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "lua")
-		{
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-			{
-				ImGui::Image(m_CodeIcon->ID, { thumbnailSize, thumbnailSize });
-
-				std::string itemPath = path.path().string().c_str();
-
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath.c_str(), itemPath.size() + 1);
-				ImGui::EndDragDropSource();
-			}
-		}
+			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon.get()->ID, thumbnailSize);
 
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 
@@ -120,4 +81,16 @@ std::string ContentBrowserPanel::GetFileExtension(std::string filename)
 {
 	size_t extension = filename.find(".");
 	return filename.substr(extension + 1);
+}
+
+
+void ContentBrowserPanel::BeginPayload(std::string payloadID, std::string data, unsigned int textureID, float thumbnailSize)
+{
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+	{
+		ImGui::Image(textureID, { thumbnailSize, thumbnailSize });
+
+		ImGui::SetDragDropPayload(payloadID.c_str(), data.c_str(), data.size() + 1);
+		ImGui::EndDragDropSource();
+	}
 }
