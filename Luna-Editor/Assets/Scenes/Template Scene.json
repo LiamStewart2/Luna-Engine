@@ -134,9 +134,9 @@
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\planeobj.obj",
+                    "Assets\\Models\\planeobj.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\Grass.jpg"
+                    "Assets\\Textures\\Grass.jpg"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -165,9 +165,9 @@
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
+                    "Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png"
+                    "Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -196,9 +196,9 @@
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Models\\monkey.obj",
+                    "Assets\\Models\\monkey.obj",
                     "Assets/Shaders/Shader",
-                    "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\open-folder.jpg"
+                    "Assets\\Textures\\open-folder.jpg"
                 ],
                 "component-type": "MeshComponent"
             },
