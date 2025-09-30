@@ -88,6 +88,7 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 	
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_NO_API, GLFW_TRUE);
 
 	// Create and test the GLFW window handle
 	window->m_WindowHandle = glfwCreateWindow(

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
     <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
     <ClCompile Include="src\Scripting\Script.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer-2\RendererContext.h" />
     <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
     <ClInclude Include="src\Renderer-2\RendererAPI.h" />
     <ClInclude Include="src\Scripting\Script.h" />
