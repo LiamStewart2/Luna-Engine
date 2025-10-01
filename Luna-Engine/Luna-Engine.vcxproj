@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
     <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h" />
     <ClInclude Include="src\Renderer-2\RendererContext.h" />
     <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
     <ClInclude Include="src\Renderer-2\RendererAPI.h" />

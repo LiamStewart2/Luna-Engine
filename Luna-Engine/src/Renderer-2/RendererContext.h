@@ -1,5 +1,17 @@
 #pragma once
-class RendererContext
-{
-};
 
+#include <memory>
+
+namespace Luna
+{
+	class RendererContext
+	{
+	public:
+		virtual ~RendererContext() = default;
+
+		virtual void Init() = 0;
+		virtual void SwapBuffers() = 0;
+
+		static std::shared_ptr<RendererContext> Create(void* windowHandle);
+	};
+}
