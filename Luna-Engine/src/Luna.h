@@ -19,6 +19,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Renderer-2/ReworkedRenderer.h"
+#include "Renderer-2/RendererContext.h"
 
 // SCRIPTING
 

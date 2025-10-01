@@ -26,6 +26,8 @@ private:
 	void Render();
 	
 	Renderer renderer;
+	
+	std::shared_ptr<Luna::RendererContext> m_RendererContext;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
 
