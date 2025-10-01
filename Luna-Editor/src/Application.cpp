@@ -18,6 +18,7 @@ int Application::Init()
 	glfwInit();
 
 	window = LunaWindow::NewWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_RendererContext = Luna::RendererContext::Create((void*)window->GetHandle());
 
 	m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 	m_SceneFramebuffer.Update();
