@@ -121,7 +121,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;lua54.lib;Luna-Engine.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;d3d11.lib;dxgi.lib;gdi32.lib;user32.lib;kernel32.lib;Comctl32.lib;Propsys.lib;Shlwapi.lib;Ole32.lib;lua54.lib;Luna-Engine.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\lib;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64;$(SolutionDir)bin\Engine\Debug\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
