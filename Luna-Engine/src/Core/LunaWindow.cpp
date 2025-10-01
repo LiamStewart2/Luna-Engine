@@ -107,20 +107,6 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 	glfwMaximizeWindow(window->m_WindowHandle);
 	glfwSwapInterval(1);
 
-	// Init OpenGL
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return nullptr;
-	}
-
-	// Set OpenGL settings
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-
 	// Only set is running to true if all phases of init pass
 	window->m_IsRunning = true;
 	LunaWindow::m_FocusedWindow = window;
