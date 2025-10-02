@@ -105,4 +105,7 @@ void Application::Render()
 
 	Luna::ReworkedRenderer::BeginFrame();
 
+	Luna::ReworkedRenderer::Render();
+	
+	Luna::ReworkedRenderer::EndFrame();
 }
