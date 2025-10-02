@@ -13,6 +13,7 @@ namespace Luna
 	DX11RendererContext::DX11RendererContext(GLFWwindow* windowHandle) 
 		: m_WindowHandle(windowHandle)
 	{
+		Init();
 	}
 
 	void DX11RendererContext::Init()

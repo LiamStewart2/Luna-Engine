@@ -8,7 +8,7 @@ namespace Luna
 {
 	RendererAPIType IRendererAPI::s_API = RendererAPIType::DirectX11;
 
-	std::shared_ptr<IRendererAPI> Create()
+	std::shared_ptr<IRendererAPI> IRendererAPI::Create()
 	{
 		switch (IRendererAPI::GetAPI())
 		{

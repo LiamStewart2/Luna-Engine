@@ -142,10 +142,8 @@ void LunaWindow::SetNewTitle(const char* newTitle)
 	glfwSetWindowTitle(m_WindowHandle, newTitle);
 }
 
-// Swaps the window buffers - should be called at the end of every frame
+// Polls window events - should be called at the end of every frame
 void LunaWindow::Update()
 {
-	glfwSwapBuffers(m_WindowHandle);
-
 	glfwPollEvents();
 }

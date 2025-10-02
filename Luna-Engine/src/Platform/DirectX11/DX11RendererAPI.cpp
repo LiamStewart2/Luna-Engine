@@ -7,7 +7,7 @@ namespace Luna
 	void DX11RendererAPI::Init(std::shared_ptr<RendererContext> renderContext)
 	{
 		// Initialization code for DirectX 11 Renderer API
-		m_RenderContext = static_cast<DX11RendererContext*>(renderContext.get());
+		m_RenderContext = (DX11RendererContext*)(renderContext.get());
 	}
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
