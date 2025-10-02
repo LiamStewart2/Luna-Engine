@@ -84,6 +84,9 @@
     <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\ECS.h">
@@ -192,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

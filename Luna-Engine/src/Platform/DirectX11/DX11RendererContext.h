@@ -19,6 +19,9 @@ namespace Luna
 
 		void Init() override;
 		void SwapBuffers() override;
+
+		ID3D11Device* GetDevice() const { return m_Device; }
+		ID3D11DeviceContext* GetImmediateContext() const { return m_ImmediateContext; }
 	private:
 		GLFWwindow* m_WindowHandle;
 
