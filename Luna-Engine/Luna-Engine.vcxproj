@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp" />
+    <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
+    <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
+    <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
     <ClCompile Include="src\Scripting\Script.cpp" />
     <ClCompile Include="src\Scripting\ScriptManager.cpp" />
     <ClCompile Include="src\Core\AssetLoader.cpp" />
@@ -21,7 +26,7 @@
     <ClCompile Include="src\Core\SceneGraph.cpp" />
     <ClCompile Include="src\Core\SceneManager.cpp" />
     <ClCompile Include="src\Core\TransformationManager.cpp" />
-    <ClCompile Include="src\Platform\FileNavigation.cpp" />
+    <ClCompile Include="src\Platform\Windows\FileNavigation.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
     <ClCompile Include="src\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Renderer\Light.cpp" />
@@ -32,6 +37,11 @@
     <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h" />
+    <ClInclude Include="src\Renderer-2\RendererContext.h" />
+    <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
+    <ClInclude Include="src\Renderer-2\RendererAPI.h" />
     <ClInclude Include="src\Scripting\Script.h" />
     <ClInclude Include="src\ECS\ScriptComponent.h" />
     <ClInclude Include="src\Scripting\ScriptManager.h" />
@@ -47,7 +57,7 @@
     <ClInclude Include="src\Core\Stack.h" />
     <ClInclude Include="src\Core\TransformationManager.h" />
     <ClInclude Include="src\Luna.h" />
-    <ClInclude Include="src\Platform\FileNavigation.h" />
+    <ClInclude Include="src\Platform\Windows\FileNavigation.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />
     <ClInclude Include="src\ECS\LightComponent.h" />
     <ClInclude Include="src\ECS\NameComponent.h" />

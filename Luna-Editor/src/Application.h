@@ -7,6 +7,11 @@
 
 #include "Luna.h"
 
+#include <windows.h>
+#include <d3d11_4.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+
 class Application
 {
 public:
@@ -26,11 +31,15 @@ private:
 	void Render();
 	
 	Renderer renderer;
+	
+	std::shared_ptr<Luna::RendererContext> m_RendererContext;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
 
-	FrameBuffer m_SceneFramebuffer;
-	FrameBuffer m_GameFramebuffer;
+	//FrameBuffer m_SceneFramebuffer;
+	//FrameBuffer m_GameFramebuffer;
 
 	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));
+
+	// DX11 TEMP STUFF
 };

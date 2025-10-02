@@ -19,14 +19,18 @@ int Application::Init()
 
 	window = LunaWindow::NewWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	m_SceneFramebuffer.Update();
-	m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	m_GameFramebuffer.Update();
+	m_RendererContext = Luna::RendererContext::Create((void*)window->GetHandle());
 
-	sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
+	Luna::ReworkedRenderer::Init(m_RendererContext);
 
-	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
+	//m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
+	//m_SceneFramebuffer.Update();
+	//m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
+	//m_GameFramebuffer.Update();
+
+	//sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
+
+	//imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 	return 0;
 }
 
@@ -60,8 +64,9 @@ void Application::MainLoop()
 		Render();
 
 		window->Update();
+		m_RendererContext->SwapBuffers();
 	}
-	sceneManager.UnloadCurrentScene();
+	//sceneManager.UnloadCurrentScene();
 	LunaWindow::CloseWindow(window);
 }
 
@@ -73,28 +78,31 @@ void Application::HandleInput()
 
 void Application::Update()
 {
-	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
-	sceneManager.Update(runtime);
+	//sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
+	//sceneManager.Update(runtime);
 
-	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer, runtime);
+	//Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	//ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	//imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer, runtime);
 
-	editorCamera.Update();
+	//editorCamera.Update();
 }
 
 void Application::Render()
 {
 
-	glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
+	//Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	//ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	//sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
 
-	cameraPair = {nullptr, nullptr};
-	sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
+	//cameraPair = {nullptr, nullptr};
+	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
-	imGuiLayer.Render();
+	//imGuiLayer.Render();
+
+	Luna::ReworkedRenderer::BeginFrame();
+
 }
