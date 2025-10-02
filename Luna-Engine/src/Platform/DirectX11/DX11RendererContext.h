@@ -22,6 +22,7 @@ namespace Luna
 
 		ID3D11Device* GetDevice() const { return m_Device; }
 		ID3D11DeviceContext* GetImmediateContext() const { return m_ImmediateContext; }
+		ID3D11RenderTargetView* GetRenderTargetView() const { return m_FrameBufferView; }
 	private:
 		GLFWwindow* m_WindowHandle;
 

@@ -1,5 +1,7 @@
 #include "DX11RendererAPI.h"
 
+#include <d3d11_4.h>
+
 namespace Luna
 {
 	void DX11RendererAPI::Init(std::shared_ptr<RendererContext> renderContext)
@@ -10,11 +12,13 @@ namespace Luna
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		// Set the clear color for the renderer
-		m_RenderContext->
+		m_RenderContext->GetImmediateContext()->ClearRenderTargetView(m_RenderContext->GetRenderTargetView(), reinterpret_cast<const float*>(&color));
 	}
 	void DX11RendererAPI::Clear()
 	{
 		// Clear the screen with the set clear color
+		float backgroundColor[4] = { 0.025f, 0.025f, 0.025f, 1.0f };
+		m_RenderContext->GetImmediateContext()->ClearRenderTargetView(m_RenderContext->GetRenderTargetView(), backgroundColor);
 	}
 	void DX11RendererAPI::StartFrame()
 	{

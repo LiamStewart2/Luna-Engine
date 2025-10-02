@@ -99,5 +99,6 @@ void Application::Render()
 
 	//imGuiLayer.Render();
 
-	
+	Luna::ReworkedRenderer::BeginFrame();
+
 }

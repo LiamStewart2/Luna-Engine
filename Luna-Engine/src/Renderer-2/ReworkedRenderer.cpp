@@ -2,7 +2,7 @@
 
 namespace Luna
 {
-	std::shared_ptr<IRendererAPI> ReworkedRenderer::s_RendererAPI = IRendererAPI::Create();
+	std::shared_ptr<IRendererAPI> ReworkedRenderer::s_RendererAPI = IRendererAPI::Create();;
 
 	void ReworkedRenderer::Init(std::shared_ptr<RendererContext> renderContext)
 	{
@@ -13,6 +13,7 @@ namespace Luna
 	}
 	void ReworkedRenderer::BeginFrame()
 	{
+		s_RendererAPI->Clear();
 		s_RendererAPI->StartFrame();
 	}
 	void ReworkedRenderer::EndFrame()

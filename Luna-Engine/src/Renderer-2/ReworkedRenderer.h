@@ -15,7 +15,6 @@ namespace Luna
 		static void EndFrame();
 
 		static void Render();
-
 	private:
 		static std::shared_ptr<IRendererAPI> s_RendererAPI;
 	};
