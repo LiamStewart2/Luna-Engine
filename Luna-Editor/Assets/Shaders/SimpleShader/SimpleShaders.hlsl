@@ -1,8 +1,8 @@
 cbuffer ConstantBuffer : register(b0)
 {
-    float4x4 Projection;
-    float4x4 View;
-    float4x4 World;
+    column_major float4x4 Projection;
+    column_major float4x4 View;
+    column_major float4x4 World;
 }
 
 struct VS_Out
@@ -16,9 +16,10 @@ VS_Out VS_main(float3 Position : POSITION, float4 Color : COLOR)
     VS_Out output = (VS_Out)0;
 
     float4 Pos4 = float4(Position, 1.0f);
-    output.position = mul(Pos4, World);
-    output.position = mul(output.position, View);
-    output.position = mul(output.position, Projection);
+    
+    float4 worldPos = mul(World, Pos4);
+    float4 viewPos = mul(View, worldPos);
+    output.position = mul(Projection, viewPos);
     
     output.color = Color;
     

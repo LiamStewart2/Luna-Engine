@@ -13,13 +13,16 @@ namespace Luna
 	DX11RendererContext::DX11RendererContext(GLFWwindow* windowHandle) 
 		: m_WindowHandle(windowHandle)
 	{
-		Init();
+		int width, height;
+		glfwGetWindowSize(windowHandle, &width, &height);
+		Init((float)width, (float)height);
 	}
 
-	void DX11RendererContext::Init()
+	void DX11RendererContext::Init(const float& viewport_w, const float& viewport_h)
 	{
 		CreateD3DDevice();
 		CreateSwapChainAndFrameBuffer();
+		InitViewport(viewport_w, viewport_h);
 	}
 
 	void DX11RendererContext::SwapBuffers()
@@ -112,5 +115,11 @@ namespace Luna
 		hr = m_Device->CreateRenderTargetView(frameBuffer, &framebufferDesc, &m_FrameBufferView);
 
 		frameBuffer->Release();
+	}
+
+	void DX11RendererContext::InitViewport(const float& viewport_w, const float& viewport_h)
+	{
+		m_Viewport = new D3D11_VIEWPORT(0.0f, 0.0f, viewport_w, viewport_h, 0.0f, 1.0f);
+		m_ImmediateContext->RSSetViewports(1, m_Viewport);
 	}
 }
