@@ -235,11 +235,17 @@ namespace Luna
 	{
 		// Clear the screen with the set clear color
 		float backgroundColor[4] = { 0.025f, 0.025f, 0.025f, 1.0f };
+        ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
+		m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
 		m_RenderContext->GetImmediateContext()->ClearRenderTargetView(m_RenderContext->GetRenderTargetView(), backgroundColor);
+		m_RenderContext->GetImmediateContext()->ClearDepthStencilView(m_RenderContext->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 	void DX11RendererAPI::StartFrame()
 	{
-        _cbData.World = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
+        _world1 = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
+        _world2 = glm::translate(glm::mat4(1), glm::vec3(2, 0, 2));
+        _world2 = glm::rotate(_world2, (float)glfwGetTime(), glm::vec3(0, 0, 1));
+        _cbData.World = _world1;
 
         D3D11_MAPPED_SUBRESOURCE mappedSubresource;
         m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
@@ -255,7 +261,19 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->PSSetShader(_pixelShader, nullptr, 0);
 
         ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
-        m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, nullptr);
+        m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
+
+        RenderIndexed(12 * 3);
+
+        // Second Cube
+		_cbData.World = _world2;
+
+        m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+        memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
+        m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
+
+		RenderIndexed(12 * 3);
+
 	}
 	void DX11RendererAPI::EndFrame()
 	{
@@ -265,6 +283,6 @@ namespace Luna
 	{
 		// Render indexed geometry
 
-        m_RenderContext->GetImmediateContext()->DrawIndexed(12 * 3, 0, 0);
+        m_RenderContext->GetImmediateContext()->DrawIndexed(count, 0, 0);
 	}
 }

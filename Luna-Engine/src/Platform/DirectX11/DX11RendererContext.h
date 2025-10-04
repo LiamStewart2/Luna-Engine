@@ -10,6 +10,8 @@ struct IDXGIFactory2;
 struct IDXGISwapChain1;
 struct ID3D11RenderTargetView;
 struct D3D11_VIEWPORT;
+struct ID3D11Texture2D;
+struct ID3D11DepthStencilView;
 
 namespace Luna
 {
@@ -17,6 +19,7 @@ namespace Luna
 	{
 	public:
 		DX11RendererContext(GLFWwindow* windowHandle);
+		~DX11RendererContext();
 
 		void Init(const float& viewport_w, const float& viewport_h) override;
 		void SwapBuffers() override;
@@ -25,6 +28,8 @@ namespace Luna
 		ID3D11DeviceContext* GetImmediateContext() const { return m_ImmediateContext; }
 		ID3D11RenderTargetView* GetRenderTargetView() const { return m_FrameBufferView; }
 		D3D11_VIEWPORT* GetViewport() const { return m_Viewport; }
+		ID3D11Texture2D* GetDepthStencil() const { return _depthStencil; }
+		ID3D11DepthStencilView* GetDepthStencilView() const { return _depthStencilView; }
 
 	private:
 		GLFWwindow* m_WindowHandle;
@@ -38,6 +43,8 @@ namespace Luna
 		IDXGIDevice* m_DxgiDevice = nullptr;
 		IDXGIFactory2* m_DxgiFactory = nullptr;
 		ID3D11RenderTargetView* m_FrameBufferView = nullptr;
+		ID3D11Texture2D* _depthStencil = nullptr;
+		ID3D11DepthStencilView* _depthStencilView = nullptr;
 		IDXGISwapChain1* m_SwapChain = nullptr;
 		D3D11_VIEWPORT* m_Viewport = nullptr;
 	};

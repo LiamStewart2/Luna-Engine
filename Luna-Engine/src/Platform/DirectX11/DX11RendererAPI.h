@@ -49,6 +49,9 @@ namespace Luna
 		ID3D11Buffer* _vertexBuffer;
 		ID3D11Buffer* _indexBuffer;
 
+		glm::mat4 _world1;
+		glm::mat4 _world2;
+
 		ConstantBuffer _cbData;
 
 		void InitShadersAndInputLayout();

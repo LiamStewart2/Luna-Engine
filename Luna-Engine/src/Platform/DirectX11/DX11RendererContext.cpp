@@ -18,6 +18,19 @@ namespace Luna
 		Init((float)width, (float)height);
 	}
 
+	DX11RendererContext::~DX11RendererContext()
+	{
+		if (m_Viewport) delete m_Viewport;
+		if (_depthStencilView) _depthStencilView->Release();
+		if (_depthStencil) _depthStencil->Release();
+		if (m_FrameBufferView) m_FrameBufferView->Release();
+		if (m_SwapChain) m_SwapChain->Release();
+		if (m_DxgiFactory) m_DxgiFactory->Release();
+		if (m_DxgiDevice) m_DxgiDevice->Release();
+		if (m_ImmediateContext) m_ImmediateContext->Release();
+		if (m_Device) m_Device->Release();
+	}
+
 	void DX11RendererContext::Init(const float& viewport_w, const float& viewport_h)
 	{
 		CreateD3DDevice();
@@ -113,6 +126,17 @@ namespace Luna
 		framebufferDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 
 		hr = m_Device->CreateRenderTargetView(frameBuffer, &framebufferDesc, &m_FrameBufferView);
+
+		// Create the depth stencil texture and view
+		D3D11_TEXTURE2D_DESC depthStencilDesc = {};
+		frameBuffer->GetDesc(&depthStencilDesc);
+
+		depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+		m_Device->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencil);
+		m_Device->CreateDepthStencilView(_depthStencil, nullptr, &_depthStencilView);
+
 
 		frameBuffer->Release();
 	}

@@ -24,6 +24,6 @@ namespace Luna
 	{
 		// BIND EVERYTHING HERE
 
-		s_RendererAPI->RenderIndexed(0);
+		//s_RendererAPI->RenderIndexed(0);
 	}
 }
