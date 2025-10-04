@@ -10,12 +10,19 @@
 
 namespace Luna
 {
+	DX11RendererContext* DX11RendererContext::s_Instance = nullptr;
+
 	DX11RendererContext::DX11RendererContext(GLFWwindow* windowHandle) 
 		: m_WindowHandle(windowHandle)
 	{
 		int width, height;
 		glfwGetWindowSize(windowHandle, &width, &height);
 		Init((float)width, (float)height);
+
+		if(s_Instance == nullptr)
+			s_Instance = this;
+		else
+			std::cerr << "MULTIPLE DX11RendererContext INSTANCES" << std::endl;
 	}
 
 	DX11RendererContext::~DX11RendererContext()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Renderer-2/RendererContext.h"
+#include <iostream>
 
 struct GLFWwindow;
 struct ID3D11Device;
@@ -21,6 +22,12 @@ namespace Luna
 		DX11RendererContext(GLFWwindow* windowHandle);
 		~DX11RendererContext();
 
+		static DX11RendererContext* GetContext() 
+		{ 
+			if(s_Instance != nullptr) return s_Instance; 
+			else std::cerr << "No DX11RenderContext Active" << std::endl; 
+		}
+
 		void Init(const float& viewport_w, const float& viewport_h) override;
 		void SwapBuffers() override;
 
@@ -32,6 +39,8 @@ namespace Luna
 		ID3D11DepthStencilView* GetDepthStencilView() const { return _depthStencilView; }
 
 	private:
+		static DX11RendererContext* s_Instance;
+
 		GLFWwindow* m_WindowHandle;
 
 		void CreateD3DDevice();
