@@ -216,7 +216,7 @@ namespace Luna
 
     void DX11RendererAPI::InitRunTimeData()
     {
-        float aspect = m_RenderContext->GetViewport()->Width / m_RenderContext->GetViewport()->Height;
+        float aspect = 16 / 8.7;
 
         glm::vec3 Eye = glm::vec3(0, 0, -3.0f);
         glm::vec3 At = glm::vec3(0, 0, 0);
@@ -228,17 +228,11 @@ namespace Luna
 
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
-		// Set the clear color for the renderer
-		m_RenderContext->GetImmediateContext()->ClearRenderTargetView(m_RenderContext->GetRenderTargetView(), reinterpret_cast<const float*>(&color));
+		
 	}
 	void DX11RendererAPI::Clear()
 	{
-		// Clear the screen with the set clear color
-		float backgroundColor[4] = { 0.025f, 0.025f, 0.025f, 1.0f };
-        ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
-		m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
-		m_RenderContext->GetImmediateContext()->ClearRenderTargetView(m_RenderContext->GetRenderTargetView(), backgroundColor);
-		m_RenderContext->GetImmediateContext()->ClearDepthStencilView(m_RenderContext->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		
 	}
 	void DX11RendererAPI::StartFrame()
 	{
@@ -259,9 +253,6 @@ namespace Luna
 
         m_RenderContext->GetImmediateContext()->VSSetShader(_vertexShader, nullptr, 0);
         m_RenderContext->GetImmediateContext()->PSSetShader(_pixelShader, nullptr, 0);
-
-        //ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
-        //m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
 
         RenderIndexed(12 * 3);
 

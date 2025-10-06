@@ -30,8 +30,7 @@ namespace Luna
 	DX11Framebuffer::DX11Framebuffer(const FramebufferSpecification& spec)
 		: m_Spec(spec)
 	{
-		if(!m_Spec.m_SwapChainTarget)
-			Invalidate();
+		Invalidate();
 	}
 	DX11Framebuffer::~DX11Framebuffer()
 	{
@@ -99,6 +98,43 @@ namespace Luna
 		
 		ID3D11Device* device = DX11RendererContext::GetContext()->GetDevice();
 
+		// IF IN THE SWAP CHAIN
+		// we can access the backbuffer
+		if (m_Spec.m_SwapChainTarget)
+		{
+			ID3D11Texture2D* backbuffer = nullptr;
+			DX11RendererContext::GetContext()->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backbuffer);
+
+			ID3D11RenderTargetView* rtv = nullptr;
+			device->CreateRenderTargetView(backbuffer, nullptr, &rtv);
+			backbuffer->Release();
+
+			m_ColorRTVs.push_back(rtv);
+
+			DXGI_FORMAT depthForamt = ToDXGIDepthFormat(m_Spec.m_DepthAttachment);
+			if (depthForamt != DXGI_FORMAT_UNKNOWN)
+			{
+				D3D11_TEXTURE2D_DESC depthDesc = {};
+				depthDesc.Width = m_Spec.m_Width;
+				depthDesc.Height = m_Spec.m_Height;
+				depthDesc.MipLevels = 1;
+				depthDesc.ArraySize = 1;
+				depthDesc.Format = depthForamt;
+				depthDesc.SampleDesc.Count = 1;
+				depthDesc.Usage = D3D11_USAGE_DEFAULT;
+				depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+				ID3D11Texture2D* depthTex = nullptr;
+				device->CreateTexture2D(&depthDesc, nullptr, &depthTex);
+				device->CreateDepthStencilView(depthTex, nullptr, &m_DSV);
+				depthTex->Release();
+			}
+			return;
+		}
+
+
+		// IF NOT IN THE SWAP CHAIN
+		// then we need to make the textures for DX11
 		m_ColorRTVs.resize(m_Spec.m_ColorAttachments.size());
 		for (size_t i = 0; i < m_Spec.m_ColorAttachments.size(); i++)
 		{

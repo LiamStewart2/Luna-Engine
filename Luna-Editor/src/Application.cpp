@@ -27,7 +27,7 @@ int Application::Init()
 		1920, 1080,
 		{Luna::FramebufferTextureFormat::RGBA8},
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
-		false
+		true
 	};
 	framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
 
@@ -109,9 +109,10 @@ void Application::Render()
 	//cameraPair = {nullptr, nullptr};
 	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
-	//imGuiLayer.Render();
-
+	//imGuiLayer.Render();#
 	framebuffer->Bind();
+	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+	framebuffer->Clear(background);
 	Luna::ReworkedRenderer::BeginFrame();
 
 	Luna::ReworkedRenderer::Render();

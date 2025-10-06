@@ -27,10 +27,6 @@ namespace Luna
 
 	DX11RendererContext::~DX11RendererContext()
 	{
-		if (m_Viewport) delete m_Viewport;
-		if (_depthStencilView) _depthStencilView->Release();
-		if (_depthStencil) _depthStencil->Release();
-		if (m_FrameBufferView) m_FrameBufferView->Release();
 		if (m_SwapChain) m_SwapChain->Release();
 		if (m_DxgiFactory) m_DxgiFactory->Release();
 		if (m_DxgiDevice) m_DxgiDevice->Release();
@@ -42,7 +38,6 @@ namespace Luna
 	{
 		CreateD3DDevice();
 		CreateSwapChainAndFrameBuffer();
-		InitViewport(viewport_w, viewport_h);
 	}
 
 	void DX11RendererContext::SwapBuffers()
@@ -118,39 +113,5 @@ namespace Luna
 			std::cerr << "Failed to create D3D11 Swap Chain For HWND! HRESULT: " << hr << std::endl;
 			return;
 		}
-
-		ID3D11Texture2D* frameBuffer = nullptr;
-
-		hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&frameBuffer));
-		if (FAILED(hr))
-		{
-			std::cerr << "Failed to create D3D11 Swap Chain For HWND! HRESULT: " << hr << std::endl;
-			return;
-		}
-
-		D3D11_RENDER_TARGET_VIEW_DESC framebufferDesc = {};
-		framebufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; //sRGB render target enables hardware gamma correction
-		framebufferDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-
-		hr = m_Device->CreateRenderTargetView(frameBuffer, &framebufferDesc, &m_FrameBufferView);
-
-		// Create the depth stencil texture and view
-		D3D11_TEXTURE2D_DESC depthStencilDesc = {};
-		frameBuffer->GetDesc(&depthStencilDesc);
-
-		depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-
-		m_Device->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencil);
-		m_Device->CreateDepthStencilView(_depthStencil, nullptr, &_depthStencilView);
-
-
-		frameBuffer->Release();
-	}
-
-	void DX11RendererContext::InitViewport(const float& viewport_w, const float& viewport_h)
-	{
-		m_Viewport = new D3D11_VIEWPORT(0.0f, 0.0f, viewport_w, viewport_h, 0.0f, 1.0f);
-		m_ImmediateContext->RSSetViewports(1, m_Viewport);
 	}
 }
