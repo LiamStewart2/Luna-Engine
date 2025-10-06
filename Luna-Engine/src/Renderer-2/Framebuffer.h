@@ -10,6 +10,9 @@ namespace Luna
 		None = 0,
 		RGBA8,
 		RGBA16F,
+	};
+	enum DepthTextureFormat
+	{
 		DEPTH24STENCIL8,
 		DEPTH32F,
 	};
@@ -18,7 +21,8 @@ namespace Luna
 	{
 		unsigned int m_Width = 0;
 		unsigned int m_Height = 0;
-		std::vector<FramebufferTextureFormat> m_Attackments;
+		std::vector<FramebufferTextureFormat> m_ColorAttachments;
+		DepthTextureFormat m_DepthAttachment;
 		bool m_SwapChainTarget = false;
 	};
 

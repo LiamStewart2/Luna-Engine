@@ -26,6 +26,7 @@ namespace Luna
 		{ 
 			if(s_Instance != nullptr) return s_Instance; 
 			else std::cerr << "No DX11RenderContext Active" << std::endl; 
+			return nullptr;
 		}
 
 		void Init(const float& viewport_w, const float& viewport_h) override;

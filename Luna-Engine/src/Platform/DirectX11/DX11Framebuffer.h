@@ -12,6 +12,7 @@ namespace Luna
 	{
 	public:
 		DX11Framebuffer(const FramebufferSpecification& spec);
+		~DX11Framebuffer();
 
 		void Bind() override;
 		void Unbind() override;
