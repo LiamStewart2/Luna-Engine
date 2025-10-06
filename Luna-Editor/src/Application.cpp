@@ -23,6 +23,14 @@ int Application::Init()
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);
 
+	Luna::FramebufferSpecification framebufferSpec = {
+		1920, 1080,
+		{Luna::FramebufferTextureFormat::RGBA8},
+		Luna::DepthTextureFormat::DEPTH24STENCIL8,
+		false
+	};
+	framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
+
 	//m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 	//m_SceneFramebuffer.Update();
 	//m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
@@ -103,9 +111,11 @@ void Application::Render()
 
 	//imGuiLayer.Render();
 
+	framebuffer->Bind();
 	Luna::ReworkedRenderer::BeginFrame();
 
 	Luna::ReworkedRenderer::Render();
 	
 	Luna::ReworkedRenderer::EndFrame();
+	framebuffer->Unbind();
 }

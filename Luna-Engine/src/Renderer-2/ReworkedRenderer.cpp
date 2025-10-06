@@ -13,7 +13,7 @@ namespace Luna
 	}
 	void ReworkedRenderer::BeginFrame()
 	{
-		s_RendererAPI->Clear();
+		//s_RendererAPI->Clear();
 		s_RendererAPI->StartFrame();
 	}
 	void ReworkedRenderer::EndFrame()

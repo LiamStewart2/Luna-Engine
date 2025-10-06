@@ -260,8 +260,8 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->VSSetShader(_vertexShader, nullptr, 0);
         m_RenderContext->GetImmediateContext()->PSSetShader(_pixelShader, nullptr, 0);
 
-        ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
-        m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
+        //ID3D11RenderTargetView* rtv = m_RenderContext->GetRenderTargetView();
+        //m_RenderContext->GetImmediateContext()->OMSetRenderTargets(1, &rtv, m_RenderContext->GetDepthStencilView());
 
         RenderIndexed(12 * 3);
 
