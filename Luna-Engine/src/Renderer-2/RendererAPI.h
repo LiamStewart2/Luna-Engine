@@ -9,7 +9,6 @@ namespace Luna
 { 
 	enum RendererAPIType
 	{
-		None,
 		DirectX11,
 		OpenGL
 	};

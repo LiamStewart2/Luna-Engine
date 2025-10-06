@@ -43,7 +43,7 @@ void Scene::Update(bool runtime)
 
 
 
-void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera>& camera)
+void Scene::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera)
 {
 	//Find the Camera Object
 	if (camera.object == nullptr)
@@ -81,7 +81,7 @@ void Scene::Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransform
 
 	// Start Render Pass
 	renderer->RenderPass(camera, light, ECS.GetAllComponentsOfType<Transform>(), ECS.GetAllComponentsOfType<MeshComponent>(),
-	lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get(), framebuffer);
+	lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
 }
 
 unsigned int Scene::AddObject(unsigned int parent)

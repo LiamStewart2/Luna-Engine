@@ -1,6 +1,6 @@
 #include "ScenePanel.h"
 
-void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer, std::vector<std::pair<ACTIONS, std::string>>* actions)
+void ScenePanel::UpdateScene(unsigned int& inspectorID, std::vector<std::pair<ACTIONS, std::string>>* actions)
 {
 	if(m_Show == false)
 		return;
@@ -13,8 +13,7 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer
 	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
 	// Center the framebuffer image in the window
-	const FramebufferSpecification* specs = framebuffer->GetSpecs();
-	float aspectRatio = (float)specs->Width / (float)specs->Height;
+	float aspectRatio = (float)16 / (float)9;
 
 	ImVec2 imageSize{
 		std::min(viewportSize.y * aspectRatio, viewportSize.x),
@@ -27,7 +26,7 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, FrameBuffer* framebuffer
 	};
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image(framebuffer->GetAttatchmentID(), imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Image(1, imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 	EditorCamera::sceneWindowHovered = ImGui::IsItemHovered();
 
 	if (ImGui::BeginDragDropTarget())

@@ -117,6 +117,7 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

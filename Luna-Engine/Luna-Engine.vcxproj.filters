@@ -45,9 +45,6 @@
     <ClCompile Include="src\Core\TransformationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\FrameBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,7 +87,7 @@
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\Framebuffer.cpp">
+    <ClCompile Include="src\Renderer-2\IFramebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,9 +152,6 @@
     <ClInclude Include="src\Core\TransformationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\FrameBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Renderer\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -206,7 +200,7 @@
     <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\Framebuffer.h">
+    <ClInclude Include="src\Renderer-2\IFramebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h">
