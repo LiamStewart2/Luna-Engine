@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\IFramebuffer.cpp" />
+    <ClCompile Include="src\Renderer-2\IMesh.cpp" />
     <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
     <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
@@ -39,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h" />
     <ClInclude Include="src\Renderer-2\IFramebuffer.h" />
+    <ClInclude Include="src\Renderer-2\IMesh.h" />
     <ClInclude Include="src\Renderer-2\RendererContext.h" />
     <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
     <ClInclude Include="src\Renderer-2\RendererAPI.h" />

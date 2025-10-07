@@ -11,7 +11,7 @@ struct VS_Out
     float4 color : COLOR;
 };
 
-VS_Out VS_main(float3 Position : POSITION, float4 Color : COLOR)
+VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
 {   
     VS_Out output = (VS_Out)0;
 
@@ -21,7 +21,7 @@ VS_Out VS_main(float3 Position : POSITION, float4 Color : COLOR)
     float4 viewPos = mul(View, worldPos);
     output.position = mul(Projection, viewPos);
     
-    output.color = Color;
+    output.color = float4(1, 0, 0, 1);
     
     return output;
 }

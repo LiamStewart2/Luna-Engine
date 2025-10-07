@@ -19,8 +19,6 @@ namespace Luna
         if (_inputLayout)_inputLayout->Release();
         if (_pixelShader)_pixelShader->Release();
         if (_constantBuffer)_constantBuffer->Release();
-        if (_vertexBuffer)_vertexBuffer->Release();
-        if (_indexBuffer)_indexBuffer->Release();
     }
 
 	void DX11RendererAPI::Init(std::shared_ptr<RendererContext> renderContext)
@@ -68,7 +66,9 @@ namespace Luna
         D3D11_INPUT_ELEMENT_DESC inputElementDesc[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA,   0 },
-            { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,   0 },
+            { "TEXTURECOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,   0 },
+            { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,   0 },
+            
         };
 
         hr = m_RenderContext->GetDevice()->CreateInputLayout(inputElementDesc, ARRAYSIZE(inputElementDesc), vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
@@ -99,65 +99,6 @@ namespace Luna
     {
         HRESULT hr = S_OK;
 
-        SimpleVertex VertexData[] =
-        {
-            //Position                          //Color             
-            { glm::vec3(-1.00f,  1.00f,  1),    glm::vec4(1.0f,  0.0f, 0.0f,  1.0f)},
-            { glm::vec3(1.00f,   1.00f,  1),    glm::vec4(0.0f,  1.0f, 0.0f,  1.0f)},
-            { glm::vec3(-1.00f, -1.00f,  1),    glm::vec4(0.0f,  0.0f, 1.0f,  1.0f)},
-            { glm::vec3(1.00f,  -1.00f,  1),    glm::vec4(1.0f,  1.0f, 1.0f,  1.0f)},
-            { glm::vec3(-1.00f,  1.00f, -1),    glm::vec4(1.0f,  0.0f, 0.0f,  1.0f)},
-            { glm::vec3(1.00f,   1.00f, -1),    glm::vec4(0.0f,  1.0f, 0.0f,  1.0f)},
-            { glm::vec3(-1.00f, -1.00f, -1),    glm::vec4(0.0f,  0.0f, 1.0f,  1.0f)},
-            { glm::vec3(1.00f,  -1.00f, -1),    glm::vec4(1.0f,  1.0f, 1.0f,  1.0f)},
-        };
-
-        D3D11_BUFFER_DESC vertexBufferDesc = {};
-        vertexBufferDesc.ByteWidth = sizeof(VertexData);
-        vertexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-        vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-        D3D11_SUBRESOURCE_DATA vertexData = { VertexData };
-
-        hr = m_RenderContext->GetDevice()->CreateBuffer(&vertexBufferDesc, &vertexData, &_vertexBuffer);
-        if (FAILED(hr))
-        {
-			std::cerr << "Failed to create vertex buffer" << std::endl;
-            return;
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-        WORD IndexData[] =
-        {
-            //Indices
-            0, 1, 2,
-            2, 1, 3,
-            4, 5, 0,
-            5, 1, 0,
-            5, 4, 6,
-            5, 6, 7,
-            2, 7, 6,
-            7, 2, 3,
-            4, 0, 6,
-            0, 2, 6,
-            1, 5, 7,
-            7, 3, 1
-        };
-
-        D3D11_BUFFER_DESC indexBufferDesc = {};
-        indexBufferDesc.ByteWidth = sizeof(IndexData);
-        indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-        indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-        D3D11_SUBRESOURCE_DATA indexData = { IndexData };
-
-        hr = m_RenderContext->GetDevice()->CreateBuffer(&indexBufferDesc, &indexData, &_indexBuffer);
-        if (FAILED(hr)) 
-        {
-            std::cerr << "Failed to create index buffer" << std::endl;
-            return;
-        }
     }
 
     void DX11RendererAPI::InitPipelineVariables()
@@ -245,11 +186,6 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
         memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
         m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
-
-        UINT stride = { sizeof(SimpleVertex) };
-        UINT offset = 0;
-        m_RenderContext->GetImmediateContext()->IASetVertexBuffers(0, 1, &_vertexBuffer, &stride, &offset);
-        m_RenderContext->GetImmediateContext()->IASetIndexBuffer(_indexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
         m_RenderContext->GetImmediateContext()->VSSetShader(_vertexShader, nullptr, 0);
         m_RenderContext->GetImmediateContext()->PSSetShader(_pixelShader, nullptr, 0);

@@ -29,7 +29,36 @@ int Application::Init()
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
 		true
 	};
-	framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
+	m_Framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
+
+	std::vector<Luna::Vertex> vertexData = {
+		{glm::vec3(-1.00f,  1.00f,  1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(1.00f,   1.00f,  1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(-1.00f, -1.00f,  1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(1.00f,  -1.00f,  1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(-1.00f,  1.00f, -1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(1.00f,   1.00f, -1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(-1.00f, -1.00f, -1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(1.00f,  -1.00f, -1), {1, 1}, {1, 1, 1}},
+	};
+
+	std::vector<unsigned int> indexData =
+	{
+		0, 1, 2,
+		2, 1, 3,
+		4, 5, 0,
+		5, 1, 0,
+		5, 4, 6,
+		5, 6, 7,
+		2, 7, 6,
+		7, 2, 3,
+		4, 0, 6,
+		0, 2, 6,
+		1, 5, 7,
+		7, 3, 1
+	};
+
+	m_Mesh = Luna::IMesh::Create(vertexData, indexData);
 
 	//m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
 	//m_SceneFramebuffer.Update();
@@ -110,13 +139,14 @@ void Application::Render()
 	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
 	//imGuiLayer.Render();#
-	framebuffer->Bind();
+	m_Framebuffer->Bind();
 	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-	framebuffer->Clear(background);
+	m_Framebuffer->Clear(background);
+	m_Mesh->BindMesh();
 	Luna::ReworkedRenderer::BeginFrame();
 
 	Luna::ReworkedRenderer::Render();
 	
 	Luna::ReworkedRenderer::EndFrame();
-	framebuffer->Unbind();
+	m_Framebuffer->Unbind();
 }

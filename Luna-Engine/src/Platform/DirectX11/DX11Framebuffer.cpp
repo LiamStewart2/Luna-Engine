@@ -39,6 +39,7 @@ namespace Luna
 
 	void DX11Framebuffer::Bind()
 	{
+		Invalidate();
 		DX11RendererContext::GetContext()->GetImmediateContext()->OMSetRenderTargets((UINT)m_ColorRTVs.size(), m_ColorRTVs.data(), m_DSV);
 
 		// Update viewport to framebuffer size
@@ -114,9 +115,12 @@ namespace Luna
 			DXGI_FORMAT depthForamt = ToDXGIDepthFormat(m_Spec.m_DepthAttachment);
 			if (depthForamt != DXGI_FORMAT_UNKNOWN)
 			{
+				D3D11_TEXTURE2D_DESC backbufferDesc = {};
+				backbuffer->GetDesc(&backbufferDesc);
+
 				D3D11_TEXTURE2D_DESC depthDesc = {};
-				depthDesc.Width = m_Spec.m_Width;
-				depthDesc.Height = m_Spec.m_Height;
+				depthDesc.Width = backbufferDesc.Width;
+				depthDesc.Height = backbufferDesc.Width;
 				depthDesc.MipLevels = 1;
 				depthDesc.ArraySize = 1;
 				depthDesc.Format = depthForamt;
