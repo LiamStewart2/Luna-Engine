@@ -38,6 +38,7 @@ private:
 
 	std::shared_ptr<Luna::IFramebuffer> m_Framebuffer = nullptr;
 	std::shared_ptr<Luna::IMesh> m_Mesh = nullptr;
+	std::shared_ptr<Luna::IShader> m_Shader = nullptr;
 
 	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));
 	// DX11 TEMP STUFF

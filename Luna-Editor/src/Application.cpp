@@ -31,6 +31,8 @@ int Application::Init()
 	};
 	m_Framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
 
+	m_Shader = Luna::IShader::Create("Assets/Shaders/SimpleShader/SimpleShaders.hlsl");
+
 	std::vector<Luna::Vertex> vertexData = {
 		{glm::vec3(-1.00f,  1.00f,  1), {1, 1}, {1, 1, 1}},
 		{glm::vec3(1.00f,   1.00f,  1), {1, 1}, {1, 1, 1}},
@@ -142,11 +144,13 @@ void Application::Render()
 	m_Framebuffer->Bind();
 	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
 	m_Framebuffer->Clear(background);
+	m_Shader->Bind();
 	m_Mesh->BindMesh();
 	Luna::ReworkedRenderer::BeginFrame();
 
 	Luna::ReworkedRenderer::Render();
 	
 	Luna::ReworkedRenderer::EndFrame();
+	m_Shader->Unbind();
 	m_Framebuffer->Unbind();
 }

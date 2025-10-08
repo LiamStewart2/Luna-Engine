@@ -15,9 +15,6 @@ namespace Luna
     {
         if (_fillState)_fillState->Release();
         if (_wireframeState)_wireframeState->Release();
-        if (_vertexShader)_vertexShader->Release();
-        if (_inputLayout)_inputLayout->Release();
-        if (_pixelShader)_pixelShader->Release();
         if (_constantBuffer)_constantBuffer->Release();
     }
 
@@ -34,65 +31,7 @@ namespace Luna
 
 	void DX11RendererAPI::InitShadersAndInputLayout()
 	{
-        HRESULT hr = S_OK;
-        ID3DBlob* errorBlob;
-
-        DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-        // Set the D3DCOMPILE_DEBUG flag and D3DCOMPILE_SKIP_OPTIMIZATION
-        // This means the shader runs slower, but debugging is easier
-        // As optimizations will move/remove lines of code in the shader
-        // https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/d3dcompile-constants
-        dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-        ID3DBlob* vsBlob;
-
-        hr = D3DCompileFromFile(L"Assets/Shaders/SimpleShader/SimpleShaders.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS_main", "vs_5_0", dwShaderFlags, 0, &vsBlob, &errorBlob);
-        if (FAILED(hr))
-        {
-			std::cerr << "Shader Failed To Compile" << std::endl;
-            return;
-        }
-
-        hr = m_RenderContext->GetDevice()->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &_vertexShader);
-
-        if (FAILED(hr))
-        {
-            std::cerr << "Vertex Shader Failed To Compile" << std::endl;
-            return;
-        }
-
-        D3D11_INPUT_ELEMENT_DESC inputElementDesc[] =
-        {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA,   0 },
-            { "TEXTURECOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,   0 },
-            { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,   0 },
-            
-        };
-
-        hr = m_RenderContext->GetDevice()->CreateInputLayout(inputElementDesc, ARRAYSIZE(inputElementDesc), vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
-        if (FAILED(hr)) 
-        {
-            std::cerr << "Input Layout Failed To Compile" << std::endl;
-            return;
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-        ID3DBlob* psBlob;
-
-        hr = D3DCompileFromFile(L"Assets/Shaders/SimpleShader/SimpleShaders.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS_main", "ps_5_0", dwShaderFlags, 0, &psBlob, &errorBlob);
-        if (FAILED(hr))
-        {
-            std::cerr << "line 68 Failed To Compile" << std::endl;
-            return;
-        }
-
-        hr = m_RenderContext->GetDevice()->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, &_pixelShader);
-
-        vsBlob->Release();
-        psBlob->Release();
+        
 	}
 
     void DX11RendererAPI::InitVertexBuffers()
@@ -104,10 +43,6 @@ namespace Luna
     void DX11RendererAPI::InitPipelineVariables()
     {
         HRESULT hr = S_OK;
-
-        //Input Assembler
-        m_RenderContext->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        m_RenderContext->GetImmediateContext()->IASetInputLayout(_inputLayout);
 
         //Rasterizer
         D3D11_RASTERIZER_DESC rasterizerDesc = {};
@@ -186,9 +121,6 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
         memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
         m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
-
-        m_RenderContext->GetImmediateContext()->VSSetShader(_vertexShader, nullptr, 0);
-        m_RenderContext->GetImmediateContext()->PSSetShader(_pixelShader, nullptr, 0);
 
         RenderIndexed(12 * 3);
 

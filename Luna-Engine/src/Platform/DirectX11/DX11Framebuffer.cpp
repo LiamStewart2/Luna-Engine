@@ -39,7 +39,7 @@ namespace Luna
 
 	void DX11Framebuffer::Bind()
 	{
-		Invalidate();
+		//Invalidate();
 		DX11RendererContext::GetContext()->GetImmediateContext()->OMSetRenderTargets((UINT)m_ColorRTVs.size(), m_ColorRTVs.data(), m_DSV);
 
 		// Update viewport to framebuffer size

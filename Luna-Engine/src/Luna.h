@@ -22,6 +22,7 @@
 #include "Renderer-2/RendererContext.h"
 #include "Renderer-2/IFramebuffer.h"
 #include "Renderer-2/IMesh.h"
+#include "Renderer-2/IShader.h"
 
 // SCRIPTING
 

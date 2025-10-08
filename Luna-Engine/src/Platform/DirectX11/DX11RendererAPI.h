@@ -42,9 +42,6 @@ namespace Luna
 
 		ID3D11RasterizerState* _fillState;
 		ID3D11RasterizerState* _wireframeState;
-		ID3D11VertexShader* _vertexShader;
-		ID3D11InputLayout* _inputLayout;
-		ID3D11PixelShader* _pixelShader;
 		ID3D11Buffer* _constantBuffer;
 
 		glm::mat4 _world1;

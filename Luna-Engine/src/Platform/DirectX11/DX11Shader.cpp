@@ -26,12 +26,18 @@ namespace Luna
 		dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-		ID3DBlob* vsBlob;
 		HRESULT hr = S_OK;
-		hr = D3DCompileFromFile(L"Assets/Shaders/SimpleShader/SimpleShaders.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS_main", "vs_5_0", dwShaderFlags, 0, &vsBlob, &errorBlob);
+
+		// Vertex Shader
+		ID3DBlob* vsBlob;
+
+		std::wstring stemp = std::wstring(filepath.begin(), filepath.end());
+		LPCWSTR LFilepath = stemp.c_str();
+
+		hr = D3DCompileFromFile(stemp.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS_main", "vs_5_0", dwShaderFlags, 0, &vsBlob, &errorBlob);
 		if (FAILED(hr))
 		{
-			std::cerr << "Shader Failed To Compile" << std::endl;
+			std::cerr << "Shader Failed To Compile" << hr << std::endl;
 			return;
 		}
 
@@ -43,6 +49,7 @@ namespace Luna
 			return;
 		}
 
+		// input element creation
 		D3D11_INPUT_ELEMENT_DESC inputElementDesc[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA,   0 },
@@ -57,6 +64,30 @@ namespace Luna
 			std::cerr << "Input Layout Failed To Compile" << std::endl;
 			return;
 		}
+
+		// Pixel Shader
+		ID3DBlob* psBlob;
+
+		hr = D3DCompileFromFile(stemp.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS_main", "ps_5_0", dwShaderFlags, 0, &psBlob, &errorBlob);
+		if (FAILED(hr))
+		{
+			std::cerr << "line 68 Failed To Compile" << std::endl;
+			return;
+		}
+
+		hr = DX11RendererContext::GetContext()->GetDevice()->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), nullptr, &m_PixelShader);
+		if (FAILED(hr))
+		{
+			std::cerr << "Pixel Shader Failed To Compile" << std::endl;
+			return;
+		}
+
+
+		vsBlob->Release();
+		psBlob->Release();
+
+		DX11RendererContext::GetContext()->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		DX11RendererContext::GetContext()->GetImmediateContext()->IASetInputLayout(m_InputLayout);
 	}
 
 	void DX11Shader::Bind()
