@@ -41,7 +41,7 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update(ObjectTransformPairing<Camera>& camera, bool& runtime);
+	void Update(ObjectTransformPairing<Camera>& camera, Luna::IFramebuffer* framebuffer, bool& runtime);
 
 	void Render();
 private:

@@ -83,8 +83,8 @@ namespace Luna
 	}
 	void* DX11Framebuffer::GetColorAttachment(int index)
 	{
-		if (index < (int)m_ColorRTVs.size() && index >= 0)
-			return m_ColorRTVs[index];
+		if (index < (int)m_ColorSRVs.size() && index >= 0)
+			return m_ColorSRVs[index];
 		return nullptr;
 	}
 	void* DX11Framebuffer::GetDepthAttachment()
@@ -107,8 +107,12 @@ namespace Luna
 
 			ID3D11RenderTargetView* rtv = nullptr;
 			device->CreateRenderTargetView(backbuffer, nullptr, &rtv);
+
+			ID3D11ShaderResourceView* srv = nullptr;
+			device->CreateShaderResourceView(backbuffer, nullptr, &srv);
 			backbuffer->Release();
 
+			m_ColorSRVs.push_back(srv);
 			m_ColorRTVs.push_back(rtv);
 
 			DXGI_FORMAT depthForamt = ToDXGIDepthFormat(m_Spec.m_DepthAttachment);
@@ -139,6 +143,7 @@ namespace Luna
 		// IF NOT IN THE SWAP CHAIN
 		// then we need to make the textures for DX11
 		m_ColorRTVs.resize(m_Spec.m_ColorAttachments.size());
+		m_ColorSRVs.resize(m_Spec.m_ColorAttachments.size());
 		for (size_t i = 0; i < m_Spec.m_ColorAttachments.size(); i++)
 		{
 			if(m_Spec.m_ColorAttachments[i] != FramebufferTextureFormat::None)
@@ -160,9 +165,13 @@ namespace Luna
 
 				ID3D11RenderTargetView* rtv = nullptr;
 				device->CreateRenderTargetView(colorTexture, nullptr, &rtv);
-				m_ColorRTVs[i] = rtv;
 
+				ID3D11ShaderResourceView* srv = nullptr;
+				device->CreateShaderResourceView(colorTexture, nullptr, &srv);
 				colorTexture->Release();
+
+				m_ColorSRVs[i] = srv;
+				m_ColorRTVs[i] = rtv;
 			}
 		}
 
@@ -202,6 +211,16 @@ namespace Luna
 			}
 		}
 		m_ColorRTVs.clear();
+
+		for (auto& srv : m_ColorSRVs)
+		{
+			if (srv)
+			{
+				srv->Release();
+				srv = nullptr;
+			}
+		}
+		m_ColorSRVs.clear();
 
 		if (m_DSV)
 		{

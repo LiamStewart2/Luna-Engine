@@ -4,6 +4,7 @@
 #include <vector>
 
 struct ID3D11RenderTargetView;
+struct ID3D11ShaderResourceView;
 struct ID3D11DepthStencilView;
 
 namespace Luna
@@ -32,6 +33,7 @@ namespace Luna
 		FramebufferSpecification m_Spec;
 		
 		std::vector<ID3D11RenderTargetView*> m_ColorRTVs;
+		std::vector<ID3D11ShaderResourceView*> m_ColorSRVs;
 		ID3D11DepthStencilView* m_DSV = nullptr;
 	
 	};

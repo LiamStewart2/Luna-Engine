@@ -24,13 +24,13 @@ int Application::Init()
 	Luna::ReworkedRenderer::Init(m_RendererContext);
 
 	Luna::FramebufferSpecification framebufferSpec = {
-		1920, 1080,
+		SCREEN_WIDTH, SCREEN_HEIGHT,
 		{Luna::FramebufferTextureFormat::RGBA8},
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
 		false
 	};
 	Luna::FramebufferSpecification backbufferspec = {
-		1920, 1080,
+		SCREEN_WIDTH, SCREEN_HEIGHT,
 		{Luna::FramebufferTextureFormat::RGBA8},
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
 		true
@@ -68,11 +68,6 @@ int Application::Init()
 	};
 
 	m_Mesh = Luna::IMesh::Create(vertexData, indexData);
-
-	//m_SceneFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	//m_SceneFramebuffer.Update();
-	//m_GameFramebuffer = FrameBuffer(FramebufferSpecification(1920, 1080, std::vector<FramebufferTextureAttatchment>({ RGBA8, DEPTH })));
-	//m_GameFramebuffer.Update();
 
 	//sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 
@@ -135,16 +130,13 @@ void Application::Update()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	imGuiLayer.Update(cameraPair, runtime);
+	imGuiLayer.Update(cameraPair, m_Framebuffer.get(), runtime);
 
 	//editorCamera.Update();
 }
 
 void Application::Render()
 {
-
-	//glClearColor(0.7f, 1.0f, 1.0f, 1.0f);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	//ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
