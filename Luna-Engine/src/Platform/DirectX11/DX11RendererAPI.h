@@ -36,7 +36,7 @@ namespace Luna
 		void StartFrame() override;
 		void EndFrame() override;
 
-		void RenderIndexed(unsigned int count) override;
+		void RenderIndexed(unsigned int count, Transform* transform) override;
 	private:
 		DX11RendererContext* m_RenderContext = nullptr;
 

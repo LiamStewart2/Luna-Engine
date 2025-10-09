@@ -92,7 +92,7 @@ namespace Luna
 
     void DX11RendererAPI::InitRunTimeData()
     {
-        float aspect = 16 / 9;
+        float aspect = 16 / 8.7;
 
         glm::vec3 Eye = glm::vec3(0, 0, -3.0f);
         glm::vec3 At = glm::vec3(0, 0, 0);
@@ -112,6 +112,7 @@ namespace Luna
 	}
 	void DX11RendererAPI::StartFrame()
 	{
+        /*
         _world1 = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
         _world2 = glm::translate(glm::mat4(1), glm::vec3(2, 0, 2));
         _world2 = glm::rotate(_world2, (float)glfwGetTime(), glm::vec3(0, 0, 1));
@@ -132,15 +133,23 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
 
 		RenderIndexed(12 * 3);
+        */
 
 	}
 	void DX11RendererAPI::EndFrame()
 	{
 		// Code to end the current frame
 	}
-	void DX11RendererAPI::RenderIndexed(unsigned int count)
+	void DX11RendererAPI::RenderIndexed(unsigned int count, Transform* transform)
 	{
 		// Render indexed geometry
+
+		_cbData.World = transform->transformMatrix;
+
+        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+        m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+        memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
+        m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
 
         m_RenderContext->GetImmediateContext()->DrawIndexed(count, 0, 0);
 	}

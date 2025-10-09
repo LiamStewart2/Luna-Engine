@@ -151,11 +151,13 @@ void Application::Render()
 	m_Framebuffer->Clear(background);
 	m_Shader->Bind();
 	m_Mesh->BindMesh();
-	Luna::ReworkedRenderer::BeginFrame();
 
-	Luna::ReworkedRenderer::Render();
+	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get());
+
+	Luna::ReworkedRenderer::Render(&sceneManager, m_Framebuffer.get());
 	
-	Luna::ReworkedRenderer::EndFrame();
+	Luna::ReworkedRenderer::EndFrame(&sceneManager, m_Framebuffer.get());
+
 	m_Shader->Unbind();
 	m_Framebuffer->Unbind();
 	m_Backbuffer->Bind();

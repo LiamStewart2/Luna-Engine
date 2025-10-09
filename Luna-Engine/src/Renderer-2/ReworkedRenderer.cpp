@@ -11,19 +11,22 @@ namespace Luna
 	void ReworkedRenderer::Shutdown()
 	{
 	}
-	void ReworkedRenderer::BeginFrame()
+	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		//s_RendererAPI->Clear();
 		s_RendererAPI->StartFrame();
 	}
-	void ReworkedRenderer::EndFrame()
+	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		s_RendererAPI->EndFrame();
 	}
-	void ReworkedRenderer::Render()
+	void ReworkedRenderer::Render(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		// BIND EVERYTHING HERE
 
-		//s_RendererAPI->RenderIndexed(0);
+		Transform transform = Transform(0, glm::vec3(0, 0, 0));
+		transform.transformMatrix = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
+
+		s_RendererAPI->RenderIndexed(12 * 3, &transform);
 	}
 }

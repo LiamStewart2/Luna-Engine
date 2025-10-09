@@ -123,7 +123,7 @@ namespace Luna
 
 				D3D11_TEXTURE2D_DESC depthDesc = {};
 				depthDesc.Width = backbufferDesc.Width;
-				depthDesc.Height = backbufferDesc.Width;
+				depthDesc.Height = backbufferDesc.Height;
 				depthDesc.MipLevels = 1;
 				depthDesc.ArraySize = 1;
 				depthDesc.Format = depthForamt;

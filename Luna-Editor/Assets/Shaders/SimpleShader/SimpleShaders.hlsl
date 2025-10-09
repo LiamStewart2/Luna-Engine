@@ -9,6 +9,7 @@ struct VS_Out
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
+    float3 PosW : POSITION0;
 };
 
 VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
@@ -23,10 +24,12 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     
     output.color = float4(1, 0, 0, 1);
     
+    output.PosW = worldPos.xyz;
+    
     return output;
 }
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
-    return input.color;
+    return input.color - input.PosW.y;
 }
