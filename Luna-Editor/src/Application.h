@@ -30,6 +30,8 @@ private:
 	void Update();
 	void Render();
 	
+	void ResizeCallback(GLFWwindow* handle, int width, int height);
+
 	Renderer renderer;
 	
 	std::shared_ptr<Luna::RendererContext> m_RendererContext;
@@ -37,6 +39,7 @@ private:
 	ImGuiLayer imGuiLayer;
 
 	std::shared_ptr<Luna::IFramebuffer> m_Framebuffer = nullptr;
+	std::shared_ptr<Luna::IFramebuffer> m_Backbuffer = nullptr;
 	std::shared_ptr<Luna::IMesh> m_Mesh = nullptr;
 	std::shared_ptr<Luna::IShader> m_Shader = nullptr;
 

@@ -12,6 +12,7 @@ void ImGuiLayer::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	//io.ConfigFlags &= -ImGuiConfigFlags_ViewportsEnable;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);
@@ -64,6 +65,11 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
 
+	ImGuiIO& io = ImGui::GetIO();
+	int fbWidth, fbHeight;
+	glfwGetFramebufferSize(m_Window->GetHandle(), &fbWidth, &fbHeight);
+	io.DisplaySize = ImVec2((float)fbWidth, (float)fbHeight);
+
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
@@ -75,7 +81,6 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 		ImGui::PopStyleVar(2);
 
 	// DockSpace
-	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 	float minWinSizeX = style.WindowMinSize.x;
 	style.WindowMinSize.x = 250.0f;
@@ -158,7 +163,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 
 	ImGui::End();
 
-	m_HierarchyPanel.EndFrame(m_CurrentInspectorGameObject);
+	//m_HierarchyPanel.EndFrame(m_CurrentInspectorGameObject);
 
 	for (auto& [action, arguments] : m_Actions)
 	{

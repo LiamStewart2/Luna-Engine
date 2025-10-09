@@ -61,8 +61,7 @@ namespace Luna
 	void DX11Framebuffer::Resize(const unsigned int& width, const unsigned int& height)
 	{
 		m_Spec.m_Width = width; m_Spec.m_Height = height;
-		if(!m_Spec.m_SwapChainTarget)
-			Invalidate();
+		Invalidate();
 	}
 
 	void DX11Framebuffer::Clear(const float color[4])

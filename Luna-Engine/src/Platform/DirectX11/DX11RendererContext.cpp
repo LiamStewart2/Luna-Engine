@@ -93,9 +93,12 @@ namespace Luna
 	{
 		HRESULT hr = S_OK;
 
+		int fbWidth, fbHeight;
+		glfwGetFramebufferSize(m_WindowHandle, &fbWidth, &fbHeight);
+
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
-		swapChainDesc.Width = 1920; // Defer to WindowWidth
-		swapChainDesc.Height = 1080; // Defer to WindowHeight
+		swapChainDesc.Width = fbWidth; // Defer to WindowWidth
+		swapChainDesc.Height = fbHeight; // Defer to WindowHeight
 		swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //FLIP* modes don't support sRGB backbuffer
 		swapChainDesc.Stereo = FALSE;
 		swapChainDesc.SampleDesc.Count = 1;

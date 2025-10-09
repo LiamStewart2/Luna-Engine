@@ -92,7 +92,7 @@ namespace Luna
 
     void DX11RendererAPI::InitRunTimeData()
     {
-        float aspect = 16 / 8.7;
+        float aspect = 16 / 9;
 
         glm::vec3 Eye = glm::vec3(0, 0, -3.0f);
         glm::vec3 At = glm::vec3(0, 0, 0);
