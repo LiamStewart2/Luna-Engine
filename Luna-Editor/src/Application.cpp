@@ -27,7 +27,7 @@ int Application::Init()
 		1920, 1080,
 		{Luna::FramebufferTextureFormat::RGBA8},
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
-		true
+		false
 	};
 	m_Framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
 
@@ -69,7 +69,7 @@ int Application::Init()
 
 	//sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 
-	//imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
+	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 	return 0;
 }
 
@@ -120,9 +120,9 @@ void Application::Update()
 	//sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
 	//sceneManager.Update(runtime);
 
-	//Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	//ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	//imGuiLayer.Update(cameraPair, &m_SceneFramebuffer, &m_GameFramebuffer, runtime);
+	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	imGuiLayer.Update(cameraPair, runtime);
 
 	//editorCamera.Update();
 }
@@ -140,7 +140,6 @@ void Application::Render()
 	//cameraPair = {nullptr, nullptr};
 	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
-	//imGuiLayer.Render();#
 	m_Framebuffer->Bind();
 	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
 	m_Framebuffer->Clear(background);
@@ -153,4 +152,6 @@ void Application::Render()
 	Luna::ReworkedRenderer::EndFrame();
 	m_Shader->Unbind();
 	m_Framebuffer->Unbind();
+
+	imGuiLayer.Render();
 }

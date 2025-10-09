@@ -2,7 +2,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_glfw.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui/backends/imgui_impl_dx11.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 #include "imgui/ImGuizmo.h"
 #include "GLM/gtx/matrix_decompose.hpp"
@@ -29,11 +29,11 @@ public:
 		{
 			Init();
 
-			m_InspectorPanel = InspectorPanel(m_SceneManager);
-			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
-			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
-			m_ScenePanel = ScenePanel(m_SceneManager);
-			m_GamePanel = GamePanel(m_SceneManager);
+			//m_InspectorPanel = InspectorPanel(m_SceneManager);
+			//m_HierarchyPanel = HierarchyPanel(m_SceneManager);
+			//m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
+			//m_ScenePanel = ScenePanel(m_SceneManager);
+			//m_GamePanel = GamePanel(m_SceneManager);
 		}
 	}
 	~ImGuiLayer() {}

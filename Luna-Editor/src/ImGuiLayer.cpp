@@ -1,4 +1,5 @@
 #include "ImGuiLayer.h"
+#include "DX11RendererContext.h"
 
 void ImGuiLayer::Init()
 {
@@ -23,14 +24,14 @@ void ImGuiLayer::Init()
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
-	const char* glsl_version = "#version 460";
-	ImGui_ImplOpenGL3_Init(glsl_version);
+	ImGui_ImplGlfw_InitForOther(m_Window->GetHandle(), true);
+	Luna::DX11RendererContext* context = Luna::DX11RendererContext::GetContext();
+	ImGui_ImplDX11_Init(context->GetDevice(), context->GetImmediateContext());
 }
 
 void ImGuiLayer::StartFrame()
 {
-	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
@@ -125,6 +126,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 
 		if (ImGui::BeginMenu("View"))
 		{
+			/*
 			if(ImGui::MenuItem("Scene"))
 				m_ScenePanel.Open();
 			if(ImGui::MenuItem("Game"))
@@ -135,6 +137,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 				m_ContentBrowserPanel.Open();
 			if (ImGui::MenuItem("Hiearchy"))
 				m_HierarchyPanel.Open();
+			*/
 			ImGui::EndMenu();
 		}
 
@@ -143,14 +146,14 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 
 	ImGui::ShowDemoWindow();
 
-	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
-	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
-	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
+	//m_InspectorPanel.Update(m_CurrentInspectorGameObject);
+	//m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
+	//m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
 
-	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime);
+	//m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime);
 
-	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, &m_Actions);
-	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
+	//m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, &m_Actions);
+	//m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 
 	ImGui::End();
@@ -173,7 +176,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, bool& runtime)
 void ImGuiLayer::Render()
 {
 	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
