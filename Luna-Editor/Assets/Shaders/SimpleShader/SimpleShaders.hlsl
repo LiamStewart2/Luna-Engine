@@ -18,11 +18,11 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
 
     float4 Pos4 = float4(Position, 1.0f);
     
-    float4 worldPos = mul(World, Pos4);
+    float4 worldPos = Pos4; //mul(World, Pos4);
     float4 viewPos = mul(View, worldPos);
     output.position = mul(Projection, viewPos);
     
-    output.color = float4(1, 0, 0, 1);
+    output.color = float4(Pos4.y, 0, 0, 1);
     
     output.PosW = worldPos.xyz;
     
@@ -31,5 +31,5 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
-    return input.color - input.PosW.y;
+    return input.color;
 }

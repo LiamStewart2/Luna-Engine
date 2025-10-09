@@ -11,14 +11,14 @@ namespace Luna
 	void ReworkedRenderer::Shutdown()
 	{
 	}
-	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
+	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
 		//s_RendererAPI->Clear();
-		s_RendererAPI->StartFrame();
+		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);
 	}
 	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
-		s_RendererAPI->EndFrame();
+		s_RendererAPI->EndFrame(sceneManager, framebuffer);
 	}
 	void ReworkedRenderer::Render(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{

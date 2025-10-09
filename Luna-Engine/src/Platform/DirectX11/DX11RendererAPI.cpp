@@ -96,7 +96,7 @@ namespace Luna
 
         glm::vec3 Eye = glm::vec3(0, 0, -3.0f);
         glm::vec3 At = glm::vec3(0, 0, 0);
-        glm::vec3 Up = glm::vec3(0, 1, 0);
+        glm::vec3 Up = glm::vec3(0, -1, 0);
 
 		_cbData.View = (glm::lookAt(Eye, At, Up));
 		_cbData.Projection = (glm::perspective(glm::radians(90.0f), aspect, 0.01f, 100.0f));
@@ -110,7 +110,7 @@ namespace Luna
 	{
 		
 	}
-	void DX11RendererAPI::StartFrame()
+	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
         /*
         _world1 = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
@@ -135,8 +135,9 @@ namespace Luna
 		RenderIndexed(12 * 3);
         */
 
+		_cbData.View = camera->object->GetView(camera->objectTransform);
 	}
-	void DX11RendererAPI::EndFrame()
+	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		// Code to end the current frame
 	}

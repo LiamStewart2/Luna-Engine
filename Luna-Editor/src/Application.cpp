@@ -132,14 +132,14 @@ void Application::Update()
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
 	imGuiLayer.Update(cameraPair, m_Framebuffer.get(), runtime);
 
-	//editorCamera.Update();
+	editorCamera.Update();
 }
 
 void Application::Render()
 {
 
-	//Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	//ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
+	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
 	//sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
 
 	//cameraPair = {nullptr, nullptr};
@@ -152,7 +152,7 @@ void Application::Render()
 	m_Shader->Bind();
 	m_Mesh->BindMesh();
 
-	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get());
+	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get(), &cameraPair);
 
 	Luna::ReworkedRenderer::Render(&sceneManager, m_Framebuffer.get());
 	

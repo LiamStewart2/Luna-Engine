@@ -182,7 +182,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, Luna::IFramebuff
 	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)framebuffer->GetColorAttachment();
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
 	ImGui::End();
 	ImGui::PopStyleVar();
 	//m_InspectorPanel.Update(m_CurrentInspectorGameObject);

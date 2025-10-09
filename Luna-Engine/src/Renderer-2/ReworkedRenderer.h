@@ -14,7 +14,7 @@ namespace Luna
 		static void Init(std::shared_ptr<RendererContext> renderContext);
 		static void Shutdown();
 
-		static void BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer);
+		static void BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera = nullptr);
 		static void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer);
 
 		static void Render(SceneManager* sceneManager, IFramebuffer* framebuffer);
