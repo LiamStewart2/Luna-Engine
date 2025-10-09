@@ -19,6 +19,7 @@
     <ClCompile Include="src\Renderer-2\IFramebuffer.cpp" />
     <ClCompile Include="src\Renderer-2\IMesh.cpp" />
     <ClCompile Include="src\Renderer-2\IShader.cpp" />
+    <ClCompile Include="src\Renderer-2\ITexture.cpp" />
     <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
     <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
     <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="src\Renderer-2\IFramebuffer.h" />
     <ClInclude Include="src\Renderer-2\IMesh.h" />
     <ClInclude Include="src\Renderer-2\IShader.h" />
+    <ClInclude Include="src\Renderer-2\ITexture.h" />
     <ClInclude Include="src\Renderer-2\RendererContext.h" />
     <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
     <ClInclude Include="src\Renderer-2\RendererAPI.h" />
