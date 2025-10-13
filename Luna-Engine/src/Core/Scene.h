@@ -23,7 +23,7 @@ public:
 	void LoadAssets();
 
 	void Update(bool runtime = false);
-	void Render(Renderer* renderer, FrameBuffer* framebuffer, ObjectTransformPairing<Camera>& camera);
+	void Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera);
 
 	unsigned int AddObject(unsigned int parent = 0);
 	template <typename T, typename... Args>

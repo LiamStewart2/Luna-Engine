@@ -4,12 +4,15 @@
 #include <glm/glm.hpp>
 
 #include "RendererContext.h"
+#include "../ECS/TransformComponent.h"
+#include "../Core/SceneManager.h"
+#include "../Core/Camera.h"
+#include "IFramebuffer.h"
 
 namespace Luna
 { 
 	enum RendererAPIType
 	{
-		None,
 		DirectX11,
 		OpenGL
 	};
@@ -24,10 +27,10 @@ namespace Luna
 		virtual void SetClearColor(const glm::vec4& color) = 0;
 		virtual void Clear() = 0;
 
-		virtual void StartFrame() = 0;
-		virtual void EndFrame() = 0;
+		virtual void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) = 0;
+		virtual void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) = 0;
 
-		virtual void RenderIndexed(unsigned int count) = 0;
+		virtual void RenderIndexed(unsigned int count, Transform* transform) = 0;
 
 		static RendererAPIType GetAPI() { return s_API; }
 		static std::shared_ptr<IRendererAPI> Create();

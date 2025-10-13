@@ -12,7 +12,6 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "FrameBuffer.h"
 
 template <class T>
 struct ObjectTransformPairing
@@ -34,16 +33,14 @@ public:
 		std::unordered_map<unsigned int, MeshComponent*> meshComponents,
 
 		LightManager* lightManager, 
-		Shader* shader, Shader* depthMapShader, 
-		FrameBuffer* framebuffer
+		Shader* shader, Shader* depthMapShader
 	);
 
 	void SetShaderFrame( 
 		ObjectTransformPairing<Camera>& camera, 
 		ObjectTransformPairing<LightComponent>& light, 
 
-		Shader* depthmapShader, Shader* shader,
-		FrameBuffer* framebuffer
+		Shader* depthmapShader, Shader* shader
 	);
 
 	void RenderObject(Transform* transform, LightComponent* light, Mesh* mesh, Texture* texture, Material* material, Shader* shader);

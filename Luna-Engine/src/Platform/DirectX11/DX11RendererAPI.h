@@ -2,6 +2,10 @@
 #include "../../Renderer-2/RendererAPI.h"
 #include "DX11RendererContext.h"
 
+#include "../../Core/SceneManager.h"
+#include "../../Core/Camera.h"
+#include "../../Renderer-2/IFramebuffer.h"
+
 struct ID3D11Buffer;
 struct ID3D11RasterizerState;
 struct ID3D11VertexShader;
@@ -33,21 +37,19 @@ namespace Luna
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
-		void StartFrame() override;
-		void EndFrame() override;
+		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
+		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 
-		void RenderIndexed(unsigned int count) override;
+		void RenderIndexed(unsigned int count, Transform* transform) override;
 	private:
 		DX11RendererContext* m_RenderContext = nullptr;
 
 		ID3D11RasterizerState* _fillState;
 		ID3D11RasterizerState* _wireframeState;
-		ID3D11VertexShader* _vertexShader;
-		ID3D11InputLayout* _inputLayout;
-		ID3D11PixelShader* _pixelShader;
 		ID3D11Buffer* _constantBuffer;
-		ID3D11Buffer* _vertexBuffer;
-		ID3D11Buffer* _indexBuffer;
+
+		glm::mat4 _world1;
+		glm::mat4 _world2;
 
 		ConstantBuffer _cbData;
 

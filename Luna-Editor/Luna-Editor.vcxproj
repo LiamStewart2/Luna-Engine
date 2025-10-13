@@ -112,11 +112,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SOL_ALL_SAFETIES_ON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries;$(SolutionDir)Luna-Engine\src\Platform\DirectX11</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,8 +134,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;SOL_ALL_SAFETIES_ON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Luna-Engine\src;$(SolutionDir)Dependencies\HeaderLibraries;A:\C++\Luna-Engine\Luna-Engine\src\Platform\DirectX11</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\GamePanel.cpp" />
     <ClCompile Include="src\Panels\ScenePanel.cpp" />
@@ -155,7 +158,6 @@
     <ClCompile Include="src\EditorCamera.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\ImGuizmo.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
@@ -166,6 +168,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
     <ClInclude Include="src\Panels\GamePanel.h" />
     <ClInclude Include="src\Panels\ScenePanel.h" />
@@ -176,8 +179,6 @@
     <ClInclude Include="src\EditorCamera.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
     <ClInclude Include="src\imgui\ImGuizmo.h" />

@@ -10,24 +10,39 @@
 
 namespace Luna
 {
+	DX11RendererContext* DX11RendererContext::s_Instance = nullptr;
+
 	DX11RendererContext::DX11RendererContext(GLFWwindow* windowHandle) 
 		: m_WindowHandle(windowHandle)
 	{
 		int width, height;
 		glfwGetWindowSize(windowHandle, &width, &height);
 		Init((float)width, (float)height);
+
+		if(s_Instance == nullptr)
+			s_Instance = this;
+		else
+			std::cerr << "MULTIPLE DX11RendererContext INSTANCES" << std::endl;
+	}
+
+	DX11RendererContext::~DX11RendererContext()
+	{
+		if (m_SwapChain) m_SwapChain->Release();
+		if (m_DxgiFactory) m_DxgiFactory->Release();
+		if (m_DxgiDevice) m_DxgiDevice->Release();
+		if (m_ImmediateContext) m_ImmediateContext->Release();
+		if (m_Device) m_Device->Release();
 	}
 
 	void DX11RendererContext::Init(const float& viewport_w, const float& viewport_h)
 	{
 		CreateD3DDevice();
 		CreateSwapChainAndFrameBuffer();
-		InitViewport(viewport_w, viewport_h);
 	}
 
 	void DX11RendererContext::SwapBuffers()
 	{
-		m_SwapChain->Present(0, 0);
+		m_SwapChain->Present(1, 0);
 	}
 
 	void DX11RendererContext::CreateD3DDevice()
@@ -78,9 +93,12 @@ namespace Luna
 	{
 		HRESULT hr = S_OK;
 
+		int fbWidth, fbHeight;
+		glfwGetFramebufferSize(m_WindowHandle, &fbWidth, &fbHeight);
+
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
-		swapChainDesc.Width = 0; // Defer to WindowWidth
-		swapChainDesc.Height = 0; // Defer to WindowHeight
+		swapChainDesc.Width = fbWidth; // Defer to WindowWidth
+		swapChainDesc.Height = fbHeight; // Defer to WindowHeight
 		swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //FLIP* modes don't support sRGB backbuffer
 		swapChainDesc.Stereo = FALSE;
 		swapChainDesc.SampleDesc.Count = 1;
@@ -98,28 +116,5 @@ namespace Luna
 			std::cerr << "Failed to create D3D11 Swap Chain For HWND! HRESULT: " << hr << std::endl;
 			return;
 		}
-
-		ID3D11Texture2D* frameBuffer = nullptr;
-
-		hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&frameBuffer));
-		if (FAILED(hr))
-		{
-			std::cerr << "Failed to create D3D11 Swap Chain For HWND! HRESULT: " << hr << std::endl;
-			return;
-		}
-
-		D3D11_RENDER_TARGET_VIEW_DESC framebufferDesc = {};
-		framebufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; //sRGB render target enables hardware gamma correction
-		framebufferDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-
-		hr = m_Device->CreateRenderTargetView(frameBuffer, &framebufferDesc, &m_FrameBufferView);
-
-		frameBuffer->Release();
-	}
-
-	void DX11RendererContext::InitViewport(const float& viewport_w, const float& viewport_h)
-	{
-		m_Viewport = new D3D11_VIEWPORT(0.0f, 0.0f, viewport_w, viewport_h, 0.0f, 1.0f);
-		m_ImmediateContext->RSSetViewports(1, m_Viewport);
 	}
 }
