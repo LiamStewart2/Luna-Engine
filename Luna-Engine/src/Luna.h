@@ -24,6 +24,7 @@
 #include "Renderer-2/IMesh.h"
 #include "Renderer-2/IShader.h"
 #include "Renderer-2/Light.h"
+#include "Renderer-2/Material.h"
 
 // SCRIPTING
 

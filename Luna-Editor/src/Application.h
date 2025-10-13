@@ -43,6 +43,10 @@ private:
 	std::shared_ptr<Luna::IMesh> m_Mesh = nullptr;
 	std::shared_ptr<Luna::IShader> m_Shader = nullptr;
 
+	Luna::Material m_Material;
+	Luna::Light m_Light;
+	Transform m_LightTransform;
+
 	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));
 	// DX11 TEMP STUFF
 };
