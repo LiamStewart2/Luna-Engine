@@ -23,6 +23,7 @@
 #include "Renderer-2/IFramebuffer.h"
 #include "Renderer-2/IMesh.h"
 #include "Renderer-2/IShader.h"
+#include "Renderer-2/Light.h"
 
 // SCRIPTING
 

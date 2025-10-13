@@ -52,6 +52,8 @@
     <ClInclude Include="src\Renderer-2\IMesh.h" />
     <ClInclude Include="src\Renderer-2\IShader.h" />
     <ClInclude Include="src\Renderer-2\ITexture.h" />
+    <ClInclude Include="src\Renderer-2\Light.h" />
+    <ClInclude Include="src\Renderer-2\Material.h" />
     <ClInclude Include="src\Renderer-2\RendererContext.h" />
     <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
     <ClInclude Include="src\Renderer-2\RendererAPI.h" />
