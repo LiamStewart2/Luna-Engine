@@ -41,14 +41,14 @@ int Application::Init()
 	m_Shader = Luna::IShader::Create("Assets/Shaders/SimpleShader/SimpleShaders.hlsl");
 
 	std::vector<Luna::Vertex> vertexData = {
-		{glm::vec3(-1.00f,  1.00f,  1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(1.00f,   1.00f,  1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(-1.00f, -1.00f,  1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(1.00f,  -1.00f,  1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(-1.00f,  1.00f, -1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(1.00f,   1.00f, -1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(-1.00f, -1.00f, -1), {1, 1}, {1, 1, 1}},
-		{glm::vec3(1.00f,  -1.00f, -1), {1, 1}, {1, 1, 1}},
+		{glm::vec3(-1.00f,  1.00f,  1), {1, 1}, {-1.00f,  1.00f,  1}},
+		{glm::vec3(1.00f,   1.00f,  1), {1, 1}, {1.00f,   1.00f,  1}},
+		{glm::vec3(-1.00f, -1.00f,  1), {1, 1}, {-1.00f, -1.00f,  1}},
+		{glm::vec3(1.00f,  -1.00f,  1), {1, 1}, {1.00f,  -1.00f,  1}},
+		{glm::vec3(-1.00f,  1.00f, -1), {1, 1}, {-1.00f,  1.00f, -1}},
+		{glm::vec3(1.00f,   1.00f, -1), {1, 1}, {1.00f,   1.00f, -1}},
+		{glm::vec3(-1.00f, -1.00f, -1), {1, 1}, {-1.00f, -1.00f, -1}},
+		{glm::vec3(1.00f,  -1.00f, -1), {1, 1}, {1.00f,  -1.00f, -1}},
 	};
 
 	std::vector<unsigned int> indexData =
@@ -68,15 +68,6 @@ int Application::Init()
 	};
 
 	m_Mesh = Luna::IMesh::Create(vertexData, indexData);
-
-	m_Material = Luna::Material(
-		glm::vec3(1, 1, 1), 0.1,
-		glm::vec3(1, 1, 1), 1);
-
-	m_Light = Luna::Light(
-		Luna::LightType::Directional,
-		glm::vec3(1, 1, 1));
-	m_LightTransform = Transform(0, glm::vec3(0), glm::quat(glm::vec3(30, 0, 0)));
 
 	//sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 

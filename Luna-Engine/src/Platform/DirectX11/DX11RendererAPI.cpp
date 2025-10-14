@@ -23,6 +23,15 @@ namespace Luna
 		// Initialization code for DirectX 11 Renderer API
 		m_RenderContext = (DX11RendererContext*)(renderContext.get());
 
+        m_Material = Material(
+            glm::vec4(1, 1, 1, 1), 0.2f,
+            glm::vec4(1, 1, 1, 1), 1);
+
+        m_Light = Light(
+            Luna::LightType::Directional,
+            glm::vec4(1, 1, 1, 1));
+        m_LightTransform = Transform(0, glm::vec3(0), glm::quat(glm::vec3(30, 0, 0)));
+
         InitShadersAndInputLayout();
         InitVertexBuffers();
         InitPipelineVariables();
@@ -73,13 +82,16 @@ namespace Luna
         //m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
 
         //Constant Buffer
-        D3D11_BUFFER_DESC constantBufferDesc = {};
-        constantBufferDesc.ByteWidth = sizeof(ConstantBuffer);
+        D3D11_BUFFER_DESC constantBufferDesc;
+        constantBufferDesc.ByteWidth = (glm::ceil(sizeof(ConstantBuffer) / 16)) * 16;
         constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
         constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		constantBufferDesc.MiscFlags = 0;
+		constantBufferDesc.StructureByteStride = 0;
 
         hr = m_RenderContext->GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, &_constantBuffer);
+        //hr = m_RenderContext->GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, NULL);
         if (FAILED(hr))
         {
             std::cout << "Line 190 Failed To Create Constant Buffer" << std::endl;
@@ -92,14 +104,7 @@ namespace Luna
 
     void DX11RendererAPI::InitRunTimeData()
     {
-        float aspect = 16 / 8.7;
 
-        glm::vec3 Eye = glm::vec3(0, 0, -3.0f);
-        glm::vec3 At = glm::vec3(0, 0, 0);
-        glm::vec3 Up = glm::vec3(0, -1, 0);
-
-		_cbData.View = (glm::lookAt(Eye, At, Up));
-		_cbData.Projection = (glm::perspective(glm::radians(90.0f), aspect, 0.01f, 100.0f));
 	}
 
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
@@ -136,6 +141,13 @@ namespace Luna
         */
 
 		_cbData.View = camera->object->GetView(camera->objectTransform);
+		_cbData.Projection = camera->object->GetProjection();
+
+		_cbData.LightDirection = glm::normalize(m_LightTransform.Forward());
+		_cbData.LightColour = m_Light.m_LightColour;
+		_cbData.AmbientColour = m_Material.m_AmbientColour;
+		_cbData.AmbientIntensity = m_Material.m_AmbientIntensity;
+		_cbData.SpecularColour = m_Material.m_SpecularColour;
 	}
 	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{

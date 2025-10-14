@@ -6,10 +6,10 @@ namespace Luna
 {
 	struct Material
 	{
-		glm::vec3 m_AmbientColour;
+		glm::vec4 m_AmbientColour;
 		double m_AmbientIntensity;
 
-		glm::vec3 m_SpecularColour;
+		glm::vec4 m_SpecularColour;
 		double m_SpecularIntensity;
 	};
 }

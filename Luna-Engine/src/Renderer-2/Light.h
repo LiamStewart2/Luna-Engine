@@ -13,6 +13,6 @@ namespace Luna
 	struct Light
 	{
 		LightType m_Type = LightType::Directional;
-		glm::vec3 m_LightColour = glm::vec3(1);
+		glm::vec4 m_LightColour = glm::vec4(1);
 	};
 }

@@ -5,6 +5,8 @@
 #include "../../Core/SceneManager.h"
 #include "../../Core/Camera.h"
 #include "../../Renderer-2/IFramebuffer.h"
+#include "../../Renderer-2/Light.h"
+#include "../../Renderer-2/Material.h"
 
 struct ID3D11Buffer;
 struct ID3D11RasterizerState;
@@ -12,17 +14,21 @@ struct ID3D11VertexShader;
 struct ID3D11InputLayout;
 struct ID3D11PixelShader;
 
-struct SimpleVertex
-{
-	glm::vec3 Position;
-	glm::vec4 Color;
-};
-
 struct ConstantBuffer
 {
+
+	glm::vec3 LightDirection;
+	float AmbientIntensity;
+
+	glm::vec4 LightColour;
+	glm::vec4 AmbientColour;
+	glm::vec4 SpecularColour;
+
 	glm::mat4x4 Projection;
 	glm::mat4x4 View;
 	glm::mat4x4 World;
+	
+
 };
 
 namespace Luna
@@ -52,6 +58,10 @@ namespace Luna
 		glm::mat4 _world2;
 
 		ConstantBuffer _cbData;
+
+		Light m_Light;
+		Material m_Material;
+		Transform m_LightTransform;
 
 		void InitShadersAndInputLayout();
 		void InitVertexBuffers();
