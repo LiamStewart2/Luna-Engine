@@ -24,13 +24,13 @@ namespace Luna
 		m_RenderContext = (DX11RendererContext*)(renderContext.get());
 
         m_Material = Material(
-            glm::vec4(1, 1, 1, 1), 0.2f,
+            glm::vec4(1, 0.3f, 0.3f, 1), 0.2f,
             glm::vec4(1, 1, 1, 1), 1);
 
         m_Light = Light(
             Luna::LightType::Directional,
             glm::vec4(1, 1, 1, 1));
-        m_LightTransform = Transform(0, glm::vec3(0), glm::quat(glm::vec3(30, 0, 0)));
+        m_LightTransform = Transform(0, glm::vec3(0), glm::quat(glm::vec3(glm::radians(-90.0f), glm::radians(0.0f), glm::radians(0.0f))));
 
         InitShadersAndInputLayout();
         InitVertexBuffers();
@@ -148,6 +148,8 @@ namespace Luna
 		_cbData.AmbientColour = m_Material.m_AmbientColour;
 		_cbData.AmbientIntensity = m_Material.m_AmbientIntensity;
 		_cbData.SpecularColour = m_Material.m_SpecularColour;
+        _cbData.CameraPosition = camera->objectTransform->position;
+        _cbData.SpecularIntensity = m_Material.m_SpecularIntensity;
 	}
 	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{

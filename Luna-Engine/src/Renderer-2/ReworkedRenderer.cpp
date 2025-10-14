@@ -26,6 +26,7 @@ namespace Luna
 
 		Transform transform = Transform(0, glm::vec3(0, 0, 0));
 		transform.transformMatrix = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
+		transform.transformMatrix = glm::mat4(1);
 
 		s_RendererAPI->RenderIndexed(12 * 3, &transform);
 	}

@@ -24,6 +24,9 @@ struct ConstantBuffer
 	glm::vec4 AmbientColour;
 	glm::vec4 SpecularColour;
 
+	glm::vec3 CameraPosition;
+	float SpecularIntensity;
+
 	glm::mat4x4 Projection;
 	glm::mat4x4 View;
 	glm::mat4x4 World;
