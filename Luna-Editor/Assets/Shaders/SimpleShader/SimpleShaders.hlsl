@@ -47,7 +47,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float3 surfaceNormal = normalize(input.normal);
     float3 surfaceToLightDirection = normalize(-LightDirection);
     float3 lightToSurfaceDirection = normalize(LightDirection);
-    
+    float3 viewDirection = normalize(CameraPosition - input.worldSpacePosition.xyz);
     // AMBIENT LIGHTING
     float4 ambient = AmbientColour * AmbientIntensity;
     
@@ -57,16 +57,13 @@ float4 PS_main(VS_Out input) : SV_TARGET
     
     // SPECULAR LIGHTING
     float4 specular = 0;     
-    float3 surfaceToCameraDirection = normalize(CameraPosition - input.worldSpacePosition.xyz);
-    float3 reflectedLightDirection = (reflect(lightToSurfaceDirection, surfaceNormal));
+    float3 reflectedLightDirection = reflect(lightToSurfaceDirection, surfaceNormal);
     
-    float specularDot = dot(reflectedLightDirection, surfaceToCameraDirection);
-    if(specularDot > 0)
-    {
-        float specularFactor = pow(specularDot, 32);
-        specular = specularFactor * SpecularColour * SpecularIntensity;
-    }
-    
+    float specularDot = max(0.0, dot(viewDirection, reflectedLightDirection));
+
+    float specularFactor = pow(specularDot, 32);
+    specular = specularFactor * SpecularColour * SpecularIntensity;
+
     input.color = ambient + diffuse + specular;
     //input.color = float4(normalize(input.position.xyz), 1);
     //input.color = diffuse;
