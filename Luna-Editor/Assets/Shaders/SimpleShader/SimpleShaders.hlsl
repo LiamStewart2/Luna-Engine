@@ -24,24 +24,21 @@ struct VS_Out
     float4 position : SV_POSITION;
     float4 color : COLOR;
     float3 normal : NORMAL0;
-    float3 PosW : POSITION0;
+    float3 worldSpacePosition : POSITION0;
 };
 
 VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
 {   
     VS_Out output = (VS_Out)0;
-
-    float4 Pos4 = float4(Position, 1.0f);
     
-    float4 worldPos = mul(World, Pos4);
+    float4 worldPos = mul(World, float4(Position, 1.0f));
     float4 viewPos = mul(View, worldPos);
     output.position = mul(Projection, viewPos);
-    
+    output.worldSpacePosition = worldPos;
     output.color = AmbientColour;
-
-    float3 worldNormal = normalize(mul((float3x3) World, Normal));
-    output.normal = worldNormal;
     
+    output.normal = mul(World, float4(Normal, 0));
+    //output.normal = Normal;
     return output;
 }
 
@@ -49,6 +46,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
 {
     float3 surfaceNormal = normalize(input.normal);
     float3 surfaceToLightDirection = normalize(-LightDirection);
+    float3 lightToSurfaceDirection = normalize(LightDirection);
     
     // AMBIENT LIGHTING
     float4 ambient = AmbientColour * AmbientIntensity;
@@ -58,17 +56,20 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float4 diffuse = diffuseFactor * AmbientColour * LightColour;
     
     // SPECULAR LIGHTING
-    float4 specular = 0;
-    if (diffuseFactor > 0.0f)
-    {        
-        float3 surfaceToCameraDirection = normalize(CameraPosition - input.position.rgb);
-        float3 reflectedLightDirection = reflect(-surfaceToLightDirection, surfaceNormal);
+    float4 specular = 0;     
+    float3 surfaceToCameraDirection = normalize(CameraPosition - input.worldSpacePosition.xyz);
+    float3 reflectedLightDirection = (reflect(lightToSurfaceDirection, surfaceNormal));
     
-        float specularFactor = pow(saturate(dot(reflectedLightDirection, surfaceToCameraDirection)), 16);
+    float specularDot = dot(reflectedLightDirection, surfaceToCameraDirection);
+    if(specularDot > 0)
+    {
+        float specularFactor = pow(specularDot, 32);
         specular = specularFactor * SpecularColour * SpecularIntensity;
     }
     
     input.color = ambient + diffuse + specular;
+    //input.color = float4(normalize(input.position.xyz), 1);
     //input.color = diffuse;
+    //input.color = specular;
     return input.color;
 }
