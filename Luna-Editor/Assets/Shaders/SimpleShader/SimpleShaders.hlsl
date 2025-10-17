@@ -1,7 +1,5 @@
 cbuffer ConstantBuffer : register(b0)
 {
-    
-    
     float3 LightDirection;
     float AmbientIntensity;
     
@@ -19,9 +17,13 @@ cbuffer ConstantBuffer : register(b0)
     
 }
 
+Texture2D textureTest : register(t0);
+SamplerState samplerTest : register(s0);
+
 struct VS_Out
 {
     float4 position : SV_POSITION;
+    float2 textureCoord : TEXCOORD;
     float4 color : COLOR;
     float3 normal : NORMAL0;
     float3 worldSpacePosition : POSITION0;
@@ -38,6 +40,8 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     output.color = AmbientColour;
     
     output.normal = mul(World, float4(Normal, 0));
+    
+    output.textureCoord = TextureCoordinate;
     //output.normal = Normal;
     return output;
 }
@@ -64,7 +68,9 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float specularFactor = pow(specularDot, 32);
     specular = specularFactor * SpecularColour * SpecularIntensity;
 
-    input.color = ambient + diffuse + specular;
+    float4 col = textureTest.Sample(samplerTest, input.textureCoord);
+    input.color = col * (ambient + diffuse) + specular;
+    
     //input.color = float4(normalize(input.position.xyz), 1);
     //input.color = diffuse;
     //input.color = specular;

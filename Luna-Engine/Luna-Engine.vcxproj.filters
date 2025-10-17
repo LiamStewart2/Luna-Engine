@@ -105,6 +105,9 @@
     <ClCompile Include="src\Renderer-2\ITexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\DirectX11\DX11Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\ECS.h">
@@ -240,6 +243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer-2\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX11\DX11Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
