@@ -63,10 +63,10 @@ int Application::Init()
 		{glm::vec3(1.00f,  -1.00f, -1), {1, 1}, {0.00f, 0.00f, -1.00f}}, // 11
 
 		// Left Face 12-15
-		{glm::vec3(-1.00f,   1.00f,  1), {0, 0}, {-1.00f,   0.00f,  0.00f}}, // 12
-		{glm::vec3(-1.00f,  -1.00f,  1), {1, 0}, {-1.00f,   0.00f,  0.00f}}, // 13
-		{glm::vec3(-1.00f,   1.00f, -1), {0, 1}, {-1.00f,   0.00f,  0.00f}}, // 14
-		{glm::vec3(-1.00f,  -1.00f, -1), {1, 1}, {-1.00f,   0.00f,  0.00f}}, // 15
+		{glm::vec3(-1.00f,   1.00f,  1), {1, 0}, {-1.00f,   0.00f,  0.00f}}, // 12
+		{glm::vec3(-1.00f,  -1.00f,  1), {1, 1}, {-1.00f,   0.00f,  0.00f}}, // 13
+		{glm::vec3(-1.00f,   1.00f, -1), {0, 0}, {-1.00f,   0.00f,  0.00f}}, // 14
+		{glm::vec3(-1.00f,  -1.00f, -1), {0, 1}, {-1.00f,   0.00f,  0.00f}}, // 15
 
 		//Top Face 16-19
 		{glm::vec3(-1.00f,  1.00f,  1), {0, 0}, {0.00f,   1.00f, 0.00f}}, // 16
@@ -101,7 +101,7 @@ int Application::Init()
 
 
 	Luna::TexturePacket texturePacket;
-	texturePacket.path = "Assets/Textures/Grass.jpg";
+	texturePacket.path = "Assets/Textures/brickWallColour.jpg";
 	
 	texturePacket.buffer = stbi_load(texturePacket.path.c_str(), &texturePacket.width, &texturePacket.height, &texturePacket.channels, STBI_rgb_alpha);
 	if (!texturePacket.buffer)
@@ -110,6 +110,18 @@ int Application::Init()
 	}
 	m_Texture = Luna::ITexture::Create(texturePacket);
 	stbi_image_free(texturePacket.buffer);
+
+	Luna::TexturePacket specularTexturePacket;
+	specularTexturePacket.path = "Assets/Textures/brickWallRoughness.jpg";
+
+	specularTexturePacket.buffer = stbi_load(specularTexturePacket.path.c_str(), &specularTexturePacket.width, &specularTexturePacket.height, &specularTexturePacket.channels, STBI_rgb_alpha);
+	if (!specularTexturePacket.buffer)
+	{
+		std::cerr << "Failed to load texture - " << specularTexturePacket.path << std::endl;
+	}
+	m_SpecularTexture = Luna::ITexture::Create(specularTexturePacket);
+	stbi_image_free(specularTexturePacket.buffer);
+
 
 	//sceneManager.LoadNewScene("Assets/Scenes/template scene.json");
 
@@ -194,6 +206,7 @@ void Application::Render()
 	m_Shader->Bind();
 	m_Mesh->BindMesh();
 	m_Texture->BindTexture();
+	m_SpecularTexture->BindTexture(1);
 
 	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get(), &cameraPair);
 

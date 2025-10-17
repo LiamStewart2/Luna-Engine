@@ -43,6 +43,7 @@ private:
 	std::shared_ptr<Luna::IMesh> m_Mesh = nullptr;
 	std::shared_ptr<Luna::IShader> m_Shader = nullptr;
 	std::shared_ptr<Luna::ITexture> m_Texture = nullptr;
+	std::shared_ptr<Luna::ITexture> m_SpecularTexture = nullptr;
 
 	Luna::Material m_Material;
 	Luna::Light m_Light;

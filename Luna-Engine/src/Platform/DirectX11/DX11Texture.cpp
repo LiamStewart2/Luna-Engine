@@ -34,7 +34,8 @@ namespace Luna
 		D3D11_SUBRESOURCE_DATA initData = {};
 		initData.pSysMem = m_TextureData.buffer;
 		initData.SysMemPitch = m_TextureData.width * 4;
-
+		if (!m_TextureData.buffer)
+			std::cerr << "Texture buffer is null" << std::endl;
 		HRESULT hr = DX11RendererContext::GetContext()->GetDevice()->CreateTexture2D(&textureDescription, &initData, &m_Texture);
 		if (FAILED(hr))
 		{
@@ -65,7 +66,13 @@ namespace Luna
 		samplerDesc.MinLOD = 0;
 		samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-		DX11RendererContext::GetContext()->GetDevice()->CreateSamplerState(&samplerDesc, &m_SamplerState);
+		hr = DX11RendererContext::GetContext()->GetDevice()->CreateSamplerState(&samplerDesc, &m_SamplerState);
+		if (FAILED(hr))
+		{
+			m_Texture->Release();
+			std::cerr << "Failed to create texture resource view" << std::endl;
+			return;
+		}
 	}
 
 	void DX11Texture::BindTexture(unsigned int slot) const

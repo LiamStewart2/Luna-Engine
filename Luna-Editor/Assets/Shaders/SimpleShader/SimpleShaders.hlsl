@@ -18,7 +18,10 @@ cbuffer ConstantBuffer : register(b0)
 }
 
 Texture2D textureTest : register(t0);
+Texture2D specularTest : register(t1);
+
 SamplerState samplerTest : register(s0);
+SamplerState specularSampler : register(s1);
 
 struct VS_Out
 {
@@ -66,13 +69,14 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float specularDot = max(0.0, dot(viewDirection, reflectedLightDirection));
 
     float specularFactor = pow(specularDot, 32);
-    specular = specularFactor * SpecularColour * SpecularIntensity;
+    specular = specularFactor * SpecularColour * (1 - (specularTest.Sample(specularSampler, input.textureCoord)));
 
     float4 col = textureTest.Sample(samplerTest, input.textureCoord);
     input.color = col * (ambient + diffuse) + specular;
+    //input.color = float4(specularTest.Sample(specularSampler, input.textureCoord));
     
     //input.color = float4(normalize(input.position.xyz), 1);
     //input.color = diffuse;
-    //input.color = specular;
+    //input.color = float4(specular.rgb, 1);
     return input.color;
 }
