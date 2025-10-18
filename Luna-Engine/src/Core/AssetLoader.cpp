@@ -17,7 +17,7 @@ Collection of file loading methods for various object types currently including
 // const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 namespace Luna
 {
-	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh> mesh, const char* filepath)
+	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath)
 	{
 		double startTime = glfwGetTime();
 
@@ -123,7 +123,7 @@ namespace Luna
 	// Supports both RGB and RGBA channelled images
 	// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
 	// const char* filepath - the file path of the image file
-	void AssetLoader::LoadTexture(std::shared_ptr<ITexture> texture, const char* filepath)
+	void AssetLoader::LoadTexture(std::shared_ptr<ITexture>& texture, const char* filepath)
 	{
 		double startTime = glfwGetTime();
 
