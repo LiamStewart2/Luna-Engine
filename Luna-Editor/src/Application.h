@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/ECS.h"
-#include "Renderer/Renderer.h"
 #include "Core/AssetLoader.h"
 #include "ImGuiLayer.h"
 
@@ -31,8 +30,6 @@ private:
 	void Render();
 	
 	void ResizeCallback(GLFWwindow* handle, int width, int height);
-
-	Renderer renderer;
 	
 	std::shared_ptr<Luna::RendererContext> m_RendererContext;
 	SceneManager sceneManager;

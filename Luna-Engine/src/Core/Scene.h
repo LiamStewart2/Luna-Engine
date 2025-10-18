@@ -9,9 +9,6 @@
 #include "../ECS/ECS.h"
 #include "AssetManager.h"
 #include "LinkedList.h"
-#include "../Renderer/Mesh.h"
-#include "../Renderer/Renderer.h"
-#include "../Renderer/LightManager.h"
 
 class Scene
 {
@@ -19,11 +16,11 @@ public:
 	Scene();
 	~Scene();
 
-	void Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName);
+	void Init(Luna::AssetManager* _assetManager, std::string _sceneName);
 	void LoadAssets();
 
 	void Update(bool runtime = false);
-	void Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera);
+	void Render(ObjectTransformPairing<Camera>& camera);
 
 	unsigned int AddObject(unsigned int parent = 0);
 	template <typename T, typename... Args>
@@ -54,10 +51,6 @@ private:
 	ScriptManager scriptManager;
 	TransformationManager transformationManager;
 
-	AssetManager* assetManager;
-	LightManager* lightManager;
-
-	Material material = Material(glm::vec3(1));
-
+	Luna::AssetManager* assetManager;
 };
 

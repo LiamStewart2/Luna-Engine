@@ -13,7 +13,6 @@ namespace Luna
 	}
 	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
-		//s_RendererAPI->Clear();
 		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);
 	}
 	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
@@ -24,10 +23,27 @@ namespace Luna
 	{
 		// BIND EVERYTHING HERE
 
-		Transform transform = Transform(0, glm::vec3(0, 0, 0));
-		//transform.transformMatrix = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0, 1, 0));
-		//transform.transformMatrix = glm::mat4(1);
+		Scene* scene = sceneManager->GetCurrentScene();
+		EntityComponentSystem* ECS = scene->GetECS();
 
-		s_RendererAPI->RenderIndexed(12 * 3, &transform);
+		std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
+		std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
+		for (auto& [id, meshComponent] : meshComponents)
+		{
+			auto transformIt = transforms.find(meshComponent->gameObject);
+			if (transformIt != transforms.end())
+			{
+				meshComponent->shader->Bind();
+				meshComponent->mesh->BindMesh();
+				meshComponent->texture->BindTexture(0);
+				meshComponent->specularMap->BindTexture(1);
+				
+				s_RendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);
+			}
+		}
+
+		framebuffer->Unbind();
+
+		//s_RendererAPI->RenderIndexed(12 * 3, &transform);
 	}
 }

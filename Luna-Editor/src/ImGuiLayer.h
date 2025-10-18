@@ -23,7 +23,7 @@
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(LunaWindow* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
+	ImGuiLayer(LunaWindow* window = nullptr, Luna::AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
 	{
 		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr)
 		{
@@ -47,7 +47,7 @@ public:
 private:
 	LunaWindow* m_Window = nullptr;
 	SceneManager* m_SceneManager = nullptr;
-	AssetManager* m_AssetManager = nullptr;
+	Luna::AssetManager* m_AssetManager = nullptr;
 
 	float m_MainScale = 0;
 	bool m_ShowGame = true;

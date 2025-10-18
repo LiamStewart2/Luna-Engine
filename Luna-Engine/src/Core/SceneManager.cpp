@@ -15,11 +15,6 @@ void SceneManager::Update(bool runtime)
 	m_Scene->Update(runtime);
 }
 
-void SceneManager::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera)
-{
-	m_Scene->Render(renderer, camera);
-}
-
 void SceneManager::SaveScene()
 {
 	if (m_Scene == nullptr)
@@ -72,7 +67,7 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			MeshComponent* component = m_Scene->GetECS()->GetObjectComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "MeshComponent"},
-				{"component-args", {component->mesh->path, component->shader->path, component->texture->path}}});
+				{"component-args", {component->mesh->m_Path, component->shader->m_Path, component->texture->GetTexturePacket()->path}}});
 		}
 
 		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
@@ -92,7 +87,7 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			LightComponent* component = m_Scene->GetECS()->GetObjectComponent<LightComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "LightComponent"},
-				{"component-args", {component->m_LightColor.x, component->m_LightColor.y, component->m_LightColor.z}}
+				{"component-args", {component->m_Light.m_LightColour.x, component->m_Light.m_LightColour.y, component->m_Light.m_LightColour.z}}
 			});
 		}
 
@@ -159,7 +154,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	m_Scene = new Scene();
 	m_Scene->filepath = std::string(filepath);
-	m_Scene->Init(&assetManager, &lightManager, jsonData["scene-name"]);
+	m_Scene->Init(&assetManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])
 		LoadRelations(jsonData, data, 0);
@@ -188,11 +183,11 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 		}
 		else if(componentData["component-type"] == "MeshComponent")
 		{
-			std::shared_ptr<Mesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
-			std::shared_ptr<Shader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
-			std::shared_ptr<Texture> texture = assetManager.GetTexture(componentData["component-args"][2].get<std::string>());
+			std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
+			std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
+			std::shared_ptr<Luna::ITexture> texture = assetManager.GetTexture(componentData["component-args"][2].get<std::string>());
 
-			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), &defaultMat, texture.get());
+			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), nullptr, texture.get(), texture.get());
 		}
 		else if (componentData["component-type"] == "CameraComponent")
 		{
@@ -204,13 +199,11 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 
 			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), backgroundColor, componentData["component-args"][4]);
 			m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera->m_EditorBackgroundColour = backgroundColor;
-			lightManager.InitCascadeLevels(m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera);
 		}
 		else if (componentData["component-type"] == "LightComponent")
 		{
 			glm::vec3 lightColour = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
-			m_Scene->AddComponent<LightComponent>(objectID, lightColour);
-			m_Scene->GetECS()->GetObjectComponent<LightComponent>(objectID)->m_Light.BuildLight(&lightManager);
+			m_Scene->AddComponent<LightComponent>(objectID, Luna::Light());
 		}
 		else if (componentData["component-type"] == "ScriptComponent")
 		{

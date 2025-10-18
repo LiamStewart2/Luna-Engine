@@ -26,7 +26,7 @@ namespace Luna
 		{
 
 			std::cout << filepath << std::endl;
-			std::shared_ptr<ITexture> texture = m_Textures[filepath] = std::make_shared<ITexture>();
+			std::shared_ptr<ITexture> texture = m_Textures[filepath] = nullptr;
 			AssetLoader::LoadTexture(texture, filepath.c_str());
 		}
 		return m_Textures[filepath];
@@ -41,7 +41,7 @@ namespace Luna
 		{
 
 			std::cout << filepath << std::endl;
-			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = std::make_shared<IMesh>();
+			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
 			AssetLoader::LoadMeshOBJ(mesh, filepath.c_str());
 		}
 		return m_Meshes[filepath];

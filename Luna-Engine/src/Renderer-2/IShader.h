@@ -9,7 +9,7 @@ namespace Luna
 	{
 	public:
 		virtual ~IShader() = default;
-		std::string path;
+		std::string m_Path;
 
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;

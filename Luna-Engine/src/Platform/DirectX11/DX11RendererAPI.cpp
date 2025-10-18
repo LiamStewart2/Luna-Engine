@@ -118,34 +118,52 @@ namespace Luna
 	}
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
-        /*
-        _world1 = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(1, 1, 1));
-        _world2 = glm::translate(glm::mat4(1), glm::vec3(2, 0, 2));
-        _world2 = glm::rotate(_world2, (float)glfwGetTime(), glm::vec3(0, 0, 1));
-        _cbData.World = _world1;
+        // Find the current camera
+        Scene* scene = sceneManager->GetCurrentScene();
+        EntityComponentSystem* ECS = scene->GetECS();
+        if (camera->object == nullptr)
+        {
+            std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
+            unsigned int mainCameraID = 0;
 
-        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-        m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-        memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
-        m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
+            for (auto& [id, cameraComponent] : cameras)
+            {
+                auto cameraIt = cameras.find(cameraComponent->gameObject);
+                if (cameraIt == cameras.end())
+                    return;
+                else if (cameraComponent->m_MainCamera)
+                {
+                    mainCameraID = id;
+                    camera->object = cameraComponent->m_Camera;
+                    camera->objectTransform = ECS->GetObjectComponent<Transform>(id);
+                }
+            }
+            if (mainCameraID == 0)
+            {
+                std::cerr << "NO MAIN CAMERA" << std::endl;
+                return;
+            }
+        }
 
-        RenderIndexed(12 * 3);
+        // Find the light component
+        std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+        ObjectTransformPairing<LightComponent> light;
+        for (auto& [id, LC] : lightComponents)
+        {
+            light.object = LC;
+            light.objectTransform = ECS->GetObjectComponent<Transform>(id);
+        }
 
-        // Second Cube
-		_cbData.World = _world2;
+        //Bind the framebuffer
+        framebuffer->Bind();
 
-        m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-        memcpy(mappedSubresource.pData, &_cbData, sizeof(_cbData));
-        m_RenderContext->GetImmediateContext()->Unmap(_constantBuffer, 0);
 
-		RenderIndexed(12 * 3);
-        */
-
+        // Setup constant buffer values
 		_cbData.View = camera->object->GetView(camera->objectTransform);
 		_cbData.Projection = camera->object->GetProjection();
 
-		_cbData.LightDirection = glm::normalize(m_LightTransform.Forward());
-		_cbData.LightColour = m_Light.m_LightColour;
+		_cbData.LightDirection = glm::normalize(light.objectTransform->Forward());
+		_cbData.LightColour = light.object->m_Light.m_LightColour;
 		_cbData.AmbientColour = m_Material.m_AmbientColour;
 		_cbData.AmbientIntensity = m_Material.m_AmbientIntensity;
 		_cbData.SpecularColour = m_Material.m_SpecularColour;

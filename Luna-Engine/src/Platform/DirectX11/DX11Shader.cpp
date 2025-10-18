@@ -9,7 +9,7 @@ namespace Luna
 {
 	DX11Shader::DX11Shader(const std::string& filepath)
 	{
-		path = filepath;
+		m_Path = filepath;
 		CompileShader(filepath);
 	}
 

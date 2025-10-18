@@ -16,7 +16,7 @@ public:
 
 	void UpdateGame(unsigned int& inspectorID, bool& runtime);
 private:
-	std::shared_ptr<Texture> m_PlayIcon = nullptr;
-	std::shared_ptr<Texture> m_StopIcon = nullptr;
+	std::shared_ptr<Luna::ITexture> m_PlayIcon = nullptr;
+	std::shared_ptr<Luna::ITexture> m_StopIcon = nullptr;
 };
 

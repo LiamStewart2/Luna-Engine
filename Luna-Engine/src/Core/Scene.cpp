@@ -10,18 +10,11 @@ Scene::~Scene()
 {
 }
 
-void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::string _sceneName)
+void Scene::Init(Luna::AssetManager* _assetManager, std::string _sceneName)
 {
-	assetManager = _assetManager; lightManager = _lightManager; sceneName = _sceneName;
+	assetManager = _assetManager; sceneName = _sceneName;
 	LoadAssets();
 
-	std::cout << "Loading Shader from scene" << std::endl;
-	std::shared_ptr<Shader> shader = assetManager->GetShader("Assets/Shaders/Shader");
-
-	shader->BindShader();
-	shader->SetInt("diffuseTexture", 0);
-	shader->SetInt("shadowMap", 1);
-	
 	unsigned int sceneObject = 0;
 	ECS.AddComponent<NameComponent>(sceneObject, "Scene");
 	ECS.AddComponent<Transform>(sceneObject, glm::vec3(0, 0, 0));
@@ -31,7 +24,7 @@ void Scene::Init(AssetManager* _assetManager, LightManager* _lightManager, std::
 
 void Scene::LoadAssets()
 {
-	material = { glm::vec3(1) };
+
 }
 
 void Scene::Update(bool runtime)
@@ -43,7 +36,7 @@ void Scene::Update(bool runtime)
 
 
 
-void Scene::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera)
+void Scene::Render(ObjectTransformPairing<Camera>& camera)
 {
 	//Find the Camera Object
 	if (camera.object == nullptr)
@@ -80,8 +73,9 @@ void Scene::Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera)
 	}
 
 	// Start Render Pass
-	renderer->RenderPass(camera, light, ECS.GetAllComponentsOfType<Transform>(), ECS.GetAllComponentsOfType<MeshComponent>(),
-	lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
+	//renderer->RenderPass(camera, light, ECS.GetAllComponentsOfType<Transform>(), ECS.GetAllComponentsOfType<MeshComponent>(),
+	//lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
+
 }
 
 unsigned int Scene::AddObject(unsigned int parent)
