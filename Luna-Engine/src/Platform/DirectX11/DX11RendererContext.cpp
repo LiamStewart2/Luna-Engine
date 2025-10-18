@@ -8,6 +8,8 @@
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#include "STB/stb_image.h"
+
 namespace Luna
 {
 	DX11RendererContext* DX11RendererContext::s_Instance = nullptr;
@@ -16,6 +18,7 @@ namespace Luna
 		: m_WindowHandle(windowHandle)
 	{
 		int width, height;
+		stbi_set_flip_vertically_on_load(false);
 		glfwGetWindowSize(windowHandle, &width, &height);
 		Init((float)width, (float)height);
 

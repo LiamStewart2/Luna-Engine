@@ -18,7 +18,7 @@ namespace Luna
 	{
 	public:
 		virtual ~IMesh() = default;
-		std::string path;
+		std::string m_Path;
 
 		virtual void BuildMesh() = 0;
 		virtual void BindMesh() = 0;

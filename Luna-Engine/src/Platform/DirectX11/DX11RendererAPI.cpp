@@ -24,7 +24,7 @@ namespace Luna
 		m_RenderContext = (DX11RendererContext*)(renderContext.get());
 
         m_Material = Material(
-            glm::vec4(1, 0.3f, 0.3f, 1), 0.2f,
+            glm::vec4(1, 1, 1, 1), 0.2f,
             glm::vec4(1, 1, 1, 1), 0.8);
 
         m_Light = Light(

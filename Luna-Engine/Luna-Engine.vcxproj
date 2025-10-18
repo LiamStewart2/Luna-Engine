@@ -16,6 +16,7 @@
     <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Shader.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11Texture.cpp" />
     <ClCompile Include="src\Renderer-2\IFramebuffer.cpp" />
     <ClCompile Include="src\Renderer-2\IMesh.cpp" />
     <ClCompile Include="src\Renderer-2\IShader.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Shader.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11Texture.h" />
     <ClInclude Include="src\Renderer-2\IFramebuffer.h" />
     <ClInclude Include="src\Renderer-2\IMesh.h" />
     <ClInclude Include="src\Renderer-2\IShader.h" />
