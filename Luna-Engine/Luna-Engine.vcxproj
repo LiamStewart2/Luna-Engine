@@ -36,12 +36,6 @@
     <ClCompile Include="src\Core\TransformationManager.cpp" />
     <ClCompile Include="src\Platform\Windows\FileNavigation.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
-    <ClCompile Include="src\Renderer\Light.cpp" />
-    <ClCompile Include="src\Renderer\LightManager.cpp" />
-    <ClCompile Include="src\Renderer\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
@@ -83,13 +77,6 @@
     <ClInclude Include="src\ECS\MeshComponent.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
     <ClInclude Include="src\ECS\ECS.h" />
-    <ClInclude Include="src\Renderer\Light.h" />
-    <ClInclude Include="src\Renderer\LightManager.h" />
-    <ClInclude Include="src\Renderer\Material.h" />
-    <ClInclude Include="src\Renderer\Mesh.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\Renderer\Shader.h" />
-    <ClInclude Include="src\Renderer\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DepthShader\shader.fs" />

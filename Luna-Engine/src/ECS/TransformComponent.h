@@ -5,6 +5,13 @@
 
 #include "Component.h"
 
+template <class T>
+struct ObjectTransformPairing
+{
+	T* object;
+	Transform* objectTransform;
+};
+
 struct Transform : public Component
 {
 	Transform(unsigned int _gameObject = 0, glm::vec3 _position = glm::vec3(0), glm::quat _rotation = glm::quat(1, 0, 0, 0), glm::vec3 _scale = glm::vec3(1)) : 
