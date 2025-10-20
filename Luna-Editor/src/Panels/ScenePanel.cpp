@@ -1,6 +1,7 @@
 #include "ScenePanel.h"
+#include <d3d11_4.h>
 
-void ScenePanel::UpdateScene(unsigned int& inspectorID, std::vector<std::pair<ACTIONS, std::string>>* actions)
+void ScenePanel::UpdateScene(unsigned int& inspectorID, std::shared_ptr<Luna::IFramebuffer> sceneFramebuffer, std::vector<std::pair<ACTIONS, std::string>>* actions)
 {
 	if(m_Show == false)
 		return;
@@ -16,17 +17,25 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, std::vector<std::pair<AC
 	float aspectRatio = (float)16 / (float)9;
 
 	ImVec2 imageSize{
-		std::min(viewportSize.y * aspectRatio, viewportSize.x),
-		std::min(viewportSize.x / aspectRatio, viewportSize.y)
+		viewportSize.x,
+		viewportSize.x / aspectRatio
 	};
+	if (viewportSize.y * aspectRatio < viewportSize.x)
+	{
+		imageSize.x = viewportSize.y * aspectRatio;
+		imageSize.y = viewportSize.y;
+	}
 
 	ImVec2 imageOffset{
 		(viewportSize.x - imageSize.x) * 0.5f,
 		(viewportSize.y - imageSize.y) * 0.5f
 	};
 
+
+	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)sceneFramebuffer->GetColorAttachment();
+
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image(1, imageSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
 	EditorCamera::sceneWindowHovered = ImGui::IsItemHovered();
 
 	if (ImGui::BeginDragDropTarget())

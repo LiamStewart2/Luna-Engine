@@ -103,7 +103,7 @@ void Application::Update()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	imGuiLayer.Update(cameraPair, m_Framebuffer.get(), runtime);
+	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime);
 
 	editorCamera.Update();
 }

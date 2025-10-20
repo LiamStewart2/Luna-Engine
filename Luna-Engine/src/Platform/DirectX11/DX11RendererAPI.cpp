@@ -58,6 +58,7 @@ namespace Luna
         D3D11_RASTERIZER_DESC rasterizerDesc = {};
         rasterizerDesc.FillMode = D3D11_FILL_SOLID;
         rasterizerDesc.CullMode = D3D11_CULL_BACK;
+        rasterizerDesc.FrontCounterClockwise = TRUE;
 
         hr = m_RenderContext->GetDevice()->CreateRasterizerState(&rasterizerDesc, &_fillState);
         if (FAILED(hr))

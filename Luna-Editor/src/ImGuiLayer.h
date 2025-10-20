@@ -29,10 +29,10 @@ public:
 		{
 			Init();
 
-			//m_InspectorPanel = InspectorPanel(m_SceneManager);
-			//m_HierarchyPanel = HierarchyPanel(m_SceneManager);
-			//m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
-			//m_ScenePanel = ScenePanel(m_SceneManager);
+			m_InspectorPanel = InspectorPanel(m_SceneManager);
+			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
+			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
+			m_ScenePanel = ScenePanel(m_SceneManager);
 			//m_GamePanel = GamePanel(m_SceneManager);
 		}
 	}
@@ -41,7 +41,7 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update(ObjectTransformPairing<Camera>& camera, Luna::IFramebuffer* framebuffer, bool& runtime);
+	void Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime);
 
 	void Render();
 private:

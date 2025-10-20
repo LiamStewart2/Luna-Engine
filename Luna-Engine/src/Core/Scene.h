@@ -20,7 +20,6 @@ public:
 	void LoadAssets();
 
 	void Update(bool runtime = false);
-	void Render(ObjectTransformPairing<Camera>& camera);
 
 	unsigned int AddObject(unsigned int parent = 0);
 	template <typename T, typename... Args>

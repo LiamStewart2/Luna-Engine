@@ -202,8 +202,12 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 		}
 		else if (componentData["component-type"] == "LightComponent")
 		{
-			glm::vec3 lightColour = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
-			m_Scene->AddComponent<LightComponent>(objectID, Luna::Light());
+			glm::vec4 lightColour = glm::vec4(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2], 1);
+			Luna::Light light = Luna::Light();
+			light.m_Type = Luna::LightType::Directional;
+			light.m_LightColour = lightColour;
+
+			m_Scene->AddComponent<LightComponent>(objectID, light);
 		}
 		else if (componentData["component-type"] == "ScriptComponent")
 		{

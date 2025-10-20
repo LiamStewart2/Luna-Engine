@@ -34,50 +34,6 @@ void Scene::Update(bool runtime)
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 
-
-
-void Scene::Render(ObjectTransformPairing<Camera>& camera)
-{
-	//Find the Camera Object
-	if (camera.object == nullptr)
-	{
-		std::unordered_map<unsigned int, CameraComponent*> cameras = ECS.GetAllComponentsOfType<CameraComponent>();
-		unsigned int mainCameraID = 0;
-
-		for (auto& [id, cameraComponent] : cameras)
-		{
-			auto cameraIt = cameras.find(cameraComponent->gameObject);
-			if (cameraIt == cameras.end())
-				return;
-			else if(cameraComponent->m_MainCamera)
-			{
-				mainCameraID = id;
-				camera.object = cameraComponent->m_Camera;
-				camera.objectTransform = ECS.GetObjectComponent<Transform>(id);
-			}
-		}
-		if (mainCameraID == 0)
-		{
-			std::cerr << "NO MAIN CAMERA" << std::endl;
-			return;
-		}
-	}
-
-	// Find the Light Object
-	std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS.GetAllComponentsOfType<LightComponent>();
-	ObjectTransformPairing<LightComponent> light;
-	for (auto& [id, LC] : lightComponents)
-	{
-		light.object = LC;
-		light.objectTransform = ECS.GetObjectComponent<Transform>(id);
-	}
-
-	// Start Render Pass
-	//renderer->RenderPass(camera, light, ECS.GetAllComponentsOfType<Transform>(), ECS.GetAllComponentsOfType<MeshComponent>(),
-	//lightManager, assetManager->GetShader("Assets/Shaders/Shader").get(), assetManager->GetShader("Assets/Shaders/DepthShader").get());
-
-}
-
 unsigned int Scene::AddObject(unsigned int parent)
 {
 	unsigned int object = gameObjects[gameObjects.size() - 1] + 1;

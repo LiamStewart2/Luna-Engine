@@ -41,7 +41,7 @@ void ImGuiLayer::StartFrame()
 }
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, Luna::IFramebuffer* framebuffer, bool& runtime)
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime)
 {
 	StartFrame();
 
@@ -151,53 +151,20 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, Luna::IFramebuff
 		ImGui::EndMenuBar();
 	}
 
-	ImGui::ShowDemoWindow();
-
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-	ImGui::Begin("Scene");
-
-	ImVec2 viewportPos = ImGui::GetWindowPos();
-	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-
-	// Center the framebuffer image in the window
-	float aspectRatio = (float)16 / (float)9;
-
-	ImVec2 imageSize{
-		viewportSize.x,
-		viewportSize.x / aspectRatio
-	};
-	if (viewportSize.y * aspectRatio < viewportSize.x)
-	{
-		imageSize.x = viewportSize.y * aspectRatio;
-		imageSize.y = viewportSize.y;
-	}
-	
-
-	ImVec2 imageOffset{
-		(viewportSize.x - imageSize.x) * 0.5f,
-		(viewportSize.y - imageSize.y) * 0.5f
-	};
-
-	
-	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)framebuffer->GetColorAttachment();
-
-	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
-	ImGui::End();
-	ImGui::PopStyleVar();
-	//m_InspectorPanel.Update(m_CurrentInspectorGameObject);
-	//m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
-	//m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
+	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
+	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
+	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
 
 	//m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime);
 
-	//m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, &m_Actions);
-	//m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
+	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, framebuffer, &m_Actions);
+	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 
 	ImGui::End();
+	
 
-	//m_HierarchyPanel.EndFrame(m_CurrentInspectorGameObject);
+	m_HierarchyPanel.EndFrame(m_CurrentInspectorGameObject);
 
 	for (auto& [action, arguments] : m_Actions)
 	{
