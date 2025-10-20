@@ -21,12 +21,12 @@ namespace Luna
 
 		virtual void BuildTexture() = 0;
 		virtual void BindTexture(unsigned int slot = 0) const = 0;
+		virtual void* GetTextureReference() = 0;
 
 		void SetData(const TexturePacket& texturePacket)
 		{
 			m_TextureData = texturePacket;
 		}
-
 		TexturePacket* GetTexturePacket() 
 		{
 			return &m_TextureData;

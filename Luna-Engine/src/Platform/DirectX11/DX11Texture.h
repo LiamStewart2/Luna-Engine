@@ -14,7 +14,7 @@ namespace Luna
 
 		virtual void BuildTexture() override;
 		virtual void BindTexture(unsigned int slot = 0) const override;
-
+		virtual void* GetTextureReference() override;
 	private:
 		virtual void Release();
 		ID3D11Texture2D* m_Texture = nullptr;

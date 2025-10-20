@@ -3,6 +3,7 @@
 #include "ImGuiPanel.h"
 #include "../imgui/ImGuizmo.h"
 #include "GLM/gtx/matrix_decompose.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 #include "../EditorCamera.h"
 
 class ScenePanel : public ImGuiPanel

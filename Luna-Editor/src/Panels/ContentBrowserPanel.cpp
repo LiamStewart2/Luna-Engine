@@ -34,7 +34,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 
 	for (auto& path : sortedDirectories)
 	{
-		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon.get()->ID, {thumbnailSize, thumbnailSize}))
+		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->GetTextureReference(), {thumbnailSize, thumbnailSize}))
 		{
 			m_CurrentDirectory = path.path();
 			break;
@@ -48,24 +48,24 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		ImGui::PushID(path.path().filename().string().c_str());
 
 		if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string())->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else if(GetFileExtension(path.path().filename().string()) == "obj")
-			ImGui::Image(m_ModelIcon->ID, { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_ModelIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else
-			ImGui::Image(m_FileIcon.get()->ID, { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_FileIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
 
 		std::string itemPath = std::filesystem::relative(path.path(), m_ProjectDirectory).string().c_str();
 		if (GetFileExtension(path.path().filename().string()) == "json")
-			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon.get()->ID, thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(path.path().string()).get()->ID, thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(path.path().string())->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "obj")
-			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon.get()->ID, thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "lua")
-			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon.get()->ID, thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
 
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 
@@ -84,7 +84,7 @@ std::string ContentBrowserPanel::GetFileExtension(std::string filename)
 }
 
 
-void ContentBrowserPanel::BeginPayload(std::string payloadID, std::string data, unsigned int textureID, float thumbnailSize)
+void ContentBrowserPanel::BeginPayload(std::string payloadID, std::string data, void* textureID, float thumbnailSize)
 {
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 	{

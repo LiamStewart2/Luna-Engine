@@ -88,6 +88,11 @@ namespace Luna
 		DX11RendererContext::GetContext()->GetImmediateContext()->PSSetSamplers(slot, 1, &m_SamplerState);
 	}
 
+	void* DX11Texture::GetTextureReference()
+	{
+		return m_TextureView;
+	}
+
 	void DX11Texture::Release()
 	{
 		if(m_SamplerState) m_SamplerState->Release();

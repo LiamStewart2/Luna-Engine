@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ImGuiPanel.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 
 #include "Luna.h"
 

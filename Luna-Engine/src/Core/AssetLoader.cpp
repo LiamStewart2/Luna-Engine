@@ -29,8 +29,6 @@ namespace Luna
 			return;
 		}
 
-		mesh->m_Path = std::string(filepath);
-
 		std::vector<Vertex> vertices = std::vector<Vertex>();
 		std::vector<unsigned int> indices = std::vector<unsigned int>();
 
@@ -114,6 +112,7 @@ namespace Luna
 			}
 		}
 		mesh = IMesh::Create(vertices, indices);
+		mesh->m_Path = std::string(filepath);
 
 		std::cout << "Mesh Loaded - " << mesh->m_Path << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 	}
