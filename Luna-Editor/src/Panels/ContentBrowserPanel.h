@@ -23,15 +23,15 @@ public:
 	void Update(unsigned int& inspectorID) override;
 
 private:
-	void BeginPayload(std::string payloadID, std::string data, unsigned int textureID, float thumbnailSize);
+	void BeginPayload(std::string payloadID, std::string data, void* textureID, float thumbnailSize);
 
 	std::filesystem::path m_ProjectDirectory;
 	std::filesystem::path m_CurrentDirectory;
 
-	std::shared_ptr<Texture> m_FolderIcon;
-	std::shared_ptr<Texture> m_FileIcon;
-	std::shared_ptr<Texture> m_ModelIcon;
-	std::shared_ptr<Texture> m_CodeIcon;
+	std::shared_ptr<Luna::ITexture> m_FolderIcon;
+	std::shared_ptr<Luna::ITexture> m_FileIcon;
+	std::shared_ptr<Luna::ITexture> m_ModelIcon;
+	std::shared_ptr<Luna::ITexture> m_CodeIcon;
 
 	std::string GetFileExtension(std::string filename);
 };

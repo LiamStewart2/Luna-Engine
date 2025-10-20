@@ -88,6 +88,7 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 	
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_NO_API, GLFW_TRUE);
 
 	// Create and test the GLFW window handle
 	window->m_WindowHandle = glfwCreateWindow(
@@ -105,20 +106,6 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 	glfwMakeContextCurrent(window->m_WindowHandle);
 	glfwMaximizeWindow(window->m_WindowHandle);
 	glfwSwapInterval(1);
-
-	// Init OpenGL
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return nullptr;
-	}
-
-	// Set OpenGL settings
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
 
 	// Only set is running to true if all phases of init pass
 	window->m_IsRunning = true;
@@ -155,10 +142,8 @@ void LunaWindow::SetNewTitle(const char* newTitle)
 	glfwSetWindowTitle(m_WindowHandle, newTitle);
 }
 
-// Swaps the window buffers - should be called at the end of every frame
+// Polls window events - should be called at the end of every frame
 void LunaWindow::Update()
 {
-	glfwSwapBuffers(m_WindowHandle);
-
 	glfwPollEvents();
 }

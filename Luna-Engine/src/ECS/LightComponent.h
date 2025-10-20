@@ -3,13 +3,12 @@
 #include "GLM/glm.hpp"
 
 #include "Component.h"
-#include "../Renderer/Light.h"
+#include "../Renderer-2/Light.h"
 
 struct LightComponent : public Component
 {
-	LightComponent(unsigned int _gameObject = 0, glm::vec3 lightColor = glm::vec3(1, 1, 1)) : 
-		Component(_gameObject), m_LightColor(lightColor) {}
+	LightComponent(unsigned int _gameObject = 0, Luna::Light light = Luna::Light()) : 
+		Component(_gameObject), m_Light(light){}
 
-	Light m_Light;
-	glm::vec3 m_LightColor;
+	Luna::Light m_Light;
 };

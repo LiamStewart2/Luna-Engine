@@ -8,12 +8,23 @@
 #include "ECS/ECS.h"
 
 #if defined(_WIN32)
-#include "Platform/FileNavigation.h"
+// WINDOWS UTILS
+#include "Platform/Windows/FileNavigation.h"
+
+// DIRECTX11
+//#include "Platform/DirectX11"
 #endif
 
 // RENDERER
 
-#include "Renderer/Renderer.h"
+#include "Renderer-2/ReworkedRenderer.h"
+#include "Renderer-2/RendererContext.h"
+#include "Renderer-2/IFramebuffer.h"
+#include "Renderer-2/IMesh.h"
+#include "Renderer-2/IShader.h"
+#include "Renderer-2/ITexture.h"
+#include "Renderer-2/Light.h"
+#include "Renderer-2/Material.h"
 
 // SCRIPTING
 

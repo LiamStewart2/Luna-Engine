@@ -1,4 +1,7 @@
 #include "ImGuiLayer.h"
+#include "DX11RendererContext.h"
+#include "DX11Framebuffer.h"
+#include <d3d11_4.h>
 
 void ImGuiLayer::Init()
 {
@@ -11,6 +14,7 @@ void ImGuiLayer::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	//io.ConfigFlags &= -ImGuiConfigFlags_ViewportsEnable;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);
@@ -23,21 +27,21 @@ void ImGuiLayer::Init()
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetHandle(), true);
-	const char* glsl_version = "#version 460";
-	ImGui_ImplOpenGL3_Init(glsl_version);
+	ImGui_ImplGlfw_InitForOther(m_Window->GetHandle(), true);
+	Luna::DX11RendererContext* context = Luna::DX11RendererContext::GetContext();
+	ImGui_ImplDX11_Init(context->GetDevice(), context->GetImmediateContext());
 }
 
 void ImGuiLayer::StartFrame()
 {
-	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
 }
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer, bool& runtime)
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime)
 {
 	StartFrame();
 
@@ -63,6 +67,11 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
 
+	ImGuiIO& io = ImGui::GetIO();
+	int fbWidth, fbHeight;
+	glfwGetFramebufferSize(m_Window->GetHandle(), &fbWidth, &fbHeight);
+	io.DisplaySize = ImVec2((float)fbWidth, (float)fbHeight);
+
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
@@ -74,7 +83,6 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 		ImGui::PopStyleVar(2);
 
 	// DockSpace
-	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 	float minWinSizeX = style.WindowMinSize.x;
 	style.WindowMinSize.x = 250.0f;
@@ -125,6 +133,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 
 		if (ImGui::BeginMenu("View"))
 		{
+			/*
 			if(ImGui::MenuItem("Scene"))
 				m_ScenePanel.Open();
 			if(ImGui::MenuItem("Game"))
@@ -135,25 +144,25 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 				m_ContentBrowserPanel.Open();
 			if (ImGui::MenuItem("Hiearchy"))
 				m_HierarchyPanel.Open();
+			*/
 			ImGui::EndMenu();
 		}
 
 		ImGui::EndMenuBar();
 	}
 
-	ImGui::ShowDemoWindow();
-
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
 
-	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, gameFramebuffer, runtime);
+	//m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime);
 
-	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, sceneFramebuffer, &m_Actions);
+	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, framebuffer, &m_Actions);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 
 	ImGui::End();
+	
 
 	m_HierarchyPanel.EndFrame(m_CurrentInspectorGameObject);
 
@@ -173,7 +182,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sce
 void ImGuiLayer::Render()
 {
 	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{

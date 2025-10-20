@@ -47,3 +47,10 @@ struct Transform : public Component
 		rotation = glm::quat(rot);
 	}
 };
+
+template <class T>
+struct ObjectTransformPairing
+{
+	T* object;
+	Transform* objectTransform;
+};

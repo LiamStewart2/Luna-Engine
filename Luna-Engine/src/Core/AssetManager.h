@@ -8,9 +8,10 @@
 
 #include "AssetLoader.h"
 
-#include "../Renderer/Texture.h"
-#include "../Renderer/Mesh.h"
-#include "../Renderer/Shader.h"
+
+#include "../Renderer-2/ITexture.h"
+#include "../Renderer-2/IMesh.h"
+#include "../Renderer-2/IShader.h"
 #include "../Scripting/Script.h"
 
 /*
@@ -18,32 +19,35 @@
 
 	ToDo: For each asset type, check the file extension and use corresponding functions to make loading assets smoother
 */
-class AssetManager
+namespace Luna
 {
-public:
-	AssetManager();
-	~AssetManager();
+	class AssetManager
+	{
+	public:
+		AssetManager();
+		~AssetManager();
 
-	// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
-	// std::string filepath - the file path of the image file
-	std::shared_ptr<Texture> GetTexture(std::string filepath);
-	
-	// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
-	// std::string filepath - the file path of the mesh file
-	std::shared_ptr<Mesh> GetMesh(std::string filepath);
-	
-	// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
-	// std::string filepath - the file path of the shader folder
-	std::shared_ptr<Shader> GetShader(std::string filepath);
+		// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
+		// std::string filepath - the file path of the image file
+		std::shared_ptr<ITexture> GetTexture(std::string filepath);
 
-	// std::shared_ptr<Script> GetScript - Loads a script and returns a reference to the object from the buffer
-	// std::string filepath - the file path of the script file
-	std::shared_ptr<Script> GetScript(std::string filepath);
+		// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
+		// std::string filepath - the file path of the mesh file
+		std::shared_ptr<IMesh> GetMesh(std::string filepath);
 
-private:
-	std::unordered_map<std::string, std::shared_ptr<Texture>> m_Textures;
-	std::unordered_map<std::string, std::shared_ptr<Mesh>> m_Meshes;
-	std::unordered_map<std::string, std::shared_ptr<Shader>> m_Shaders;
-	std::unordered_map<std::string, std::shared_ptr<Script>> m_Scripts;
-};
+		// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
+		// std::string filepath - the file path of the shader folder
+		std::shared_ptr<IShader> GetShader(std::string filepath);
+
+		// std::shared_ptr<Script> GetScript - Loads a script and returns a reference to the object from the buffer
+		// std::string filepath - the file path of the script file
+		std::shared_ptr<Script> GetScript(std::string filepath);
+
+	private:
+		std::unordered_map<std::string, std::shared_ptr<ITexture>> m_Textures;
+		std::unordered_map<std::string, std::shared_ptr<IMesh>> m_Meshes;
+		std::unordered_map<std::string, std::shared_ptr<IShader>> m_Shaders;
+		std::unordered_map<std::string, std::shared_ptr<Script>> m_Scripts;
+	};
+}
 

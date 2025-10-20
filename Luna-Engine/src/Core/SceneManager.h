@@ -13,7 +13,6 @@ public:
 	~SceneManager();
 
 	void Update(bool runtime = false);
-	void Render(Renderer* renderer, ObjectTransformPairing<Camera>& camera, FrameBuffer* framebuffer);
 
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
@@ -23,17 +22,13 @@ public:
 	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
 
 	Scene* GetCurrentScene() const { return m_Scene; }
-	AssetManager* GetAssetManager() { return &assetManager; }
-	LightManager* GetLightManager() { return &lightManager; }
+	Luna::AssetManager* GetAssetManager() { return &assetManager; }
 
 	unsigned int AddObject(unsigned int parent = 0, std::string objectName = "");
 private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
-	AssetManager assetManager;
-	LightManager lightManager;
-
-	Material defaultMat = Material(glm::vec3(1));
+	Luna::AssetManager assetManager;
 
 	Scene* m_Scene = nullptr;
 };

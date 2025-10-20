@@ -1,7 +1,7 @@
 #include "EditorCamera.h"
 
-bool EditorCamera::sceneWindowFocused = false;
-bool EditorCamera::sceneWindowHovered = false;
+bool EditorCamera::sceneWindowFocused = true;
+bool EditorCamera::sceneWindowHovered = true;
 
 glm::mat4 EditorCamera::GetProjection()
 {

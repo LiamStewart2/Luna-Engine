@@ -54,7 +54,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::Text("Script:");
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(component->m_Script->GetFilepath().c_str(), m_CodeIcon->ID, ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->m_Script->GetFilepath().c_str(), m_CodeIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Script Files", L"*.lua"},
@@ -84,13 +84,13 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			
-			Mesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
+			Luna::IMesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
 			ImGui::SeparatorText("Mesh");
 			ImGui::Columns(2, "Mesh", false);
 
 			ImGui::Text("Mesh:"); 
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(mesh->path.c_str(), m_ModelIcon->ID, ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(mesh->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
@@ -112,11 +112,11 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::NextColumn();
 
-			Texture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
+			Luna::ITexture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
 			ImGui::Columns(2, "Texture", false);
 			ImGui::Text("Texture:");
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(texture->path.c_str(), texture->ID, ImVec2{ 96.0f, 96.0f }))
+			if (ImGui::ImageButton(texture->GetTexturePacket()->path.c_str(), texture->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
@@ -135,6 +135,33 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				}
 				ImGui::EndDragDropTarget();
 			}
+
+			ImGui::NextColumn();
+
+			Luna::ITexture* specaularTexture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap;
+			ImGui::Columns(2, "Specular Map", false);
+			ImGui::Text("Specular:");
+			ImGui::NextColumn();
+			if (ImGui::ImageButton(specaularTexture->GetTexturePacket()->path.c_str(), specaularTexture->GetTextureReference(), ImVec2{ 96.0f, 96.0f }))
+			{
+				std::string fpath = FileNavigation::OpenFileDialog({
+					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
+					{L"All Files", L"*.*"}
+					}, 1);
+				if (!fpath.empty())
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap = m_SceneManager->GetAssetManager()->GetTexture(fpath).get();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap = m_SceneManager->GetAssetManager()->GetTexture(path).get();
+				}
+				ImGui::EndDragDropTarget();
+			}
+
 			ImGui::Columns(1);
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))
@@ -152,9 +179,9 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			LightComponent* component = scene->GetECS()->GetObjectComponent<LightComponent>(inspectorID);
 
-			float* lightColor = new float[3] {component->m_LightColor.x, component->m_LightColor.y, component->m_LightColor.z};
+			float* lightColor = new float[3] {component->m_Light.m_LightColour.x, component->m_Light.m_LightColour.y, component->m_Light.m_LightColour.z};
 			ImGui::InputFloat3("Light Color", lightColor);
-			component->m_LightColor = glm::vec3(lightColor[0], lightColor[1], lightColor[2]);
+			component->m_Light.m_LightColour = glm::vec4(lightColor[0], lightColor[1], lightColor[2], 1);
 		}
 
 		ImGui::End();

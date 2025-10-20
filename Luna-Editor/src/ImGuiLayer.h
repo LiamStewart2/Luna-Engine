@@ -2,7 +2,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_glfw.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui/backends/imgui_impl_dx11.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 #include "imgui/ImGuizmo.h"
 #include "GLM/gtx/matrix_decompose.hpp"
@@ -23,7 +23,7 @@
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(LunaWindow* window = nullptr, AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
+	ImGuiLayer(LunaWindow* window = nullptr, Luna::AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
 	{
 		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr)
 		{
@@ -33,7 +33,7 @@ public:
 			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
 			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
 			m_ScenePanel = ScenePanel(m_SceneManager);
-			m_GamePanel = GamePanel(m_SceneManager);
+			//m_GamePanel = GamePanel(m_SceneManager);
 		}
 	}
 	~ImGuiLayer() {}
@@ -41,13 +41,13 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update(ObjectTransformPairing<Camera>& camera, FrameBuffer* sceneFramebuffer, FrameBuffer* gameFramebuffer, bool& runtime);
+	void Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime);
 
 	void Render();
 private:
 	LunaWindow* m_Window = nullptr;
 	SceneManager* m_SceneManager = nullptr;
-	AssetManager* m_AssetManager = nullptr;
+	Luna::AssetManager* m_AssetManager = nullptr;
 
 	float m_MainScale = 0;
 	bool m_ShowGame = true;

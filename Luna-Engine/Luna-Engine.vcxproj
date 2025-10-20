@@ -11,6 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11Shader.cpp" />
+    <ClCompile Include="src\Platform\DirectX11\DX11Texture.cpp" />
+    <ClCompile Include="src\Renderer-2\IFramebuffer.cpp" />
+    <ClCompile Include="src\Renderer-2\IMesh.cpp" />
+    <ClCompile Include="src\Renderer-2\IShader.cpp" />
+    <ClCompile Include="src\Renderer-2\ITexture.cpp" />
+    <ClCompile Include="src\Renderer-2\RendererContext.cpp" />
+    <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp" />
+    <ClCompile Include="src\Renderer-2\RendererAPI.cpp" />
     <ClCompile Include="src\Scripting\Script.cpp" />
     <ClCompile Include="src\Scripting\ScriptManager.cpp" />
     <ClCompile Include="src\Core\AssetLoader.cpp" />
@@ -21,17 +34,25 @@
     <ClCompile Include="src\Core\SceneGraph.cpp" />
     <ClCompile Include="src\Core\SceneManager.cpp" />
     <ClCompile Include="src\Core\TransformationManager.cpp" />
-    <ClCompile Include="src\Platform\FileNavigation.cpp" />
+    <ClCompile Include="src\Platform\Windows\FileNavigation.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
-    <ClCompile Include="src\Renderer\FrameBuffer.cpp" />
-    <ClCompile Include="src\Renderer\Light.cpp" />
-    <ClCompile Include="src\Renderer\LightManager.cpp" />
-    <ClCompile Include="src\Renderer\Mesh.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11Shader.h" />
+    <ClInclude Include="src\Platform\DirectX11\DX11Texture.h" />
+    <ClInclude Include="src\Renderer-2\IFramebuffer.h" />
+    <ClInclude Include="src\Renderer-2\IMesh.h" />
+    <ClInclude Include="src\Renderer-2\IShader.h" />
+    <ClInclude Include="src\Renderer-2\ITexture.h" />
+    <ClInclude Include="src\Renderer-2\Light.h" />
+    <ClInclude Include="src\Renderer-2\Material.h" />
+    <ClInclude Include="src\Renderer-2\RendererContext.h" />
+    <ClInclude Include="src\Renderer-2\ReworkedRenderer.h" />
+    <ClInclude Include="src\Renderer-2\RendererAPI.h" />
     <ClInclude Include="src\Scripting\Script.h" />
     <ClInclude Include="src\ECS\ScriptComponent.h" />
     <ClInclude Include="src\Scripting\ScriptManager.h" />
@@ -47,7 +68,7 @@
     <ClInclude Include="src\Core\Stack.h" />
     <ClInclude Include="src\Core\TransformationManager.h" />
     <ClInclude Include="src\Luna.h" />
-    <ClInclude Include="src\Platform\FileNavigation.h" />
+    <ClInclude Include="src\Platform\Windows\FileNavigation.h" />
     <ClInclude Include="src\ECS\CameraComponent.h" />
     <ClInclude Include="src\ECS\LightComponent.h" />
     <ClInclude Include="src\ECS\NameComponent.h" />
@@ -56,14 +77,6 @@
     <ClInclude Include="src\ECS\MeshComponent.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
     <ClInclude Include="src\ECS\ECS.h" />
-    <ClInclude Include="src\Renderer\FrameBuffer.h" />
-    <ClInclude Include="src\Renderer\Light.h" />
-    <ClInclude Include="src\Renderer\LightManager.h" />
-    <ClInclude Include="src\Renderer\Material.h" />
-    <ClInclude Include="src\Renderer\Mesh.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\Renderer\Shader.h" />
-    <ClInclude Include="src\Renderer\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DepthShader\shader.fs" />
@@ -120,6 +133,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +152,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
