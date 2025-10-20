@@ -66,15 +66,15 @@
             {
                 "component-args": [
                     0.0,
+                    2.507272720336914,
                     0.0,
-                    0.0,
-                    0.7470347285270691,
-                    0.4224327802658081,
-                    -0.4888802170753479,
-                    0.15647956728935242,
-                    0.9999971389770508,
-                    0.9999971985816956,
-                    0.9999975562095642
+                    0.15116837620735168,
+                    -0.13913589715957642,
+                    0.489290326833725,
+                    0.8475755453109741,
+                    0.9999926686286926,
+                    0.9999933242797852,
+                    0.9999901652336121
                 ],
                 "component-type": "TransformComponent"
             },
@@ -90,7 +90,7 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Fortnite"
                 ],
                 "component-type": "NameComponent"
             },
@@ -104,7 +104,7 @@
                     0.0,
                     0.0,
                     1.0,
-                    1.0,
+                    0.9999997615814209,
                     1.0
                 ],
                 "component-type": "TransformComponent"
@@ -113,7 +113,8 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Textures/default.png"
+                    "Assets\\Textures\\brickWallColour.jpg",
+                    "Assets\\Textures\\brickWallRoughness.jpg"
                 ],
                 "component-type": "MeshComponent"
             }

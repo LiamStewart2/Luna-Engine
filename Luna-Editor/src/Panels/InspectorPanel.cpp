@@ -135,6 +135,33 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				}
 				ImGui::EndDragDropTarget();
 			}
+
+			ImGui::NextColumn();
+
+			Luna::ITexture* specaularTexture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap;
+			ImGui::Columns(2, "Specular Map", false);
+			ImGui::Text("Specular:");
+			ImGui::NextColumn();
+			if (ImGui::ImageButton(specaularTexture->GetTexturePacket()->path.c_str(), specaularTexture->GetTextureReference(), ImVec2{ 96.0f, 96.0f }))
+			{
+				std::string fpath = FileNavigation::OpenFileDialog({
+					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
+					{L"All Files", L"*.*"}
+					}, 1);
+				if (!fpath.empty())
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap = m_SceneManager->GetAssetManager()->GetTexture(fpath).get();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->specularMap = m_SceneManager->GetAssetManager()->GetTexture(path).get();
+				}
+				ImGui::EndDragDropTarget();
+			}
+
 			ImGui::Columns(1);
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))

@@ -98,8 +98,8 @@ void Application::ResizeCallback(GLFWwindow* handle, int width, int height)
 
 void Application::Update()
 {
-	//sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
-	//sceneManager.Update(runtime);
+	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
+	sceneManager.Update(runtime);
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
@@ -113,10 +113,6 @@ void Application::Render()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	//sceneManager.Render(&renderer, cameraPair, &m_SceneFramebuffer);
-
-	//cameraPair = {nullptr, nullptr};
-	//sceneManager.Render(&renderer, cameraPair, &m_GameFramebuffer);
 
 	m_Framebuffer->Bind();
 

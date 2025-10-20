@@ -67,7 +67,7 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			MeshComponent* component = m_Scene->GetECS()->GetObjectComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "MeshComponent"},
-				{"component-args", {component->mesh->m_Path, component->shader->m_Path, component->texture->GetTexturePacket()->path}}});
+				{"component-args", {component->mesh->m_Path, component->shader->m_Path, component->texture->GetTexturePacket()->path, component->specularMap->GetTexturePacket()->path}}});
 		}
 
 		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
@@ -186,8 +186,9 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
 			std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
 			std::shared_ptr<Luna::ITexture> texture = assetManager.GetTexture(componentData["component-args"][2].get<std::string>());
+			std::shared_ptr<Luna::ITexture> specularTexture = assetManager.GetTexture(componentData["component-args"][3].get<std::string>());
 
-			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), nullptr, texture.get(), texture.get());
+			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), nullptr, texture.get(), specularTexture.get());
 		}
 		else if (componentData["component-type"] == "CameraComponent")
 		{
