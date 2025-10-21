@@ -43,7 +43,5 @@ namespace Luna
 		}
 
 		framebuffer->Unbind();
-
-		//s_RendererAPI->RenderIndexed(12 * 3, &transform);
 	}
 }

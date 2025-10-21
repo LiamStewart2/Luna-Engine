@@ -27,12 +27,6 @@ namespace Luna
             glm::vec4(1, 1, 1, 1), 0.2f,
             glm::vec4(1, 1, 1, 1), 0.8);
 
-        m_Light = Light(
-            Luna::LightType::Directional,
-            glm::vec4(1, 1, 1, 1));
-        m_LightTransform = Transform(0, glm::vec3(0));
-        m_LightTransform.SetEulerRotation(glm::vec3(glm::radians(0.0f), glm::radians(-90.0f), 0));
-
         InitShadersAndInputLayout();
         InitVertexBuffers();
         InitPipelineVariables();

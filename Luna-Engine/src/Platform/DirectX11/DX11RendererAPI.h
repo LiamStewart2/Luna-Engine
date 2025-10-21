@@ -62,9 +62,7 @@ namespace Luna
 
 		ConstantBuffer _cbData;
 
-		Light m_Light;
 		Material m_Material;
-		Transform m_LightTransform;
 
 		void InitShadersAndInputLayout();
 		void InitVertexBuffers();
