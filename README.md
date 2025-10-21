@@ -4,7 +4,7 @@
 
 ## ✨ Features
 
-- **Custom Rendering Pipeline** with OpenGL
+- **Custom Rendering Pipeline** with DirectX11 (upgraded from OpenGL)
 - **ImGui Docking Editor Layer** with:
   - Hierarchy View
   - Inspector Panel
