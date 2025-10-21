@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Renderer-2/IFramebuffer.h"
+#include "../../Renderer/IFramebuffer.h"
 #include <vector>
 
 struct ID3D11RenderTargetView;

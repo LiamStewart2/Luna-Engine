@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../Renderer-2/RendererContext.h"
+#include "../Renderer/RendererContext.h"
 #include <GLFW/glfw3.h>
 
 #include <iostream>

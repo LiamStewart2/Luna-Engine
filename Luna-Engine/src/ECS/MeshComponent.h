@@ -2,10 +2,10 @@
 
 #include "Component.h"
 
-#include "../Renderer-2/ITexture.h"
-#include "../Renderer-2/IMesh.h"
-#include "../Renderer-2/IShader.h"
-#include "../Renderer-2/Material.h"
+#include "../Renderer/ITexture.h"
+#include "../Renderer/IMesh.h"
+#include "../Renderer/IShader.h"
+#include "../Renderer/Material.h"
 
 struct MeshComponent : public Component
 {

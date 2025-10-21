@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Renderer-2/IShader.h"
+#include "../../Renderer/IShader.h"
 
 struct ID3D11VertexShader;
 struct ID3D11GeometryShader;

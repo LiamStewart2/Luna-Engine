@@ -51,13 +51,13 @@
     <ClCompile Include="src\Scripting\Script.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\RendererAPI.cpp">
+    <ClCompile Include="src\Renderer\RendererAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\ReworkedRenderer.cpp">
+    <ClCompile Include="src\Renderer\ReworkedRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\RendererContext.cpp">
+    <ClCompile Include="src\Renderer\RendererContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DX11RendererContext.cpp">
@@ -69,22 +69,22 @@
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\IFramebuffer.cpp">
+    <ClCompile Include="src\Renderer\IFramebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\IMesh.cpp">
+    <ClCompile Include="src\Renderer\IMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\IShader.cpp">
+    <ClCompile Include="src\Renderer\IShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DX11Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer-2\ITexture.cpp">
+    <ClCompile Include="src\Renderer\ITexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DirectX11\DX11Texture.cpp">
@@ -164,13 +164,13 @@
     <ClInclude Include="src\Scripting\Script.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\RendererAPI.h">
+    <ClInclude Include="src\Renderer\RendererAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\ReworkedRenderer.h">
+    <ClInclude Include="src\Renderer\ReworkedRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\RendererContext.h">
+    <ClInclude Include="src\Renderer\RendererContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11RendererContext.h">
@@ -179,31 +179,31 @@
     <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\IFramebuffer.h">
+    <ClInclude Include="src\Renderer\IFramebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\IMesh.h">
+    <ClInclude Include="src\Renderer\IMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\IShader.h">
+    <ClInclude Include="src\Renderer\IShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\ITexture.h">
+    <ClInclude Include="src\Renderer\ITexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\Light.h">
+    <ClInclude Include="src\Renderer\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer-2\Material.h">
+    <ClInclude Include="src\Renderer\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DirectX11\DX11Texture.h">

@@ -11,8 +11,8 @@
 #include <array>
 #include <GLFW/glfw3.h>
 
-#include "../Renderer-2/ITexture.h"
-#include "../Renderer-2/IMesh.h"
+#include "../Renderer/ITexture.h"
+#include "../Renderer/IMesh.h"
 
 /*
 Collection of file loading methods for various object types currently including

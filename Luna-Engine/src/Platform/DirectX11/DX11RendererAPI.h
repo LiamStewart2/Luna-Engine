@@ -1,12 +1,12 @@
 #pragma once
-#include "../../Renderer-2/RendererAPI.h"
+#include "../../Renderer/RendererAPI.h"
 #include "DX11RendererContext.h"
 
 #include "../../Core/SceneManager.h"
 #include "../../Core/Camera.h"
-#include "../../Renderer-2/IFramebuffer.h"
-#include "../../Renderer-2/Light.h"
-#include "../../Renderer-2/Material.h"
+#include "../../Renderer/IFramebuffer.h"
+#include "../../Renderer/Light.h"
+#include "../../Renderer/Material.h"
 
 struct ID3D11Buffer;
 struct ID3D11RasterizerState;

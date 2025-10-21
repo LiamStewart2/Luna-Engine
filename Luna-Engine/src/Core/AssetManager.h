@@ -9,9 +9,9 @@
 #include "AssetLoader.h"
 
 
-#include "../Renderer-2/ITexture.h"
-#include "../Renderer-2/IMesh.h"
-#include "../Renderer-2/IShader.h"
+#include "../Renderer/ITexture.h"
+#include "../Renderer/IMesh.h"
+#include "../Renderer/IShader.h"
 #include "../Scripting/Script.h"
 
 /*

@@ -1,4 +1,4 @@
-#include "../../Renderer-2/ITexture.h"
+#include "../../Renderer/ITexture.h"
 
 struct ID3D11Texture2D;
 struct ID3D11ShaderResourceView;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Renderer-2/IMesh.h"
+#include "../../Renderer/IMesh.h"
 
 struct ID3D11Buffer;
 

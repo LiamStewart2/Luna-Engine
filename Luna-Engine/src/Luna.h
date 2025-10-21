@@ -17,14 +17,14 @@
 
 // RENDERER
 
-#include "Renderer-2/ReworkedRenderer.h"
-#include "Renderer-2/RendererContext.h"
-#include "Renderer-2/IFramebuffer.h"
-#include "Renderer-2/IMesh.h"
-#include "Renderer-2/IShader.h"
-#include "Renderer-2/ITexture.h"
-#include "Renderer-2/Light.h"
-#include "Renderer-2/Material.h"
+#include "Renderer/ReworkedRenderer.h"
+#include "Renderer/RendererContext.h"
+#include "Renderer/IFramebuffer.h"
+#include "Renderer/IMesh.h"
+#include "Renderer/IShader.h"
+#include "Renderer/ITexture.h"
+#include "Renderer/Light.h"
+#include "Renderer/Material.h"
 
 // SCRIPTING
 
