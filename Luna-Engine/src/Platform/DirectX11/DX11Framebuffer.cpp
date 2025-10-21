@@ -89,7 +89,7 @@ namespace Luna
 	}
 	void* DX11Framebuffer::GetDepthAttachment()
 	{
-		return m_DSV;
+		return m_DSRV;
 	}
 
 	void DX11Framebuffer::Invalidate()
@@ -183,15 +183,27 @@ namespace Luna
 			depthDescription.Width = m_Spec.m_Width; depthDescription.Height = m_Spec.m_Height;
 			depthDescription.MipLevels = 1;
 			depthDescription.ArraySize = 1;
-			depthDescription.Format = depthFormat;
+			//depthDescription.Format = depthFormat;
+			depthDescription.Format = DXGI_FORMAT_R24G8_TYPELESS;
 			depthDescription.SampleDesc.Count = 1;
 			depthDescription.Usage = D3D11_USAGE_DEFAULT;
-			depthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+			depthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 
 			ID3D11Texture2D* depthTex = nullptr;
 			device->CreateTexture2D(&depthDescription, nullptr, &depthTex);
 
-			device->CreateDepthStencilView(depthTex, nullptr, &m_DSV);
+			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};
+			depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+			depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+			device->CreateDepthStencilView(depthTex, &depthStencilDesc, &m_DSV);
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC depthShaderViewDesc = {};
+			depthShaderViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+			depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+ 			device->CreateShaderResourceView(depthTex, &depthShaderViewDesc, &m_DSRV);
+
 			depthTex->Release();
 		}
 		else

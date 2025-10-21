@@ -86,38 +86,6 @@
                 ],
                 "component-type": "LightComponent"
             }
-        ],
-        [
-            {
-                "component-args": [
-                    "Fortnite"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    0.9999997615814209,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg"
-                ],
-                "component-type": "MeshComponent"
-            }
         ]
     ],
     "relations": [
@@ -128,10 +96,6 @@
         {
             "Children": [],
             "ObjectID": 2
-        },
-        {
-            "Children": [],
-            "ObjectID": 3
         }
     ],
     "scene-name": "example scene"

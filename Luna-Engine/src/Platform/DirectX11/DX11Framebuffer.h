@@ -35,6 +35,6 @@ namespace Luna
 		std::vector<ID3D11RenderTargetView*> m_ColorRTVs;
 		std::vector<ID3D11ShaderResourceView*> m_ColorSRVs;
 		ID3D11DepthStencilView* m_DSV = nullptr;
-	
+		ID3D11ShaderResourceView* m_DSRV = nullptr;
 	};
 }

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\ShadowRenderer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11RendererAPI.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="src\ECS\ECS.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\ShadowRenderer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11RendererAPI.h" />
