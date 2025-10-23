@@ -37,6 +37,10 @@ namespace Luna
 		hr = D3DCompileFromFile(stemp.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS_main", "vs_5_0", dwShaderFlags, 0, &vsBlob, &errorBlob);
 		if (FAILED(hr))
 		{
+
+			const char* errorMsg = (const char*)errorBlob->GetBufferPointer();
+			if(errorBlob != NULL)
+				std::cout << errorMsg << std::endl;
 			std::cerr << "Shader Failed To Compile" << hr << std::endl;
 			return;
 		}

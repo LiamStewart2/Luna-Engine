@@ -35,6 +35,7 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, std::shared_ptr<Luna::IF
 	if (LunaWindow::m_FocusedWindow->GetKey(GLFW_KEY_1))
 	{
 		srv = (ID3D11ShaderResourceView*)sceneFramebuffer->GetDepthAttachment();
+		srv = (ID3D11ShaderResourceView*)Luna::ShadowRenderer::GetLightFramebuffer()->GetDepthAttachment();
 	}
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));

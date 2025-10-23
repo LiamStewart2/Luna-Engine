@@ -3,6 +3,7 @@
 #include "RendererAPI.h"
 #include "RendererContext.h"
 
+#include "ShadowRenderer.h"
 #include "../ECS/TransformComponent.h"
 #include "../Core/SceneManager.h"
 #include "IFramebuffer.h"

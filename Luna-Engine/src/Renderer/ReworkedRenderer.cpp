@@ -7,6 +7,7 @@ namespace Luna
 	void ReworkedRenderer::Init(std::shared_ptr<RendererContext> renderContext)
 	{
 		s_RendererAPI->Init(renderContext);
+		ShadowRenderer::InitFramebuffer();
 	}
 	void ReworkedRenderer::Shutdown()
 	{
@@ -14,6 +15,8 @@ namespace Luna
 	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
 		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);
+		ShadowRenderer::ClearFramebuffer();
+		ShadowRenderer::ShadowPass(s_RendererAPI, sceneManager);
 	}
 	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
@@ -22,6 +25,7 @@ namespace Luna
 	void ReworkedRenderer::Render(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		// BIND EVERYTHING HERE
+		framebuffer->Bind();
 
 		Scene* scene = sceneManager->GetCurrentScene();
 		EntityComponentSystem* ECS = scene->GetECS();

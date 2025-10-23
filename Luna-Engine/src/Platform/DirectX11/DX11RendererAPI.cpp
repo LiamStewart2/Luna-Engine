@@ -149,10 +149,6 @@ namespace Luna
             light.objectTransform = ECS->GetObjectComponent<Transform>(id);
         }
 
-        //Bind the framebuffer
-        framebuffer->Bind();
-
-
         // Setup constant buffer values
 		_cbData.View = camera->object->GetView(camera->objectTransform);
 		_cbData.Projection = camera->object->GetProjection();
