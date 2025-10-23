@@ -31,8 +31,11 @@ void ScenePanel::UpdateScene(unsigned int& inspectorID, std::shared_ptr<Luna::IF
 		(viewportSize.y - imageSize.y) * 0.5f
 	};
 
-
-	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)sceneFramebuffer->GetDepthAttachment();
+	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)sceneFramebuffer->GetColorAttachment();
+	if (LunaWindow::m_FocusedWindow->GetKey(GLFW_KEY_1))
+	{
+		srv = (ID3D11ShaderResourceView*)sceneFramebuffer->GetDepthAttachment();
+	}
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
 	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });

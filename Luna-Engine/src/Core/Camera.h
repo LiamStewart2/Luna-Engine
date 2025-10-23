@@ -20,7 +20,7 @@ ToDo - rename m_EditorBackgroundColour to something more reasonable for the back
 class Camera
 {
 public:
-	Camera() {}
+	Camera();
 	~Camera() {}
 
 	// Required to be integrated by all child camera classes
@@ -30,8 +30,8 @@ public:
 	virtual glm::mat4 GetView(Transform* transform) = 0;
 
 	glm::vec4 m_EditorBackgroundColour = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f);
-	const float m_NearPlane = 0.1f, m_FarPlane = 250.0f;
-	const float m_Pov = 90.0f;
+	float m_NearPlane, m_FarPlane;
+	float m_Pov;
 };
 
 // Luna Engine - Perspective Camera

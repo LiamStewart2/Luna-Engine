@@ -179,12 +179,12 @@ namespace Luna
 		const DXGI_FORMAT& depthFormat = ToDXGIDepthFormat(m_Spec.m_DepthAttachment);
 		if (depthFormat != DXGI_FORMAT_UNKNOWN)
 		{	
-			CD3D11_TEXTURE2D_DESC depthDescription = {};
+			D3D11_TEXTURE2D_DESC depthDescription = {};
 			depthDescription.Width = m_Spec.m_Width; depthDescription.Height = m_Spec.m_Height;
 			depthDescription.MipLevels = 1;
 			depthDescription.ArraySize = 1;
 			//depthDescription.Format = depthFormat;
-			depthDescription.Format = DXGI_FORMAT_R24G8_TYPELESS;
+			depthDescription.Format = DXGI_FORMAT_R32_TYPELESS;
 			depthDescription.SampleDesc.Count = 1;
 			depthDescription.Usage = D3D11_USAGE_DEFAULT;
 			depthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
@@ -193,14 +193,16 @@ namespace Luna
 			device->CreateTexture2D(&depthDescription, nullptr, &depthTex);
 
 			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};
-			depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+			depthStencilDesc.Flags = 0;
+			depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
 			depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
 			device->CreateDepthStencilView(depthTex, &depthStencilDesc, &m_DSV);
 
 			D3D11_SHADER_RESOURCE_VIEW_DESC depthShaderViewDesc = {};
-			depthShaderViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-			depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+			depthShaderViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+			depthShaderViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			depthShaderViewDesc.Texture2D.MipLevels = 1;
 
  			device->CreateShaderResourceView(depthTex, &depthShaderViewDesc, &m_DSRV);
 

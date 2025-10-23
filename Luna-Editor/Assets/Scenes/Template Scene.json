@@ -86,6 +86,38 @@
                 ],
                 "component-type": "LightComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\monkey.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\brickWallColour.jpg",
+                    "Assets\\Textures\\brickWallRoughness.jpg"
+                ],
+                "component-type": "MeshComponent"
+            }
         ]
     ],
     "relations": [
@@ -96,6 +128,10 @@
         {
             "Children": [],
             "ObjectID": 2
+        },
+        {
+            "Children": [],
+            "ObjectID": 3
         }
     ],
     "scene-name": "example scene"
