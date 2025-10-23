@@ -3,7 +3,7 @@
 Camera::Camera()
 {
     m_NearPlane = 0.1f;
-    m_FarPlane = 100.0f;
+    m_FarPlane = 2500.0f;
     m_Pov = 90.0f;
 }
 

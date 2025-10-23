@@ -46,6 +46,7 @@ namespace Luna
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
+		void StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera = nullptr) override;
 		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
 		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 

@@ -111,6 +111,28 @@ namespace Luna
 	{
 		
 	}
+
+    void DX11RendererAPI::StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera)
+    {
+        Scene* scene = sceneManager->GetCurrentScene();
+        EntityComponentSystem* ECS = scene->GetECS();
+
+        std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+        ObjectTransformPairing<LightComponent> light;
+        for (auto& [id, LC] : lightComponents)
+        {
+            light.object = LC;
+            light.objectTransform = ECS->GetObjectComponent<Transform>(id);
+        }
+
+
+        glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + light.objectTransform->Forward(), light.objectTransform->Up());
+        glm::mat4 projection = glm::ortho(-1, 1, -1, 1);
+
+        _cbData.View = view;
+        _cbData.Projection = projection;
+    }
+
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
         // Find the current camera

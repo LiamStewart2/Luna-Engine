@@ -32,6 +32,7 @@ namespace Luna
 	{
 		s_LightFramebuffer->Bind();
 
+		rendererAPI->StartShadowPass(sceneManager);
 		Scene* scene = sceneManager->GetCurrentScene();
 		EntityComponentSystem* ECS = scene->GetECS();
 

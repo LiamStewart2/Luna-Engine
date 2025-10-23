@@ -65,16 +65,16 @@
             },
             {
                 "component-args": [
+                    -4.080647945404053,
+                    4.881447792053223,
                     0.0,
-                    2.507272720336914,
-                    0.0,
-                    0.15116837620735168,
-                    -0.13913589715957642,
-                    0.489290326833725,
-                    0.8475755453109741,
-                    0.9999926686286926,
-                    0.9999933242797852,
-                    0.9999901652336121
+                    0.4019416272640228,
+                    -0.028167277574539185,
+                    0.4481183886528015,
+                    0.7980221509933472,
+                    0.9999943971633911,
+                    0.9999960064888,
+                    0.9999907612800598
                 ],
                 "component-type": "TransformComponent"
             },
@@ -97,7 +97,7 @@
             {
                 "component-args": [
                     0.0,
-                    0.0,
+                    2.0,
                     0.0,
                     1.0,
                     0.0,
@@ -118,6 +118,38 @@
                 ],
                 "component-type": "MeshComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    100.0,
+                    1.0,
+                    100.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\Grass.jpg",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
         ]
     ],
     "relations": [
@@ -132,6 +164,10 @@
         {
             "Children": [],
             "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 4
         }
     ],
     "scene-name": "example scene"
