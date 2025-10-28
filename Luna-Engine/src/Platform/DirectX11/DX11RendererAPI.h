@@ -30,7 +30,7 @@ struct ConstantBuffer
 	glm::mat4x4 Projection;
 	glm::mat4x4 View;
 	glm::mat4x4 World;
-	
+	glm::mat4x4 lightSpace;
 
 };
 
@@ -65,9 +65,6 @@ namespace Luna
 
 		Material m_Material;
 
-		void InitShadersAndInputLayout();
-		void InitVertexBuffers();
 		void InitPipelineVariables();
-		void InitRunTimeData();
 	};
 }

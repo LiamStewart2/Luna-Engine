@@ -6,6 +6,7 @@
 struct ID3D11RenderTargetView;
 struct ID3D11ShaderResourceView;
 struct ID3D11DepthStencilView;
+struct ID3D11SamplerState;
 
 namespace Luna
 {
@@ -24,6 +25,8 @@ namespace Luna
 		unsigned int GetWidth() const override;
 		unsigned int GetHeight() const override;
 
+		void BindDepthBufferAsTexture(unsigned int slot = 0) override;
+
 		void* GetColorAttachment(int index = 0) override;
 		void* GetDepthAttachment() override;
 	private:
@@ -36,5 +39,7 @@ namespace Luna
 		std::vector<ID3D11ShaderResourceView*> m_ColorSRVs;
 		ID3D11DepthStencilView* m_DSV = nullptr;
 		ID3D11ShaderResourceView* m_DSRV = nullptr;
+
+		ID3D11SamplerState* m_DBSamplerState = nullptr;
 	};
 }

@@ -27,22 +27,9 @@ namespace Luna
             glm::vec4(1, 1, 1, 1), 0.2f,
             glm::vec4(1, 1, 1, 1), 0.8);
 
-        InitShadersAndInputLayout();
-        InitVertexBuffers();
         InitPipelineVariables();
-        InitRunTimeData();
 	}
 
-	void DX11RendererAPI::InitShadersAndInputLayout()
-	{
-        
-	}
-
-    void DX11RendererAPI::InitVertexBuffers()
-    {
-        HRESULT hr = S_OK;
-
-    }
 
     void DX11RendererAPI::InitPipelineVariables()
     {
@@ -98,10 +85,6 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->PSSetConstantBuffers(0, 1, &_constantBuffer);
     }
 
-    void DX11RendererAPI::InitRunTimeData()
-    {
-
-	}
 
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
@@ -127,10 +110,11 @@ namespace Luna
 
 
         glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + light.objectTransform->Forward(), light.objectTransform->Up());
-        glm::mat4 projection = glm::ortho(-1, 1, -1, 1);
-
+        glm::mat4 projection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, 0.1f, 5.0f);
+        //projection = glm::perspective(90.0f, 16 / 9.0f, 0.1f, 10.0f);
         _cbData.View = view;
         _cbData.Projection = projection;
+        _cbData.lightSpace = projection * view;
     }
 
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
@@ -182,7 +166,7 @@ namespace Luna
 		_cbData.SpecularColour = m_Material.m_SpecularColour;
         _cbData.CameraPosition = camera->objectTransform->position;
         _cbData.SpecularIntensity = m_Material.m_SpecularIntensity;
-	}
+    }
 	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		// Code to end the current frame

@@ -35,6 +35,8 @@ namespace Luna
 		virtual void Unbind() = 0;
 		virtual void Resize(const unsigned int& width, const unsigned int& height) = 0;
 
+		virtual void BindDepthBufferAsTexture(unsigned int slot = 0) = 0;
+
 		virtual void Clear(const float color[4]) = 0;
 
 		virtual unsigned int GetWidth() const = 0;

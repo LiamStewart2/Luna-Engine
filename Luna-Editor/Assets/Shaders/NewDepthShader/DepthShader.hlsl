@@ -14,7 +14,7 @@ cbuffer ConstantBuffer : register(b0)
     column_major float4x4 Projection;
     column_major float4x4 View;
     column_major float4x4 World;
-    
+    column_major float4x4 lightSpaceMatrix;
 }
 
 struct VS_Out
@@ -27,13 +27,12 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     VS_Out output = (VS_Out) 0;
     
     float4 worldPos = mul(World, float4(Position, 1.0f));
-    float4 viewPos = mul(View, worldPos);
-    output.position = mul(Projection, viewPos);
+    output.position = mul(lightSpaceMatrix, worldPos);
 
     return output;
 }
 
 float PS_main(VS_Out input) : SV_TARGET
 {
-    return (float4) 0;
+    return float4(input.position.z, input.position.z, input.position.z, 1);
 }

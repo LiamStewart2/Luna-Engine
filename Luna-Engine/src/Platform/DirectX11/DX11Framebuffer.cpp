@@ -206,12 +206,29 @@ namespace Luna
 
  			device->CreateShaderResourceView(depthTex, &depthShaderViewDesc, &m_DSRV);
 
+			D3D11_SAMPLER_DESC samplerDesc = {};
+			samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+			samplerDesc.MinLOD = 0;
+			samplerDesc.MaxLOD = 0;
+
+			device->CreateSamplerState(&samplerDesc, &m_DBSamplerState);
+
 			depthTex->Release();
 		}
 		else
 		{
 			std::cerr << "Unsupported Depth Buffer Format" << std::endl; return;
 		}
+	}
+
+	void DX11Framebuffer::BindDepthBufferAsTexture(unsigned int slot)
+	{
+		DX11RendererContext::GetContext()->GetImmediateContext()->PSSetShaderResources(slot, 1, &m_DSRV);
+		DX11RendererContext::GetContext()->GetImmediateContext()->PSSetSamplers(slot, 1, &m_DBSamplerState);
 	}
 
 	void DX11Framebuffer::Release()
