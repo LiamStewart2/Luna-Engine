@@ -32,7 +32,9 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     return output;
 }
 
-float PS_main(VS_Out input) : SV_TARGET
+float4 PS_main(VS_Out input) : SV_TARGET
 {
-    return float4(input.position.z, input.position.z, input.position.z, 1);
+    float ndcDepth = input.position.z / input.position.w;
+
+    return float4(ndcDepth, ndcDepth, ndcDepth, 1.0f);
 }

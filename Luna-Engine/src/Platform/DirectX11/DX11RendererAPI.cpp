@@ -1,7 +1,6 @@
 #include "DX11RendererAPI.h"
 
 #include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -52,8 +51,9 @@ namespace Luna
 
         // Wireframe State
         D3D11_RASTERIZER_DESC wireframeDesc = {};
-        wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
+        wireframeDesc.FillMode = D3D11_FILL_SOLID;
         wireframeDesc.CullMode = D3D11_CULL_FRONT;
+        wireframeDesc.FrontCounterClockwise = TRUE;
 
         hr = m_RenderContext->GetDevice()->CreateRasterizerState(&wireframeDesc, &_wireframeState);
         if (FAILED(hr)) 
@@ -62,7 +62,6 @@ namespace Luna
             return;
         }
 
-        //m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
 
         //Constant Buffer
         D3D11_BUFFER_DESC constantBufferDesc;
@@ -100,6 +99,7 @@ namespace Luna
         Scene* scene = sceneManager->GetCurrentScene();
         EntityComponentSystem* ECS = scene->GetECS();
 
+        m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
         std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
         ObjectTransformPairing<LightComponent> light;
         for (auto& [id, LC] : lightComponents)
@@ -109,12 +109,11 @@ namespace Luna
         }
 
 
-        glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + light.objectTransform->Forward(), light.objectTransform->Up());
-        glm::mat4 projection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, 0.1f, 5.0f);
-        //projection = glm::perspective(90.0f, 16 / 9.0f, 0.1f, 10.0f);
-        _cbData.View = view;
-        _cbData.Projection = projection;
-        _cbData.lightSpace = projection * view;
+        glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + glm::normalize(light.objectTransform->Forward()), light.objectTransform->Up());
+        glm::mat4 projection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
+        projection = glm::perspective(90.0f, 9.0f / 16.0f, 0.1f, 50.0f);
+
+        _cbData.lightSpaceMatrix = projection * view;
     }
 
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
@@ -122,6 +121,8 @@ namespace Luna
         // Find the current camera
         Scene* scene = sceneManager->GetCurrentScene();
         EntityComponentSystem* ECS = scene->GetECS();
+
+        m_RenderContext->GetImmediateContext()->RSSetState(_fillState);
         if (camera->object == nullptr)
         {
             std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();

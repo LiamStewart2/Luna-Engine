@@ -30,7 +30,7 @@ struct ConstantBuffer
 	glm::mat4x4 Projection;
 	glm::mat4x4 View;
 	glm::mat4x4 World;
-	glm::mat4x4 lightSpace;
+	glm::mat4x4 lightSpaceMatrix;
 
 };
 
@@ -57,9 +57,6 @@ namespace Luna
 		ID3D11RasterizerState* _fillState;
 		ID3D11RasterizerState* _wireframeState;
 		ID3D11Buffer* _constantBuffer;
-
-		glm::mat4 _world1;
-		glm::mat4 _world2;
 
 		ConstantBuffer _cbData;
 
