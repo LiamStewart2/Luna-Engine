@@ -28,11 +28,11 @@ namespace Luna
 		s_LightFramebuffer->Clear(backgroundColor);
 	}
 
-	void ShadowRenderer::ShadowPass(std::shared_ptr<IRendererAPI> rendererAPI, SceneManager* sceneManager)
+	void ShadowRenderer::ShadowPass(std::shared_ptr<IRendererAPI> rendererAPI, SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera)
 	{
 		s_LightFramebuffer->Bind();
 
-		rendererAPI->StartShadowPass(sceneManager);
+		rendererAPI->StartShadowPass(sceneManager, camera);
 		Scene* scene = sceneManager->GetCurrentScene();
 		EntityComponentSystem* ECS = scene->GetECS();
 

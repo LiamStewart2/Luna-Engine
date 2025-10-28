@@ -15,7 +15,7 @@ namespace Luna
 	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
 		ShadowRenderer::ClearFramebuffer();
-		ShadowRenderer::ShadowPass(s_RendererAPI, sceneManager);
+		ShadowRenderer::ShadowPass(s_RendererAPI, sceneManager, camera);
 		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);
 	}
 	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)

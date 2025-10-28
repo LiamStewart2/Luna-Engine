@@ -15,7 +15,7 @@ namespace Luna
 		static void InitFramebuffer();
 		static void ClearFramebuffer();
 		// Renders the depth map buffer of one light
-		static void ShadowPass(std::shared_ptr<IRendererAPI> rendererAPI, SceneManager* sceneManager);
+		static void ShadowPass(std::shared_ptr<IRendererAPI> rendererAPI, SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera);
 		static std::shared_ptr<IFramebuffer> GetLightFramebuffer() { return s_LightFramebuffer; }
 		
 	private:

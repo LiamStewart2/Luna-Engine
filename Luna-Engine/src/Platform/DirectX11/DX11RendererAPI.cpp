@@ -108,10 +108,18 @@ namespace Luna
             light.objectTransform = ECS->GetObjectComponent<Transform>(id);
         }
 
-
         glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + glm::normalize(light.objectTransform->Forward()), light.objectTransform->Up());
-        glm::mat4 projection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
-        projection = glm::perspective(90.0f, 9.0f / 16.0f, 0.1f, 50.0f);
+
+        if (light.object->m_Light.m_Type == LightType::Directional)
+        {
+            glm::vec3 lightDir = glm::normalize(light.objectTransform->Forward());
+            glm::vec3 target = glm::vec3(0);
+            glm::vec3 lightPos = target - lightDir * 10.0f;
+
+           view = glm::lookAt(lightPos, target, glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
+        glm::mat4 projection = glm::perspective(90.0f, 1.0f, 0.1f, 1000.0f);
 
         _cbData.lightSpaceMatrix = projection * view;
     }
