@@ -68,10 +68,27 @@ float Shadow(VS_Out input)
     if (projCoords.x < 0.0f || projCoords.x > 1.0f || projCoords.y < 0.0f || projCoords.y > 1.0f)
         return 0.0f;
     float currentDepth = input.FragPositionLightSpace.z / input.FragPositionLightSpace.w;
+    float shadow = 0;
     
-    float closestDepth = shadowMap.Sample(shadowSampler, projCoords).r;
+    float width = 0;
+    float height = 0;
+    shadowMap.GetDimensions(width, height);
+
+    float2 texelSize = 1.0 / float2(width, height);
     
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    for (int x = -2; x <= 2; ++x)
+    {
+        for (int y = -2; y <= 2; ++y)
+        {
+            float2 coordSample = float2(x, y);
+            
+            float closestDepth = shadowMap.Sample(shadowSampler, projCoords + (coordSample * texelSize)).r;
+            shadow += currentDepth > closestDepth ? 1.0 : 0.0;
+        }
+
+    }
+    shadow /= 25;
+    
     return shadow;
 }
 
