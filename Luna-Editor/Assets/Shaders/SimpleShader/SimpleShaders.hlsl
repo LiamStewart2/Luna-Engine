@@ -114,7 +114,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float specularFactor = pow(specularDot, 32);
     specular = specularFactor * SpecularColour * (1 - (specularTest.Sample(specularSampler, input.textureCoord)));
 
-    float4 col = textureTest.Sample(samplerTest, input.textureCoord);
+    float4 col = textureTest.Sample(samplerTest, float2(input.textureCoord.x, input.textureCoord.y));
     input.color = col * ((1.0 - Shadow(input)) * (diffuse + specular) + ambient);
     //input.color = float4(specularTest.Sample(specularSampler, input.textureCoord));
     

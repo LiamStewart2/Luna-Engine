@@ -150,6 +150,38 @@
                 ],
                 "component-type": "MeshComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -3.8138184547424316,
+                    0.9817090034484863,
+                    0.11561471223831177,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\Miku.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\Miku.png",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
         ]
     ],
     "relations": [
@@ -168,6 +200,10 @@
         {
             "Children": [],
             "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
         }
     ],
     "scene-name": "example scene"
