@@ -19,8 +19,10 @@ namespace Luna
 		static void BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera = nullptr);
 		static void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer);
 
-		static void Render(SceneManager* sceneManager, IFramebuffer* framebuffer);
+		static void Render(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera = nullptr);
 	private:
+		static void RenderSkybox(SceneManager* sceneManager, IFramebuffer* framebuffer);
+
 		static std::shared_ptr<IRendererAPI> s_RendererAPI;
 	};
 }

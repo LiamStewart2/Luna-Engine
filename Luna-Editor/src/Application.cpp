@@ -140,7 +140,7 @@ void Application::Render()
 	cameraPair = { nullptr, nullptr };
 	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_GameFramebuffer.get(), &cameraPair);
 
-	Luna::ReworkedRenderer::Render(&sceneManager, m_GameFramebuffer.get());
+	Luna::ReworkedRenderer::Render(&sceneManager, m_GameFramebuffer.get(), &cameraPair);
 
 	Luna::ReworkedRenderer::EndFrame(&sceneManager, m_GameFramebuffer.get());
 

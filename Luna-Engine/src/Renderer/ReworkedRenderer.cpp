@@ -46,7 +46,7 @@ namespace Luna
 	{
 		s_RendererAPI->EndFrame(sceneManager, framebuffer);
 	}
-	void ReworkedRenderer::Render(SceneManager* sceneManager, IFramebuffer* framebuffer)
+	void ReworkedRenderer::Render(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
 		// BIND EVERYTHING HERE
 		framebuffer->Bind();
@@ -71,6 +71,33 @@ namespace Luna
 			}
 		}
 
+		RenderSkybox(sceneManager, framebuffer);
+
 		framebuffer->Unbind();
+	}
+
+	void ReworkedRenderer::RenderSkybox(SceneManager* sceneManager, IFramebuffer* framebuffer)
+	{
+		std::unordered_map<unsigned int, CameraComponent*> cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
+		unsigned int mainCameraID = 0;
+
+		for (auto& [id, cameraComponent] : cameras)
+		{
+			auto cameraIt = cameras.find(cameraComponent->gameObject);
+			if (cameraIt == cameras.end())
+				return;
+			else if (cameraComponent->m_MainCamera)
+				mainCameraID = id;
+		}
+		if (mainCameraID == 0)
+		{
+			std::cerr << "NO MAIN CAMERA" << std::endl;
+			return;
+		}
+
+		if (cameras[mainCameraID]->m_UseSkybox)
+		{
+
+		}
 	}
 }
