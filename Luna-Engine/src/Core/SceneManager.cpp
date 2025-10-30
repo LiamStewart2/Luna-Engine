@@ -76,8 +76,8 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			objectComponents.push_back({
 				{"component-type", "CameraComponent"},
 				{"component-args", {
-					component->m_Camera->m_EditorBackgroundColour.x, component->m_Camera->m_EditorBackgroundColour.y,
-					component->m_Camera->m_EditorBackgroundColour.z, component->m_Camera->m_EditorBackgroundColour.w,
+					component->m_CameraBackgroundColor.x, component->m_CameraBackgroundColor.y,
+					component->m_CameraBackgroundColor.z, component->m_CameraBackgroundColor.w,
 					component->m_MainCamera}}
 			});
 		}
@@ -198,8 +198,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 				componentData["component-args"][2],
 				componentData["component-args"][3]);
 
-			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), backgroundColor, componentData["component-args"][4]);
-			m_Scene->GetECS()->GetObjectComponent<CameraComponent>(objectID)->m_Camera->m_EditorBackgroundColour = backgroundColor;
+			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), false, backgroundColor, nullptr, componentData["component-args"][4]);
 		}
 		else if (componentData["component-type"] == "LightComponent")
 		{

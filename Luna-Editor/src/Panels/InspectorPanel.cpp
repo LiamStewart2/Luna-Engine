@@ -166,11 +166,23 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))
 		{
+			CameraComponent* cameraComp = scene->GetECS()->GetObjectComponent<CameraComponent>(inspectorID);
+
 			ImGui::SeparatorText("Camera");
 
-			ImGui::ColorEdit4("Background Colour", glm::value_ptr(scene->GetECS()->GetObjectComponent<CameraComponent>(inspectorID)->m_Camera->m_EditorBackgroundColour));
+			ImGui::Checkbox("Use Skybox", &cameraComp->m_UseSkybox);
 
-			ImGui::Checkbox("Main Camera", &scene->GetECS()->GetObjectComponent<CameraComponent>(inspectorID)->m_MainCamera);
+			if (cameraComp->m_UseSkybox)
+			{
+				
+			}
+
+			else
+			{
+				ImGui::ColorEdit4("Background Colour", glm::value_ptr(cameraComp->m_CameraBackgroundColor));
+			}
+
+			ImGui::Checkbox("Main Camera", &cameraComp->m_MainCamera);
 		}
 
 		if (scene->GetECS()->HasComponent<LightComponent>(inspectorID))

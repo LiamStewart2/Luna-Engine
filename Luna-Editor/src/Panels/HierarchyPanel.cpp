@@ -86,7 +86,7 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 			}
 
 			if (ImGui::MenuItem("Camera"))
-				m_SceneManager->GetCurrentScene()->AddComponent<CameraComponent>(inspectorID, new PerspectiveCamera(), glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), false);
+				m_SceneManager->GetCurrentScene()->AddComponent<CameraComponent>(inspectorID, new PerspectiveCamera(), false, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), nullptr, false);
 
 			ImGui::EndMenu();
 		}

@@ -29,7 +29,6 @@ public:
 	// Transform* transform - a reference to the cameras transform, if using an object outside of the ECS create a temporary transform component on the stack
 	virtual glm::mat4 GetView(Transform* transform) = 0;
 
-	glm::vec4 m_EditorBackgroundColour = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f);
 	float m_NearPlane, m_FarPlane;
 	float m_Pov;
 };
