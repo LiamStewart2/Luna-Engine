@@ -78,7 +78,8 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 				{"component-args", {
 					component->m_CameraBackgroundColor.x, component->m_CameraBackgroundColor.y,
 					component->m_CameraBackgroundColor.z, component->m_CameraBackgroundColor.w,
-					component->m_MainCamera}}
+					component->m_MainCamera,
+					component->m_UseSkybox, component->m_SkyboxTexture->GetTexturePacket()->path}}
 			});
 		}
 
@@ -198,7 +199,8 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 				componentData["component-args"][2],
 				componentData["component-args"][3]);
 
-			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), false, backgroundColor, nullptr, componentData["component-args"][4]);
+			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), componentData["component-args"][5], backgroundColor,
+				assetManager.GetTexture(componentData["component-args"][6].get<std::string>()), componentData["component-args"][4]);
 		}
 		else if (componentData["component-type"] == "LightComponent")
 		{

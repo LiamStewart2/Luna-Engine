@@ -174,7 +174,28 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			if (cameraComp->m_UseSkybox)
 			{
-				
+				std::shared_ptr<Luna::ITexture> texturePtr = m_ModelIcon;
+				if (cameraComp->m_SkyboxTexture != nullptr)
+					texturePtr = cameraComp->m_SkyboxTexture;
+
+				if (ImGui::ImageButton(texturePtr->GetTexturePacket()->path.c_str(), texturePtr->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+				{
+					std::string fpath = FileNavigation::OpenFileDialog({
+						{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
+						{L"All Files", L"*.*"}
+						}, 1);
+					if (!fpath.empty())
+						cameraComp->m_SkyboxTexture = m_SceneManager->GetAssetManager()->GetTexture(fpath);
+				}
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+					{
+						const char* path = (const char*)payload->Data;
+						cameraComp->m_SkyboxTexture = m_SceneManager->GetAssetManager()->GetTexture(path);
+					}
+					ImGui::EndDragDropTarget();
+				}
 			}
 
 			else
