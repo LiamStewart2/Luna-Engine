@@ -18,7 +18,6 @@ namespace Luna
 
 	void DX11Texture::BuildTexture()
 	{
-
 		D3D11_TEXTURE2D_DESC textureDescription = {};
 		textureDescription.Width = m_TextureData.width;
 		textureDescription.Height = m_TextureData.height;
