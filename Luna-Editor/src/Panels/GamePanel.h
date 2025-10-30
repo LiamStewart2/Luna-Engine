@@ -14,7 +14,7 @@ public:
 		m_StopIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/stop.png");
 	}
 
-	void UpdateGame(unsigned int& inspectorID, bool& runtime);
+	void UpdateGame(unsigned int& inspectorID, bool& runtime, std::shared_ptr<Luna::IFramebuffer> framebuffer);
 private:
 	std::shared_ptr<Luna::ITexture> m_PlayIcon = nullptr;
 	std::shared_ptr<Luna::ITexture> m_StopIcon = nullptr;

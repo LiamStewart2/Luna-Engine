@@ -33,7 +33,7 @@ public:
 			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
 			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
 			m_ScenePanel = ScenePanel(m_SceneManager);
-			//m_GamePanel = GamePanel(m_SceneManager);
+			m_GamePanel = GamePanel(m_SceneManager);
 		}
 	}
 	~ImGuiLayer() {}
@@ -41,7 +41,7 @@ public:
 	void Init();
 	
 	void StartFrame();
-	void Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime);
+	void Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime, std::shared_ptr<Luna::IFramebuffer> gameFramebuffer);
 
 	void Render();
 private:

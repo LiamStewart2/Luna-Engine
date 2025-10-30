@@ -14,6 +14,30 @@ namespace Luna
 	}
 	void ReworkedRenderer::BeginFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
+		if (camera->object == nullptr)
+		{
+			std::unordered_map<unsigned int, CameraComponent*> cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
+			unsigned int mainCameraID = 0;
+
+			for (auto& [id, cameraComponent] : cameras)
+			{
+				auto cameraIt = cameras.find(cameraComponent->gameObject);
+				if (cameraIt == cameras.end())
+					return;
+				else if (cameraComponent->m_MainCamera)
+				{
+					mainCameraID = id;
+					camera->object = cameraComponent->m_Camera;
+					camera->objectTransform = sceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(id);
+				}
+			}
+			if (mainCameraID == 0)
+			{
+				std::cerr << "NO MAIN CAMERA" << std::endl;
+				return;
+			}
+		}
+
 		ShadowRenderer::ClearFramebuffer();
 		ShadowRenderer::ShadowPass(s_RendererAPI, sceneManager, camera);
 		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);

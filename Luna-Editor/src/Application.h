@@ -36,6 +36,7 @@ private:
 	ImGuiLayer imGuiLayer;
 
 	std::shared_ptr<Luna::IFramebuffer> m_Framebuffer = nullptr;
+	std::shared_ptr<Luna::IFramebuffer> m_GameFramebuffer = nullptr;
 	std::shared_ptr<Luna::IFramebuffer> m_Backbuffer = nullptr;
 
 	EditorCamera editorCamera = EditorCamera(glm::vec3(0, 3, 6.5), glm::vec3(-90, -20, 0));

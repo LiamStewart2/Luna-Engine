@@ -1,6 +1,8 @@
 #include "GamePanel.h"
 
-void GamePanel::UpdateGame(unsigned int& inspectorID, bool& runtime)
+#include <d3d11_4.h>
+
+void GamePanel::UpdateGame(unsigned int& inspectorID, bool& runtime, std::shared_ptr<Luna::IFramebuffer> framebuffer)
 {
 	if (m_Show == false)
 		return;
@@ -16,17 +18,25 @@ void GamePanel::UpdateGame(unsigned int& inspectorID, bool& runtime)
 	float aspectRatio = (float)16 / (float)9;
 
 	ImVec2 imageSize{
-		std::min(viewportSize.y * aspectRatio, viewportSize.x),
-		std::min(viewportSize.x / aspectRatio, viewportSize.y)
+		viewportSize.x,
+		viewportSize.x / aspectRatio
 	};
+	if (viewportSize.y * aspectRatio < viewportSize.x)
+	{
+		imageSize.x = viewportSize.y * aspectRatio;
+		imageSize.y = viewportSize.y;
+	}
 
 	ImVec2 imageOffset{
 		(viewportSize.x - imageSize.x) * 0.5f,
 		(viewportSize.y - imageSize.y) * 0.5f
 	};
 
+
+	ID3D11ShaderResourceView* srv = (ID3D11ShaderResourceView*)framebuffer->GetColorAttachment();
+
 	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + imageOffset.x, ImGui::GetCursorPos().y + imageOffset.y));
-	ImGui::Image(1, imageSize, ImVec2{0, 1}, ImVec2{1, 0});
+	ImGui::Image((ImTextureRef)srv, imageSize, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
 
 	// Play Game Button
 

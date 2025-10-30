@@ -41,7 +41,7 @@ void ImGuiLayer::StartFrame()
 }
 
 // DOCKING IMPLEMENATION FROM THE CHERNO USING IMGUI DOCKING BRANCH
-void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime)
+void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<Luna::IFramebuffer> framebuffer, bool& runtime, std::shared_ptr<Luna::IFramebuffer> gameFramebuffer)
 {
 	StartFrame();
 
@@ -133,7 +133,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 
 		if (ImGui::BeginMenu("View"))
 		{
-			/*
+			
 			if(ImGui::MenuItem("Scene"))
 				m_ScenePanel.Open();
 			if(ImGui::MenuItem("Game"))
@@ -144,7 +144,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 				m_ContentBrowserPanel.Open();
 			if (ImGui::MenuItem("Hiearchy"))
 				m_HierarchyPanel.Open();
-			*/
+			
 			ImGui::EndMenu();
 		}
 
@@ -157,7 +157,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
 
-	//m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime);
+	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime, gameFramebuffer);
 
 	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, framebuffer, &m_Actions);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);

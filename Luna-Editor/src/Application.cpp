@@ -32,6 +32,12 @@ int Application::Init()
 		Luna::DepthTextureFormat::DEPTH24STENCIL8,
 		false
 	};
+	Luna::FramebufferSpecification gameFramebufferSpec = {
+		SCREEN_WIDTH, SCREEN_HEIGHT,
+		{Luna::FramebufferTextureFormat::RGBA8},
+		Luna::DepthTextureFormat::DEPTH24STENCIL8,
+		false
+	};
 	Luna::FramebufferSpecification backbufferspec = {
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		{Luna::FramebufferTextureFormat::RGBA8},
@@ -39,6 +45,7 @@ int Application::Init()
 		true
 	};
 	m_Framebuffer = Luna::IFramebuffer::Create(framebufferSpec);
+	m_GameFramebuffer = Luna::IFramebuffer::Create(gameFramebufferSpec);
 	m_Backbuffer = Luna::IFramebuffer::Create(backbufferspec);
 
 
@@ -103,7 +110,7 @@ void Application::Update()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime);
+	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime, m_GameFramebuffer);
 
 	editorCamera.Update();
 }
@@ -117,7 +124,6 @@ void Application::Render()
 	m_Framebuffer->Bind();
 
 	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-	m_Backbuffer->Clear(background); 
 	m_Framebuffer->Clear(background);
 
 	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get(), &cameraPair);
@@ -127,6 +133,18 @@ void Application::Render()
 	Luna::ReworkedRenderer::EndFrame(&sceneManager, m_Framebuffer.get());
 
 	m_Framebuffer->Unbind();
+
+	m_GameFramebuffer->Bind();
+	m_GameFramebuffer->Clear(background);
+
+	cameraPair = { nullptr, nullptr };
+	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_GameFramebuffer.get(), &cameraPair);
+
+	Luna::ReworkedRenderer::Render(&sceneManager, m_GameFramebuffer.get());
+
+	Luna::ReworkedRenderer::EndFrame(&sceneManager, m_GameFramebuffer.get());
+
+	m_Backbuffer->Clear(background); 
 	m_Backbuffer->Bind();
 
 	imGuiLayer.Render();
