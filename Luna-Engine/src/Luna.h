@@ -17,6 +17,7 @@
 
 // RENDERER
 
+#include "Renderer/ShadowRenderer.h"
 #include "Renderer/ReworkedRenderer.h"
 #include "Renderer/RendererContext.h"
 #include "Renderer/IFramebuffer.h"

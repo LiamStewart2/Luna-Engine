@@ -151,6 +151,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 		ImGui::EndMenuBar();
 	}
 
+	ImGui::ShowDemoWindow();
+
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);

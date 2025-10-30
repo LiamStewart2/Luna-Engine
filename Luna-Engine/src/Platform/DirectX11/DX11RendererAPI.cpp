@@ -1,7 +1,6 @@
 #include "DX11RendererAPI.h"
 
 #include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -27,22 +26,9 @@ namespace Luna
             glm::vec4(1, 1, 1, 1), 0.2f,
             glm::vec4(1, 1, 1, 1), 0.8);
 
-        InitShadersAndInputLayout();
-        InitVertexBuffers();
         InitPipelineVariables();
-        InitRunTimeData();
 	}
 
-	void DX11RendererAPI::InitShadersAndInputLayout()
-	{
-        
-	}
-
-    void DX11RendererAPI::InitVertexBuffers()
-    {
-        HRESULT hr = S_OK;
-
-    }
 
     void DX11RendererAPI::InitPipelineVariables()
     {
@@ -65,8 +51,9 @@ namespace Luna
 
         // Wireframe State
         D3D11_RASTERIZER_DESC wireframeDesc = {};
-        wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
+        wireframeDesc.FillMode = D3D11_FILL_SOLID;
         wireframeDesc.CullMode = D3D11_CULL_FRONT;
+        wireframeDesc.FrontCounterClockwise = TRUE;
 
         hr = m_RenderContext->GetDevice()->CreateRasterizerState(&wireframeDesc, &_wireframeState);
         if (FAILED(hr)) 
@@ -75,7 +62,6 @@ namespace Luna
             return;
         }
 
-        //m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
 
         //Constant Buffer
         D3D11_BUFFER_DESC constantBufferDesc;
@@ -98,10 +84,6 @@ namespace Luna
         m_RenderContext->GetImmediateContext()->PSSetConstantBuffers(0, 1, &_constantBuffer);
     }
 
-    void DX11RendererAPI::InitRunTimeData()
-    {
-
-	}
 
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
@@ -111,11 +93,44 @@ namespace Luna
 	{
 		
 	}
+
+    void DX11RendererAPI::StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera)
+    {
+        Scene* scene = sceneManager->GetCurrentScene();
+        EntityComponentSystem* ECS = scene->GetECS();
+
+        m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
+        std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+        ObjectTransformPairing<LightComponent> light;
+        for (auto& [id, LC] : lightComponents)
+        {
+            light.object = LC;
+            light.objectTransform = ECS->GetObjectComponent<Transform>(id);
+        }
+
+        glm::mat4 view = glm::lookAt(light.objectTransform->position, light.objectTransform->position + glm::normalize(light.objectTransform->Forward()), light.objectTransform->Up());
+
+        if (light.object->m_Light.m_Type == LightType::Directional)
+        {
+            glm::vec3 lightDir = glm::normalize(light.objectTransform->Forward());
+            glm::vec3 target = glm::vec3(0);
+            glm::vec3 lightPos = target - lightDir * 10.0f;
+
+           view = glm::lookAt(lightPos, target, glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
+        glm::mat4 projection = glm::perspective(90.0f, 1.0f, 0.1f, 1000.0f);
+
+        _cbData.lightSpaceMatrix = projection * view;
+    }
+
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
         // Find the current camera
         Scene* scene = sceneManager->GetCurrentScene();
         EntityComponentSystem* ECS = scene->GetECS();
+
+        m_RenderContext->GetImmediateContext()->RSSetState(_fillState);
         if (camera->object == nullptr)
         {
             std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
@@ -149,10 +164,6 @@ namespace Luna
             light.objectTransform = ECS->GetObjectComponent<Transform>(id);
         }
 
-        //Bind the framebuffer
-        framebuffer->Bind();
-
-
         // Setup constant buffer values
 		_cbData.View = camera->object->GetView(camera->objectTransform);
 		_cbData.Projection = camera->object->GetProjection();
@@ -164,7 +175,7 @@ namespace Luna
 		_cbData.SpecularColour = m_Material.m_SpecularColour;
         _cbData.CameraPosition = camera->objectTransform->position;
         _cbData.SpecularIntensity = m_Material.m_SpecularIntensity;
-	}
+    }
 	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
 		// Code to end the current frame

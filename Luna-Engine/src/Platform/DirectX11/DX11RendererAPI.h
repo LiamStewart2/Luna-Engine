@@ -30,7 +30,7 @@ struct ConstantBuffer
 	glm::mat4x4 Projection;
 	glm::mat4x4 View;
 	glm::mat4x4 World;
-	
+	glm::mat4x4 lightSpaceMatrix;
 
 };
 
@@ -46,6 +46,7 @@ namespace Luna
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
+		void StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera = nullptr) override;
 		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
 		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 
@@ -57,16 +58,10 @@ namespace Luna
 		ID3D11RasterizerState* _wireframeState;
 		ID3D11Buffer* _constantBuffer;
 
-		glm::mat4 _world1;
-		glm::mat4 _world2;
-
 		ConstantBuffer _cbData;
 
 		Material m_Material;
 
-		void InitShadersAndInputLayout();
-		void InitVertexBuffers();
 		void InitPipelineVariables();
-		void InitRunTimeData();
 	};
 }

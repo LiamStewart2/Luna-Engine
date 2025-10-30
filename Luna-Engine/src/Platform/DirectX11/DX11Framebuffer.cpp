@@ -89,7 +89,7 @@ namespace Luna
 	}
 	void* DX11Framebuffer::GetDepthAttachment()
 	{
-		return m_DSV;
+		return m_DSRV;
 	}
 
 	void DX11Framebuffer::Invalidate()
@@ -179,25 +179,55 @@ namespace Luna
 		const DXGI_FORMAT& depthFormat = ToDXGIDepthFormat(m_Spec.m_DepthAttachment);
 		if (depthFormat != DXGI_FORMAT_UNKNOWN)
 		{	
-			CD3D11_TEXTURE2D_DESC depthDescription = {};
+			D3D11_TEXTURE2D_DESC depthDescription = {};
 			depthDescription.Width = m_Spec.m_Width; depthDescription.Height = m_Spec.m_Height;
 			depthDescription.MipLevels = 1;
 			depthDescription.ArraySize = 1;
-			depthDescription.Format = depthFormat;
+			//depthDescription.Format = depthFormat;
+			depthDescription.Format = DXGI_FORMAT_R32_TYPELESS;
 			depthDescription.SampleDesc.Count = 1;
 			depthDescription.Usage = D3D11_USAGE_DEFAULT;
-			depthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+			depthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 
 			ID3D11Texture2D* depthTex = nullptr;
 			device->CreateTexture2D(&depthDescription, nullptr, &depthTex);
 
-			device->CreateDepthStencilView(depthTex, nullptr, &m_DSV);
+			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};
+			depthStencilDesc.Flags = 0;
+			depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+			depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+			device->CreateDepthStencilView(depthTex, &depthStencilDesc, &m_DSV);
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC depthShaderViewDesc = {};
+			depthShaderViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+			depthShaderViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			depthShaderViewDesc.Texture2D.MipLevels = 1;
+
+ 			device->CreateShaderResourceView(depthTex, &depthShaderViewDesc, &m_DSRV);
+
+			D3D11_SAMPLER_DESC samplerDesc = {};
+			samplerDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+			samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+			samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+			samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+			samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+			samplerDesc.MinLOD = 0;
+			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			device->CreateSamplerState(&samplerDesc, &m_DBSamplerState);
+
 			depthTex->Release();
 		}
 		else
 		{
 			std::cerr << "Unsupported Depth Buffer Format" << std::endl; return;
 		}
+	}
+
+	void DX11Framebuffer::BindDepthBufferAsTexture(unsigned int slot)
+	{
+		DX11RendererContext::GetContext()->GetImmediateContext()->PSSetShaderResources(slot, 1, &m_DSRV);
+		DX11RendererContext::GetContext()->GetImmediateContext()->PSSetSamplers(slot, 1, &m_DBSamplerState);
 	}
 
 	void DX11Framebuffer::Release()

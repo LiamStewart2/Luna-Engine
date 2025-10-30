@@ -66,15 +66,15 @@
             {
                 "component-args": [
                     0.0,
-                    2.507272720336914,
+                    5.557972431182861,
+                    4.749724388122559,
+                    0.9063077569007874,
+                    -0.4226182997226715,
                     0.0,
-                    0.15116837620735168,
-                    -0.13913589715957642,
-                    0.489290326833725,
-                    0.8475755453109741,
-                    0.9999926686286926,
-                    0.9999933242797852,
-                    0.9999901652336121
+                    0.0,
+                    0.9999856352806091,
+                    0.9999939799308777,
+                    0.9999899864196777
                 ],
                 "component-type": "TransformComponent"
             },
@@ -90,7 +90,39 @@
         [
             {
                 "component-args": [
-                    "Fortnite"
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    2.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\monkey.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\brickWallColour.jpg",
+                    "Assets\\Textures\\brickWallRoughness.jpg"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
                 ],
                 "component-type": "NameComponent"
             },
@@ -103,9 +135,9 @@
                     0.0,
                     0.0,
                     0.0,
+                    10.0,
                     1.0,
-                    0.9999997615814209,
-                    1.0
+                    10.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -113,8 +145,40 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg"
+                    "Assets\\Textures\\Grass.jpg",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -3.8138184547424316,
+                    0.9817090034484863,
+                    0.11561471223831177,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\Miku.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\Miku.png",
+                    "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -132,6 +196,14 @@
         {
             "Children": [],
             "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
         }
     ],
     "scene-name": "example scene"
