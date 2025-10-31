@@ -28,19 +28,17 @@ SamplerState skyboxSampler : register(s0);
 
 VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
 {   
-    VS_Out output = (VS_Out)0;
-    
-    float4 pos = mul(World, float4(Position, 1.0f));
-    pos = mul(View, pos);
-    pos = mul(Projection, pos);
-    output.position = pos.xyww;
-    output.texCoord = pos;
-    
+    VS_Out output;
+    float4 worldPos = mul(World, float4(Position, 1.0f));
+    float4 viewPos = mul(View, worldPos);
+
+    output.position = mul(Projection, viewPos);
+    output.texCoord = normalize(worldPos.xyz - CameraPosition);
     return output;
 }
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
     float4 color = skyboxTexture.Sample(skyboxSampler, input.texCoord);
-    return color;
+    return float4(1, 1, 1, 1);
 }

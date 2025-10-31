@@ -28,6 +28,7 @@ namespace Luna
 		virtual void Clear() = 0;
 
 		virtual void StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera = nullptr) = 0;
+		virtual void StartSkybox(SceneManager* sceneManager) = 0;
 		virtual void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) = 0;
 		virtual void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) = 0;
 

@@ -62,6 +62,19 @@ namespace Luna
             return;
         }
 
+        // Skybox State
+        D3D11_RASTERIZER_DESC skyboxDesc = {};
+        skyboxDesc.FillMode = D3D11_FILL_SOLID;
+        skyboxDesc.CullMode = D3D11_CULL_FRONT;
+        skyboxDesc.FrontCounterClockwise = TRUE;
+
+        hr = m_RenderContext->GetDevice()->CreateRasterizerState(&skyboxDesc, &_skyboxState);
+        if (FAILED(hr))
+        {
+            std::cout << "Line 160 Failed To Create Rasterizer State" << std::endl;
+            return;
+        }
+
 
         //Constant Buffer
         D3D11_BUFFER_DESC constantBufferDesc;
@@ -124,13 +137,18 @@ namespace Luna
         _cbData.lightSpaceMatrix = projection * view;
     }
 
+    void DX11RendererAPI::StartSkybox(SceneManager* sceneManager)
+    {
+        //Bind the skybox rasterizer state
+        m_RenderContext->GetImmediateContext()->RSSetState(_skyboxState);
+    }
+
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)
 	{
         // Find the current camera
         Scene* scene = sceneManager->GetCurrentScene();
         EntityComponentSystem* ECS = scene->GetECS();
-
-        m_RenderContext->GetImmediateContext()->RSSetState(_fillState);
+        
         if (camera->object == nullptr)
         {
             std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
@@ -175,6 +193,9 @@ namespace Luna
 		_cbData.SpecularColour = m_Material.m_SpecularColour;
         _cbData.CameraPosition = camera->objectTransform->position;
         _cbData.SpecularIntensity = m_Material.m_SpecularIntensity;
+
+        // Set rasterizer state to the fillstate
+        m_RenderContext->GetImmediateContext()->RSSetState(_fillState);
     }
 	void DX11RendererAPI::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{

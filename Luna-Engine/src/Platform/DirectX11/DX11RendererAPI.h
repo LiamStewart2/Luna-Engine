@@ -47,6 +47,7 @@ namespace Luna
 		void Clear() override;
 
 		void StartShadowPass(SceneManager* sceneManager, ObjectTransformPairing<Camera>* camera = nullptr) override;
+		void StartSkybox(SceneManager* sceneManager) override;
 		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
 		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 
@@ -56,6 +57,7 @@ namespace Luna
 
 		ID3D11RasterizerState* _fillState;
 		ID3D11RasterizerState* _wireframeState;
+		ID3D11RasterizerState* _skyboxState;
 		ID3D11Buffer* _constantBuffer;
 
 		ConstantBuffer _cbData;

@@ -40,6 +40,8 @@ namespace Luna
 
 		ShadowRenderer::ClearFramebuffer();
 		ShadowRenderer::ShadowPass(s_RendererAPI, sceneManager, camera);
+
+
 		s_RendererAPI->StartFrame(sceneManager,framebuffer, camera);
 	}
 	void ReworkedRenderer::EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer)
@@ -97,6 +99,7 @@ namespace Luna
 
 		if (cameras[mainCameraID]->m_UseSkybox)
 		{
+			s_RendererAPI->StartSkybox(sceneManager);
 			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh("Assets/Models/planeobj.obj");
 			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
 			mesh->BindMesh();
