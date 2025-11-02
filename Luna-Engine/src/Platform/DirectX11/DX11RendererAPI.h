@@ -13,6 +13,7 @@ struct ID3D11RasterizerState;
 struct ID3D11VertexShader;
 struct ID3D11InputLayout;
 struct ID3D11PixelShader;
+struct ID3D11DepthStencilState;
 
 struct ConstantBuffer
 {
@@ -58,6 +59,8 @@ namespace Luna
 		ID3D11RasterizerState* _fillState;
 		ID3D11RasterizerState* _wireframeState;
 		ID3D11RasterizerState* _skyboxState;
+		ID3D11DepthStencilState* _skyboxDepthState;
+
 		ID3D11Buffer* _constantBuffer;
 
 		ConstantBuffer _cbData;

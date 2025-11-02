@@ -70,6 +70,8 @@ namespace Luna
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
 				s_RendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);
+
+				meshComponent->shader->Unbind();
 			}
 		}
 
@@ -100,12 +102,13 @@ namespace Luna
 		if (cameras[mainCameraID]->m_UseSkybox)
 		{
 			s_RendererAPI->StartSkybox(sceneManager);
-			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh("Assets/Models/planeobj.obj");
+			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh("Assets/Models/skybox.obj");
 			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
 			mesh->BindMesh();
 			cameras[mainCameraID]->m_SkyboxTexture->BindTexture(0);
 			Transform skyboxTransform = Transform(0);
 			s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &skyboxTransform);
+			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Unbind();
 		}
 	}
 }

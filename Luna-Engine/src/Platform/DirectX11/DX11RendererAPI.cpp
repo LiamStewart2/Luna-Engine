@@ -95,6 +95,14 @@ namespace Luna
 
         m_RenderContext->GetImmediateContext()->VSSetConstantBuffers(0, 1, &_constantBuffer);
         m_RenderContext->GetImmediateContext()->PSSetConstantBuffers(0, 1, &_constantBuffer);
+
+        // Depth Stencil State
+        D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
+        depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+        depthStencilDesc.DepthEnable = true;
+        depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+
+        m_RenderContext->GetDevice()->CreateDepthStencilState(&depthStencilDesc, &_skyboxDepthState);
     }
 
 
@@ -141,6 +149,7 @@ namespace Luna
     {
         //Bind the skybox rasterizer state
         m_RenderContext->GetImmediateContext()->RSSetState(_skyboxState);
+        m_RenderContext->GetImmediateContext()->OMSetDepthStencilState(_skyboxDepthState, 0);
     }
 
 	void DX11RendererAPI::StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* camera)

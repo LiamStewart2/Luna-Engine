@@ -78,11 +78,10 @@ void Application::MainLoop()
 			frameCount = 0;
 			lastTime = currentTime;
 		}
-
 		HandleInput();
 
 		Update();
-		
+
 		Render();
 
 		window->Update();
@@ -110,8 +109,9 @@ void Application::Update()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
+	
 	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime, m_GameFramebuffer);
-
+	
 	editorCamera.Update();
 }
 
