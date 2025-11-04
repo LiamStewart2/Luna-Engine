@@ -37,8 +37,8 @@
                     6.240562438964844,
                     0.9659256339073181,
                     -0.25881972908973694,
-                    2.4456205949263676e-09,
-                    -9.127155031762868e-09,
+                    2.4456208169709726e-09,
+                    -9.127155919941288e-09,
                     0.9999909996986389,
                     0.9999974966049194,
                     0.9999936819076538
@@ -162,24 +162,24 @@
             },
             {
                 "component-args": [
-                    -3.275606870651245,
+                    -3.720212459564209,
                     -1.0,
-                    -0.6489059329032898,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.15000000596046448,
-                    0.15000000596046448,
-                    0.15000000596046448
+                    -1.2476234436035156,
+                    -0.6876146197319031,
+                    -6.179437406217403e-08,
+                    0.7260758280754089,
+                    -6.179437406217403e-08,
+                    1.4999996423721313,
+                    1.5099999904632568,
+                    1.5000003576278687
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "Assets\\Models\\Miku.obj",
+                    "Assets\\Models\\house.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\Miku.png",
+                    "Assets\\Textures\\2544.png",
                     "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
@@ -197,9 +197,9 @@
                     0.0,
                     -0.986947774887085,
                     -3.4914157390594482,
-                    0.728581964969635,
+                    0.7285826206207275,
                     0.0,
-                    -0.6849585771560669,
+                    -0.6849579215049744,
                     0.0,
                     1.6399993896484375,
                     1.6400007009506226,
@@ -212,6 +212,38 @@
                     "Assets\\Models\\house.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
                     "Assets\\Textures\\HouseGregoryHouse.png",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    3.8025155067443848,
+                    -1.0001220703125,
+                    -1.750173568725586,
+                    -0.2957838475704193,
+                    5.468464081559432e-08,
+                    0.9552549123764038,
+                    5.468464081559432e-08,
+                    1.2999998331069946,
+                    1.2999999523162842,
+                    1.2999998331069946
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\house.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\The_Rock_PROFILE--927b15797eefad54a3bca4d2a15e4921.png",
                     "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
@@ -242,6 +274,10 @@
         {
             "Children": [],
             "ObjectID": 6
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"
