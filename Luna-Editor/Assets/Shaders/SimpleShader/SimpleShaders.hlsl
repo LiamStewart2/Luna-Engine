@@ -47,6 +47,7 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     
     
     output.FragPositionLightSpace = mul(lightSpaceMatrix, worldPos);
+    //output.position = mul(lightSpaceMatrix, worldPos);
     
     
     output.normal = mul(World, float4(Normal, 0));
@@ -59,15 +60,16 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
 float Shadow(VS_Out input)
 {
     float2 projCoords = (float2) 0;
-    projCoords = projCoords * 0.5f + 0.5f;
 
-    projCoords.x = input.FragPositionLightSpace.x / input.FragPositionLightSpace.w / 2.0f + 0.5f;
-    projCoords.y = -input.FragPositionLightSpace.y / input.FragPositionLightSpace.w / 2.0f + 0.5f;
-    
+    projCoords.x = (input.FragPositionLightSpace.x / input.FragPositionLightSpace.w) / 2.0f + 0.5f;
+    projCoords.y = (-input.FragPositionLightSpace.y / input.FragPositionLightSpace.w) / 2.0f + 0.5f;
+
     // if outside shadow map bounds
     if (projCoords.x < 0.0f || projCoords.x > 1.0f || projCoords.y < 0.0f || projCoords.y > 1.0f)
         return 0.0f;
+    
     float currentDepth = input.FragPositionLightSpace.z / input.FragPositionLightSpace.w;
+    
     float shadow = 0;
     
     float width = 0;

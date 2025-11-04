@@ -24,9 +24,6 @@ struct VS_Out
     float3 worldDir : TEXCOORD1;
 };
 
-Texture2D skyboxTexture : register(t0);
-SamplerState skyboxSampler : register(s0);
-
 VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
 {
     VS_Out output;

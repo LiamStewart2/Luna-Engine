@@ -37,8 +37,8 @@
                     6.240562438964844,
                     0.9659256339073181,
                     -0.25881972908973694,
-                    2.4456203728817627e-09,
-                    -9.127154143584448e-09,
+                    2.4456205949263676e-09,
+                    -9.127155031762868e-09,
                     0.9999909996986389,
                     0.9999974966049194,
                     0.9999936819076538
@@ -70,13 +70,13 @@
                     0.0,
                     5.557972431182861,
                     4.749724388122559,
-                    0.8900941014289856,
-                    -0.41505786776542664,
-                    -0.17066405713558197,
-                    -0.0795816034078598,
-                    0.9999911189079285,
-                    0.9999927878379822,
-                    0.9999898076057434
+                    0.9063078165054321,
+                    -0.42261824011802673,
+                    -5.808920278127516e-08,
+                    2.1142742667734638e-08,
+                    0.9999892115592957,
+                    0.9999908804893494,
+                    0.9999884366989136
                 ],
                 "component-type": "TransformComponent"
             },
@@ -164,14 +164,14 @@
                 "component-args": [
                     -3.275606870651245,
                     -1.0,
-                    0.0,
+                    -0.6489059329032898,
                     1.0,
                     0.0,
                     0.0,
                     0.0,
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
+                    0.15000000596046448,
+                    0.15000000596046448,
+                    0.15000000596046448
                 ],
                 "component-type": "TransformComponent"
             },
@@ -180,6 +180,38 @@
                     "Assets\\Models\\Miku.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
                     "Assets\\Textures\\Miku.png",
+                    "Assets/Textures/default.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    -0.986947774887085,
+                    -3.4914157390594482,
+                    0.728581964969635,
+                    0.0,
+                    -0.6849585771560669,
+                    0.0,
+                    1.6399993896484375,
+                    1.6400007009506226,
+                    1.6399993896484375
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\house.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\HouseGregoryHouse.png",
                     "Assets/Textures/default.png"
                 ],
                 "component-type": "MeshComponent"
@@ -206,6 +238,10 @@
         {
             "Children": [],
             "ObjectID": 5
+        },
+        {
+            "Children": [],
+            "ObjectID": 6
         }
     ],
     "scene-name": "example scene"

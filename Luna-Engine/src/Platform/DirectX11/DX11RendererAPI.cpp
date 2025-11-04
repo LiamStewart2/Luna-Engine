@@ -140,8 +140,10 @@ namespace Luna
            view = glm::lookAt(lightPos, target, glm::vec3(0.0f, 1.0f, 0.0f));
         }
 
-        glm::mat4 projection = glm::perspective(90.0f, 1.0f, 0.1f, 1000.0f);
+        glm::mat4 projection = glm::orthoRH_ZO(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 1000.0f);
 
+        _cbData.Projection = projection;
+        _cbData.View = view;
         _cbData.lightSpaceMatrix = projection * view;
     }
 
