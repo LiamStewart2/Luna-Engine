@@ -67,6 +67,7 @@ namespace Luna
 				meshComponent->mesh->BindMesh();
 				meshComponent->texture->BindTexture(0);
 				meshComponent->specularMap->BindTexture(1);
+				meshComponent->normalMap->BindTexture(3);
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
 				s_RendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);

@@ -111,8 +111,45 @@ namespace Luna
 				}
 			}
 		}
+
+		// Calculate tangents and bitangents
+
+		for (unsigned int i = 0; i < indices.size(); i += 3)
+		{
+			unsigned int i0 = indices[i + 0], i1 = indices[i + 1], i2 = indices[i + 2];
+			glm::vec3 v = vertices[i1].Position - vertices[i0].Position, w = vertices[i2].Position - vertices[i0].Position;
+		
+			float sx = vertices[i1].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, sy = vertices[i1].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
+			float tx = vertices[i2].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, ty = vertices[i2].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
+			float dirCorrection = (tx * sy - ty * sx) < 0.0f ? -1.0f : 1.0f;
+
+			if (sx * ty == sy * tx)
+			{
+				sx = 0.0f;
+				sy = 1.0f;
+				tx = 1.0f;
+				ty = 0.0f;
+			}
+
+			glm::vec3 tangent, bitangent;
+			tangent = (w * sy - v * ty) * dirCorrection;
+			bitangent = (w * sx - v * tx) * dirCorrection;
+
+			for(int j = 0; j < 3; j++)
+			{
+				unsigned int index = indices[i + j];
+
+				glm::vec3 localTangent = tangent - vertices[index].Normal * (tangent * vertices[index].Normal);
+				glm::vec3 localBitangent = bitangent - vertices[index].Normal * (bitangent * vertices[index].Normal);
+
+				vertices[index].Tangent = glm::normalize(localTangent);
+				vertices[index].Bitangent = glm::normalize(localBitangent);
+			}
+		}
+
 		mesh = IMesh::Create(vertices, indices);
 		mesh->m_Path = std::string(filepath);
+		
 
 		std::cout << "Mesh Loaded - " << mesh->m_Path << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 	}

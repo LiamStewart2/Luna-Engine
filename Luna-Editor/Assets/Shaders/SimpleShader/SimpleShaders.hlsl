@@ -20,10 +20,12 @@ cbuffer ConstantBuffer : register(b0)
 Texture2D textureTest : register(t0);
 Texture2D specularTest : register(t1);
 Texture2D shadowMap : register(t2);
+Texture2D normalMap : register(t3);
 
 SamplerState samplerTest : register(s0);
 SamplerState specularSampler : register(s1);
 SamplerState shadowSampler : register(s2);
+SamplerState normalSampler : register(s3);
 
 struct VS_Out
 {
@@ -33,9 +35,12 @@ struct VS_Out
     float3 normal : NORMAL0;
     float3 worldSpacePosition : POSITION0;
     float4 FragPositionLightSpace : POSITION1;
+    
+    float3 Tangent : TANGENT0;
+    float3 Binormal : BINORMAL0;
 };
 
-VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
+VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL, float3 Tangent : TANGENT, float3 Bitangent : BITANGENT)
 {   
     VS_Out output = (VS_Out)0;
     
@@ -53,7 +58,11 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     output.normal = mul(World, float4(Normal, 0));
     
     output.textureCoord = TextureCoordinate;
-    //output.normal = Normal;
+    
+    
+    output.Tangent = normalize(mul((float3x3) World, Tangent));
+    output.Binormal = normalize(mul((float3x3) World, Bitangent));
+    
     return output;
 }
 
@@ -96,7 +105,15 @@ float Shadow(VS_Out input)
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
-    float3 surfaceNormal = normalize(input.normal);
+    float4 normalMapSample = normalMap.Sample(normalSampler, input.textureCoord);
+    normalMapSample = (normalMapSample * 2.0f) - 1.0f;
+    
+    float3 NewNormal = (normalMapSample.x * input.Tangent) + (normalMapSample.y * input.Binormal) + (normalMapSample.z * input.normal);
+    NewNormal = normalize(NewNormal);
+    
+    
+    
+    float3 surfaceNormal = normalize(NewNormal);
     float3 surfaceToLightDirection = normalize(-LightDirection);
     float3 lightToSurfaceDirection = normalize(LightDirection);
     float3 viewDirection = normalize(CameraPosition - input.worldSpacePosition.xyz);
@@ -117,6 +134,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     specular = specularFactor * SpecularColour * (1 - (specularTest.Sample(specularSampler, input.textureCoord)));
 
     float4 col = textureTest.Sample(samplerTest, float2(input.textureCoord.x, input.textureCoord.y));
+    
     input.color = col * ((1.0 - Shadow(input)) * (diffuse + specular) + ambient);
     //input.color = float4(specularTest.Sample(specularSampler, input.textureCoord));
     

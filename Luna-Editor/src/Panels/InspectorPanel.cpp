@@ -162,6 +162,32 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				ImGui::EndDragDropTarget();
 			}
 
+			ImGui::NextColumn();
+
+			Luna::ITexture* NormalTexture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->normalMap;
+			ImGui::Columns(2, "Normal Map", false);
+			ImGui::Text("Normal:");
+			ImGui::NextColumn();
+			if (ImGui::ImageButton(NormalTexture->GetTexturePacket()->path.c_str(), NormalTexture->GetTextureReference(), ImVec2{ 96.0f, 96.0f }))
+			{
+				std::string fpath = FileNavigation::OpenFileDialog({
+					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
+					{L"All Files", L"*.*"}
+					}, 1);
+				if (!fpath.empty())
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->normalMap = m_SceneManager->GetAssetManager()->GetTexture(fpath).get();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+				{
+					const char* path = (const char*)payload->Data;
+					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->normalMap = m_SceneManager->GetAssetManager()->GetTexture(path).get();
+				}
+				ImGui::EndDragDropTarget();
+			}
+
 			ImGui::Columns(1);
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))

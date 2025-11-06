@@ -24,7 +24,7 @@ struct VS_Out
     float3 worldDir : TEXCOORD1;
 };
 
-VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL)
+VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL, float3 Tangent : TANGENT, float3 Bitangent : BITANGENT)
 {
     VS_Out output;
     
