@@ -76,7 +76,7 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/SimpleShader/SimpleShaders.hlsl").get(), material,
 					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get(),
 					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get(),
-					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/defaultNormalMap.png").get());
+					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get());
 			}
 
 			if(ImGui::MenuItem("Script"))
