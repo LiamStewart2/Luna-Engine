@@ -108,7 +108,6 @@ namespace Luna
 			mesh->BindMesh();
 			Transform skyboxTransform = Transform(0);
 			s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &skyboxTransform);
-			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Unbind();
 		}
 	}
 }

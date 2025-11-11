@@ -198,36 +198,11 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::Checkbox("Use Skybox", &cameraComp->m_UseSkybox);
 
-			if (cameraComp->m_UseSkybox)
+			if (!cameraComp->m_UseSkybox)
 			{
-				std::shared_ptr<Luna::ITexture> texturePtr = m_ModelIcon;
-				if (cameraComp->m_SkyboxTexture != nullptr)
-					texturePtr = cameraComp->m_SkyboxTexture;
-
-				if (ImGui::ImageButton(texturePtr->GetTexturePacket()->path.c_str(), texturePtr->GetTextureReference(), ImVec2{96.0f, 96.0f}))
-				{
-					std::string fpath = FileNavigation::OpenFileDialog({
-						{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
-						{L"All Files", L"*.*"}
-						}, 1);
-					if (!fpath.empty())
-						cameraComp->m_SkyboxTexture = m_SceneManager->GetAssetManager()->GetTexture(fpath);
-				}
-				if (ImGui::BeginDragDropTarget())
-				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
-					{
-						const char* path = (const char*)payload->Data;
-						cameraComp->m_SkyboxTexture = m_SceneManager->GetAssetManager()->GetTexture(path);
-					}
-					ImGui::EndDragDropTarget();
-				}
+				ImGui::ColorEdit4("Background Colour", glm::value_ptr(cameraComp->m_CameraBackgroundColor));				
 			}
 
-			else
-			{
-				ImGui::ColorEdit4("Background Colour", glm::value_ptr(cameraComp->m_CameraBackgroundColor));
-			}
 
 			ImGui::Checkbox("Main Camera", &cameraComp->m_MainCamera);
 		}

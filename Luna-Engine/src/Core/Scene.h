@@ -39,6 +39,8 @@ public:
 	std::string GetSceneName() {return sceneName;}
 	std::string filepath = "";
 
+	CameraComponent* GetMainCameraComponent();
+
 	void DestroyScene();
 private:
 	EntityComponentSystem ECS;

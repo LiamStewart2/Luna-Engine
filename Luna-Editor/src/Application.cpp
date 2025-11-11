@@ -123,8 +123,8 @@ void Application::Render()
 
 	m_Framebuffer->Bind();
 
-	float background[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-	m_Framebuffer->Clear(background);
+	float editorBackground[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+	m_Framebuffer->Clear(editorBackground);
 
 	Luna::ReworkedRenderer::BeginFrame(&sceneManager, m_Framebuffer.get(), &cameraPair);
 
@@ -135,6 +135,8 @@ void Application::Render()
 	m_Framebuffer->Unbind();
 
 	m_GameFramebuffer->Bind();
+
+	float* background = glm::value_ptr(sceneManager.GetCurrentScene()->GetMainCameraComponent()->m_CameraBackgroundColor);
 	m_GameFramebuffer->Clear(background);
 
 	cameraPair = { nullptr, nullptr };
