@@ -35,8 +35,8 @@
                     0.0,
                     4.064016342163086,
                     6.240562438964844,
-                    0.965342104434967,
-                    -0.25866350531578064,
+                    0.9653420448303223,
+                    -0.258663535118103,
                     0.03356964513659477,
                     0.008994918316602707,
                     0.9999911785125732,
@@ -69,13 +69,13 @@
                     0.0,
                     5.557972431182861,
                     4.749724388122559,
-                    0.9063078165054321,
-                    -0.42261824011802673,
-                    -5.808920278127516e-08,
-                    2.1142742667734638e-08,
-                    0.9999892115592957,
-                    0.9999908804893494,
-                    0.9999884366989136
+                    0.9051750898361206,
+                    -0.4220895767211914,
+                    0.045301567763090134,
+                    0.02112480439245701,
+                    0.9999868869781494,
+                    0.999989926815033,
+                    0.9999882578849792
                 ],
                 "component-type": "TransformComponent"
             },
@@ -100,10 +100,10 @@
                     4.913719654083252,
                     0.0,
                     0.0,
-                    0.5001726150512695,
-                    -0.5001726150512695,
-                    -0.4998273551464081,
-                    -0.4998273551464081,
+                    0.5001494884490967,
+                    -0.5001494884490967,
+                    -0.49985045194625854,
+                    -0.49985045194625854,
                     0.9999968409538269,
                     0.9999968409538269,
                     1.0
@@ -130,15 +130,15 @@
             },
             {
                 "component-args": [
-                    -10.269078254699707,
+                    -8.014986991882324,
                     0.0,
                     0.0,
-                    0.5001726150512695,
-                    -0.5001726150512695,
-                    -0.4998273551464081,
-                    -0.4998273551464081,
-                    0.9999867081642151,
-                    0.9999867081642151,
+                    0.5001494884490967,
+                    -0.5001494884490967,
+                    -0.49985045194625854,
+                    -0.49985045194625854,
+                    0.9999832510948181,
+                    0.9999832510948181,
                     1.0
                 ],
                 "component-type": "TransformComponent"
@@ -149,7 +149,106 @@
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
                     "Assets\\Textures\\brickWallColour.jpg",
                     "Assets\\Textures\\brickWallRoughness.jpg",
-                    "Assets\\Textures\\default.png"
+                    "Assets\\Textures\\BumpMapFlatColour.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -1.569801926612854,
+                    -5.595644950866699,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    20.0,
+                    1.0,
+                    20.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Textures/default.png",
+                    "Assets/Textures/default.png",
+                    "Assets\\Textures\\BumpMapFlatColour.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    4.145578861236572,
+                    -2.1402640342712402,
+                    3.699528694152832,
+                    0.5001494884490967,
+                    -0.5001494884490967,
+                    -0.49985045194625854,
+                    -0.49985045194625854,
+                    1.9999992847442627,
+                    1.9999992847442627,
+                    1.9999992847442627
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\brickWallColour.jpg",
+                    "Assets\\Textures\\brickWallRoughness.jpg",
+                    "Assets\\Textures\\brickwallNormal.png"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -7.302596092224121,
+                    -2.4690043926239014,
+                    3.219607353210449,
+                    0.5001373291015625,
+                    -0.5001068115234375,
+                    -0.4998931288719177,
+                    -0.4998626410961151,
+                    1.9999996423721313,
+                    1.9999996423721313,
+                    1.9999995231628418
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Textures\\brickWallColour.jpg",
+                    "Assets\\Textures\\brickWallRoughness.jpg",
+                    "Assets\\Textures\\BumpMapFlatColour.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -171,6 +270,18 @@
         {
             "Children": [],
             "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
+        },
+        {
+            "Children": [],
+            "ObjectID": 6
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"

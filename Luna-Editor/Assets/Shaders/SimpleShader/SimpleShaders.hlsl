@@ -55,13 +55,13 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     //output.position = mul(lightSpaceMatrix, worldPos);
     
     
-    output.normal = mul(World, float4(Normal, 0));
     
     output.textureCoord = TextureCoordinate;
     
     
-    output.Tangent = normalize(mul((float3x3) World, Tangent));
-    output.Binormal = normalize(mul((float3x3) World, Bitangent));
+    output.normal = mul(World, float4(Normal, 0));
+    output.Tangent = normalize(mul(World, float4(Tangent, 0)));
+    output.Binormal = normalize(mul(World, float4(Bitangent, 0)));
     
     return output;
 }
@@ -143,5 +143,6 @@ float4 PS_main(VS_Out input) : SV_TARGET
     //input.color = float4(specular.rgb, 1);
     //input.color = (float4) Shadow(input);
     //input.color.a = 1;
+    //return float4(NewNormal, 1);
     return input.color;
 }
