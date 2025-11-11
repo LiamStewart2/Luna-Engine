@@ -36,9 +36,9 @@
                     4.064016342163086,
                     6.240562438964844,
                     0.9653420448303223,
-                    -0.258663535118103,
-                    0.03356964513659477,
-                    0.008994918316602707,
+                    -0.2586635947227478,
+                    0.033569637686014175,
+                    0.008994917385280132,
                     0.9999911785125732,
                     0.999997079372406,
                     0.9999927878379822
@@ -91,7 +91,7 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Right Wall"
                 ],
                 "component-type": "NameComponent"
             },
@@ -99,14 +99,14 @@
                 "component-args": [
                     4.913719654083252,
                     0.0,
-                    0.0,
-                    0.5001494884490967,
-                    -0.5001494884490967,
-                    -0.49985045194625854,
-                    -0.49985045194625854,
-                    0.9999968409538269,
-                    0.9999968409538269,
-                    1.0
+                    -5.33261775970459,
+                    -0.49999964237213135,
+                    0.5000003576278687,
+                    0.49999964237213135,
+                    0.5000003576278687,
+                    0.9999951124191284,
+                    0.9999951124191284,
+                    1.0000003576278687
                 ],
                 "component-type": "TransformComponent"
             },
@@ -124,7 +124,7 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Left Wall"
                 ],
                 "component-type": "NameComponent"
             },
@@ -132,14 +132,14 @@
                 "component-args": [
                     -8.014986991882324,
                     0.0,
-                    0.0,
-                    0.5001494884490967,
-                    -0.5001494884490967,
-                    -0.49985045194625854,
-                    -0.49985045194625854,
-                    0.9999832510948181,
-                    0.9999832510948181,
-                    1.0
+                    -5.255463600158691,
+                    0.5001725554466248,
+                    -0.5001726746559143,
+                    -0.4998272955417633,
+                    -0.49982738494873047,
+                    0.9999837279319763,
+                    0.9999837279319763,
+                    0.999996542930603
                 ],
                 "component-type": "TransformComponent"
             },
@@ -147,8 +147,8 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg",
+                    "Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png",
+                    "Assets\\Textures\\default.png",
                     "Assets\\Textures\\BumpMapFlatColour.png"
                 ],
                 "component-type": "MeshComponent"
@@ -157,32 +157,32 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Ground"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    -1.569801926612854,
-                    -5.595644950866699,
                     0.0,
-                    1.0,
+                    -5.5,
+                    0.6646037101745605,
+                    0.7071067690849304,
                     0.0,
                     0.0,
-                    0.0,
-                    20.0,
-                    1.0,
-                    20.0
+                    0.7071067690849304,
+                    0.9999959468841553,
+                    4.999967575073242,
+                    5.0
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Textures/default.png",
-                    "Assets/Textures/default.png",
-                    "Assets\\Textures\\BumpMapFlatColour.png"
+                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_BaseColor.jpg",
+                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Roughness.jpg",
+                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Normal.png"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -190,7 +190,7 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Brick Cube"
                 ],
                 "component-type": "NameComponent"
             },
@@ -198,14 +198,14 @@
                 "component-args": [
                     4.145578861236572,
                     -2.1402640342712402,
-                    3.699528694152832,
+                    0.26566755771636963,
                     0.5001494884490967,
                     -0.5001494884490967,
                     -0.49985045194625854,
                     -0.49985045194625854,
-                    1.9999992847442627,
-                    1.9999992847442627,
-                    1.9999992847442627
+                    1.9999959468841553,
+                    1.9999959468841553,
+                    1.999996304512024
                 ],
                 "component-type": "TransformComponent"
             },
@@ -223,7 +223,7 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Slate Cube"
                 ],
                 "component-type": "NameComponent"
             },
@@ -231,14 +231,14 @@
                 "component-args": [
                     -7.302596092224121,
                     -2.4690043926239014,
-                    3.219607353210449,
-                    0.5001373291015625,
-                    -0.5001068115234375,
-                    -0.4998931288719177,
-                    -0.4998626410961151,
-                    1.9999996423721313,
-                    1.9999996423721313,
-                    1.9999995231628418
+                    -0.1791447401046753,
+                    0.500030517578125,
+                    -0.499969482421875,
+                    -0.500030517578125,
+                    -0.499969482421875,
+                    1.9999992847442627,
+                    1.9999992847442627,
+                    1.999998927116394
                 ],
                 "component-type": "TransformComponent"
             },
@@ -246,8 +246,8 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg",
+                    "Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png",
+                    "Assets\\Textures\\default.png",
                     "Assets\\Textures\\BumpMapFlatColour.png"
                 ],
                 "component-type": "MeshComponent"

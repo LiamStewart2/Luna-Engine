@@ -64,10 +64,14 @@ namespace Luna
 			if (transformIt != transforms.end())
 			{
 				meshComponent->shader->Bind();
-				meshComponent->mesh->BindMesh();
-				meshComponent->texture->BindTexture(0);
-				meshComponent->specularMap->BindTexture(1);
-				meshComponent->normalMap->BindTexture(3);
+				if(meshComponent->mesh)
+					meshComponent->mesh->BindMesh();
+				if(meshComponent->texture)
+					meshComponent->texture->BindTexture(0);
+				if(meshComponent->specularMap)
+					meshComponent->specularMap->BindTexture(1);
+				if(meshComponent->normalMap)
+					meshComponent->normalMap->BindTexture(3);
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
 				s_RendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);

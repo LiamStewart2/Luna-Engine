@@ -116,6 +116,8 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::Columns(2, "Texture", false);
 			ImGui::Text("Texture:");
 			ImGui::NextColumn();
+			if(!texture)
+				texture = m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get();
 			if (ImGui::ImageButton(texture->GetTexturePacket()->path.c_str(), texture->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
