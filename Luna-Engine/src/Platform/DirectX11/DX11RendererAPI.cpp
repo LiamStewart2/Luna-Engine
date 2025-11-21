@@ -121,11 +121,11 @@ namespace Luna
         EntityComponentSystem* ECS = scene->GetECS();
 
         m_RenderContext->GetImmediateContext()->RSSetState(_wireframeState);
-        std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+        std::unordered_map<unsigned int, LightComponent>& lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
         ObjectTransformPairing<LightComponent> light;
         for (auto& [id, LC] : lightComponents)
         {
-            light.object = LC;
+            light.object = &LC;
             light.objectTransform = ECS->GetObjectComponent<Transform>(id);
         }
 
@@ -162,18 +162,18 @@ namespace Luna
         
         if (camera->object == nullptr)
         {
-            std::unordered_map<unsigned int, CameraComponent*> cameras = ECS->GetAllComponentsOfType<CameraComponent>();
+            std::unordered_map<unsigned int, CameraComponent>& cameras = ECS->GetAllComponentsOfType<CameraComponent>();
             unsigned int mainCameraID = 0;
 
             for (auto& [id, cameraComponent] : cameras)
             {
-                auto cameraIt = cameras.find(cameraComponent->gameObject);
+                auto cameraIt = cameras.find(cameraComponent.gameObject);
                 if (cameraIt == cameras.end())
                     return;
-                else if (cameraComponent->m_MainCamera)
+                else if (cameraComponent.m_MainCamera)
                 {
                     mainCameraID = id;
-                    camera->object = cameraComponent->m_Camera;
+                    camera->object = cameraComponent.m_Camera;
                     camera->objectTransform = ECS->GetObjectComponent<Transform>(id);
                 }
             }
@@ -185,11 +185,11 @@ namespace Luna
         }
 
         // Find the light component
-        std::unordered_map<unsigned int, LightComponent*> lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
+        std::unordered_map<unsigned int, LightComponent>& lightComponents = ECS->GetAllComponentsOfType<LightComponent>();
         ObjectTransformPairing<LightComponent> light;
         for (auto& [id, LC] : lightComponents)
         {
-            light.object = LC;
+            light.object = &LC;
             light.objectTransform = ECS->GetObjectComponent<Transform>(id);
         }
 

@@ -37,16 +37,16 @@ namespace Luna
 		EntityComponentSystem* ECS = scene->GetECS();
 
 		sceneManager->GetAssetManager()->GetShader("Assets/Shaders/NewDepthShader/DepthShader.hlsl")->Bind();
-		std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
-		std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
+		std::unordered_map<unsigned int, MeshComponent>& meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
+		std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
 		for (auto& [id, meshComponent] : meshComponents)
 		{
-			auto transformIt = transforms.find(meshComponent->gameObject);
+			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				meshComponent->mesh->BindMesh();
+				meshComponent.mesh->BindMesh();
 
-				rendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);
+				rendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second);
 			}
 		}
 

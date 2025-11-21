@@ -57,11 +57,11 @@ void Scene::DestroyScene()
 
 CameraComponent* Scene::GetMainCameraComponent()
 {
-	std::unordered_map<unsigned int, CameraComponent*> cameras = ECS.GetAllComponentsOfType<CameraComponent>();
+	std::unordered_map<unsigned int, CameraComponent>& cameras = ECS.GetAllComponentsOfType<CameraComponent>();
 	for (auto& [id, cameraComponent] : cameras)
 	{
-		if (cameraComponent->m_MainCamera)
-			return cameraComponent;
+		if (cameraComponent.m_MainCamera)
+			return &cameraComponent;
 	}
 	return nullptr;
 }

@@ -16,18 +16,18 @@ namespace Luna
 	{
 		if (camera->object == nullptr)
 		{
-			std::unordered_map<unsigned int, CameraComponent*> cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
+			std::unordered_map<unsigned int, CameraComponent>& cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
 			unsigned int mainCameraID = 0;
 
 			for (auto& [id, cameraComponent] : cameras)
 			{
-				auto cameraIt = cameras.find(cameraComponent->gameObject);
+				auto cameraIt = cameras.find(cameraComponent.gameObject);
 				if (cameraIt == cameras.end())
 					return;
-				else if (cameraComponent->m_MainCamera)
+				else if (cameraComponent.m_MainCamera)
 				{
 					mainCameraID = id;
-					camera->object = cameraComponent->m_Camera;
+					camera->object = cameraComponent.m_Camera;
 					camera->objectTransform = sceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<Transform>(id);
 				}
 			}
@@ -56,27 +56,27 @@ namespace Luna
 		Scene* scene = sceneManager->GetCurrentScene();
 		EntityComponentSystem* ECS = scene->GetECS();
 
-		std::unordered_map<unsigned int, MeshComponent*> meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
-		std::unordered_map<unsigned int, Transform*> transforms = ECS->GetAllComponentsOfType<Transform>();
+		std::unordered_map<unsigned int, MeshComponent>& meshComponents = ECS->GetAllComponentsOfType<MeshComponent>();
+		std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
 		for (auto& [id, meshComponent] : meshComponents)
 		{
-			auto transformIt = transforms.find(meshComponent->gameObject);
+			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				meshComponent->shader->Bind();
-				if(meshComponent->mesh)
-					meshComponent->mesh->BindMesh();
-				if(meshComponent->texture)
-					meshComponent->texture->BindTexture(0);
-				if(meshComponent->specularMap)
-					meshComponent->specularMap->BindTexture(1);
-				if(meshComponent->normalMap)
-					meshComponent->normalMap->BindTexture(3);
+				meshComponent.shader->Bind();
+				if(meshComponent.mesh)
+					meshComponent.mesh->BindMesh();
+				if(meshComponent.texture)
+					meshComponent.texture->BindTexture(0);
+				if(meshComponent.specularMap)
+					meshComponent.specularMap->BindTexture(1);
+				if(meshComponent.normalMap)
+					meshComponent.normalMap->BindTexture(3);
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
-				s_RendererAPI->RenderIndexed(meshComponent->mesh->GetIndexCount(), transformIt->second);
+				s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second);
 
-				meshComponent->shader->Unbind();
+				meshComponent.shader->Unbind();
 			}
 		}
 
@@ -87,15 +87,15 @@ namespace Luna
 
 	void ReworkedRenderer::RenderSkybox(SceneManager* sceneManager, IFramebuffer* framebuffer)
 	{
-		std::unordered_map<unsigned int, CameraComponent*> cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
+		std::unordered_map<unsigned int, CameraComponent>& cameras = sceneManager->GetCurrentScene()->GetECS()->GetAllComponentsOfType<CameraComponent>();
 		unsigned int mainCameraID = 0;
 
 		for (auto& [id, cameraComponent] : cameras)
 		{
-			auto cameraIt = cameras.find(cameraComponent->gameObject);
+			auto cameraIt = cameras.find(cameraComponent.gameObject);
 			if (cameraIt == cameras.end())
 				return;
-			else if (cameraComponent->m_MainCamera)
+			else if (cameraComponent.m_MainCamera)
 				mainCameraID = id;
 		}
 		if (mainCameraID == 0)
@@ -104,7 +104,7 @@ namespace Luna
 			return;
 		}
 
-		if (cameras[mainCameraID]->m_UseSkybox)
+		if (cameras[mainCameraID].m_UseSkybox)
 		{
 			s_RendererAPI->StartSkybox(sceneManager);
 			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh("Assets/Models/skybox.obj");

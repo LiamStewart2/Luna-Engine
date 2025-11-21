@@ -11,13 +11,13 @@ void HierarchyPanel::Update(unsigned int& inspectorID)
 
 	ImGui::SeparatorText(scene->GetSceneName().c_str());
 
-	std::unordered_map<unsigned int, NameComponent*> names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
+	std::unordered_map<unsigned int, NameComponent>& names = scene->GetECS()->GetAllComponentsOfType<NameComponent>();
 
 	bool hasRightClicked = false;
 
 	SceneGraphNode* sceneNode = scene->GetSceneGraph();
 	for (int i = 0; i < sceneNode->getNodes()->size(); i++)
-		BuildHiearchyText(inspectorID, scene->GetSceneGraph()->GetNode(sceneNode->getNodes()->at(i)->GetGameObject(), nullptr), &names, hasRightClicked);
+		BuildHiearchyText(inspectorID, scene->GetSceneGraph()->GetNode(sceneNode->getNodes()->at(i)->GetGameObject(), nullptr), names, hasRightClicked);
 
 	if (!hasRightClicked && ImGui::BeginPopupContextWindow(0, 1))
 	{
@@ -30,10 +30,10 @@ void HierarchyPanel::Update(unsigned int& inspectorID)
 	ImGui::End();
 }
 
-void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent*>* names, bool& HasBeenRightClicked)
+void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode* node, std::unordered_map<unsigned int, NameComponent>& names, bool& HasBeenRightClicked)
 {
 	unsigned int id = node->GetGameObject();
-	std::string& name = names->at(id)->m_Name;
+	std::string& name = names[id].m_Name;
 	bool selected = (id == inspectorID);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;

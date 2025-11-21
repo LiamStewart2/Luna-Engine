@@ -65,7 +65,7 @@ public:
 
 	// returns all components of type T
 	template <typename T>
-	std::unordered_map<unsigned int, T*> GetAllComponentsOfType()
+	std::unordered_map<unsigned int, T>& GetAllComponentsOfType()
 	{
 		return GetOrCreatePool<T>().GetComponents();
 	}

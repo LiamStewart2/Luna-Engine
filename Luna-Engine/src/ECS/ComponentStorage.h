@@ -32,12 +32,9 @@ public:
 		return components.contains(objectID);
 	}
 
-	std::unordered_map<unsigned int, T*> GetComponents()
+	std::unordered_map<unsigned int, T>& GetComponents()
 	{
-		std::unordered_map<unsigned int, T*> result;
-		for (auto& [id, component] : components)
-			result[id] = &component;
-		return result;
+		return components;
 	}
 
 	void RemoveComponent(unsigned int objectID)

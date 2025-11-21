@@ -31,5 +31,5 @@ private:
 	// SceneGraphNode* node - the current node being calculated
 	// std::unordered_map<unsigned int, Transform*>* transformComponents - a reference to all of the scenes transform components
 	// glm::mat4 parentMatrix - the matrix of the parent transform of the current node
-	void UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform*>* transformComponents, glm::mat4 parentMatrix = glm::mat4(1));
+	void UpdateTransform(SceneGraphNode* node, std::unordered_map<unsigned int, Transform>& transformComponents, glm::mat4 parentMatrix = glm::mat4(1));
 };
