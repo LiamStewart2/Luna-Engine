@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Panels\MaterialEditorPanel.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="src\Panels\ContentBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\GamePanel.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Panels\MaterialEditorPanel.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="src\Panels\ContentBrowserPanel.h" />
     <ClInclude Include="src\Panels\GamePanel.h" />

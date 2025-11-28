@@ -144,6 +144,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 				m_ContentBrowserPanel.Open();
 			if (ImGui::MenuItem("Hiearchy"))
 				m_HierarchyPanel.Open();
+			if(ImGui::MenuItem("Material Editor"))
+				m_MaterialEditorPanel.Open();
 			
 			ImGui::EndMenu();
 		}
@@ -156,6 +158,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	m_InspectorPanel.Update(m_CurrentInspectorGameObject);
 	m_HierarchyPanel.Update(m_CurrentInspectorGameObject);
 	m_ContentBrowserPanel.Update(m_CurrentInspectorGameObject);
+	m_MaterialEditorPanel.Update(m_CurrentInspectorGameObject);
 
 	m_GamePanel.UpdateGame(m_CurrentInspectorGameObject, runtime, gameFramebuffer);
 
