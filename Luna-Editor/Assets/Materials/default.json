@@ -1,0 +1,7 @@
+{
+  "Textures": {
+    "Albedo": "Assets/Textures/default.png",
+    "SpecularMap": "Assets/Textures/default.png",
+    "NormalMap": "Assets/Textures/BumpMapFlatColour.png"
+  }
+}

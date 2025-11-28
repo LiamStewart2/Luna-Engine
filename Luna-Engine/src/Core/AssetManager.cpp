@@ -60,6 +60,29 @@ namespace Luna
 		return m_Shaders[filepath];
 	}
 
+	std::shared_ptr<Material> AssetManager::GetMaterial(std::string filepath)
+	{
+		if (m_Materials.find(filepath) == m_Materials.end())
+		{
+			std::cout << filepath << std::endl;
+
+			m_Materials[filepath] = std::make_shared<Material>(); 
+			std::shared_ptr<Material> material = m_Materials[filepath];
+
+			// Load the material JSON
+			std::ifstream file(filepath);
+			nlohmann::json jsonData = nlohmann::json::parse(file);
+
+			// Load the material textures
+			material->m_Path = filepath;
+			material->m_Albedo = GetTexture(jsonData["Textures"]["Albedo"]);
+			material->m_SpecularMap = GetTexture(jsonData["Textures"]["SpecularMap"]);
+			material->m_NormalMap = GetTexture(jsonData["Textures"]["NormalMap"]);
+		}
+
+		return m_Materials[filepath];
+	}
+
 	std::shared_ptr<Script> AssetManager::GetScript(std::string filepath)
 	{
 		if (m_Scripts.find(filepath) == m_Scripts.end())

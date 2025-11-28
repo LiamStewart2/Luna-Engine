@@ -10,9 +10,11 @@
 #include <string>
 #include <array>
 #include <GLFW/glfw3.h>
+#include "JSON/json.hpp"
 
 #include "../Renderer/ITexture.h"
 #include "../Renderer/IMesh.h"
+#include "../Renderer/Material.h"
 
 /*
 Collection of file loading methods for various object types currently including
