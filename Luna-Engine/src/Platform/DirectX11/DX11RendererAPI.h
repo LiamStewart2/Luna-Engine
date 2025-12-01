@@ -52,7 +52,7 @@ namespace Luna
 		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
 		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 
-		void RenderIndexed(unsigned int count, Transform* transform) override;
+		void RenderIndexed(unsigned int count, Transform* transform, Material* material) override;
 	private:
 		DX11RendererContext* m_RenderContext = nullptr;
 
@@ -64,8 +64,6 @@ namespace Luna
 		ID3D11Buffer* _constantBuffer;
 
 		ConstantBuffer _cbData;
-
-		Material m_Material;
 
 		void InitPipelineVariables();
 	};

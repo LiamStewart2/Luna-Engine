@@ -32,7 +32,7 @@ namespace Luna
 		virtual void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) = 0;
 		virtual void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) = 0;
 
-		virtual void RenderIndexed(unsigned int count, Transform* transform) = 0;
+		virtual void RenderIndexed(unsigned int count, Transform* transform, Material* material) = 0;
 
 		static RendererAPIType GetAPI() { return s_API; }
 		static std::shared_ptr<IRendererAPI> Create();

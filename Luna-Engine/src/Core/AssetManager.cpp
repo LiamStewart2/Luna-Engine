@@ -78,6 +78,16 @@ namespace Luna
 			material->m_Albedo = GetTexture(jsonData["Textures"]["Albedo"]);
 			material->m_SpecularMap = GetTexture(jsonData["Textures"]["SpecularMap"]);
 			material->m_NormalMap = GetTexture(jsonData["Textures"]["NormalMap"]);
+
+			// Load the colours from json
+			nlohmann::json ambientJson = jsonData["Values"]["AmbientColour"];
+			nlohmann::json specularJson = jsonData["Values"]["SpecularColour"];
+			material->m_AmbientColour = glm::vec4(ambientJson[0], ambientJson[1], ambientJson[2], ambientJson[3]);
+			material->m_SpecularColour = glm::vec4(specularJson[0], specularJson[1], specularJson[2], specularJson[3]);
+
+			// Load the intensity values
+			material->m_AmbientIntensity = jsonData["Values"]["AmbientIntensity"];
+			material->m_SpecularIntensity = jsonData["Values"]["SpecularIntensity"];
 		}
 
 		return m_Materials[filepath];

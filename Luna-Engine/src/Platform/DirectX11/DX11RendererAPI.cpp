@@ -22,10 +22,6 @@ namespace Luna
 		// Initialization code for DirectX 11 Renderer API
 		m_RenderContext = (DX11RendererContext*)(renderContext.get());
 
-        m_Material = Material(
-            glm::vec4(1, 1, 1, 1), 0.2f,
-            glm::vec4(1, 1, 1, 1), 0.8);
-
         InitPipelineVariables();
 	}
 
@@ -199,11 +195,7 @@ namespace Luna
 
 		_cbData.LightDirection = glm::normalize(light.objectTransform->Forward());
 		_cbData.LightColour = light.object->m_Light.m_LightColour;
-		_cbData.AmbientColour = m_Material.m_AmbientColour;
-		_cbData.AmbientIntensity = m_Material.m_AmbientIntensity;
-		_cbData.SpecularColour = m_Material.m_SpecularColour;
         _cbData.CameraPosition = camera->objectTransform->position;
-        _cbData.SpecularIntensity = m_Material.m_SpecularIntensity;
 
         // Set rasterizer state to the fillstate
         m_RenderContext->GetImmediateContext()->RSSetState(_fillState);
@@ -212,11 +204,19 @@ namespace Luna
 	{
 		// Code to end the current frame
 	}
-	void DX11RendererAPI::RenderIndexed(unsigned int count, Transform* transform)
+	void DX11RendererAPI::RenderIndexed(unsigned int count, Transform* transform, Material* material)
 	{
 		// Render indexed geometry
 
 		_cbData.World = transform->transformMatrix;
+
+        if(material != nullptr)
+        {
+            _cbData.AmbientColour = material->m_AmbientColour;
+            _cbData.AmbientIntensity = material->m_AmbientIntensity;
+            _cbData.SpecularColour = material->m_SpecularColour;
+            _cbData.SpecularIntensity = material->m_SpecularIntensity;
+        }
 
         D3D11_MAPPED_SUBRESOURCE mappedSubresource;
         m_RenderContext->GetImmediateContext()->Map(_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);

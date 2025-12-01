@@ -46,7 +46,7 @@ namespace Luna
 			{
 				meshComponent.mesh->BindMesh();
 
-				rendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second);
+				rendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, nullptr);
 			}
 		}
 

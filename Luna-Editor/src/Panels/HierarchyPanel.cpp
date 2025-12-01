@@ -65,18 +65,10 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 			ImGui::SeparatorText("Components");
 			if (ImGui::MenuItem("Mesh"))
 			{
-				Luna::Material* material = new Luna::Material;
-				material->m_AmbientColour = glm::vec4(1);
-				material->m_AmbientIntensity = 0.2f; 
-				material->m_SpecularColour = glm::vec4(1);
-				material->m_SpecularIntensity = 1;
-
 				m_SceneManager->GetCurrentScene()->AddComponent<MeshComponent>(inspectorID,
 					m_SceneManager->GetAssetManager()->GetMesh("Assets/Models/planeobj.obj").get(),
-					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/SimpleShader/SimpleShaders.hlsl").get(), material,
-					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get(),
-					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get(),
-					m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get());
+					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/SimpleShader/SimpleShaders.hlsl").get(),
+					m_SceneManager->GetAssetManager()->GetMaterial("Assets/Materials/default.json").get());
 			}
 
 			if(ImGui::MenuItem("Script"))

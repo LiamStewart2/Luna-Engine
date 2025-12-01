@@ -66,15 +66,17 @@ namespace Luna
 				meshComponent.shader->Bind();
 				if(meshComponent.mesh)
 					meshComponent.mesh->BindMesh();
-				if(meshComponent.texture)
-					meshComponent.texture->BindTexture(0);
-				if(meshComponent.specularMap)
-					meshComponent.specularMap->BindTexture(1);
-				if(meshComponent.normalMap)
-					meshComponent.normalMap->BindTexture(3);
+				
+				if(meshComponent.material->m_Albedo != nullptr)
+					meshComponent.material->m_Albedo->BindTexture(0);
+				if(meshComponent.material->m_SpecularMap != nullptr)
+					meshComponent.material->m_SpecularMap->BindTexture(1);
+				if(meshComponent.material->m_NormalMap != nullptr)
+					meshComponent.material->m_NormalMap->BindTexture(3);
+
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
-				s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second);
+				s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
 
 				meshComponent.shader->Unbind();
 			}
@@ -111,7 +113,7 @@ namespace Luna
 			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
 			mesh->BindMesh();
 			Transform skyboxTransform = Transform(0);
-			s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &skyboxTransform);
+			s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &skyboxTransform, nullptr);
 		}
 	}
 }

@@ -1,7 +1,13 @@
 {
   "Textures": {
-    "Albedo": "Assets/Textures/default.png",
+    "Albedo": "Assets/Textures/brickWallColour.jpg",
     "SpecularMap": "Assets/Textures/default.png",
     "NormalMap": "Assets/Textures/BumpMapFlatColour.png"
+  },
+  "Values": {
+    "AmbientColour": [ 1, 1, 1, 1 ],
+    "AmbientIntensity": 0.2,
+    "SpecularColour": [ 1, 1, 1, 1 ],
+    "SpecularIntensity": 0.8
   }
 }

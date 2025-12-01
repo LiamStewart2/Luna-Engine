@@ -18,8 +18,8 @@ namespace Luna
 
 		std::string m_Path;
 
-		std::shared_ptr<ITexture> m_Albedo;
-		std::shared_ptr<ITexture> m_SpecularMap;
-		std::shared_ptr<ITexture> m_NormalMap;
+		std::shared_ptr<ITexture> m_Albedo = nullptr;
+		std::shared_ptr<ITexture> m_SpecularMap = nullptr;
+		std::shared_ptr<ITexture> m_NormalMap = nullptr;
 	};
 }

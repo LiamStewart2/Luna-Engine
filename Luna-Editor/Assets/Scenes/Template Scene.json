@@ -114,9 +114,7 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg",
-                    "Assets\\Textures\\brickwallNormal.png"
+                    "Assets/Materials/default.json"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -144,13 +142,11 @@
                 "component-type": "TransformComponent"
             },
             {
-                "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png",
-                    "Assets\\Textures\\default.png",
-                    "Assets\\Textures\\BumpMapFlatColour.png"
-                ],
+              "component-args": [
+                "Assets\\Models\\Plane.obj",
+                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                "Assets/Materials/default.json"
+              ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -177,13 +173,11 @@
                 "component-type": "TransformComponent"
             },
             {
-                "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_BaseColor.jpg",
-                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Roughness.jpg",
-                    "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Normal.png"
-                ],
+              "component-args": [
+                "Assets\\Models\\Plane.obj",
+                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                "Assets/Materials/default.json"
+              ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -210,13 +204,11 @@
                 "component-type": "TransformComponent"
             },
             {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\brickWallColour.jpg",
-                    "Assets\\Textures\\brickWallRoughness.jpg",
-                    "Assets\\Textures\\brickwallNormal.png"
-                ],
+              "component-args": [
+                "Assets/Models/planeobj.obj",
+                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                "Assets/Materials/default.json"
+              ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -243,13 +235,11 @@
                 "component-type": "TransformComponent"
             },
             {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Textures\\TerrazzoSlab028_COL_2K_METALNESS.png",
-                    "Assets\\Textures\\default.png",
-                    "Assets\\Textures\\BumpMapFlatColour.png"
-                ],
+              "component-args": [
+                "Assets/Models/planeobj.obj",
+                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                "Assets/Materials/default.json"
+              ],
                 "component-type": "MeshComponent"
             }
         ]
