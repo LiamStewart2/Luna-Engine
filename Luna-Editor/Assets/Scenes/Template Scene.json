@@ -114,7 +114,7 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Materials/default.json"
+                    "Assets/Materials/default.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -142,11 +142,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets\\Models\\Plane.obj",
-                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                "Assets/Materials/default.json"
-              ],
+                "component-args": [
+                    "Assets\\Models\\Plane.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -173,11 +173,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets\\Models\\Plane.obj",
-                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                "Assets/Materials/default.json"
-              ],
+                "component-args": [
+                    "Assets\\Models\\Plane.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -204,11 +204,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets/Models/planeobj.obj",
-                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                "Assets/Materials/default.json"
-              ],
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
                 "component-type": "MeshComponent"
             }
         ],
@@ -235,11 +235,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets/Models/planeobj.obj",
-                "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                "Assets/Materials/default.json"
-              ],
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Materials\\secondary.lmat"
+                ],
                 "component-type": "MeshComponent"
             }
         ]

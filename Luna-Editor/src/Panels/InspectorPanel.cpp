@@ -83,21 +83,21 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
-			
-			Luna::IMesh* mesh = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh;
+			MeshComponent* component = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID);
+
 			ImGui::SeparatorText("Mesh");
 			ImGui::Columns(2, "Mesh", false);
 
 			ImGui::Text("Mesh:"); 
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(mesh->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->mesh->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
-					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh = m_SceneManager->GetAssetManager()->GetMesh(fpath).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMesh(fpath).get();
 			}
 
 			if (ImGui::BeginDragDropTarget())
@@ -105,42 +105,37 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MODEL"))
 				{
 					const char* path = (const char*)payload->Data;
-					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->mesh = m_SceneManager->GetAssetManager()->GetMesh(path).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMesh(path).get();
 				}
 				ImGui::EndDragDropTarget();
 			}
 
 			ImGui::NextColumn();
 			
-			/* Drag and drop items example
-			Luna::ITexture* texture = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture;
-			ImGui::Columns(2, "Texture", false);
-			ImGui::Text("Texture:");
+			ImGui::Columns(2, "Material", false);
+			ImGui::Text("Material:");
 			ImGui::NextColumn();
-			if(!texture)
-				texture = m_SceneManager->GetAssetManager()->GetTexture("Assets/Textures/default.png").get();
-			if (ImGui::ImageButton(texture->GetTexturePacket()->path.c_str(), texture->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->material->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
-					{L"Texture Files", L"*.png;*.jpg;*.jpeg"},
+					{L"Texture Files", L"*.lmat"},
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
-					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture = m_SceneManager->GetAssetManager()->GetTexture(fpath).get();
+					component->material = m_SceneManager->GetAssetManager()->GetMaterial(fpath).get();
 			}
 
 			if (ImGui::BeginDragDropTarget())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_TEXTURE"))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MATERIAL"))
 				{
 					const char* path = (const char*)payload->Data;
-					scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID)->texture = m_SceneManager->GetAssetManager()->GetTexture(path).get();
+					component->material = m_SceneManager->GetAssetManager()->GetMaterial(path).get();
 				}
 				ImGui::EndDragDropTarget();
 			}
 
 			ImGui::NextColumn();
-			*/
 			ImGui::Columns(1);
 		}
 		if (scene->GetECS()->HasComponent<CameraComponent>(inspectorID))
