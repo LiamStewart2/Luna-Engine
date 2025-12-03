@@ -230,6 +230,7 @@ public:
 	}
 
 	void Update(unsigned int& inspectorID) override;
+    void SaveCurrentMaterial();
 private:
 	std::shared_ptr<Luna::Material> m_Material = nullptr;
 
