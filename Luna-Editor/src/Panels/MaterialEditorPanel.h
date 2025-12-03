@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ImGuiPanel.h"
+#include "../imgui/GraphEditor.h"
 
 #include "Luna.h"
 
