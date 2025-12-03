@@ -114,7 +114,7 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Materials/default.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -145,7 +145,7 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Materials/default.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -176,7 +176,7 @@
                 "component-args": [
                     "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Materials/default.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -193,10 +193,10 @@
                     4.145578861236572,
                     -2.1402640342712402,
                     0.26566755771636963,
-                    0.5001494884490967,
-                    -0.5001494884490967,
-                    -0.49985045194625854,
-                    -0.49985045194625854,
+                    0.5001726150512695,
+                    -0.5001726150512695,
+                    -0.4998273551464081,
+                    -0.4998273551464081,
                     1.9999959468841553,
                     1.9999959468841553,
                     1.999996304512024
@@ -207,7 +207,7 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets/Materials/default.lmat"
+                    "Assets\\Materials\\secondary.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -238,7 +238,7 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\secondary.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             }

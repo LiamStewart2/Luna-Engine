@@ -931,7 +931,7 @@ void Show(Delegate& delegate, const Options& options, ViewState& viewState, bool
 
                 // shadow
                 /*
-                ImVec2 shadowOffset = ImVec2(30, 30);
+                ImVec2 shadowOffset = ImVec2(25, 25);
                 ImVec2 shadowPivot = (nodeRect.Min + nodeRect.Max) /2.f;
                 ImVec2 shadowPointMiddle = shadowPivot + shadowOffset;
                 ImVec2 shadowPointTop = ImVec2(shadowPivot.x, nodeRect.Min.y) + shadowOffset;
@@ -951,6 +951,7 @@ void Show(Delegate& delegate, const Options& options, ViewState& viewState, bool
                 // bottom right
                 drawList->AddRectFilledMultiColor(shadowPointMiddle, nodeRect.Max + shadowOffset, IM_COL32(0, 0, 0, 255), IM_COL32(0 ,0, 0, 0), IM_COL32(0,0,0,0), IM_COL32(0, 0, 0, 0));
                 */
+                
                 if (DrawNode(drawList, nodeIndex, offset, viewState.mFactor, delegate, overInput, options, inMinimap, regionRect))
                 {
                     hoveredNode = nodeIndex;

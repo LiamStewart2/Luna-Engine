@@ -122,7 +122,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
-					component->material = m_SceneManager->GetAssetManager()->GetMaterial(fpath).get();
+					component->material = m_SceneManager->GetAssetManager()->GetMaterial(fpath);
 			}
 
 			if (ImGui::BeginDragDropTarget())
@@ -130,7 +130,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MATERIAL"))
 				{
 					const char* path = (const char*)payload->Data;
-					component->material = m_SceneManager->GetAssetManager()->GetMaterial(path).get();
+					component->material = m_SceneManager->GetAssetManager()->GetMaterial(path);
 				}
 				ImGui::EndDragDropTarget();
 			}

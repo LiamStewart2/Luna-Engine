@@ -76,6 +76,8 @@ namespace Luna
 
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
+				std::cout << "RENDERING: " << meshComponent.material.get() << std::endl;
+
 				s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
 
 				meshComponent.shader->Unbind();

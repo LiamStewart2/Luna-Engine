@@ -204,7 +204,7 @@ namespace Luna
 	{
 		// Code to end the current frame
 	}
-	void DX11RendererAPI::RenderIndexed(unsigned int count, Transform* transform, Material* material)
+	void DX11RendererAPI::RenderIndexed(unsigned int count, Transform* transform, std::shared_ptr<Material> material)
 	{
 		// Render indexed geometry
 
