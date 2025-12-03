@@ -28,6 +28,7 @@ template <typename T, typename ... U> Array(T, U...) -> Array<T, 1 + sizeof...(U
 struct GraphEditorDelegate : public GraphEditor::Delegate
 {
     std::vector<std::shared_ptr<Luna::ITexture>> textures;
+    bool changesMade = false;
     std::shared_ptr<Luna::Material> material;
     Luna::AssetManager* assetManager = nullptr;
 
@@ -108,6 +109,8 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
                 default:
                     break;
                 }
+
+                changesMade = true;
             }
             ImGui::EndDragDropTarget();
         }

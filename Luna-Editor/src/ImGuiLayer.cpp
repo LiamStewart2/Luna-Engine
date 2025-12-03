@@ -99,6 +99,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	{
 		m_SaveShortcutUsed = true;
 		m_SceneManager->SaveScene();
+		m_MaterialEditorPanel.SaveCurrentMaterial();
 	}
 	if(m_SaveShortcutUsed && (ImGui::IsKeyReleased(ImGuiKey_S) || ImGui::IsKeyReleased(ImGuiKey_LeftCtrl)))
 		m_SaveShortcutUsed = false;
