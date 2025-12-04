@@ -21,7 +21,8 @@ int Application::Init()
 	glfwInit();
 
 	window = LunaWindow::NewWindow("Epic Game", SCREEN_WIDTH, SCREEN_HEIGHT);
-	
+	window->SetNewIcon("Assets/Textures/moonicon.png");
+
 	m_RendererContext = Luna::RendererContext::Create((void*)window->GetHandle());
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);

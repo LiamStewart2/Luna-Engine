@@ -53,6 +53,10 @@ public:
 	// const char* newTitle - the data that should be passed to the new window title
 	void SetNewTitle(const char* newTitle);
 
+	//Sets the icon of the current window
+	// const char* path - that filepath to the desired icon
+	void SetNewIcon(const char* path);
+
 	// Returns the window handle
 	GLFWwindow* GetHandle(){return m_WindowHandle;}
 
