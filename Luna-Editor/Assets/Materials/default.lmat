@@ -1,0 +1,23 @@
+{
+    "Textures": {
+        "Albedo": "Assets/Textures/Grass Floor/2K/Poliigon_GrassPatchyGround_4585_BaseColor.jpg",
+        "NormalMap": "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Normal.png",
+        "SpecularMap": "Assets\\Textures\\Grass Floor\\2K\\Poliigon_GrassPatchyGround_4585_Roughness.jpg"
+    },
+    "Values": {
+        "AmbientColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "AmbientIntensity": 0.2,
+        "SpecularColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "SpecularIntensity": 0.8
+    }
+}

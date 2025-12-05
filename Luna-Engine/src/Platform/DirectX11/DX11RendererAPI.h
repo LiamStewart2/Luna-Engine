@@ -52,7 +52,7 @@ namespace Luna
 		void StartFrame(SceneManager* sceneManager, IFramebuffer* framebuffer, ObjectTransformPairing<Camera>* = nullptr) override;
 		void EndFrame(SceneManager* sceneManager, IFramebuffer* framebuffer) override;
 
-		void RenderIndexed(unsigned int count, Transform* transform, Material* material) override;
+		void RenderIndexed(unsigned int count, Transform* transform, std::shared_ptr<Material> material) override;
 	private:
 		DX11RendererContext* m_RenderContext = nullptr;
 

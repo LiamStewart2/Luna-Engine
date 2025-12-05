@@ -67,6 +67,10 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		else if (GetFileExtension(path.path().filename().string()) == "lua")
 			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
 
+		else if (GetFileExtension(path.path().filename().string()) == "lmat")
+			BeginPayload("CONTENT_BROWSER_ITEM_MATERIAL", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
+
+
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 
 		ImGui::NextColumn();

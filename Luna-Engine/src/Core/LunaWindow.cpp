@@ -22,6 +22,7 @@ Currently only tested with one concurrent window, however in theory supports mul
  */
 
 #include "LunaWindow.h"
+#include "STB/stb_image.h"
 
 // Stores a reference to the currently focused window for global access
 LunaWindow* LunaWindow::m_FocusedWindow = nullptr;
@@ -140,6 +141,16 @@ bool LunaWindow::ShouldClose()
 void LunaWindow::SetNewTitle(const char* newTitle)
 {
 	glfwSetWindowTitle(m_WindowHandle, newTitle);
+}
+
+//Sets the icon of the current window
+// const char* path - that filepath to the desired icon
+void LunaWindow::SetNewIcon(const char* path)
+{
+	GLFWimage images[1];
+	images[0].pixels = stbi_load(path, &images[0].width, &images[0].height, 0, 4);
+	glfwSetWindowIcon(m_WindowHandle, 1, images);
+	stbi_image_free(images[0].pixels);
 }
 
 // Polls window events - should be called at the end of every frame
