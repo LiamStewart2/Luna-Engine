@@ -2,7 +2,7 @@
     "Textures": {
         "Albedo": "Assets\\Textures\\brickWallColour.jpg",
         "NormalMap": "Assets\\Textures\\brickwallNormal.png",
-        "SpecularMap": "Assets/Textures/default.png"
+        "SpecularMap": "Assets\\Textures\\brickWallRoughness.jpg"
     },
     "Values": {
         "AmbientColour": [

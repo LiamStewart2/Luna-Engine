@@ -62,11 +62,30 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
     void AddLink(GraphEditor::NodeIndex inputNodeIndex, GraphEditor::SlotIndex inputSlotIndex, GraphEditor::NodeIndex outputNodeIndex, GraphEditor::SlotIndex outputSlotIndex) override
     {
         mLinks.push_back({ inputNodeIndex, inputSlotIndex, outputNodeIndex, outputSlotIndex });
+
+        UpdateMaterial();
     }
 
     void DelLink(GraphEditor::LinkIndex linkIndex) override
     {
+        switch (mLinks[linkIndex].mOutputSlotIndex)
+        {
+        case(0):
+            assetManager->GetMaterial(material->m_Path)->m_Albedo = assetManager->GetTexture("Assets/Textures/default.png");
+            break;
+        case(1):
+            assetManager->GetMaterial(material->m_Path)->m_SpecularMap = assetManager->GetTexture("Assets/Textures/default.png");
+            break;
+        case(2):
+            assetManager->GetMaterial(material->m_Path)->m_NormalMap = assetManager->GetTexture("Assets/Textures/BumpMapFlatColour.png");;
+            break;
+        default:
+            break;
+        }
+
+
         mLinks.erase(mLinks.begin() + linkIndex);
+
     }
 
     void CustomDraw(ImDrawList* drawList, ImRect rect, GraphEditor::NodeIndex index)
@@ -95,25 +114,12 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
                 if (index < textures.size())
                     textures[index] = tex;
 
-                switch (index)
-                {
-                case(0):
-                    assetManager->GetMaterial(material->m_Path)->m_Albedo = tex;
-                    break;
-                case(1):
-                    assetManager->GetMaterial(material->m_Path)->m_SpecularMap = tex;
-                    break;
-                case(2):
-                    assetManager->GetMaterial(material->m_Path)->m_NormalMap = tex;
-                    break;
-                default:
-                    break;
-                }
-
                 changesMade = true;
             }
             ImGui::EndDragDropTarget();
         }
+
+        UpdateMaterial();
     }
 
     const size_t GetTemplateCount() override
@@ -219,6 +225,29 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
             false
         }
     };
+
+    void UpdateMaterial()
+    {
+        for (GraphEditor::Link link : mLinks)
+        {
+
+            std::shared_ptr<Luna::ITexture> tex = textures[link.mInputNodeIndex];
+            switch (link.mOutputSlotIndex)
+            {
+            case(0):
+                assetManager->GetMaterial(material->m_Path)->m_Albedo = tex;
+                break;
+            case(1):
+                assetManager->GetMaterial(material->m_Path)->m_SpecularMap = tex;
+                break;
+            case(2):
+                assetManager->GetMaterial(material->m_Path)->m_NormalMap = tex;
+                break;
+            default:
+                break;
+            }
+        }
+    }
 
     std::vector<GraphEditor::Link> mLinks = { {0, 0, 3, 0}, {1, 0, 3, 1}, {2, 0, 3, 2} };
 };
