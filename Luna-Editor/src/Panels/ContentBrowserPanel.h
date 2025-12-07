@@ -34,5 +34,7 @@ private:
 	std::shared_ptr<Luna::ITexture> m_CodeIcon;
 
 	std::string GetFileExtension(std::string filename);
+
+	void CreateNewMaterial();
 };
 

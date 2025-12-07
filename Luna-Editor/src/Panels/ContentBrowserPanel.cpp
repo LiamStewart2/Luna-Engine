@@ -12,6 +12,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 	}
 	ImGui::Text(m_CurrentDirectory.string().c_str());
 
+	// Folder Contents UI
 	static float padding = 16.0f;
 	static float thumbnailSize = 96.0f;
 	float cellSize = thumbnailSize + padding;
@@ -78,6 +79,22 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		ImGui::PopID();
 	}
 
+	// Add assets menu
+	if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight))
+	{
+		if (ImGui::BeginMenu("Create Asset"))
+		{
+			ImGui::SeparatorText("Assets");
+			if (ImGui::MenuItem("Material"))
+			{
+				CreateNewMaterial();
+			}
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndPopup();
+	}
+
 	ImGui::End();
 }
 
@@ -97,4 +114,25 @@ void ContentBrowserPanel::BeginPayload(std::string payloadID, std::string data, 
 		ImGui::SetDragDropPayload(payloadID.c_str(), data.c_str(), data.size() + 1);
 		ImGui::EndDragDropSource();
 	}
+}
+
+void ContentBrowserPanel::CreateNewMaterial()
+{
+	std::string path = m_CurrentDirectory.string() + "/new_material.lmat";
+
+	nlohmann::json jsonData;
+	jsonData["Textures"]["Albedo"] = "Assets/Textures/default.png";
+	jsonData["Textures"]["SpecularMap"] = "Assets/Textures/default.png";
+	jsonData["Textures"]["NormalMap"] = "Assets/Textures/BumpMapFlatColour.png";
+
+	glm::vec4 color = glm::vec4(1, 1, 1, 1);
+	jsonData["Values"]["AmbientColour"] = { color.x, color.y, color.z, color.a };
+	jsonData["Values"]["AmbientIntensity"] = 0.2;
+
+	color = glm::vec4(1, 1, 1, 1);
+	jsonData["Values"]["SpecularColour"] = { color.x, color.y, color.z, color.a };
+	jsonData["Values"]["SpecularIntensity"] = 0.8;
+
+	std::ofstream file(path);
+	file << jsonData.dump(4);
 }
