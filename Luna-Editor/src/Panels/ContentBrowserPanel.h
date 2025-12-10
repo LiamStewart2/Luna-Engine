@@ -35,6 +35,11 @@ private:
 
 	std::string GetFileExtension(std::string filename);
 
+	std::string m_RightClickedPath = "";
+	bool m_ContextWindowOpen = false;
+
 	void CreateNewMaterial();
+
+	void DeleteSelectedFileOrFolder();
 };
 

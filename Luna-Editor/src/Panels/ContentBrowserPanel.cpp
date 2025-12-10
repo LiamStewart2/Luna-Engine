@@ -40,6 +40,10 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 			m_CurrentDirectory = path.path();
 			break;
 		}
+		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+		{
+			m_RightClickedPath = path.path().filename().string();
+		}
 		ImGui::TextWrapped(path.path().filename().string().c_str());
 		ImGui::NextColumn();
 	}
@@ -54,6 +58,11 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 			ImGui::Image(m_ModelIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else
 			ImGui::Image(m_FileIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
+
+		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+		{
+			m_RightClickedPath = path.path().filename().string();
+		}
 
 		std::string itemPath = std::filesystem::relative(path.path(), m_ProjectDirectory).string().c_str();
 		if (GetFileExtension(path.path().filename().string()) == "json")
@@ -80,8 +89,16 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 	}
 
 	// Add assets menu
-	if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight))
+	if (ImGui::BeginPopupContextWindow("ContentBrowsewContextWindow", ImGuiPopupFlags_MouseButtonRight))
 	{
+		m_ContextWindowOpen = true;
+		if (m_RightClickedPath != "")
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				DeleteSelectedFileOrFolder();
+			}
+		}
 		if (ImGui::BeginMenu("Create Asset"))
 		{
 			ImGui::SeparatorText("Assets");
@@ -94,7 +111,14 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 
 		ImGui::EndPopup();
 	}
-
+	else
+	{
+		if(m_ContextWindowOpen)
+		{
+			m_RightClickedPath = "";
+			m_ContextWindowOpen = false;
+		}
+	}
 	ImGui::End();
 }
 
@@ -113,6 +137,23 @@ void ContentBrowserPanel::BeginPayload(std::string payloadID, std::string data, 
 
 		ImGui::SetDragDropPayload(payloadID.c_str(), data.c_str(), data.size() + 1);
 		ImGui::EndDragDropSource();
+	}
+}
+
+void ContentBrowserPanel::DeleteSelectedFileOrFolder()
+{
+	std::filesystem::path target = m_CurrentDirectory / m_RightClickedPath;
+
+	if(!std::filesystem::exists(target))
+		std::cerr << target.string() << ">>> Path not found" << std::endl;
+	else 
+	{
+		if (std::filesystem::is_directory(target))
+			std::filesystem::remove_all(target);
+		else
+			std::filesystem::remove(target);
+
+		m_RightClickedPath = "";
 	}
 }
 
