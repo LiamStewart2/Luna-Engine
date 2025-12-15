@@ -12,6 +12,7 @@
 #include "LightComponent.h"
 #include "CameraComponent.h"
 #include "ScriptComponent.h"
+#include "PhysicsComponent.h"
 
 class EntityComponentSystem
 {
@@ -54,6 +55,12 @@ public:
 
 		if (HasComponent<CameraComponent>(gameObject))
 			RemoveComponent<CameraComponent>(gameObject);
+
+		if (HasComponent<ScriptComponent>(gameObject))
+			RemoveComponent<ScriptComponent>(gameObject);
+
+		if (HasComponent<PhysicsComponent>(gameObject))
+			RemoveComponent<PhysicsComponent>(gameObject);
 	}
 
 	// removes a component of type T from gameObject

@@ -30,3 +30,7 @@
 // SCRIPTING
 
 #include "Scripting/ScriptManager.h"
+
+// Physics
+
+#include "Physics/PhysicsSystem.h"

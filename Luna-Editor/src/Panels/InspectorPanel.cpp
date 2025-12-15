@@ -81,6 +81,18 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::Columns(1);
 		}
 
+		if (scene->GetECS()->HasComponent<PhysicsComponent>(inspectorID))
+		{
+			PhysicsComponent* component = scene->GetECS()->GetObjectComponent<PhysicsComponent>(inspectorID);
+
+			ImGui::SeparatorText("Physics");
+
+			ImGui::Checkbox("Simulate", &component->m_Simulate);
+
+			ImGui::InputFloat("Gravity Scale", &component->m_GravityValue);
+			ImGui::InputFloat("Mass", &component->m_Mass);
+		}
+
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			MeshComponent* component = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID);

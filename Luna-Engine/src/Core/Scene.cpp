@@ -30,7 +30,10 @@ void Scene::LoadAssets()
 void Scene::Update(bool runtime)
 {
 	if(runtime)
+	{
+		physicsSystem.Update(&ECS);
 		scriptManager.OnSceneUpdate(&ECS);
+	}
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 

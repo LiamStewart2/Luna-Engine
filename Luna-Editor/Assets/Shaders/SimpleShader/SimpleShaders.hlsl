@@ -144,5 +144,10 @@ float4 PS_main(VS_Out input) : SV_TARGET
     //input.color = (float4) Shadow(input);
     //input.color.a = 1;
     //return float4(NewNormal, 1);
+    
+    // Monochrome
+    //float colorAverage = (input.color.r + input.color.g + input.color.b) / 3;
+    //input.color = float4(colorAverage, colorAverage, colorAverage, 1);
+    
     return input.color;
 }

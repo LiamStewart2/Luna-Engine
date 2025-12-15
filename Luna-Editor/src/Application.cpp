@@ -106,7 +106,10 @@ void Application::ResizeCallback(GLFWwindow* handle, int width, int height)
 void Application::Update()
 {
 	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
+
 	sceneManager.Update(runtime);
+	
+
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };

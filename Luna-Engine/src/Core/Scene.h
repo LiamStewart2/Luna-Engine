@@ -9,6 +9,7 @@
 #include "../ECS/ECS.h"
 #include "AssetManager.h"
 #include "LinkedList.h"
+#include "../Physics/PhysicsSystem.h"
 
 class Scene
 {
@@ -51,6 +52,7 @@ private:
 
 	ScriptManager scriptManager;
 	TransformationManager transformationManager;
+	Luna::PhysicsSystem physicsSystem;
 
 	Luna::AssetManager* assetManager;
 };

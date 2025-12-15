@@ -101,6 +101,15 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			});
 		}
 
+		if (m_Scene->GetECS()->HasComponent<PhysicsComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			PhysicsComponent* component = m_Scene->GetECS()->GetObjectComponent<PhysicsComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "PhysicsComponent"},
+				{"component-args", {component->m_Simulate, component->m_Mass, component->m_GravityValue}}
+				});
+		}
+
 		jsonData["objects"].push_back(objectComponents);
 	}
 	
@@ -218,6 +227,14 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 
 			m_Scene->AddComponent<ScriptComponent>(objectID, script);
 			m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();
+		}
+		else if (componentData["component-type"] == "PhysicsComponent")
+		{
+			m_Scene->AddComponent<PhysicsComponent>(objectID, 
+				componentData["component-args"][0].get<bool>(),
+				componentData["component-args"][1].get<float>(),
+				componentData["component-args"][2].get<float>()
+			);
 		}
 	}
 
