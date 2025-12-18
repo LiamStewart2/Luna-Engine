@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="src\Renderer\ShadowRenderer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="src\ECS\ECS.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Timer.h" />
     <ClInclude Include="src\Physics\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\PhysicsComponent.h" />
     <ClInclude Include="src\Renderer\ShadowRenderer.h" />

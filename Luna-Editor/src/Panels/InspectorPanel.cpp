@@ -37,7 +37,6 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			transform->SetEulerRotation(glm::radians(m_EulerDegrees));
 
-
 			ImGui::Text("Scale");
 			ImGui::InputFloat("scale x", &transform->scale.x);
 			ImGui::InputFloat("scale y", &transform->scale.y);

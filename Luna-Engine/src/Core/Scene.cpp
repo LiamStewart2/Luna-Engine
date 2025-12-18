@@ -31,9 +31,9 @@ void Scene::Update(bool runtime)
 {
 	if(runtime)
 	{
-		physicsSystem.Update(&ECS);
 		scriptManager.OnSceneUpdate(&ECS);
 	}
+	physicsSystem.Update(&ECS, runtime);
 	transformationManager.UpdateTransformationMatricies(&sceneGraph, &ECS);
 }
 

@@ -81,10 +81,22 @@ void ScenePanel::UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<
 		ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(proj),
 			m_CurrentOperation, ImGuizmo::WORLD, glm::value_ptr(matrix));
 
+
+
+		PhysicsComponent* physicsComponent = m_SceneManager->GetCurrentScene()->GetECS()->GetObjectComponent<PhysicsComponent>(inspectorID);
 		if (ImGuizmo::IsUsing())
 		{
+			if (physicsComponent != nullptr)
+				physicsComponent->m_BeingManipulated = true;
+
 			objectTransform->SetComponentsFromMatrix(matrix);
 		}
+		else
+		{
+			if (physicsComponent != nullptr)
+				physicsComponent->m_BeingManipulated = false;
+		}
+
 	}
 
 	EditorCamera::sceneWindowFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
