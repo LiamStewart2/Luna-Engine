@@ -24,7 +24,6 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 
 				if (transforms[id].position.y > -5)
 				{
-
 					//component.m_Acceleration.y -= (component.m_GravityValue * component.m_Mass);
 				}
 				else
@@ -36,10 +35,6 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 				component.m_Velocity += component.m_Acceleration * (float)timer.DeltaTime();
 
 				transforms[id].position += component.m_Velocity * (float)timer.DeltaTime();
-			}
-			else
-			{
-				component.m_Velocity.y = 0;
 			}
 		}
 	}

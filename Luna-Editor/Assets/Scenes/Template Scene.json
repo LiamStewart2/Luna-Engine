@@ -190,8 +190,8 @@
             },
             {
                 "component-args": [
-                    4.145578861236572,
-                    -2.1402640342712402,
+                    3.469531297683716,
+                    1.6696522235870361,
                     0.26566755771636963,
                     0.5001494884490967,
                     -0.5001494884490967,
@@ -199,7 +199,7 @@
                     -0.49985045194625854,
                     1.9999959468841553,
                     1.9999959468841553,
-                    1.999996304512024
+                    1.999995470046997
                 ],
                 "component-type": "TransformComponent"
             },
@@ -210,6 +210,20 @@
                     "Assets\\Materials\\secondary.lmat"
                 ],
                 "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Scripts\\testing2.lua"
+                ],
+                "component-type": "ScriptComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167
+                ],
+                "component-type": "PhysicsComponent"
             }
         ],
         [
@@ -221,7 +235,7 @@
             },
             {
                 "component-args": [
-                    0.46094000339508057,
+                    -2.3674399852752686,
                     0.10284531116485596,
                     0.0,
                     0.500030517578125,
