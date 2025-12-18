@@ -19,6 +19,8 @@ public:
 
 	std::string GetFilepath() {return m_Filepath;}
 	EntityComponentSystem* m_ECS = nullptr;
+
+	unsigned int GetGameObject() { return m_GameObject; }
 private:
 	unsigned int m_GameObject = 0;
 	std::filesystem::file_time_type m_LastCompilationTime;

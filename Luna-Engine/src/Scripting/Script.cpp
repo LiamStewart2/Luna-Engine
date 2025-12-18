@@ -44,6 +44,30 @@ void Script::Compile(std::string filepath)
 	m_Update = m_Lua["Update"];
 }
 
+// GET VELOCITY FUNCTIONS
+float GetVelocityX(Script* script)
+{
+	PhysicsComponent* physicsComponent = script->m_ECS->GetObjectComponent<PhysicsComponent>(script->GetGameObject());
+	if (physicsComponent != nullptr)
+		return physicsComponent->m_Velocity.x;
+	return 0.0f;
+}
+float GetVelocityY(Script* script)
+{
+	PhysicsComponent* physicsComponent = script->m_ECS->GetObjectComponent<PhysicsComponent>(script->GetGameObject());
+	if (physicsComponent != nullptr)
+		return physicsComponent->m_Velocity.y;
+	return 0.0f;
+}
+float GetVelocityZ(Script* script)
+{
+	PhysicsComponent* physicsComponent = script->m_ECS->GetObjectComponent<PhysicsComponent>(script->GetGameObject());
+	if (physicsComponent != nullptr)
+		return physicsComponent->m_Velocity.z;
+	return 0.0f;
+}
+
+
 void Script::BindFunctions()
 {
 	m_Lua.set_function("IsKeyDown", [this](const char c) {
@@ -57,6 +81,29 @@ void Script::BindFunctions()
 		Transform* transform = this->m_ECS->GetObjectComponent<Transform>(this->m_GameObject);
 		transform->position += glm::vec3(x, y, z);
 	});
+
+	m_Lua.set_function("AddForce", [this](float x, float y, float z) {
+		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
+		if (physicsComponent != nullptr)
+			physicsComponent->m_Velocity += glm::vec3(x, y, z);
+		});
+
+	m_Lua.set_function("SetForce", [this](float x, float y, float z) {
+		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
+		if (physicsComponent != nullptr)
+			physicsComponent->m_Velocity = glm::vec3(x, y, z);
+		});
+
+	m_Lua.set_function("SetAcceleration", [this](float x, float y, float z) {
+		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
+		if (physicsComponent != nullptr)
+			physicsComponent->m_Acceleration = glm::vec3(x, y, z);
+		});
+
+	// Bindings that pass a reference to this Script instance to the helper functions
+	m_Lua.set_function("GetVelocityX", [this]() -> float { return GetVelocityX(this); });
+	m_Lua.set_function("GetVelocityY", [this]() -> float { return GetVelocityY(this); });
+	m_Lua.set_function("GetVelocityZ", [this]() -> float { return GetVelocityZ(this); });
 }
 
 void Script::Execute(unsigned int gameobject)

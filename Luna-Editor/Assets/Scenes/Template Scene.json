@@ -221,9 +221,9 @@
             },
             {
                 "component-args": [
-                    -2.203413963317871,
-                    5.0,
-                    -0.1791447401046753,
+                    0.46094000339508057,
+                    0.10284531116485596,
+                    0.0,
                     0.500030517578125,
                     -0.499969482421875,
                     -0.500030517578125,
@@ -238,14 +238,20 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
+                    "Assets\\Materials\\new_material.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
             {
                 "component-args": [
+                    "Assets/Scripts/testing.lua"
+                ],
+                "component-type": "ScriptComponent"
+            },
+            {
+                "component-args": [
                     true,
-                    1.0,
+                    0.20000000298023224,
                     5.0
                 ],
                 "component-type": "PhysicsComponent"

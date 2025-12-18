@@ -1,8 +1,9 @@
 function Update()
 	if(IsKeyDown("a")) then
-		Translate(-1, 0, 0)
-	end
-	if(IsKeyDown("d")) then
-		Translate(1, 0, 0)
+		SetAcceleration(-5, 0, 0)
+	elseif(IsKeyDown("d")) then
+		SetAcceleration(5, 0, 0)
+	else
+		SetAcceleration(0, 0, 0)
 	end
 end

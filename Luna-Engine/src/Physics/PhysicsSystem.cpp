@@ -22,16 +22,20 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 			if (component.m_Simulate && component.m_BeingManipulated == false)
 			{
 
-				if (transforms[id].position.y > 0)
+				if (transforms[id].position.y > -5)
 				{
 
-					component.m_Velocity.y -= (component.m_GravityValue * component.m_Mass); //* (float)timer.DeltaTime();
-					transforms[id].position += component.m_Velocity * (float)timer.DeltaTime();
+					//component.m_Acceleration.y -= (component.m_GravityValue * component.m_Mass);
 				}
 				else
 				{
-					component.m_Velocity.y = 0;
+					if (component.m_Acceleration.y < 0)
+						component.m_Acceleration.y = 0;
 				}
+
+				component.m_Velocity += component.m_Acceleration * (float)timer.DeltaTime();
+
+				transforms[id].position += component.m_Velocity * (float)timer.DeltaTime();
 			}
 			else
 			{
