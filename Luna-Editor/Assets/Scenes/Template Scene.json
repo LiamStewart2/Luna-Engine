@@ -191,7 +191,7 @@
             {
                 "component-args": [
                     3.469531297683716,
-                    1.6696522235870361,
+                    10.0,
                     0.26566755771636963,
                     0.5001494884490967,
                     -0.5001494884490967,
@@ -213,14 +213,14 @@
             },
             {
                 "component-args": [
-                    "Assets\\Scripts\\testing2.lua"
+                    "Assets\\Scripts\\testing.lua"
                 ],
                 "component-type": "ScriptComponent"
             },
             {
                 "component-args": [
                     true,
-                    1.0,
+                    10.0,
                     9.8100004196167
                 ],
                 "component-type": "PhysicsComponent"
@@ -235,8 +235,8 @@
             },
             {
                 "component-args": [
-                    -2.3674399852752686,
-                    0.10284531116485596,
+                    -6.55290412902832,
+                    10.0,
                     0.0,
                     0.500030517578125,
                     -0.499969482421875,
@@ -265,8 +265,8 @@
             {
                 "component-args": [
                     true,
-                    0.20000000298023224,
-                    5.0
+                    1.0,
+                    9.8100004196167
                 ],
                 "component-type": "PhysicsComponent"
             }

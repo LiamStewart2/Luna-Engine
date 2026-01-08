@@ -85,13 +85,13 @@ void Script::BindFunctions()
 	m_Lua.set_function("AddForce", [this](float x, float y, float z) {
 		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
 		if (physicsComponent != nullptr)
-			physicsComponent->m_Velocity += glm::vec3(x, y, z);
+			physicsComponent->m_NetForce += glm::vec3(x, y, z);
 		});
 
 	m_Lua.set_function("SetForce", [this](float x, float y, float z) {
 		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
 		if (physicsComponent != nullptr)
-			physicsComponent->m_Velocity = glm::vec3(x, y, z);
+			physicsComponent->m_NetForce = glm::vec3(x, y, z);
 		});
 
 	m_Lua.set_function("SetAcceleration", [this](float x, float y, float z) {

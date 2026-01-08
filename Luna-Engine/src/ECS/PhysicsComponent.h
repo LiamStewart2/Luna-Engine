@@ -18,7 +18,8 @@ struct PhysicsComponent : public Component
 
 	float m_Mass = 1.0f;
 	float m_GravityValue = 9.81f;
-
+	
+	glm::vec3 m_NetForce = glm::vec3(0, 0, 0);
 	glm::vec3 m_Acceleration = glm::vec3(0, 0, 0);
 	glm::vec3 m_Velocity = glm::vec3(0, 0, 0);
 };
