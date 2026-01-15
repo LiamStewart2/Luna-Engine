@@ -61,6 +61,9 @@ public:
 
 		if (HasComponent<PhysicsComponent>(gameObject))
 			RemoveComponent<PhysicsComponent>(gameObject);
+
+		if (HasComponent<ColliderComponent>(gameObject))
+			RemoveComponent<ColliderComponent>(gameObject);
 	}
 
 	// removes a component of type T from gameObject

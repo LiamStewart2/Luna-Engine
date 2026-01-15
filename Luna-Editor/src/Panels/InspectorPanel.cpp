@@ -92,6 +92,30 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::InputFloat("Mass", &component->m_Mass);
 		}
 
+		if (scene->GetECS()->HasComponent<ColliderComponent>(inspectorID))
+		{
+			ColliderComponent* component = scene->GetECS()->GetObjectComponent<ColliderComponent>(inspectorID);
+
+			ImGui::SeparatorText("Collider");
+
+			const char* items[] = {"Sphere", "Rect"};
+			const char* comboPreviewValue = items[component->m_Shape];
+
+			if (ImGui::BeginCombo("Collider Shape", comboPreviewValue, 0))
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				{
+					const bool isSelected = (component->m_Shape == n);
+					if(ImGui::Selectable(items[n], isSelected))
+						component->m_Shape = (ColliderShape)n;
+					if(isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+
+		}
+
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))
 		{
 			MeshComponent* component = scene->GetECS()->GetObjectComponent<MeshComponent>(inspectorID);

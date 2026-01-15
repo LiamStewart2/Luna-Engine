@@ -80,6 +80,8 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 
 			if(ImGui::MenuItem("Physics"))
 				m_SceneManager->GetCurrentScene()->AddComponent<PhysicsComponent>(inspectorID);
+			if (ImGui::MenuItem("Collider"))
+				m_SceneManager->GetCurrentScene()->AddComponent<ColliderComponent>(inspectorID);
 
 			if (ImGui::MenuItem("Camera"))
 				m_SceneManager->GetCurrentScene()->AddComponent<CameraComponent>(inspectorID, new PerspectiveCamera(), false, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), false);

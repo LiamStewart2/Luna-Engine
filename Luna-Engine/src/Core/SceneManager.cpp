@@ -110,6 +110,15 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 				});
 		}
 
+		if (m_Scene->GetECS()->HasComponent<ColliderComponent>(m_Scene->GetGameObjects()->at(i)))
+		{
+			ColliderComponent* component = m_Scene->GetECS()->GetObjectComponent<ColliderComponent>(m_Scene->GetGameObjects()->at(i));
+			objectComponents.push_back({
+				{"component-type", "ColliderComponent"},
+				{"component-args", {component->m_Shape}}
+				});
+		}
+
 		jsonData["objects"].push_back(objectComponents);
 	}
 	
@@ -234,6 +243,12 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 				componentData["component-args"][0].get<bool>(),
 				componentData["component-args"][1].get<float>(),
 				componentData["component-args"][2].get<float>()
+			);
+		}
+		else if (componentData["component-type"] == "ColliderComponent")
+		{
+			m_Scene->AddComponent<ColliderComponent>(objectID,
+				componentData["component-args"][0].get<ColliderShape>()
 			);
 		}
 	}

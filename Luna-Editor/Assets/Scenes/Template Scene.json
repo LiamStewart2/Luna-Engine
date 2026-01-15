@@ -269,6 +269,12 @@
                     9.8100004196167
                 ],
                 "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1
+                ],
+                "component-type": "ColliderComponent"
             }
         ]
     ],

@@ -23,3 +23,20 @@ struct PhysicsComponent : public Component
 	glm::vec3 m_Acceleration = glm::vec3(0, 0, 0);
 	glm::vec3 m_Velocity = glm::vec3(0, 0, 0);
 };
+
+enum ColliderShape
+{
+	Sphere,
+	Cube
+};
+
+struct ColliderComponent : public Component
+{
+	ColliderComponent(unsigned int _gameObject = 0, ColliderShape shape = ColliderShape::Sphere) :
+		Component(_gameObject), m_Shape(shape)
+	{
+
+	}
+
+	ColliderShape m_Shape = ColliderShape::Sphere;
+};
