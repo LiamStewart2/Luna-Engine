@@ -118,6 +118,10 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			{
 				ImGui::InputFloat("Collider Size", &component->m_ColliderSize.x);
 			}
+			else if (component->m_Shape == ColliderShape::Cube)
+			{
+				ImGui::InputFloat3("Collider Size", glm::value_ptr(component->m_ColliderSize));
+			}
 
 		}
 

@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "GLM/gtx/quaternion.hpp"
 #include "GLM/vec3.hpp"
 #include "../Core/Timer.h"
 #include "../ECS/ECS.h"
