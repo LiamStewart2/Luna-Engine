@@ -114,6 +114,11 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				ImGui::EndCombo();
 			}
 
+			if(component->m_Shape == ColliderShape::Sphere)
+			{
+				ImGui::InputFloat("Collider Size", &component->m_ColliderSize.x);
+			}
+
 		}
 
 		if (scene->GetECS()->HasComponent<MeshComponent>(inspectorID))

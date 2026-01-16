@@ -15,8 +15,36 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 	if(runtime)
 	{
 		std::unordered_map<unsigned int, PhysicsComponent>& physicsComponents = ECS->GetAllComponentsOfType<PhysicsComponent>();
+		std::unordered_map<unsigned int, ColliderComponent>& colliderComponents = ECS->GetAllComponentsOfType<ColliderComponent>();
 		std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
 		float deltaTime = (float)timer.DeltaTime();
+
+		for (auto& [id, component] : colliderComponents)
+		{
+			if (component.m_Shape == ColliderShape::Sphere)
+			{
+				for (auto& [id2, component2] : colliderComponents)
+				{
+					if(id != id2)
+					{
+
+						Transform transform1;
+						Transform transform2;
+						glm::vec3 tempSkew;
+						glm::vec4 tempPerspective;
+
+						glm::decompose(transforms[id].transformMatrix, transform1.scale, transform1.rotation, transform1.position, tempSkew, tempPerspective);
+						glm::decompose(transforms[id2].transformMatrix, transform2.scale, transform2.rotation, transform2.position, tempSkew, tempPerspective);
+
+
+						if (glm::length(transform2.position - transform1.position) <= component.m_ColliderSize.x + component2.m_ColliderSize.x)
+						{
+							std::cout << "Colliding" << std::endl;
+						}
+					}
+				}
+			}
+		}
 
 		for (auto& [id, component] : physicsComponents)
 		{

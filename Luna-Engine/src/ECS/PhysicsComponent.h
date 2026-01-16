@@ -32,11 +32,13 @@ enum ColliderShape
 
 struct ColliderComponent : public Component
 {
-	ColliderComponent(unsigned int _gameObject = 0, ColliderShape shape = ColliderShape::Sphere) :
-		Component(_gameObject), m_Shape(shape)
+	ColliderComponent(unsigned int _gameObject = 0, ColliderShape shape = ColliderShape::Sphere, glm::vec3 colliderSize = glm::vec3(1)) :
+		Component(_gameObject), m_Shape(shape), m_ColliderSize(colliderSize)
 	{
 
 	}
 
 	ColliderShape m_Shape = ColliderShape::Sphere;
+
+	glm::vec3 m_ColliderSize = glm::vec3(1);
 };

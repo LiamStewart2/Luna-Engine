@@ -115,7 +115,7 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			ColliderComponent* component = m_Scene->GetECS()->GetObjectComponent<ColliderComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "ColliderComponent"},
-				{"component-args", {component->m_Shape}}
+				{"component-args", {component->m_Shape, component->m_ColliderSize.x, component->m_ColliderSize.y, component->m_ColliderSize.z}}
 				});
 		}
 
@@ -193,63 +193,70 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 	//LoadComponents
 	for (nlohmann::json componentData : Components)
 	{
-		if (componentData["component-type"] == "NameComponent")
-			m_Scene->AddComponent<NameComponent>(objectID, componentData["component-args"][0]);
-		else if(componentData["component-type"] == "TransformComponent")
-		{
-			glm::vec3 position = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
-			glm::quat rotation = glm::quat(componentData["component-args"][3], componentData["component-args"][4], componentData["component-args"][5], componentData["component-args"][6]);
-			glm::vec3 scale = glm::vec3(componentData["component-args"][7], componentData["component-args"][8], componentData["component-args"][9]);
+		try{
+			if (componentData["component-type"] == "NameComponent")
+				m_Scene->AddComponent<NameComponent>(objectID, componentData["component-args"][0]);
+			else if(componentData["component-type"] == "TransformComponent")
+			{
+				glm::vec3 position = glm::vec3(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2]);
+				glm::quat rotation = glm::quat(componentData["component-args"][3], componentData["component-args"][4], componentData["component-args"][5], componentData["component-args"][6]);
+				glm::vec3 scale = glm::vec3(componentData["component-args"][7], componentData["component-args"][8], componentData["component-args"][9]);
 
-			m_Scene->AddComponent<Transform>(objectID, position, rotation, scale);
-		}
-		else if(componentData["component-type"] == "MeshComponent")
-		{
-			std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
-			std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
-			std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(componentData["component-args"][2].get<std::string>());
-			m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);
-		}
-		else if (componentData["component-type"] == "CameraComponent")
-		{
-			glm::vec4 backgroundColor = glm::vec4(
-				componentData["component-args"][0],
-				componentData["component-args"][1],
-				componentData["component-args"][2],
-				componentData["component-args"][3]);
+				m_Scene->AddComponent<Transform>(objectID, position, rotation, scale);
+			}
+			else if(componentData["component-type"] == "MeshComponent")
+			{
+				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
+				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(componentData["component-args"][2].get<std::string>());
+				m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);
+			}
+			else if (componentData["component-type"] == "CameraComponent")
+			{
+				glm::vec4 backgroundColor = glm::vec4(
+					componentData["component-args"][0],
+					componentData["component-args"][1],
+					componentData["component-args"][2],
+					componentData["component-args"][3]);
 
-			m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), componentData["component-args"][5], backgroundColor,
-				 componentData["component-args"][4]);
-		}
-		else if (componentData["component-type"] == "LightComponent")
-		{
-			glm::vec4 lightColour = glm::vec4(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2], 1);
-			Luna::Light light = Luna::Light();
-			light.m_Type = Luna::LightType::Directional;
-			light.m_LightColour = lightColour;
+				m_Scene->AddComponent<CameraComponent>(objectID, new PerspectiveCamera(), componentData["component-args"][5], backgroundColor,
+					 componentData["component-args"][4]);
+			}
+			else if (componentData["component-type"] == "LightComponent")
+			{
+				glm::vec4 lightColour = glm::vec4(componentData["component-args"][0], componentData["component-args"][1], componentData["component-args"][2], 1);
+				Luna::Light light = Luna::Light();
+				light.m_Type = Luna::LightType::Directional;
+				light.m_LightColour = lightColour;
 
-			m_Scene->AddComponent<LightComponent>(objectID, light);
-		}
-		else if (componentData["component-type"] == "ScriptComponent")
-		{
-			std::shared_ptr<Script> script = assetManager.GetScript(componentData["component-args"][0].get<std::string>());
+				m_Scene->AddComponent<LightComponent>(objectID, light);
+			}
+			else if (componentData["component-type"] == "ScriptComponent")
+			{
+				std::shared_ptr<Script> script = assetManager.GetScript(componentData["component-args"][0].get<std::string>());
 
-			m_Scene->AddComponent<ScriptComponent>(objectID, script);
-			m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();
+				m_Scene->AddComponent<ScriptComponent>(objectID, script);
+				m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();
+			}
+			else if (componentData["component-type"] == "PhysicsComponent")
+			{
+				m_Scene->AddComponent<PhysicsComponent>(objectID, 
+					componentData["component-args"][0].get<bool>(),
+					componentData["component-args"][1].get<float>(),
+					componentData["component-args"][2].get<float>()
+				);
+			}
+			else if (componentData["component-type"] == "ColliderComponent")
+			{
+				m_Scene->AddComponent<ColliderComponent>(objectID,
+					componentData["component-args"][0].get<ColliderShape>(),
+					glm::vec3(componentData["component-args"][1], componentData["component-args"][2], componentData["component-args"][3])
+				);
+			}
 		}
-		else if (componentData["component-type"] == "PhysicsComponent")
+		catch (...)
 		{
-			m_Scene->AddComponent<PhysicsComponent>(objectID, 
-				componentData["component-args"][0].get<bool>(),
-				componentData["component-args"][1].get<float>(),
-				componentData["component-args"][2].get<float>()
-			);
-		}
-		else if (componentData["component-type"] == "ColliderComponent")
-		{
-			m_Scene->AddComponent<ColliderComponent>(objectID,
-				componentData["component-args"][0].get<ColliderShape>()
-			);
+			std::cout << "Failed to load component >>> " << componentData["component-type"] << std::endl;
 		}
 	}
 
