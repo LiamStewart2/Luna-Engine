@@ -41,4 +41,5 @@ struct ColliderComponent : public Component
 	ColliderShape m_Shape = ColliderShape::Sphere;
 
 	glm::vec3 m_ColliderSize = glm::vec3(1);
+	glm::vec3 m_HandledVelocity = glm::vec3(0);
 };

@@ -90,6 +90,8 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::InputFloat("Gravity Scale", &component->m_GravityValue);
 			ImGui::InputFloat("Mass", &component->m_Mass);
+
+			ImGui::InputFloat3("Velocity", glm::value_ptr(component->m_Velocity));
 		}
 
 		if (scene->GetECS()->HasComponent<ColliderComponent>(inspectorID))

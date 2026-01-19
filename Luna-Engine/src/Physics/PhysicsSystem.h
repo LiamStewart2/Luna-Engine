@@ -17,6 +17,14 @@ namespace Luna
 
 		void Update(EntityComponentSystem* ECS, bool runtime);
 	private:
+
+		void HandleCollisions(EntityComponentSystem* ECS, float deltaTime);
+		void UpdateCollidedPhysics(EntityComponentSystem* ECS, float deltaTime);
+
+		void HandlePhysics(EntityComponentSystem* ECS, float deltaTime);
+
+		void UpdatePositions(EntityComponentSystem* ECS, float deltaTime);
+
 		Timer timer;
 	};
 }
