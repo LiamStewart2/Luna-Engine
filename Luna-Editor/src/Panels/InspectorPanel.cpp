@@ -87,6 +87,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::SeparatorText("Physics");
 
 			ImGui::Checkbox("Simulate", &component->m_Simulate);
+			ImGui::Checkbox("Dynamic", &component->m_Dynamic);
 
 			ImGui::InputFloat("Gravity Scale", &component->m_GravityValue);
 			ImGui::InputFloat("Mass", &component->m_Mass);

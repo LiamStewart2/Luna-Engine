@@ -120,6 +120,15 @@
             },
             {
                 "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    false
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
                     1,
                     1.0,
                     1.0,
@@ -137,13 +146,13 @@
             },
             {
                 "component-args": [
-                    2.1770505905151367,
+                    1.2551079988479614,
+                    -0.7966254353523254,
+                    0.10630345344543457,
+                    0.9238795042037964,
                     0.0,
-                    0.26566755771636963,
-                    0.5368106365203857,
-                    -0.4606249928474426,
-                    -0.5364943146705627,
-                    -0.4602530300617218,
+                    0.0,
+                    0.3826834559440613,
                     1.0,
                     1.0,
                     1.0
@@ -160,15 +169,10 @@
             },
             {
                 "component-args": [
-                    "Assets\\Scripts\\testing.lua"
-                ],
-                "component-type": "ScriptComponent"
-            },
-            {
-                "component-args": [
                     true,
-                    10.0,
-                    9.8100004196167
+                    1.0,
+                    9.8100004196167,
+                    true
                 ],
                 "component-type": "PhysicsComponent"
             },
@@ -191,8 +195,8 @@
             },
             {
                 "component-args": [
-                    -1.8404542207717896,
-                    0.0,
+                    -3.1962976455688477,
+                    -1.210716724395752,
                     0.0,
                     0.500030517578125,
                     -0.499969482421875,
@@ -214,15 +218,10 @@
             },
             {
                 "component-args": [
-                    "Assets/Scripts/testing.lua"
-                ],
-                "component-type": "ScriptComponent"
-            },
-            {
-                "component-args": [
                     true,
                     1.0,
-                    9.8100004196167
+                    9.8100004196167,
+                    true
                 ],
                 "component-type": "PhysicsComponent"
             },

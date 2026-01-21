@@ -7,13 +7,14 @@
 
 struct PhysicsComponent : public Component
 {
-	PhysicsComponent(unsigned int _gameObject = 0, bool simulate = true, float mass = 1.0f, float gravityValue = 9.81f) :
-		Component(_gameObject), m_Simulate(simulate), m_Mass(mass), m_GravityValue(gravityValue)
+	PhysicsComponent(unsigned int _gameObject = 0, bool simulate = true, float mass = 1.0f, float gravityValue = 9.81f, bool dynamic = true) :
+		Component(_gameObject), m_Simulate(simulate), m_Dynamic(dynamic), m_Mass(mass), m_GravityValue(gravityValue)
 	{
 		
 	}
 
 	bool m_Simulate = true;
+	bool m_Dynamic = true;
 	bool m_BeingManipulated = false;
 
 	float m_Mass = 1.0f;

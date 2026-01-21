@@ -106,7 +106,7 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			PhysicsComponent* component = m_Scene->GetECS()->GetObjectComponent<PhysicsComponent>(m_Scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "PhysicsComponent"},
-				{"component-args", {component->m_Simulate, component->m_Mass, component->m_GravityValue}}
+				{"component-args", {component->m_Simulate, component->m_Mass, component->m_GravityValue, component->m_Dynamic}}
 				});
 		}
 
@@ -243,7 +243,8 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 				m_Scene->AddComponent<PhysicsComponent>(objectID, 
 					componentData["component-args"][0].get<bool>(),
 					componentData["component-args"][1].get<float>(),
-					componentData["component-args"][2].get<float>()
+					componentData["component-args"][2].get<float>(),
+					componentData["component-args"][3].get<bool>()
 				);
 			}
 			else if (componentData["component-type"] == "ColliderComponent")

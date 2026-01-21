@@ -19,7 +19,6 @@ namespace Luna
 	private:
 
 		void HandleCollisions(EntityComponentSystem* ECS, float deltaTime);
-		void UpdateCollidedPhysics(EntityComponentSystem* ECS, float deltaTime);
 
 		void HandlePhysics(EntityComponentSystem* ECS, float deltaTime);
 
