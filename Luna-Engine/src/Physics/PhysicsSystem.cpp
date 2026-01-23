@@ -213,7 +213,7 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 			// Gravity
 			component.m_NetForce -= glm::vec3(0, component.m_GravityValue * component.m_Mass, 0);
 
-			//Drag  Force = 0.5 * density of atmosphere * drag coefficient * reference area (scale)
+			//Drag  Force = 0.5 * density of atmosphere * drag coefficient * reference area (scale) * magnitude(velocity) * velocity
 			float atmosphereDensity = 0.07f;
 			float dragCoefficient = 1.05f;
 			component.m_NetForce += 0.5f * atmosphereDensity * dragCoefficient * (transforms[id].scale * transforms[id].scale) * (glm::length(component.m_Velocity) * component.m_Velocity);
