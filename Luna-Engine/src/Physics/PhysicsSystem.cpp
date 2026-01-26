@@ -42,6 +42,15 @@ void Luna::PhysicsSystem::UpdatePositions(EntityComponentSystem* ECS, float delt
 
 			component.m_NetForce = glm::vec3(0, 0, 0);
 			component.m_Acceleration = glm::vec3(0, 0, 0);
+
+			glm::quat a = glm::quat(0.0f, component.m_AngularVelocity);
+
+			transforms[id].rotation = transforms[id].rotation + glm::quat(0.0f, component.m_AngularVelocity) * transforms[id].rotation * deltaTime;
+			glm::vec3 euler = glm::degrees(glm::eulerAngles(transforms[id].rotation));
+			transforms[id].rotation = glm::quat(glm::radians(euler));
+			
+			component.m_NetTorque = glm::vec3(0, 0, 0);
+			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
 		}
 	}
 }
@@ -210,6 +219,7 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 	{
 		if (component.m_Simulate && component.m_BeingManipulated == false && component.m_Dynamic)
 		{
+			// Handle Velocity
 			// Gravity
 			component.m_NetForce -= glm::vec3(0, component.m_GravityValue * component.m_Mass, 0);
 
@@ -231,6 +241,16 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 			component.m_Acceleration += component.m_NetForce / component.m_Mass;
 
 			component.m_Velocity += component.m_Acceleration * deltaTime;
+
+			// Handle Angular Velocity
+
+			// Constant Angular velocity
+			//component.m_AngularVelocity = glm::vec3(1.0f, 0, 0);
+			component.m_NetTorque += glm::vec3(0, 0, 1);
+
+			component.m_AngularAcceleration += glm::inverse(component.m_InertiaTensor) * component.m_NetTorque;
+
+			component.m_AngularVelocity += component.m_AngularAcceleration * deltaTime;
 		}
 	}
 }

@@ -23,6 +23,12 @@ struct PhysicsComponent : public Component
 	glm::vec3 m_NetForce = glm::vec3(0, 0, 0);
 	glm::vec3 m_Acceleration = glm::vec3(0, 0, 0);
 	glm::vec3 m_Velocity = glm::vec3(0, 0, 0);
+
+	glm::vec3 m_AngularVelocity = glm::vec3(0, 0, 0);
+	glm::vec3 m_NetTorque = glm::vec3(0, 0, 0);
+	glm::vec3 m_AngularAcceleration = glm::vec3(0, 0, 0);
+
+	glm::mat3 m_InertiaTensor = glm::mat3(1);
 };
 
 enum ColliderShape
