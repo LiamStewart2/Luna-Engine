@@ -43,11 +43,10 @@ void Luna::PhysicsSystem::UpdatePositions(EntityComponentSystem* ECS, float delt
 			component.m_NetForce = glm::vec3(0, 0, 0);
 			component.m_Acceleration = glm::vec3(0, 0, 0);
 
-			glm::quat a = glm::quat(0.0f, component.m_AngularVelocity);
-
-			transforms[id].rotation = transforms[id].rotation + glm::quat(0.0f, component.m_AngularVelocity) * transforms[id].rotation * deltaTime;
-			glm::vec3 euler = glm::degrees(glm::eulerAngles(transforms[id].rotation));
-			transforms[id].rotation = glm::quat(glm::radians(euler));
+			glm::quat omega = glm::quat(0.0f, component.m_AngularVelocity);
+			glm::quat dq = 0.5f * omega * transforms[id].rotation;
+			transforms[id].rotation += dq * deltaTime;
+			transforms[id].rotation = glm::normalize(transforms[id].rotation); // normalize the rotation to avoid non 1 quaternion lengths
 			
 			component.m_NetTorque = glm::vec3(0, 0, 0);
 			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
