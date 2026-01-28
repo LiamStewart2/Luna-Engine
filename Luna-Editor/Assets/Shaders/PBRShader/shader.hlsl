@@ -137,6 +137,10 @@ float3 FresnelSchlick(float cosTheta, float3 F0)
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
+    float3 albedo = albedoMap.Sample(albedoSampler, input.textureCoord);
+    float roughness = 1 - roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
+    float metallic = metallicMap.Sample(metallicSampler, input.textureCoord).r;
+    float AO = aoMap.Sample(aoSampler, input.textureCoord).r;
     
     float3 lightPosition = -LightDirection; // pretty sure we need negative light direction, as we actually are wanting the light position
     
@@ -144,7 +148,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float3 V = normalize(CameraPosition - input.worldSpacePosition);
     
     float3 F0 = 0.04f;
-    F0 = lerp(F0, (float3)albedoMap.Sample(albedoSampler, input.textureCoord), 0);
+    F0 = lerp(F0, albedo, 0);
     
     float3 Lo = (float3)0.0f;
     
@@ -154,8 +158,6 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float attenuation = 1.0 / (distance * distance);
     float3 radiance = LightColour * attenuation;
     
-    float roughness = 0.5f;
-    
     
     float NDF = DistributionGGX(N, H, roughness);
     float G = GeometrySmith(N, V, L, roughness);
@@ -163,9 +165,21 @@ float4 PS_main(VS_Out input) : SV_TARGET
     
     float3 kS = F;
     float3 kD = (float3) 1.0f - kS;
+    kD *= 1.0 - metallic;
+    
+    float3 numerator = NDF * G * F;
+    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+    float3 specular = numerator / denominator;
+    
+    float NdotL = max(dot(N, L), 0.0);
+    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
     
     
+    float3 ambient = (float3) 0.03 * albedo * AO;
+    float3 color = ambient + Lo;
     
-    return 1.0f;
-
+    color = color / (color + (float3) 1.0);
+    color = pow(color, (float3) 1.0 / 2.2);
+    
+    return float4(color.rgb, 1.0);
 }

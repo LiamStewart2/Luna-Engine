@@ -160,11 +160,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets/Models/planeobj.obj",
-                "Assets/Shaders/PBRShader/shader.hlsl",
-                "Assets\\Materials\\default.lmat"
-              ],
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets\\Materials\\default.lmat"
+                ],
                 "component-type": "MeshComponent"
             },
             {
@@ -209,11 +209,11 @@
                 "component-type": "TransformComponent"
             },
             {
-              "component-args": [
-                "Assets/Models/planeobj.obj",
-                "Assets/Shaders/PBRShader/shader.hlsl",
-                "Assets\\Materials\\default.lmat"
-              ],
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets\\Materials\\default.lmat"
+                ],
                 "component-type": "MeshComponent"
             },
             {
