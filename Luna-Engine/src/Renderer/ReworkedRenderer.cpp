@@ -73,6 +73,10 @@ namespace Luna
 					meshComponent.material->m_SpecularMap->BindTexture(1);
 				if(meshComponent.material->m_NormalMap != nullptr)
 					meshComponent.material->m_NormalMap->BindTexture(3);
+				if(meshComponent.material->m_MetallicMap != nullptr)
+					meshComponent.material->m_MetallicMap->BindTexture(4);
+				if(meshComponent.material->m_AOMap != nullptr)
+					meshComponent.material->m_AOMap->BindTexture(5);
 
 				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 

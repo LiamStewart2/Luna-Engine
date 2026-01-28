@@ -93,7 +93,7 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 				glm::mat3 r2 = glm::toMat3(transform2.rotation);
 				glm::vec3 o2[3] = { r2 * glm::vec3(1, 0, 0), r2 * glm::vec3(0, 1, 0), r2 * glm::vec3(0, 0, 1) }; // orientation of the ssecond collider
 
-				glm::vec3 axes[15] = {
+				glm::vec3 axis[15] = {
 					o1[0], o1[1], o1[2],
 					o2[0], o2[1], o2[2],
 
@@ -107,7 +107,7 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 				glm::vec3 bestAxis;
 
 				bool colliding = true;
-				for (glm::vec3 v : axes)
+				for (glm::vec3 v : axis)
 				{
 					// if length is tiny then skip
 					if (glm::length2(v) < 1e-6f) continue;
@@ -199,7 +199,6 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 					catch (const std::out_of_range& e)
 					{
 						std::cerr << "All colliders need a physics component (use a dynamic collider type)" << std::endl;
-						
 					}
 				}
 			}

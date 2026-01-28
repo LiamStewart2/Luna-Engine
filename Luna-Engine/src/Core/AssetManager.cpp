@@ -78,6 +78,8 @@ namespace Luna
 			material->m_Albedo = GetTexture(jsonData["Textures"]["Albedo"]);
 			material->m_SpecularMap = GetTexture(jsonData["Textures"]["SpecularMap"]);
 			material->m_NormalMap = GetTexture(jsonData["Textures"]["NormalMap"]);
+			material->m_MetallicMap = GetTexture(jsonData["Textures"]["MetallicMap"]);
+			material->m_AOMap = GetTexture(jsonData["Textures"]["AOMap"]);
 
 			// Load the colours from json
 			nlohmann::json ambientJson = jsonData["Values"]["AmbientColour"];

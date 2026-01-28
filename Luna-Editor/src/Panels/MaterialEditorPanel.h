@@ -79,6 +79,13 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
         case(2):
             assetManager->GetMaterial(material->m_Path)->m_NormalMap = assetManager->GetTexture("Assets/Textures/BumpMapFlatColour.png");;
             break;
+        case(3):
+            assetManager->GetMaterial(material->m_Path)->m_MetallicMap = assetManager->GetTexture("Assets/Textures/default.png");
+            break;
+        case(4):
+            assetManager->GetMaterial(material->m_Path)->m_AOMap = assetManager->GetTexture("Assets/Textures/default.png");
+            break;
+
         default:
             break;
         }
@@ -179,9 +186,9 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
             IM_COL32(180, 160, 160, 255),
             IM_COL32(140, 100, 100, 255),
             IM_COL32(150, 110, 110, 255),
-            3,
-            Array{"Albedo", "Specular", "Normal"},
-            Array{ IM_COL32(200,100,100,255), IM_COL32(100,200,100,255), IM_COL32(100,100,200,255) },
+            5,
+            Array{"Albedo", "Specular", "Normal", "Metallic", "AO"},
+            Array{ IM_COL32(200,100,100,255), IM_COL32(100,200,100,255), IM_COL32(100,100,200,255), IM_COL32(200,100,100,255), IM_COL32(200,100,100,255) },
             0,
             nullptr,
             nullptr
@@ -219,6 +226,20 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
         },
 
         {
+            "Texture",
+            0,
+            0, 750,
+            false
+        },
+
+        {
+            "Texture",
+            0,
+            0, 1000,
+            false
+        },
+
+        {
             "Output",
             1,
             450, 250,
@@ -230,26 +251,24 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
     {
         for (GraphEditor::Link link : mLinks)
         {
+            auto idx = link.mInputNodeIndex;
+            if (idx >= textures.size()) // guard
+                continue;
 
-            std::shared_ptr<Luna::ITexture> tex = textures[link.mInputNodeIndex];
+            std::shared_ptr<Luna::ITexture> tex = textures[idx];
             switch (link.mOutputSlotIndex)
             {
-            case(0):
-                assetManager->GetMaterial(material->m_Path)->m_Albedo = tex;
-                break;
-            case(1):
-                assetManager->GetMaterial(material->m_Path)->m_SpecularMap = tex;
-                break;
-            case(2):
-                assetManager->GetMaterial(material->m_Path)->m_NormalMap = tex;
-                break;
-            default:
-                break;
+            case 0: assetManager->GetMaterial(material->m_Path)->m_Albedo = tex; break;
+            case 1: assetManager->GetMaterial(material->m_Path)->m_SpecularMap = tex; break;
+            case 2: assetManager->GetMaterial(material->m_Path)->m_NormalMap = tex; break;
+            case 3: assetManager->GetMaterial(material->m_Path)->m_MetallicMap = tex; break;
+            case 4: assetManager->GetMaterial(material->m_Path)->m_AOMap = tex; break;
+            default: break;
             }
         }
     }
 
-    std::vector<GraphEditor::Link> mLinks = { {0, 0, 3, 0}, {1, 0, 3, 1}, {2, 0, 3, 2} };
+    std::vector<GraphEditor::Link> mLinks = { {0, 0, 5, 0}, {1, 0, 5, 1}, {2, 0, 5, 2}, {3, 0, 5, 3}, {4, 0, 5, 4}};
 };
 
 class MaterialEditorPanel : public ImGuiPanel
@@ -259,6 +278,7 @@ public:
 	{
 		if(sceneManager == nullptr) return;
 		fit = GraphEditor::Fit_None; delegate.assetManager = sceneManager->GetAssetManager();
+        delegate.textures.resize(delegate.mNodes.size());
 	}
 
 	void Update(unsigned int& inspectorID) override;

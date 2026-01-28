@@ -1,0 +1,262 @@
+{
+    "objects": [
+        [
+            {
+                "component-args": [
+                    "Scene"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    4.064016342163086,
+                    6.240562438964844,
+                    0.9659255743026733,
+                    -0.25881996750831604,
+                    1.836377094832642e-08,
+                    -6.85342698147906e-08,
+                    0.9999911785125732,
+                    0.999997079372406,
+                    0.9999927878379822
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    0.8676470518112183,
+                    0.2126585990190506,
+                    0.2126585990190506,
+                    1.0,
+                    true,
+                    true
+                ],
+                "component-type": "CameraComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Light"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    5.557972431182861,
+                    4.749724388122559,
+                    0.9029780626296997,
+                    -0.4210655391216278,
+                    0.07761740684509277,
+                    0.0361940972507,
+                    0.9999857544898987,
+                    0.9999889731407166,
+                    0.9999867677688599
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "LightComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Ground"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -0.6244268417358398,
+                    -3.209775924682617,
+                    2.060121536254883,
+                    0.7071067690849304,
+                    0.0,
+                    0.0,
+                    0.7071067690849304,
+                    0.9999367594718933,
+                    11.99986457824707,
+                    12.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets\\Materials\\default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    false
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Brick Cube"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    1.2551079988479614,
+                    -0.7966254353523254,
+                    0.10630345344543457,
+                    0.9238795042037964,
+                    0.0,
+                    0.0,
+                    0.3826834559440613,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+              "component-args": [
+                "Assets/Models/planeobj.obj",
+                "Assets/Shaders/PBRShader/shader.hlsl",
+                "Assets\\Materials\\default.lmat"
+              ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    true
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Slate Cube"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -3.1962976455688477,
+                    -1.210716724395752,
+                    0.0,
+                    0.500030517578125,
+                    -0.499969482421875,
+                    -0.500030517578125,
+                    -0.499969482421875,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+              "component-args": [
+                "Assets/Models/planeobj.obj",
+                "Assets/Shaders/PBRShader/shader.hlsl",
+                "Assets\\Materials\\default.lmat"
+              ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    true
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ]
+    ],
+    "relations": [
+        {
+            "Children": [],
+            "ObjectID": 1
+        },
+        {
+            "Children": [],
+            "ObjectID": 2
+        },
+        {
+            "Children": [],
+            "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
+        }
+    ],
+    "scene-name": "example scene"
+}
