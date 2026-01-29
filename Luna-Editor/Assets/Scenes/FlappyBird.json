@@ -34,14 +34,14 @@
                 "component-args": [
                     0.0,
                     4.064016342163086,
-                    15.06510066986084,
-                    0.9993546009063721,
-                    -0.009081543423235416,
-                    0.030254414305090904,
-                    0.017102697864174843,
-                    0.9999908804893494,
-                    0.999995231628418,
-                    0.9999919533729553
+                    6.240562438964844,
+                    0.9659255743026733,
+                    -0.25881996750831604,
+                    1.8363783382824295e-08,
+                    -6.853429113107268e-08,
+                    0.9999911785125732,
+                    0.999997079372406,
+                    0.9999927878379822
                 ],
                 "component-type": "TransformComponent"
             },
@@ -69,13 +69,13 @@
                     0.0,
                     5.557972431182861,
                     4.749724388122559,
-                    0.9051750898361206,
-                    -0.4220895767211914,
-                    0.045301567763090134,
-                    0.02112480439245701,
-                    0.9999868869781494,
-                    0.999989926815033,
-                    0.9999882578849792
+                    0.9029790163040161,
+                    -0.4210672378540039,
+                    -0.07760079205036163,
+                    -0.03618566691875458,
+                    0.9999819993972778,
+                    0.9999859929084778,
+                    0.9999871253967285
                 ],
                 "component-type": "TransformComponent"
             },
@@ -91,94 +91,50 @@
         [
             {
                 "component-args": [
-                    "Right Wall"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    4.913719654083252,
-                    0.0,
-                    -5.33261775970459,
-                    -0.49999964237213135,
-                    0.5000003576278687,
-                    0.49999964237213135,
-                    0.5000003576278687,
-                    0.9999951124191284,
-                    0.9999951124191284,
-                    1.0000003576278687
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Left Wall"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    -8.014986991882324,
-                    0.0,
-                    -5.255463600158691,
-                    0.5001725554466248,
-                    -0.5001726746559143,
-                    -0.4998272955417633,
-                    -0.49982738494873047,
-                    0.9999837279319763,
-                    0.9999837279319763,
-                    0.999996542930603
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
                     "Ground"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    0.0,
-                    -5.5,
-                    0.6646037101745605,
+                    -0.6244268417358398,
+                    -3.209775924682617,
+                    2.060121536254883,
                     0.7071067690849304,
                     0.0,
                     0.0,
                     0.7071067690849304,
-                    0.9999959468841553,
-                    4.999967575073242,
-                    5.0
+                    0.9999367594718933,
+                    11.99986457824707,
+                    12.0
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "Assets\\Models\\Plane.obj",
+                    "Assets\\Models\\planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
+                    "Assets\\Materials\\slate.lmat"
                 ],
                 "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    false
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
             }
         ],
         [
@@ -190,16 +146,16 @@
             },
             {
                 "component-args": [
-                    4.717530250549316,
+                    2.8065271377563477,
+                    -1.1269441843032837,
+                    0.10630345344543457,
+                    0.06486883759498596,
                     0.0,
-                    0.26566755771636963,
-                    0.5001929998397827,
-                    -0.5001929998397827,
-                    -0.4998069405555725,
-                    -0.4998070001602173,
-                    1.9999827146530151,
-                    1.9999867677688599,
-                    4.999997138977051
+                    0.0,
+                    -0.9978938102722168,
+                    1.0,
+                    1.0,
+                    1.0
                 ],
                 "component-type": "TransformComponent"
             },
@@ -207,23 +163,27 @@
                 "component-args": [
                     "Assets/Models/planeobj.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\secondary.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
             {
                 "component-args": [
-                    "Assets\\Scripts\\Wall.lua"
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    true
                 ],
-                "component-type": "ScriptComponent"
+                "component-type": "PhysicsComponent"
             },
             {
                 "component-args": [
-                    true,
-                    10.0,
-                    9.8100004196167
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
                 ],
-                "component-type": "PhysicsComponent"
+                "component-type": "ColliderComponent"
             }
         ],
         [
@@ -235,46 +195,106 @@
             },
             {
                 "component-args": [
-                    -6.55290412902832,
-                    0.0,
-                    0.0,
-                    0.500030517578125,
-                    -0.499969482421875,
-                    -0.500030517578125,
-                    -0.499969482421875,
-                    1.9999992847442627,
-                    1.9999992847442627,
-                    1.999998927116394
+                    -4.005776882171631,
+                    -0.5872008204460144,
+                    0.5062131881713867,
+                    0.647728681564331,
+                    -0.6477274894714355,
+                    -0.28363412618637085,
+                    -0.2836339771747589,
+                    0.8000001311302185,
+                    0.7999994158744812,
+                    0.7999933362007141
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "Assets/Models/planeobj.obj",
+                    "Assets\\Models\\Plane.obj",
                     "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\new_material.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
             {
                 "component-args": [
-                    "Assets\\Scripts\\Bird.lua"
-                ],
-                "component-type": "ScriptComponent"
-            },
-            {
-                "component-args": [
                     true,
                     1.0,
-                    9.8100004196167
+                    9.8100004196167,
+                    true
                 ],
                 "component-type": "PhysicsComponent"
             },
             {
                 "component-args": [
-                    1
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
                 ],
                 "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Sofa"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -3.087599277496338,
+                    -2.226451873779297,
+                    2.0166075229644775,
+                    0.9152752161026001,
+                    0.0,
+                    -0.40282905101776123,
+                    0.0,
+                    2.7899973392486572,
+                    2.7899999618530273,
+                    2.7899973392486572
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\SofaReversiReplica001_Blender_Cycles.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Materials\\sofa.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Headphones"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -1.5761736631393433,
+                    -1.0475828647613525,
+                    1.456604242324829,
+                    0.6894371509552002,
+                    0.7243455052375793,
+                    0.0,
+                    0.0,
+                    3.0299999713897705,
+                    3.0300028324127197,
+                    3.0300028324127197
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\Headphones001.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets\\Materials\\new_material.lmat"
+                ],
+                "component-type": "MeshComponent"
             }
         ]
     ],
