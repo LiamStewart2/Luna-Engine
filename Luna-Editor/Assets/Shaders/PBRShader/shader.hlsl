@@ -31,19 +31,19 @@ SamplerState normalSampler : register(s3);
 SamplerState metallicSampler : register(s4);
 SamplerState aoSampler : register(s5);
 
-float PI = 3.14159265359;
+const float PI = 3.14159265359;
 
 struct VS_Out
 {
-    float4 position : SV_POSITION;
-    float2 textureCoord : TEXCOORD;
-    float4 color : COLOR;
-    float3 normal : NORMAL0;
-    float3 worldSpacePosition : POSITION0;
-    float4 FragPositionLightSpace : POSITION1;
+    float4 position                 : SV_POSITION;
     
-    float3 Tangent : TANGENT0;
-    float3 Binormal : BINORMAL0;
+    float2 textureCoord             : TEXCOORD;
+    float3 normal                   : TEXCOORD1;
+    float3 worldSpacePosition       : TEXCOORD2;
+    float4 FragPositionLightSpace   : TEXCOORD3;
+    
+    float3 Tangent                  : TEXCOORD4;
+    float3 Binormal                 : TEXCOORD5;
 };
 
 VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOORD, float3 Normal : NORMAL, float3 Tangent : TANGENT, float3 Bitangent : BITANGENT)
@@ -54,7 +54,6 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     float4 viewPos = mul(View, worldPos);
     output.position = mul(Projection, viewPos);
     output.worldSpacePosition = worldPos;
-    output.color = AmbientColour;
     
     
     output.FragPositionLightSpace = mul(lightSpaceMatrix, worldPos);
@@ -118,68 +117,102 @@ float Shadow(VS_Out input)
     return shadow;
 }
 
+// Approximates the surfaces roughness of microfacets
 float DistributionGGX(float3 N, float3 H, float roughness)
 {
-    return 0.0f;
+    float a = roughness * roughness;
+    float a2 = a * a;
+    float NdotH = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+
+    return nom / max(denom, 0.0001); // Add epsilon to prevent division by zero
 }
+
+// Approximates how the microfacets block the light from the perspective of the camera
 float GeometrySchlickGGX(float NdotV, float roughness)
 {
-    return 0.0f;
+    float r = (roughness + 1.0);
+    float k = (r * r) / 8.0;
+    
+    float denominator = NdotV * (1.0 - k) + k;
+    return NdotV / denominator;
 }
 float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
 {
-    return 0.0f;
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    
+    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+    float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+    
+    return ggx1 * ggx2;
 }
+
+
 float3 FresnelSchlick(float cosTheta, float3 F0)
 {
-    return 0.0f;
+    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
     float3 albedo = albedoMap.Sample(albedoSampler, input.textureCoord);
+    albedo = pow(albedo, 2.2);
     float roughness = 1 - roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
+    roughness = clamp(roughness, 0.1, 1.0);
     float metallic = metallicMap.Sample(metallicSampler, input.textureCoord).r;
     float AO = aoMap.Sample(aoSampler, input.textureCoord).r;
     
-    float3 lightPosition = -LightDirection; // pretty sure we need negative light direction, as we actually are wanting the light position
     
     float3 N = NormalMapping(input);
     float3 V = normalize(CameraPosition - input.worldSpacePosition);
     
     float3 F0 = 0.04f;
-    F0 = lerp(F0, albedo, 0);
+    F0 = lerp(F0, albedo, metallic);
     
     float3 Lo = (float3)0.0f;
     
-    float3 L = normalize(lightPosition - input.worldSpacePosition);
-    float H = normalize(V + L); // the halfway vector
-    float distance = length(lightPosition - input.worldSpacePosition);
-    float attenuation = 1.0 / (distance * distance);
-    float3 radiance = LightColour * attenuation;
+    // Calculate per-light radiance
+    float3 L = normalize(-LightDirection);
+    float3 H = normalize(V + L); // the halfway vector
+    float3 radiance = LightColour;
     
-    
+    // Cook-Torrance BRDF
     float NDF = DistributionGGX(N, H, roughness);
     float G = GeometrySmith(N, V, L, roughness);
     float3 F = FresnelSchlick(max(dot(H, V), 0.0), F0);
     
-    float3 kS = F;
-    float3 kD = (float3) 1.0f - kS;
-    kD *= 1.0 - metallic;
+    float NdotV = max(dot(N, V), 0.001);
+    float NdotL = max(dot(N, L), 0.001);
+    float NdotH = max(dot(N, H), 0.001);
     
     float3 numerator = NDF * G * F;
-    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+    float denominator = 4.0 * NdotV * NdotL;
+    denominator = max(denominator, 0.001); // avoid divide by zero
     float3 specular = numerator / denominator;
     
-    float NdotL = max(dot(N, L), 0.0);
-    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
+    float3 kS = F; // specular is equal to the fresnel
+    float3 kD = (float3) 1.0f - kS; // specular + diffuse = 1, so digguse = 1 - specular
+    kD *= 1.0 - metallic; // pure metals have no diffuse factor
     
+    Lo += (kD * albedo / max(PI + specular, 0.001)) * radiance * NdotL;
+
     
     float3 ambient = (float3) 0.03 * albedo * AO;
     float3 color = ambient + Lo;
     
-    color = color / (color + (float3) 1.0);
-    color = pow(color, (float3) 1.0 / 2.2);
+    color = color / (color + (float3) 1.0); // HDR tonemapping
+    color = pow(color, (float3) 1.0 / 2.2); // gamma correct
     
+    float shadow = Shadow(input);
+    color *= 1.0 - shadow;
+    
+    if (any(isnan(specular)) || any(isinf(specular)))
+        return float4(1, 0, 0, 1);
+
     return float4(color.rgb, 1.0);
 }
