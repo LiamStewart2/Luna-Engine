@@ -1,10 +1,10 @@
 {
     "Textures": {
         "AOMap": "Assets/Textures/default.png",
-        "Albedo": "Assets/Textures/default.png",
-        "MetallicMap": "Assets/Textures/NonMetallic.png",
-        "NormalMap": "Assets/Textures/BumpMapFlatColour.png",
-        "SpecularMap": "Assets/Textures/default.png"
+        "Albedo": "Assets\\Textures\\Sofa\\SofaReversiReplica001_COL_4K_METALNESS.jpg",
+        "MetallicMap": "Assets\\Textures\\Sofa\\SofaReversiReplica001_METALNESS_4K_METALNESS.png",
+        "NormalMap": "Assets\\Textures\\Sofa\\SofaReversiReplica001_NRM_4K_METALNESS.png",
+        "SpecularMap": "Assets\\Textures\\Sofa\\SofaReversiReplica001_ROUGHNESS_4K_METALNESS.jpg"
     },
     "Values": {
         "AmbientColour": [
