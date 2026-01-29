@@ -31,8 +31,6 @@ SamplerState normalSampler : register(s3);
 SamplerState metallicSampler : register(s4);
 SamplerState aoSampler : register(s5);
 
-const float PI = 3.14159265359;
-
 struct VS_Out
 {
     float4 position                 : SV_POSITION;
@@ -57,24 +55,24 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     
     
     output.FragPositionLightSpace = mul(lightSpaceMatrix, worldPos);
-    //output.position = mul(lightSpaceMatrix, worldPos);
-    
-    
     
     output.textureCoord = TextureCoordinate;
     
     
-    output.normal = mul(World, float4(Normal, 0));
-    output.Tangent = normalize(mul(World, float4(Tangent, 0)));
-    output.Binormal = normalize(mul(World, float4(Bitangent, 0)));
+    float3x3 worldmat3 = (float3x3) World;
+    output.normal = normalize(mul(worldmat3, Normal));
+    output.Tangent = normalize(mul(worldmat3, Tangent));
+    output.Binormal = normalize(mul(worldmat3, Bitangent));
     
     return output;
 }
 
 float3 NormalMapping(VS_Out input)
 {
+    
     float4 normalMapSample = normalMap.Sample(normalSampler, input.textureCoord);
     normalMapSample = (normalMapSample * 2.0f) - 1.0f;
+    
     
     float3 N = (normalMapSample.x * input.Tangent) + (normalMapSample.y * input.Binormal) + (normalMapSample.z * input.normal);
     return normalize(N);
@@ -120,6 +118,8 @@ float Shadow(VS_Out input)
 // Approximates the surfaces roughness of microfacets
 float DistributionGGX(float3 N, float3 H, float roughness)
 {
+    float PI = 3.14159265359;
+    
     float a = roughness * roughness;
     float a2 = a * a;
     float NdotH = max(dot(N, H), 0.0);
@@ -155,28 +155,29 @@ float GeometrySmith(float3 N, float3 V, float3 L, float roughness)
 
 float3 FresnelSchlick(float cosTheta, float3 F0)
 {
-    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+    return F0 + (1.0f - F0) * pow(clamp(1.0f - cosTheta, 0.0f, 1.0f), 5.0f);
 }
 
 float4 PS_main(VS_Out input) : SV_TARGET
 {
     float3 albedo = albedoMap.Sample(albedoSampler, input.textureCoord);
     albedo = pow(albedo, 2.2);
-    float roughness = 1 - roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
-    roughness = clamp(roughness, 0.1, 1.0);
+    float roughness = roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
+    roughness = clamp(roughness, 0.04, 1.0);
     float metallic = metallicMap.Sample(metallicSampler, input.textureCoord).r;
     float AO = aoMap.Sample(aoSampler, input.textureCoord).r;
     
+    float PI = 3.14159265359;
     
     float3 N = NormalMapping(input);
     float3 V = normalize(CameraPosition - input.worldSpacePosition);
     
-    float3 F0 = 0.04f;
+    float3 F0 = 0.04;
     F0 = lerp(F0, albedo, metallic);
     
     float3 Lo = (float3)0.0f;
     
-    // Calculate per-light radiance
+    // Calculate per-light radiance (in future will support multiple lights)
     float3 L = normalize(-LightDirection);
     float3 H = normalize(V + L); // the halfway vector
     float3 radiance = LightColour;
@@ -185,21 +186,19 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float NDF = DistributionGGX(N, H, roughness);
     float G = GeometrySmith(N, V, L, roughness);
     float3 F = FresnelSchlick(max(dot(H, V), 0.0), F0);
-    
-    float NdotV = max(dot(N, V), 0.001);
-    float NdotL = max(dot(N, L), 0.001);
-    float NdotH = max(dot(N, H), 0.001);
-    
+
     float3 numerator = NDF * G * F;
-    float denominator = 4.0 * NdotV * NdotL;
-    denominator = max(denominator, 0.001); // avoid divide by zero
+    float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0001);
     float3 specular = numerator / denominator;
     
     float3 kS = F; // specular is equal to the fresnel
-    float3 kD = (float3) 1.0f - kS; // specular + diffuse = 1, so digguse = 1 - specular
+    float3 kD = (float3) 1.0f - kS; // specular + diffuse = 1, so diffuse = 1 - specular
     kD *= 1.0 - metallic; // pure metals have no diffuse factor
     
-    Lo += (kD * albedo / max(PI + specular, 0.001)) * radiance * NdotL;
+    
+    float3 diffuse = kD * albedo;
+    
+    Lo += (diffuse + specular) * radiance * max(dot(N, L), 0.0);
 
     
     float3 ambient = (float3) 0.03 * albedo * AO;
@@ -211,8 +210,5 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float shadow = Shadow(input);
     color *= 1.0 - shadow;
     
-    if (any(isnan(specular)) || any(isinf(specular)))
-        return float4(1, 0, 0, 1);
-
     return float4(color.rgb, 1.0);
 }

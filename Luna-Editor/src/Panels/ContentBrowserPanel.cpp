@@ -165,6 +165,8 @@ void ContentBrowserPanel::CreateNewMaterial()
 	jsonData["Textures"]["Albedo"] = "Assets/Textures/default.png";
 	jsonData["Textures"]["SpecularMap"] = "Assets/Textures/default.png";
 	jsonData["Textures"]["NormalMap"] = "Assets/Textures/BumpMapFlatColour.png";
+	jsonData["Textures"]["MetallicMap"] = "Assets/Textures/NonMetallic.png";
+	jsonData["Textures"]["AOMap"] = "Assets/Textures/default.png";
 
 	glm::vec4 color = glm::vec4(1, 1, 1, 1);
 	jsonData["Values"]["AmbientColour"] = { color.x, color.y, color.z, color.a };

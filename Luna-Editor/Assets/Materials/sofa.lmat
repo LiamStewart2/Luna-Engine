@@ -1,0 +1,25 @@
+{
+    "Textures": {
+        "AOMap": "Assets/Textures/default.png",
+        "Albedo": "Assets/Textures/default.png",
+        "MetallicMap": "Assets/Textures/NonMetallic.png",
+        "NormalMap": "Assets/Textures/BumpMapFlatColour.png",
+        "SpecularMap": "Assets/Textures/default.png"
+    },
+    "Values": {
+        "AmbientColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "AmbientIntensity": 0.2,
+        "SpecularColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "SpecularIntensity": 0.8
+    }
+}
