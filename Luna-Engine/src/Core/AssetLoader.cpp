@@ -29,7 +29,9 @@ namespace Luna
 			return;
 		}
 
-		std::vector<Vertex> vertices = std::vector<Vertex>();
+		std::unordered_map<Vertex, int, Vertex::Hash> vertexMap;
+		std::vector<Vertex> vertices;
+
 		std::vector<unsigned int> indices = std::vector<unsigned int>();
 
 		// Create buffers for the mesh vertex data
@@ -90,23 +92,18 @@ namespace Luna
 
 					// TODO use a hash map to speed up the face building phase
 
-					int vertexIndex = -1;
-					for (int i = 0; i < vertices.size(); i++)
+					auto it = vertexMap.find(vertex);
+					if (it == vertexMap.end()) 
 					{
-						if (vertex.Position == vertices[i].Position && vertex.TextureCoordinate == vertices[i].TextureCoordinate && vertex.Normal == vertices[i].Normal)
-						{
-							vertexIndex = i;
-							break;
-						}
-					}
-
-					if (vertexIndex == -1)
-					{
+						int index = vertices.size();
+						indices.push_back(index);
 						vertices.push_back(vertex);
-						indices.push_back(vertices.size() - 1);
-					}
+						vertexMap[vertex] = index;
+					} 
 					else
-						indices.push_back(vertexIndex);
+					{
+						indices.push_back(it->second);
+					}
 
 				}
 			}

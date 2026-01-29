@@ -14,6 +14,29 @@ namespace Luna
 		glm::vec3 Normal;
 		glm::vec3 Tangent;
 		glm::vec3 Bitangent;
+
+		std::size_t operator==(const Vertex& other) const
+		{
+			return Position == other.Position &&
+				TextureCoordinate == other.TextureCoordinate &&
+				Normal == other.Normal;
+		}
+
+		struct Hash
+		{
+			std::size_t operator()(const Vertex& v) const {
+				std::size_t h1 = std::hash<float>{}(v.Position.x);
+				std::size_t h2 = std::hash<float>{}(v.Position.y);
+				std::size_t h3 = std::hash<float>{}(v.Position.z);
+				std::size_t h4 = std::hash<float>{}(v.TextureCoordinate.x);
+				std::size_t h5 = std::hash<float>{}(v.TextureCoordinate.y);
+				std::size_t h6 = std::hash<float>{}(v.Normal.x);
+				std::size_t h7 = std::hash<float>{}(v.Normal.y);
+				std::size_t h8 = std::hash<float>{}(v.Normal.z);
+				return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3) ^
+					(h5 << 4) ^ (h6 << 5) ^ (h7 << 6) ^ (h8 << 7);
+			}
+		};
 	};
 
 	class IMesh

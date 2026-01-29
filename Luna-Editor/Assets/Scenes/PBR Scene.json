@@ -37,7 +37,7 @@
                     6.240562438964844,
                     0.9659255743026733,
                     -0.25881996750831604,
-                    1.8363779830110616e-08,
+                    1.8363781606467455e-08,
                     -6.853429113107268e-08,
                     0.9999911785125732,
                     0.999997079372406,
@@ -238,22 +238,22 @@
         [
             {
                 "component-args": [
-                    "Sphere"
+                    "Sofa"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    -3.5148775577545166,
-                    -2.2456531524658203,
-                    1.8324480056762695,
-                    0.9226008653640747,
+                    -3.087599277496338,
+                    -2.226451873779297,
+                    2.0166075229644775,
+                    0.9152752161026001,
                     0.0,
-                    -0.38575589656829834,
+                    -0.40282905101776123,
                     0.0,
-                    2.1000001430511475,
-                    2.0999999046325684,
-                    2.1000001430511475
+                    2.7899973392486572,
+                    2.7899999618530273,
+                    2.7899973392486572
                 ],
                 "component-type": "TransformComponent"
             },
@@ -262,6 +262,37 @@
                     "Assets\\Models\\SofaReversiReplica001_Blender_Cycles.obj",
                     "Assets/Shaders/PBRShader/shader.hlsl",
                     "Assets\\Materials\\sofa.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Headphones"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -1.5761736631393433,
+                    -1.0475828647613525,
+                    1.456604242324829,
+                    0.6894371509552002,
+                    0.7243455052375793,
+                    0.0,
+                    0.0,
+                    3.0299999713897705,
+                    3.0300028324127197,
+                    3.0300028324127197
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\Headphones001.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets\\Materials\\new_material.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -291,6 +322,10 @@
         {
             "Children": [],
             "ObjectID": 6
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"
