@@ -211,16 +211,59 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 							collisionNormal * std::max(penetrationDepth - slop, 0.0f) /
 							(invMassA + invMassB) * percent;
 
-						if(physicsComponent.m_Dynamic)
+						if (physicsComponent.m_Dynamic)
 							transforms[id].position += correction * invMassA;
 						if (physicsComponent2.m_Dynamic)
 							transforms[id2].position -= correction * invMassB;
-
 
 						// Calculate Angular Velecotity
 						glm::vec3 contactPoint = (transform1.position + transform2.position) * 0.5f - collisionNormal * (penetrationDepth * 0.5f);
 
 						// relative contact points
+
+						bool isFloor = false;
+
+						std::cout << "Up: "			<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Up()))) << std::endl;
+						std::cout << "Forward: "	<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Forward()))) << std::endl;
+						std::cout << "Right: "		<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Right()))) << std::endl;
+						
+
+						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Up()))) > 0.9f)
+							isFloor = true;
+						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Forward()))) > 0.9f)
+							isFloor = true;
+						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Right()))) > 0.9f)
+							isFloor = true;
+
+						if (isFloor)
+						{
+							float j = -(1.0f + restitution) * vn;
+							j /= (invMassA + invMassB);
+
+							if (physicsComponent.m_Dynamic)
+							{
+								physicsComponent.m_Velocity += j * invMassA * collisionNormal;
+
+								glm::mat3 R = glm::toMat3(transform1.rotation);
+								glm::mat3 I_World = R * physicsComponent.m_InertiaTensor * glm::transpose(R);
+								glm::mat3 I_inv_world = glm::inverse(I_World);
+
+								physicsComponent.m_AngularVelocity += I_inv_world * glm::cross(collisionNormal, contactPoint);
+							}
+
+							if (physicsComponent2.m_Dynamic)
+							{
+								physicsComponent2.m_Velocity -= j * invMassB * collisionNormal;
+
+								glm::mat3 R = glm::toMat3(transform2.rotation);
+								glm::mat3 I_World = R * physicsComponent2.m_InertiaTensor * glm::transpose(R);
+								glm::mat3 I_inv_world = glm::inverse(I_World);
+
+								physicsComponent2.m_AngularVelocity -= I_inv_world * glm::cross(collisionNormal, contactPoint);
+							}
+							continue;
+						}
+
 						glm::vec3 rA = contactPoint - transform1.position;
 						glm::vec3 rB = contactPoint - transform2.position;
 
@@ -244,28 +287,6 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 
 							j = -(1.0f + restitution) * van;
 							j = j / denom;
-						}
-#
-
-						// Friction Reaction Impulse
-						glm::vec3 tangent = relativeAngularVelocity -
-							collisionNormal * glm::dot(relativeAngularVelocity, collisionNormal);
-
-						if (glm::length2(tangent) > 1e-6f)
-						{
-							tangent = glm::normalize(tangent);
-
-							float jt = -glm::dot(relativeAngularVelocity, tangent);
-							jt /= invMassA + invMassB;
-
-							float mu = 0.6f; // friction coefficient
-							jt = glm::clamp(jt, -mu * j, mu * j);
-
-							glm::vec3 frictionImpulse = jt * tangent;
-
-							physicsComponent.m_Velocity += frictionImpulse * invMassA;
-							physicsComponent.m_AngularVelocity +=
-								glm::inverse(physicsComponent.m_InertiaTensor) * glm::cross(rA, frictionImpulse);
 						}
 
 
@@ -298,6 +319,9 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 
 							physicsComponent2.m_AngularVelocity -= I_inv_world * glm::cross(rB, impulse);
 						}
+
+
+						
 					}
 					
 					catch (const std::out_of_range& e)
@@ -354,7 +378,7 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 					<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
 			}
 
-			const float angularDamping = 0.98f; // try 0.95–0.99
+			const float angularDamping = 0.9f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);

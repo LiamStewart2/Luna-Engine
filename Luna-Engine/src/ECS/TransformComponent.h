@@ -32,7 +32,11 @@ struct Transform : public Component
 	}
 	glm::vec3 Up()
 	{
-		return glm::vec3(0, 1, 0);
+		return rotation * glm::vec3(0, 1, 0);
+	}
+	glm::vec3 Right()
+	{
+		return glm::cross(Forward(), Up());
 	}
 
 	// Returns the rotation in radians
