@@ -16,6 +16,7 @@ namespace Luna
 		~PhysicsSystem();
 
 		void Update(EntityComponentSystem* ECS, bool runtime);
+		void Init(EntityComponentSystem* ECS);
 	private:
 
 		void HandleCollisions(EntityComponentSystem* ECS, float deltaTime);
@@ -23,6 +24,10 @@ namespace Luna
 		void HandlePhysics(EntityComponentSystem* ECS, float deltaTime);
 
 		void UpdatePositions(EntityComponentSystem* ECS, float deltaTime);
+
+		void InitTensors(EntityComponentSystem* ECS);
+
+		void ApplyBoxTensor(PhysicsComponent& component, Transform& transform);
 
 		Timer timer;
 	};

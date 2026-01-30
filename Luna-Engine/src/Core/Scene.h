@@ -19,6 +19,7 @@ public:
 
 	void Init(Luna::AssetManager* _assetManager, std::string _sceneName);
 	void LoadAssets();
+	void InitAfterLoad(); // the initialization after the scene manager has loaded all objects
 
 	void Update(bool runtime = false);
 

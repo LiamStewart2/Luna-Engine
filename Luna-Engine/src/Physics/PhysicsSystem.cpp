@@ -20,13 +20,17 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 		float deltaTime = (float)timer.DeltaTime();
 
 		std::cout << "Physics System Update - Delta Time: " << deltaTime << " seconds" << std::endl;
-
 		HandlePhysics(ECS, deltaTime);
 		HandleCollisions(ECS, deltaTime);
 
 		UpdatePositions(ECS, deltaTime);
 	}
 	timer.Tick();
+}
+
+void Luna::PhysicsSystem::Init(EntityComponentSystem* ECS)
+{
+	InitTensors(ECS);
 }
 
 void Luna::PhysicsSystem::UpdatePositions(EntityComponentSystem* ECS, float deltaTime)
@@ -40,18 +44,45 @@ void Luna::PhysicsSystem::UpdatePositions(EntityComponentSystem* ECS, float delt
 		{
 			transforms[id].position += component.m_Velocity * deltaTime;
 
-			component.m_NetForce = glm::vec3(0, 0, 0);
-			component.m_Acceleration = glm::vec3(0, 0, 0);
-
 			glm::quat omega = glm::quat(0.0f, component.m_AngularVelocity);
 			glm::quat dq = 0.5f * omega * transforms[id].rotation;
 			transforms[id].rotation += dq * deltaTime;
 			transforms[id].rotation = glm::normalize(transforms[id].rotation); // normalize the rotation to avoid non 1 quaternion lengths
-			
-			component.m_NetTorque = glm::vec3(0, 0, 0);
-			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
 		}
 	}
+}
+
+void Luna::PhysicsSystem::InitTensors(EntityComponentSystem* ECS)
+{
+	std::unordered_map<unsigned int, PhysicsComponent>& physicsComponents = ECS->GetAllComponentsOfType<PhysicsComponent>();
+	std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
+	for (auto& [id, component] : physicsComponents)
+	{
+		ApplyBoxTensor(component, transforms[id]);
+	}
+}
+
+void Luna::PhysicsSystem::ApplyBoxTensor(PhysicsComponent& component, Transform& transform)
+{
+	float hx = transform.scale.x;
+	float hy = transform.scale.y;
+	float hz = transform.scale.z;
+
+	float x2 = 4.0f * hx * hx;
+	float y2 = 4.0f * hy * hy;
+	float z2 = 4.0f * hz * hz;
+
+	float Ixx = (1.0f / 12.0f) * component.m_Mass * (y2 + z2);
+	float Iyy = (1.0f / 12.0f) * component.m_Mass * (x2 + z2);
+	float Izz = (1.0f / 12.0f) * component.m_Mass * (x2 + y2);
+
+	component.m_InertiaTensor = glm::mat3(
+		Ixx, 0, 0,
+		0, Iyy, 0,
+		0, 0, Izz
+	);
+
+	component.m_InverseTensor = glm::inverse(component.m_InertiaTensor); // inverse of the world space tensor
 }
 
 void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float deltaTime)
@@ -172,16 +203,6 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						float restitution = (collisionNormal.y > 0.7f) ? 0.0f : 0.2f; // Coefficient of restitution (bounciness)
 
 
-						float j = -(1.0f + restitution) * vn;
-						j /= (invMassA + invMassB);
-
-
-						if(physicsComponent.m_Dynamic)
-							physicsComponent.m_Velocity += j * invMassA * collisionNormal;
-						if(physicsComponent2.m_Dynamic)
-							physicsComponent2.m_Velocity -= j * invMassB * collisionNormal;
-
-
 						// smoothish correction of overlapping 
 						const float percent = 0.8f;   // push out most of penetration
 						const float slop = 0.001f;    // allow tiny overlap
@@ -194,6 +215,89 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 							transforms[id].position += correction * invMassA;
 						if (physicsComponent2.m_Dynamic)
 							transforms[id2].position -= correction * invMassB;
+
+
+						// Calculate Angular Velecotity
+						glm::vec3 contactPoint = (transform1.position + transform2.position) * 0.5f - collisionNormal * (penetrationDepth * 0.5f);
+
+						// relative contact points
+						glm::vec3 rA = contactPoint - transform1.position;
+						glm::vec3 rB = contactPoint - transform2.position;
+
+						glm::vec3 velA = physicsComponent.m_Velocity + glm::cross(physicsComponent.m_AngularVelocity, rA);
+						glm::vec3 velB = physicsComponent2.m_Velocity + glm::cross(physicsComponent2.m_AngularVelocity, rB);
+
+						glm::vec3 relativeAngularVelocity = velA - velB;
+						float van = glm::dot(relativeAngularVelocity, collisionNormal);
+
+						float j = 0.0f;
+
+						if (van <= 0.0f)
+						{
+							glm::vec3 raCrossN = glm::cross(rA, collisionNormal);
+							glm::vec3 rbCrossN = glm::cross(rB, collisionNormal);
+
+							float angularTermA = glm::dot(raCrossN, glm::inverse(physicsComponent.m_InertiaTensor) * raCrossN);
+							float angularTermB = glm::dot(rbCrossN, glm::inverse(physicsComponent2.m_InertiaTensor) * rbCrossN);
+
+							float denom = invMassA + invMassB + angularTermA + angularTermB;
+
+							j = -(1.0f + restitution) * van;
+							j = j / denom;
+						}
+#
+
+						// Friction Reaction Impulse
+						glm::vec3 tangent = relativeAngularVelocity -
+							collisionNormal * glm::dot(relativeAngularVelocity, collisionNormal);
+
+						if (glm::length2(tangent) > 1e-6f)
+						{
+							tangent = glm::normalize(tangent);
+
+							float jt = -glm::dot(relativeAngularVelocity, tangent);
+							jt /= invMassA + invMassB;
+
+							float mu = 0.6f; // friction coefficient
+							jt = glm::clamp(jt, -mu * j, mu * j);
+
+							glm::vec3 frictionImpulse = jt * tangent;
+
+							physicsComponent.m_Velocity += frictionImpulse * invMassA;
+							physicsComponent.m_AngularVelocity +=
+								glm::inverse(physicsComponent.m_InertiaTensor) * glm::cross(rA, frictionImpulse);
+						}
+
+
+						// Apply impulse
+						if (fabs(van) < 0.2f && penetrationDepth < 0.02f)
+							continue;
+
+						glm::vec3 impulse = j * collisionNormal;
+
+
+
+						if (physicsComponent.m_Dynamic)
+						{
+							physicsComponent.m_Velocity += impulse * invMassA;
+
+							glm::mat3 R = glm::toMat3(transform1.rotation);
+							glm::mat3 I_World = R * physicsComponent.m_InertiaTensor * glm::transpose(R);
+							glm::mat3 I_inv_world = glm::inverse(I_World);
+
+							physicsComponent.m_AngularVelocity += I_inv_world * glm::cross(rA, impulse);
+						}
+
+						if (physicsComponent2.m_Dynamic)
+						{
+							physicsComponent2.m_Velocity -= impulse * invMassB;
+
+							glm::mat3 R = glm::toMat3(transform2.rotation);
+							glm::mat3 I_World = R * physicsComponent2.m_InertiaTensor * glm::transpose(R);
+							glm::mat3 I_inv_world = glm::inverse(I_World);
+
+							physicsComponent2.m_AngularVelocity -= I_inv_world * glm::cross(rB, impulse);
+						}
 					}
 					
 					catch (const std::out_of_range& e)
@@ -217,6 +321,12 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 	{
 		if (component.m_Simulate && component.m_BeingManipulated == false && component.m_Dynamic)
 		{
+			component.m_NetForce = glm::vec3(0, 0, 0);
+			component.m_Acceleration = glm::vec3(0, 0, 0);
+			component.m_NetTorque = glm::vec3(0, 0, 0);
+			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
+
+
 			// Handle Velocity
 			// Gravity
 			component.m_NetForce -= glm::vec3(0, component.m_GravityValue * component.m_Mass, 0);
@@ -226,15 +336,6 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 			float dragCoefficient = 1.05f;
 			component.m_NetForce += 0.5f * atmosphereDensity * dragCoefficient * (transforms[id].scale * transforms[id].scale) * (glm::length(component.m_Velocity) * component.m_Velocity);
 
-			// Friction
-
-			if (transforms[id].position.y <= 0)
-			{
-				glm::vec3 frictionForce = -component.m_Velocity;
-
-				component.m_NetForce.x += 0.9f * frictionForce.x;
-			}
-
 
 			component.m_Acceleration += component.m_NetForce / component.m_Mass;
 
@@ -242,11 +343,25 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 
 			// Handle Angular Velocity
 
-			// Constant Angular velocity
-			//component.m_AngularVelocity = glm::vec3(1.0f, 0, 0);
-			component.m_NetTorque += glm::vec3(0, 0, 1);
+			if (glm::length(component.m_AngularVelocity) > 0.1f)
+			{
+				std::cout << "Entity " << id << ":" << std::endl;
+				std::cout << "  NetTorque: " << component.m_NetTorque.x << ", "
+					<< component.m_NetTorque.y << ", " << component.m_NetTorque.z << std::endl;
+				std::cout << "  AngularAccel: " << component.m_AngularAcceleration.x << ", "
+					<< component.m_AngularAcceleration.y << ", " << component.m_AngularAcceleration.z << std::endl;
+				std::cout << "  AngularVel: " << component.m_AngularVelocity.x << ", "
+					<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
+			}
 
-			component.m_AngularAcceleration += glm::inverse(component.m_InertiaTensor) * component.m_NetTorque;
+			const float angularDamping = 0.98f; // try 0.95–0.99
+			component.m_AngularVelocity *= angularDamping;
+
+			glm::mat3 R = glm::toMat3(transforms[id].rotation);
+			glm::mat3 I_World = R * component.m_InertiaTensor * glm::transpose(R);
+			glm::mat3 I_inv_world = glm::inverse(I_World);
+
+			component.m_AngularAcceleration += I_inv_world * component.m_NetTorque;
 
 			component.m_AngularVelocity += component.m_AngularAcceleration * deltaTime;
 		}

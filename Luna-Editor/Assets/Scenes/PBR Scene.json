@@ -246,15 +246,15 @@
         },
         {
             "Children": [],
+            "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
+        },
+        {
+            "Children": [],
             "ObjectID": 6
-        },
-        {
-            "Children": [],
-            "ObjectID": 7
-        },
-        {
-            "Children": [],
-            "ObjectID": 8
         }
     ],
     "scene-name": "example scene"

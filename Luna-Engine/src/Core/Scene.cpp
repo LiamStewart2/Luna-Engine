@@ -27,6 +27,11 @@ void Scene::LoadAssets()
 
 }
 
+void Scene::InitAfterLoad()
+{
+	physicsSystem.Init(&ECS);
+}
+
 void Scene::Update(bool runtime)
 {
 	if(runtime)
