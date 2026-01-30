@@ -97,23 +97,23 @@
             },
             {
                 "component-args": [
-                    -0.6244268417358398,
-                    -3.209775924682617,
-                    2.060121536254883,
-                    0.7071067690849304,
+                    0.0,
+                    -2.0,
+                    0.0,
+                    1.0,
                     0.0,
                     0.0,
-                    0.7071067690849304,
-                    0.9999367594718933,
-                    11.99986457824707,
-                    12.0
+                    0.0,
+                    7.0,
+                    1.0,
+                    7.0
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "Assets\\Models\\planeobj.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
                     "Assets\\Materials\\slate.lmat"
                 ],
                 "component-type": "MeshComponent"
@@ -140,19 +140,19 @@
         [
             {
                 "component-args": [
-                    "Brick Cube"
+                    "Cube 1"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    2.8065271377563477,
-                    -1.1269441843032837,
-                    0.10630345344543457,
-                    0.06486883759498596,
+                    -2.0,
+                    0.31368288397789,
+                    0.0,
+                    -0.2695554792881012,
                     0.0,
                     0.0,
-                    -0.9978938102722168,
+                    0.9629849195480347,
                     1.0,
                     1.0,
                     1.0
@@ -162,8 +162,8 @@
             {
                 "component-args": [
                     "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets/Materials/default.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
@@ -189,19 +189,19 @@
         [
             {
                 "component-args": [
-                    "Slate Cube"
+                    "Cube 2"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
-                    -4.1136474609375,
-                    -1.3375087976455688,
-                    0.8103407025337219,
-                    0.6523782014846802,
-                    -0.6523782014846802,
-                    -0.2727685570716858,
-                    -0.2727685570716858,
+                    2.0,
+                    0.3136829137802124,
+                    0.0,
+                    0.26955434679985046,
+                    0.0,
+                    0.0,
+                    -0.9629851579666138,
                     1.0,
                     1.0,
                     1.0
@@ -210,9 +210,9 @@
             },
             {
                 "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\default.lmat"
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets/Materials/default.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
@@ -233,68 +233,6 @@
                     1.0
                 ],
                 "component-type": "ColliderComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Sofa"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    -3.087599277496338,
-                    -2.226451873779297,
-                    2.0166075229644775,
-                    0.9152752161026001,
-                    0.0,
-                    -0.40282905101776123,
-                    0.0,
-                    2.7899973392486572,
-                    2.7899999618530273,
-                    2.7899973392486572
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets\\Models\\SofaReversiReplica001_Blender_Cycles.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\sofa.lmat"
-                ],
-                "component-type": "MeshComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Headphones"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    -1.5761736631393433,
-                    -1.0475828647613525,
-                    1.456604242324829,
-                    0.6894371509552002,
-                    0.7243455052375793,
-                    0.0,
-                    0.0,
-                    3.0299999713897705,
-                    3.0300028324127197,
-                    3.0300028324127197
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets\\Models\\Headphones001.obj",
-                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
-                    "Assets\\Materials\\new_material.lmat"
-                ],
-                "component-type": "MeshComponent"
             }
         ]
     ],
@@ -309,10 +247,6 @@
         },
         {
             "Children": [],
-            "ObjectID": 3
-        },
-        {
-            "Children": [],
             "ObjectID": 4
         },
         {
@@ -322,10 +256,6 @@
         {
             "Children": [],
             "ObjectID": 6
-        },
-        {
-            "Children": [],
-            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"

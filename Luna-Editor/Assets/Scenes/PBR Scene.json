@@ -37,7 +37,7 @@
                     6.240562438964844,
                     0.9659255743026733,
                     -0.25881996750831604,
-                    1.8363783382824295e-08,
+                    1.8363785159181134e-08,
                     -6.853429113107268e-08,
                     0.9999911785125732,
                     0.999997079372406,
@@ -140,104 +140,6 @@
         [
             {
                 "component-args": [
-                    "Brick Cube"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    2.8065271377563477,
-                    -1.1269441843032837,
-                    0.10630345344543457,
-                    0.06486883759498596,
-                    0.0,
-                    0.0,
-                    -0.9978938102722168,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/PBRShader/shader.hlsl",
-                    "Assets\\Materials\\default.lmat"
-                ],
-                "component-type": "MeshComponent"
-            },
-            {
-                "component-args": [
-                    true,
-                    1.0,
-                    9.8100004196167,
-                    true
-                ],
-                "component-type": "PhysicsComponent"
-            },
-            {
-                "component-args": [
-                    1,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "ColliderComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Slate Cube"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    -4.005776882171631,
-                    -0.5872008204460144,
-                    0.5062131881713867,
-                    0.647728681564331,
-                    -0.6477274894714355,
-                    -0.28363412618637085,
-                    -0.2836339771747589,
-                    0.8000001311302185,
-                    0.7999994158744812,
-                    0.7999933362007141
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets\\Models\\Plane.obj",
-                    "Assets/Shaders/PBRShader/shader.hlsl",
-                    "Assets\\Materials\\default.lmat"
-                ],
-                "component-type": "MeshComponent"
-            },
-            {
-                "component-args": [
-                    true,
-                    1.0,
-                    9.8100004196167,
-                    true
-                ],
-                "component-type": "PhysicsComponent"
-            },
-            {
-                "component-args": [
-                    1,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "ColliderComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
                     "Sofa"
                 ],
                 "component-type": "NameComponent"
@@ -296,6 +198,37 @@
                 ],
                 "component-type": "MeshComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "Background"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -4.0669264793396,
+                    0.00012520050222519785,
+                    0.9072267413139343,
+                    0.6471980810165405,
+                    0.6471980810165405,
+                    -0.2848414480686188,
+                    0.2848414480686188,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Models\\Plane.obj",
+                    "Assets/Shaders/SimpleShader/SimpleShaders.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
         ]
     ],
     "relations": [
@@ -313,19 +246,15 @@
         },
         {
             "Children": [],
-            "ObjectID": 4
-        },
-        {
-            "Children": [],
-            "ObjectID": 5
-        },
-        {
-            "Children": [],
             "ObjectID": 6
         },
         {
             "Children": [],
             "ObjectID": 7
+        },
+        {
+            "Children": [],
+            "ObjectID": 8
         }
     ],
     "scene-name": "example scene"

@@ -67,7 +67,7 @@ void HierarchyPanel::BuildHiearchyText(unsigned int& inspectorID, SceneGraphNode
 			{
 				m_SceneManager->GetCurrentScene()->AddComponent<MeshComponent>(inspectorID,
 					m_SceneManager->GetAssetManager()->GetMesh("Assets/Models/planeobj.obj").get(),
-					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/SimpleShader/SimpleShaders.hlsl").get(),
+					m_SceneManager->GetAssetManager()->GetShader("Assets/Shaders/PBRShader/shader.hlsl").get(),
 					m_SceneManager->GetAssetManager()->GetMaterial("Assets/Materials/default.lmat"));
 			}
 

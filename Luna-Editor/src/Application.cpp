@@ -50,7 +50,7 @@ int Application::Init()
 	m_Backbuffer = Luna::IFramebuffer::Create(backbufferspec);
 
 
-	sceneManager.LoadNewScene("Assets/Scenes/PBR Scene.json");
+	sceneManager.LoadNewScene("Assets/Scenes/Template Scene.json");
 
 	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
 
