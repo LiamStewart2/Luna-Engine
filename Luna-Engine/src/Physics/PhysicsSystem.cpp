@@ -64,25 +64,34 @@ void Luna::PhysicsSystem::InitTensors(EntityComponentSystem* ECS)
 
 void Luna::PhysicsSystem::ApplyBoxTensor(PhysicsComponent& component, Transform& transform)
 {
-	float hx = transform.scale.x;
-	float hy = transform.scale.y;
-	float hz = transform.scale.z;
 
-	float x2 = 4.0f * hx * hx;
-	float y2 = 4.0f * hy * hy;
-	float z2 = 4.0f * hz * hz;
+	if(component.m_Dynamic)
+	{
+		float hx = transform.scale.x;
+		float hy = transform.scale.y;
+		float hz = transform.scale.z;
 
-	float Ixx = (1.0f / 12.0f) * component.m_Mass * (y2 + z2);
-	float Iyy = (1.0f / 12.0f) * component.m_Mass * (x2 + z2);
-	float Izz = (1.0f / 12.0f) * component.m_Mass * (x2 + y2);
+		float x2 = 4.0f * hx * hx;
+		float y2 = 4.0f * hy * hy;
+		float z2 = 4.0f * hz * hz;
 
-	component.m_InertiaTensor = glm::mat3(
-		Ixx, 0, 0,
-		0, Iyy, 0,
-		0, 0, Izz
-	);
+		float Ixx = (1.0f / 12.0f) * component.m_Mass * (y2 + z2);
+		float Iyy = (1.0f / 12.0f) * component.m_Mass * (x2 + z2);
+		float Izz = (1.0f / 12.0f) * component.m_Mass * (x2 + y2);
 
-	component.m_InverseTensor = glm::inverse(component.m_InertiaTensor); // inverse of the world space tensor
+		component.m_InertiaTensor = glm::mat3(
+			Ixx, 0, 0,
+			0, Iyy, 0,
+			0, 0, Izz
+		);
+
+		component.m_InverseTensor = glm::inverse(component.m_InertiaTensor); // inverse of the world space tensor
+	}
+	else
+	{
+		component.m_InertiaTensor = glm::mat3(0);
+		component.m_InverseTensor = glm::mat3(0);
+	}
 }
 
 void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float deltaTime)
@@ -101,6 +110,7 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 
 			Transform transform1;
 			Transform transform2;
+
 			glm::vec3 tempSkew;
 			glm::vec4 tempPerspective;
 
@@ -198,10 +208,11 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						// figure out the direction of the relative velocities
 						float vn = dot(relativeVelocity, collisionNormal);
 						if (vn > 0.0f) continue; // separating
-
 						// if hitting a floor, have a lower restitution to avoid infinite bouncing
-						float restitution = (collisionNormal.y > 0.7f) ? 0.0f : 0.2f; // Coefficient of restitution (bounciness)
+						float restitution = (collisionNormal.y > 0.7f) ? 0.1f : 0.4f; // Coefficient of restitution (bounciness)
 
+						if (abs(vn) < 0.05f)
+							restitution = 0.0f;
 
 						// smoothish correction of overlapping 
 						const float percent = 0.8f;   // push out most of penetration
@@ -210,118 +221,61 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						glm::vec3 correction =
 							collisionNormal * std::max(penetrationDepth - slop, 0.0f) /
 							(invMassA + invMassB) * percent;
+						if(penetrationDepth > slop * 2.0f)
+						{
+							if (physicsComponent.m_Dynamic)
+								transforms[id].position += correction * invMassA;
+							if (physicsComponent2.m_Dynamic)
+								transforms[id2].position -= correction * invMassB;
+						}
+						
+						glm::vec3 contactPoint = transform1.position + collisionNormal * (component.m_ColliderSize.x * transform1.scale.x);
 
-						if (physicsComponent.m_Dynamic)
-							transforms[id].position += correction * invMassA;
-						if (physicsComponent2.m_Dynamic)
-							transforms[id2].position -= correction * invMassB;
-
-						// Calculate Angular Velecotity
-						glm::vec3 contactPoint = (transform1.position + transform2.position) * 0.5f - collisionNormal * (penetrationDepth * 0.5f);
-
+						glm::vec3 halfExtents = component.m_ColliderSize * transform1.scale;
+						glm::vec3 localContact = glm::inverse(glm::toMat3(transform1.rotation)) *
+							(contactPoint - transform1.position);
+						localContact = glm::clamp(localContact, -halfExtents, halfExtents);
+						contactPoint = transform1.position +
+							glm::toMat3(transform1.rotation) * localContact;
 						// relative contact points
 
-						bool isFloor = false;
+						glm::vec3 relativeContactPointA = contactPoint - transform1.position;
+						glm::vec3 relativeContactPointB = contactPoint - transform2.position;
 
-						std::cout << "Up: "			<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Up()))) << std::endl;
-						std::cout << "Forward: "	<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Forward()))) << std::endl;
-						std::cout << "Right: "		<< glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Right()))) << std::endl;
-						
-
-						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Up()))) > 0.9f)
-							isFloor = true;
-						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Forward()))) > 0.9f)
-							isFloor = true;
-						if(glm::abs(glm::dot(glm::normalize(collisionNormal), glm::normalize(transform1.Right()))) > 0.9f)
-							isFloor = true;
-
-						if (isFloor)
-						{
-							float j = -(1.0f + restitution) * vn;
-							j /= (invMassA + invMassB);
-
-							if (physicsComponent.m_Dynamic)
-							{
-								physicsComponent.m_Velocity += j * invMassA * collisionNormal;
-
-								glm::mat3 R = glm::toMat3(transform1.rotation);
-								glm::mat3 I_World = R * physicsComponent.m_InertiaTensor * glm::transpose(R);
-								glm::mat3 I_inv_world = glm::inverse(I_World);
-
-								physicsComponent.m_AngularVelocity += I_inv_world * glm::cross(collisionNormal, contactPoint);
-							}
-
-							if (physicsComponent2.m_Dynamic)
-							{
-								physicsComponent2.m_Velocity -= j * invMassB * collisionNormal;
-
-								glm::mat3 R = glm::toMat3(transform2.rotation);
-								glm::mat3 I_World = R * physicsComponent2.m_InertiaTensor * glm::transpose(R);
-								glm::mat3 I_inv_world = glm::inverse(I_World);
-
-								physicsComponent2.m_AngularVelocity -= I_inv_world * glm::cross(collisionNormal, contactPoint);
-							}
-							continue;
-						}
-
-						glm::vec3 rA = contactPoint - transform1.position;
-						glm::vec3 rB = contactPoint - transform2.position;
-
-						glm::vec3 velA = physicsComponent.m_Velocity + glm::cross(physicsComponent.m_AngularVelocity, rA);
-						glm::vec3 velB = physicsComponent2.m_Velocity + glm::cross(physicsComponent2.m_AngularVelocity, rB);
-
-						glm::vec3 relativeAngularVelocity = velA - velB;
-						float van = glm::dot(relativeAngularVelocity, collisionNormal);
-
-						float j = 0.0f;
-
-						if (van <= 0.0f)
-						{
-							glm::vec3 raCrossN = glm::cross(rA, collisionNormal);
-							glm::vec3 rbCrossN = glm::cross(rB, collisionNormal);
-
-							float angularTermA = glm::dot(raCrossN, glm::inverse(physicsComponent.m_InertiaTensor) * raCrossN);
-							float angularTermB = glm::dot(rbCrossN, glm::inverse(physicsComponent2.m_InertiaTensor) * rbCrossN);
-
-							float denom = invMassA + invMassB + angularTermA + angularTermB;
-
-							j = -(1.0f + restitution) * van;
-							j = j / denom;
-						}
+						// World space inverse tensors
+						glm::mat3 R1 = glm::toMat3(transform1.rotation);
+						glm::mat3 R2 = glm::toMat3(transform2.rotation);
+						glm::mat3 I_inv_worldA = R1 * physicsComponent.m_InverseTensor * glm::transpose(R1);
+						glm::mat3 I_inv_worldB = R2 * physicsComponent2.m_InverseTensor * glm::transpose(R2);
 
 
-						// Apply impulse
-						if (fabs(van) < 0.2f && penetrationDepth < 0.02f)
-							continue;
+						glm::vec3 vel1 = physicsComponent.m_Velocity + glm::cross(physicsComponent.m_AngularVelocity, relativeContactPointA);
+						glm::vec3 vel2 = physicsComponent2.m_Velocity + glm::cross(physicsComponent2.m_AngularVelocity, relativeContactPointB);
+						glm::vec3 relativeVelocityAtContact = vel1 - vel2;
+						float vnAtContact = dot(relativeVelocityAtContact, collisionNormal);
 
-						glm::vec3 impulse = j * collisionNormal;
+						// BIG FAT EQUATION TO FIND THE DIFFERENCE IN VELOCITY NEEDED;
+						float denom = 
+							(invMassA + invMassB) +
+							glm::dot(collisionNormal,
+								glm::cross(I_inv_worldA * glm::cross(relativeContactPointA, collisionNormal), relativeContactPointA) +
+								glm::cross(I_inv_worldB * glm::cross(relativeContactPointB, collisionNormal), relativeContactPointB));
 
 
+						float j = -(1.0f + restitution) * vnAtContact / denom;
 
+						// Apply Collision Response
 						if (physicsComponent.m_Dynamic)
 						{
-							physicsComponent.m_Velocity += impulse * invMassA;
-
-							glm::mat3 R = glm::toMat3(transform1.rotation);
-							glm::mat3 I_World = R * physicsComponent.m_InertiaTensor * glm::transpose(R);
-							glm::mat3 I_inv_world = glm::inverse(I_World);
-
-							physicsComponent.m_AngularVelocity += I_inv_world * glm::cross(rA, impulse);
+							physicsComponent.m_Velocity += (j * collisionNormal) * invMassA;
+							physicsComponent.m_AngularVelocity += I_inv_worldA * glm::cross(relativeContactPointA, (j * collisionNormal));
 						}
 
 						if (physicsComponent2.m_Dynamic)
 						{
-							physicsComponent2.m_Velocity -= impulse * invMassB;
-
-							glm::mat3 R = glm::toMat3(transform2.rotation);
-							glm::mat3 I_World = R * physicsComponent2.m_InertiaTensor * glm::transpose(R);
-							glm::mat3 I_inv_world = glm::inverse(I_World);
-
-							physicsComponent2.m_AngularVelocity -= I_inv_world * glm::cross(rB, impulse);
+							physicsComponent2.m_Velocity -= (j * collisionNormal) * invMassB;
+							physicsComponent2.m_AngularVelocity -= I_inv_worldB * glm::cross(relativeContactPointB, (j * collisionNormal));
 						}
-
-
-						
 					}
 					
 					catch (const std::out_of_range& e)
@@ -378,11 +332,11 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 					<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
 			}
 
-			const float angularDamping = 0.9f; // try 0.95–0.99
+			const float angularDamping = 0.98f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);
-			glm::mat3 I_World = R * component.m_InertiaTensor * glm::transpose(R);
+			glm::mat3 I_World = R * component.m_InverseTensor * glm::transpose(R);
 			glm::mat3 I_inv_world = glm::inverse(I_World);
 
 			component.m_AngularAcceleration += I_inv_world * component.m_NetTorque;
