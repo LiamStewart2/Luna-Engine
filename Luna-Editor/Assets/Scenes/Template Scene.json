@@ -91,55 +91,6 @@
         [
             {
                 "component-args": [
-                    "Ground"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    0.0,
-                    -2.0,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    7.0,
-                    1.0,
-                    7.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/PBRShader/shader.hlsl",
-                    "Assets\\Materials\\slate.lmat"
-                ],
-                "component-type": "MeshComponent"
-            },
-            {
-                "component-args": [
-                    true,
-                    1.0,
-                    9.8100004196167,
-                    false
-                ],
-                "component-type": "PhysicsComponent"
-            },
-            {
-                "component-args": [
-                    1,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "ColliderComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
                     "Cube 1"
                 ],
                 "component-type": "NameComponent"
@@ -222,6 +173,55 @@
                     1.0,
                     9.8100004196167,
                     true
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    -2.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    7.0,
+                    1.0,
+                    7.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets\\Materials\\slate.lmat"
+                ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    1.0,
+                    9.8100004196167,
+                    false
                 ],
                 "component-type": "PhysicsComponent"
             },

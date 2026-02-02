@@ -20,9 +20,9 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 		float deltaTime = (float)timer.DeltaTime();
 
 		std::cout << "Physics System Update - Delta Time: " << deltaTime << " seconds" << std::endl;
+
 		HandlePhysics(ECS, deltaTime);
 		HandleCollisions(ECS, deltaTime);
-
 		UpdatePositions(ECS, deltaTime);
 	}
 	timer.Tick();
@@ -99,14 +99,18 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 	std::unordered_map<unsigned int, PhysicsComponent>& physicsComponents = ECS->GetAllComponentsOfType<PhysicsComponent>();
 	std::unordered_map<unsigned int, ColliderComponent>& colliderComponents = ECS->GetAllComponentsOfType<ColliderComponent>();
 	std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
+	std::unordered_map<unsigned int, NameComponent>& names = ECS->GetAllComponentsOfType<NameComponent>();
 
 	// Handle Collisions
 	for (auto& [id, component] : colliderComponents)
 	{
 		for (auto& [id2, component2] : colliderComponents)
 		{
+
 			if(id <= id2)
 				continue;
+
+			std::cout << "ATTEMPT: " << names[id].m_Name << ", " << names[id2].m_Name << std::endl;
 
 			Transform transform1;
 			Transform transform2;
@@ -255,17 +259,23 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 
 						float j = -(1.0f + restitution) * vnAtContact / denom;
 
+						const float impulseEps = 1e-4f;
+						if (glm::abs(j) < impulseEps)
+							 continue;
+
 						// Apply Collision Response
 						if (physicsComponent.m_Dynamic)
 						{
 							physicsComponent.m_Velocity += (j * collisionNormal) * invMassA;
 							physicsComponent.m_AngularVelocity += I_inv_worldA * glm::cross(relativeContactPointA, (j * collisionNormal));
+							std::cout << "Entity: " << id << " Angular Vel: " << physicsComponent.m_AngularVelocity.x << ", " << physicsComponent.m_AngularVelocity.y << std::endl;
 						}
 
 						if (physicsComponent2.m_Dynamic)
 						{
 							physicsComponent2.m_Velocity -= (j * collisionNormal) * invMassB;
 							physicsComponent2.m_AngularVelocity -= I_inv_worldB * glm::cross(relativeContactPointB, (j * collisionNormal));
+							std::cout << "Entity: " << id2 << " Angular Vel: " << physicsComponent2.m_AngularVelocity.x << ", " << physicsComponent2.m_AngularVelocity.y << std::endl;
 						}
 					}
 					
@@ -312,21 +322,11 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 
 			// Handle Angular Velocity
 
-
-			std::cout << "Entity " << id << ":" << std::endl;
-			std::cout << "  NetTorque: " << component.m_NetTorque.x << ", "
-				<< component.m_NetTorque.y << ", " << component.m_NetTorque.z << std::endl;
-			std::cout << "  AngularAccel: " << component.m_AngularAcceleration.x << ", "
-				<< component.m_AngularAcceleration.y << ", " << component.m_AngularAcceleration.z << std::endl;
-			std::cout << "  AngularVel: " << component.m_AngularVelocity.x << ", "
-				<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
-
 			const float angularDamping = 0.99f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);
-			glm::mat3 I_World = R * component.m_InverseTensor * glm::transpose(R);
-			glm::mat3 I_inv_world = glm::inverse(I_World);
+			glm::mat3 I_inv_world = R * component.m_InverseTensor * glm::transpose(R);
 
 			component.m_AngularAcceleration += I_inv_world * component.m_NetTorque;
 
