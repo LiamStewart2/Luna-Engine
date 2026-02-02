@@ -98,7 +98,7 @@
             {
                 "component-args": [
                     -0.8137203454971313,
-                    -0.6342124938964844,
+                    -0.6341987252235413,
                     0.0,
                     1.0,
                     0.0,
@@ -121,9 +121,10 @@
             {
                 "component-args": [
                     true,
-                    1.0,
+                    10.0,
                     9.8100004196167,
-                    true
+                    true,
+                    0.800000011920929
                 ],
                 "component-type": "PhysicsComponent"
             },
@@ -147,7 +148,7 @@
             {
                 "component-args": [
                     2.0,
-                    -0.6342124938964844,
+                    -0.6341987252235413,
                     0.0,
                     1.0,
                     0.0,
@@ -170,9 +171,10 @@
             {
                 "component-args": [
                     true,
-                    1.0,
+                    100.0,
                     9.8100004196167,
-                    true
+                    true,
+                    0.800000011920929
                 ],
                 "component-type": "PhysicsComponent"
             },
@@ -221,7 +223,8 @@
                     true,
                     1.0,
                     9.8100004196167,
-                    false
+                    false,
+                    0.800000011920929
                 ],
                 "component-type": "PhysicsComponent"
             },

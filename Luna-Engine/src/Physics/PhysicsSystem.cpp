@@ -204,7 +204,7 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						if (vn > 0.0f) continue; // separating
 
 						// if hitting a floor, have a lower restitution to avoid infinite bouncing
-						float restitution = (collisionNormal.y > 0.7f) ? 0.0f : 0.2f; // Coefficient of restitution (bounciness)
+						float restitution = (physicsComponent.m_Restitution + physicsComponent2.m_Restitution) / 2; // Coefficient of restitution (bounciness)
 
 
 						float j = -(1.0f + restitution) * vn;
@@ -274,7 +274,7 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 
 			// Handle Angular Velocity
 
-			const float angularDamping = 1.0f; // try 0.95–0.99
+			const float angularDamping = 0.98f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);
@@ -283,9 +283,6 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 			component.m_AngularAcceleration += I_inv_world * component.m_NetTorque;
 
 			component.m_AngularVelocity += component.m_AngularAcceleration * deltaTime;
-
-			std::cout << "Entity: " << id << " Angular Vel: " << component.m_AngularVelocity.x << ", " << component.m_AngularVelocity.y << std::endl;
-			std::cout << "Entity: " << id << " Vel: " << component.m_Velocity.x << ", " << component.m_Velocity.y << std::endl;
 		}
 	}
 }

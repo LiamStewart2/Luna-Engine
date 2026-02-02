@@ -7,8 +7,8 @@
 
 struct PhysicsComponent : public Component
 {
-	PhysicsComponent(unsigned int _gameObject = 0, bool simulate = true, float mass = 1.0f, float gravityValue = 9.81f, bool dynamic = true) :
-		Component(_gameObject), m_Simulate(simulate), m_Dynamic(dynamic), m_Mass(mass), m_GravityValue(gravityValue)
+	PhysicsComponent(unsigned int _gameObject = 0, bool simulate = true, float mass = 1.0f, float gravityValue = 9.81f, bool dynamic = true, float restitution = 0.5f) :
+		Component(_gameObject), m_Simulate(simulate), m_Dynamic(dynamic), m_Mass(mass), m_GravityValue(gravityValue), m_Restitution(restitution)
 	{
 		
 	}
@@ -19,6 +19,7 @@ struct PhysicsComponent : public Component
 
 	float m_Mass = 1.0f;
 	float m_GravityValue = 9.81f;
+	float m_Restitution = 0.5f;
 	
 	glm::vec3 m_NetForce = glm::vec3(0, 0, 0);
 	glm::vec3 m_Acceleration = glm::vec3(0, 0, 0);
