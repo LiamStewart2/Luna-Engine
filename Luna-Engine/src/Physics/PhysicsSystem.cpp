@@ -117,15 +117,6 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 			glm::decompose(transforms[id].transformMatrix, transform1.scale, transform1.rotation, transform1.position, tempSkew, tempPerspective);
 			glm::decompose(transforms[id2].transformMatrix, transform2.scale, transform2.rotation, transform2.position, tempSkew, tempPerspective);
 
-			// Distance Check
-			if (component.m_Shape == ColliderShape::Sphere && component2.m_Shape == ColliderShape::Sphere)
-			{
-				if (glm::length(transform2.position - transform1.position) <= component.m_ColliderSize.x + component2.m_ColliderSize.x)
-				{
-					std::cout << "Colliding" << std::endl;
-				}
-			}
-
 			// OBB
 			if (component.m_Shape == ColliderShape::Cube && component2.m_Shape == ColliderShape::Cube)
 			{
@@ -221,14 +212,14 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						glm::vec3 correction =
 							collisionNormal * std::max(penetrationDepth - slop, 0.0f) /
 							(invMassA + invMassB) * percent;
-						if(penetrationDepth > slop * 2.0f)
-						{
-							if (physicsComponent.m_Dynamic)
-								transforms[id].position += correction * invMassA;
-							if (physicsComponent2.m_Dynamic)
-								transforms[id2].position -= correction * invMassB;
-						}
+
+						if (physicsComponent.m_Dynamic)
+							transforms[id].position += correction * invMassA;
+						if (physicsComponent2.m_Dynamic)
+							transforms[id2].position -= correction * invMassB;
 						
+
+						// Resolve Collision Impulses
 						glm::vec3 contactPoint = transform1.position + collisionNormal * (component.m_ColliderSize.x * transform1.scale.x);
 
 						glm::vec3 halfExtents = component.m_ColliderSize * transform1.scale;
@@ -321,18 +312,16 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 
 			// Handle Angular Velocity
 
-			if (glm::length(component.m_AngularVelocity) > 0.1f)
-			{
-				std::cout << "Entity " << id << ":" << std::endl;
-				std::cout << "  NetTorque: " << component.m_NetTorque.x << ", "
-					<< component.m_NetTorque.y << ", " << component.m_NetTorque.z << std::endl;
-				std::cout << "  AngularAccel: " << component.m_AngularAcceleration.x << ", "
-					<< component.m_AngularAcceleration.y << ", " << component.m_AngularAcceleration.z << std::endl;
-				std::cout << "  AngularVel: " << component.m_AngularVelocity.x << ", "
-					<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
-			}
 
-			const float angularDamping = 0.98f; // try 0.95–0.99
+			std::cout << "Entity " << id << ":" << std::endl;
+			std::cout << "  NetTorque: " << component.m_NetTorque.x << ", "
+				<< component.m_NetTorque.y << ", " << component.m_NetTorque.z << std::endl;
+			std::cout << "  AngularAccel: " << component.m_AngularAcceleration.x << ", "
+				<< component.m_AngularAcceleration.y << ", " << component.m_AngularAcceleration.z << std::endl;
+			std::cout << "  AngularVel: " << component.m_AngularVelocity.x << ", "
+				<< component.m_AngularVelocity.y << ", " << component.m_AngularVelocity.z << std::endl;
+
+			const float angularDamping = 0.99f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);
