@@ -21,8 +21,8 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 
 		std::cout << "Physics System Update - Delta Time: " << deltaTime << " seconds" << std::endl;
 
-		HandlePhysics(ECS, deltaTime);
 		HandleCollisions(ECS, deltaTime);
+		HandlePhysics(ECS, deltaTime);
 		UpdatePositions(ECS, deltaTime);
 	}
 	timer.Tick();
@@ -121,6 +121,8 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 			glm::decompose(transforms[id].transformMatrix, transform1.scale, transform1.rotation, transform1.position, tempSkew, tempPerspective);
 			glm::decompose(transforms[id2].transformMatrix, transform2.scale, transform2.rotation, transform2.position, tempSkew, tempPerspective);
 
+
+
 			// OBB
 			if (component.m_Shape == ColliderShape::Cube && component2.m_Shape == ColliderShape::Cube)
 			{
@@ -145,18 +147,15 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 				bool colliding = true;
 				for (glm::vec3 v : axis)
 				{
-					// if length is tiny then skip
-					if (glm::length2(v) < 1e-6f) continue;
-
 					v = glm::normalize(v);
 
 					// scary math
-					float rA = (((component.m_ColliderSize.x * transform1.scale.x)) * glm::abs(glm::dot(v, o1[0])) +
-						((component.m_ColliderSize.y * transform1.scale.y)) * glm::abs(glm::dot(v, o1[1])) +
-						((component.m_ColliderSize.z * transform1.scale.z)) * glm::abs(glm::dot(v, o1[2])));
-					float rB = (((component2.m_ColliderSize.x * transform2.scale.x)) * glm::abs(glm::dot(v, o2[0])) +
-						((component2.m_ColliderSize.y * transform2.scale.y)) * glm::abs(glm::dot(v, o2[1])) +
-						((component2.m_ColliderSize.z * transform2.scale.z)) * glm::abs(glm::dot(v, o2[2])));
+					float rA =	(((component.m_ColliderSize.x * transform1.scale.x)) * glm::abs(glm::dot(v, o1[0])) +
+								((component.m_ColliderSize.y * transform1.scale.y)) * glm::abs(glm::dot(v, o1[1])) +
+								((component.m_ColliderSize.z * transform1.scale.z)) * glm::abs(glm::dot(v, o1[2])));
+					float rB =	(((component2.m_ColliderSize.x * transform2.scale.x)) * glm::abs(glm::dot(v, o2[0])) +
+								((component2.m_ColliderSize.y * transform2.scale.y)) * glm::abs(glm::dot(v, o2[1])) +
+								((component2.m_ColliderSize.z * transform2.scale.z)) * glm::abs(glm::dot(v, o2[2])));
 					// slightly less scary maths
 					float d = glm::abs(glm::dot(transform1.position - transform2.position, v));
 
@@ -203,11 +202,20 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 						// figure out the direction of the relative velocities
 						float vn = dot(relativeVelocity, collisionNormal);
 						if (vn > 0.0f) continue; // separating
-						// if hitting a floor, have a lower restitution to avoid infinite bouncing
-						float restitution = (collisionNormal.y > 0.7f) ? 0.1f : 0.4f; // Coefficient of restitution (bounciness)
 
-						if (abs(vn) < 0.05f)
-							restitution = 0.0f;
+						// if hitting a floor, have a lower restitution to avoid infinite bouncing
+						float restitution = (collisionNormal.y > 0.7f) ? 0.0f : 0.2f; // Coefficient of restitution (bounciness)
+
+
+						float j = -(1.0f + restitution) * vn;
+						j /= (invMassA + invMassB);
+
+
+						if (physicsComponent.m_Dynamic)
+							physicsComponent.m_Velocity += j * invMassA * collisionNormal;
+						if (physicsComponent2.m_Dynamic)
+							physicsComponent2.m_Velocity -= j * invMassB * collisionNormal;
+
 
 						// smoothish correction of overlapping 
 						const float percent = 0.8f;   // push out most of penetration
@@ -221,62 +229,6 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 							transforms[id].position += correction * invMassA;
 						if (physicsComponent2.m_Dynamic)
 							transforms[id2].position -= correction * invMassB;
-						
-
-						// Resolve Collision Impulses
-						glm::vec3 contactPoint = transform1.position + collisionNormal * (component.m_ColliderSize.x * transform1.scale.x);
-
-						glm::vec3 halfExtents = component.m_ColliderSize * transform1.scale;
-						glm::vec3 localContact = glm::inverse(glm::toMat3(transform1.rotation)) *
-							(contactPoint - transform1.position);
-						localContact = glm::clamp(localContact, -halfExtents, halfExtents);
-						contactPoint = transform1.position +
-							glm::toMat3(transform1.rotation) * localContact;
-						// relative contact points
-
-						glm::vec3 relativeContactPointA = contactPoint - transform1.position;
-						glm::vec3 relativeContactPointB = contactPoint - transform2.position;
-
-						// World space inverse tensors
-						glm::mat3 R1 = glm::toMat3(transform1.rotation);
-						glm::mat3 R2 = glm::toMat3(transform2.rotation);
-						glm::mat3 I_inv_worldA = R1 * physicsComponent.m_InverseTensor * glm::transpose(R1);
-						glm::mat3 I_inv_worldB = R2 * physicsComponent2.m_InverseTensor * glm::transpose(R2);
-
-
-						glm::vec3 vel1 = physicsComponent.m_Velocity + glm::cross(physicsComponent.m_AngularVelocity, relativeContactPointA);
-						glm::vec3 vel2 = physicsComponent2.m_Velocity + glm::cross(physicsComponent2.m_AngularVelocity, relativeContactPointB);
-						glm::vec3 relativeVelocityAtContact = vel1 - vel2;
-						float vnAtContact = dot(relativeVelocityAtContact, collisionNormal);
-
-						// BIG FAT EQUATION TO FIND THE DIFFERENCE IN VELOCITY NEEDED;
-						float denom = 
-							(invMassA + invMassB) +
-							glm::dot(collisionNormal,
-								glm::cross(I_inv_worldA * glm::cross(relativeContactPointA, collisionNormal), relativeContactPointA) +
-								glm::cross(I_inv_worldB * glm::cross(relativeContactPointB, collisionNormal), relativeContactPointB));
-
-
-						float j = -(1.0f + restitution) * vnAtContact / denom;
-
-						const float impulseEps = 1e-4f;
-						if (glm::abs(j) < impulseEps)
-							 continue;
-
-						// Apply Collision Response
-						if (physicsComponent.m_Dynamic)
-						{
-							physicsComponent.m_Velocity += (j * collisionNormal) * invMassA;
-							physicsComponent.m_AngularVelocity += I_inv_worldA * glm::cross(relativeContactPointA, (j * collisionNormal));
-							std::cout << "Entity: " << id << " Angular Vel: " << physicsComponent.m_AngularVelocity.x << ", " << physicsComponent.m_AngularVelocity.y << std::endl;
-						}
-
-						if (physicsComponent2.m_Dynamic)
-						{
-							physicsComponent2.m_Velocity -= (j * collisionNormal) * invMassB;
-							physicsComponent2.m_AngularVelocity -= I_inv_worldB * glm::cross(relativeContactPointB, (j * collisionNormal));
-							std::cout << "Entity: " << id2 << " Angular Vel: " << physicsComponent2.m_AngularVelocity.x << ", " << physicsComponent2.m_AngularVelocity.y << std::endl;
-						}
 					}
 					
 					catch (const std::out_of_range& e)
@@ -322,7 +274,7 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 
 			// Handle Angular Velocity
 
-			const float angularDamping = 0.99f; // try 0.95–0.99
+			const float angularDamping = 1.0f; // try 0.95–0.99
 			component.m_AngularVelocity *= angularDamping;
 
 			glm::mat3 R = glm::toMat3(transforms[id].rotation);
@@ -331,6 +283,9 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 			component.m_AngularAcceleration += I_inv_world * component.m_NetTorque;
 
 			component.m_AngularVelocity += component.m_AngularAcceleration * deltaTime;
+
+			std::cout << "Entity: " << id << " Angular Vel: " << component.m_AngularVelocity.x << ", " << component.m_AngularVelocity.y << std::endl;
+			std::cout << "Entity: " << id << " Vel: " << component.m_Velocity.x << ", " << component.m_Velocity.y << std::endl;
 		}
 	}
 }
