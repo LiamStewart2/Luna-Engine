@@ -21,8 +21,8 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 
 		std::cout << "Physics System Update - Delta Time: " << deltaTime << " seconds" << std::endl;
 
-		HandleCollisions(ECS, deltaTime);
 		HandlePhysics(ECS, deltaTime);
+		HandleCollisions(ECS, deltaTime);
 		UpdatePositions(ECS, deltaTime);
 	}
 	timer.Tick();
@@ -94,6 +94,171 @@ void Luna::PhysicsSystem::ApplyBoxTensor(PhysicsComponent& component, Transform&
 	}
 }
 
+void Luna::PhysicsSystem::Collision_SphereSphere(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime)
+{
+	PhysicsComponent* physics1 = ECS->GetObjectComponent<PhysicsComponent>(id);
+	PhysicsComponent* physics2 = ECS->GetObjectComponent<PhysicsComponent>(id2);
+	ColliderComponent* collider1 = ECS->GetObjectComponent<ColliderComponent>(id);
+	ColliderComponent* collider2 = ECS->GetObjectComponent<ColliderComponent>(id2);
+	Transform* transform1 = ECS->GetObjectComponent<Transform>(id);
+	Transform* transform2 = ECS->GetObjectComponent<Transform>(id2);
+
+	float radius1 = collider1->m_ColliderSize.x * transform1->scale.x;
+	float radius2 = collider2->m_ColliderSize.x * transform2->scale.x;
+	float distance = glm::length(transform1->position - transform2->position);
+
+	if (distance < radius1 + radius2)
+		CollisionResponse(ECS, id, id2, glm::normalize(transform1->position - transform2->position), (radius1 + radius2) - distance, deltaTime);
+}
+
+void Luna::PhysicsSystem::Collision_SphereRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime)
+{
+	PhysicsComponent* physics1 = ECS->GetObjectComponent<PhysicsComponent>(id);
+	PhysicsComponent* physics2 = ECS->GetObjectComponent<PhysicsComponent>(id2);
+	ColliderComponent* collider1 = ECS->GetObjectComponent<ColliderComponent>(id);
+	ColliderComponent* collider2 = ECS->GetObjectComponent<ColliderComponent>(id2);
+	Transform* transform1 = ECS->GetObjectComponent<Transform>(id);
+	Transform* transform2 = ECS->GetObjectComponent<Transform>(id2);
+
+
+	bool sphereFirst = (collider1->m_Shape == ColliderShape::Sphere);
+
+	float cx = (sphereFirst) ? transform1->position.x : transform2->position.x;
+	float cy = (sphereFirst) ? transform1->position.y : transform2->position.y;
+	float radius = (sphereFirst) ? collider1->m_ColliderSize.x * transform1->scale.x : collider2->m_ColliderSize.x * transform2->scale.x;
+
+	float rx = (sphereFirst) ? transform2->position.x : transform1->position.x;
+	float ry = (sphereFirst) ? transform2->position.y : transform1->position.y;
+	float rw = (sphereFirst) ? collider2->m_ColliderSize.x * transform2->scale.x : collider1->m_ColliderSize.x * transform1->scale.x;
+	float rh = (sphereFirst) ? collider2->m_ColliderSize.y * transform2->scale.y : collider1->m_ColliderSize.y * transform1->scale.y;
+
+	float testX = (cx < rx) ? rx - rw / 2 : rx + rw / 2;
+	float testY = (cy < ry) ? ry - rh / 2 : ry + rh / 2;
+
+	float distX = cx - testX;
+	float distY = cy - testY;
+	float distance = sqrt((distX * distX) + (distY * distY));
+
+	bool colliding = (distance <= radius);
+}
+
+void Luna::PhysicsSystem::Collision_RectRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime)
+{
+	PhysicsComponent* physics1 = ECS->GetObjectComponent<PhysicsComponent>(id);
+	PhysicsComponent* physics2 = ECS->GetObjectComponent<PhysicsComponent>(id2);
+	ColliderComponent* collider1 = ECS->GetObjectComponent<ColliderComponent>(id);
+	ColliderComponent* collider2 = ECS->GetObjectComponent<ColliderComponent>(id2);
+	Transform* transform1 = ECS->GetObjectComponent<Transform>(id);
+	Transform* transform2 = ECS->GetObjectComponent<Transform>(id2);
+
+
+	// Calculate all axis to check
+	glm::mat3 r1 = glm::toMat3(transform1->rotation);
+	glm::vec3 o1[3] = { r1 * glm::vec3(1, 0, 0), r1 * glm::vec3(0, 1, 0), r1 * glm::vec3(0, 0, 1) }; // orientation of the first collider
+	glm::mat3 r2 = glm::toMat3(transform2->rotation);
+	glm::vec3 o2[3] = { r2 * glm::vec3(1, 0, 0), r2 * glm::vec3(0, 1, 0), r2 * glm::vec3(0, 0, 1) }; // orientation of the ssecond collider
+
+	glm::vec3 axis[15] = {
+		o1[0], o1[1], o1[2],
+		o2[0], o2[1], o2[2],
+
+		glm::cross(o1[0], o2[0]), glm::cross(o1[0], o2[1]), glm::cross(o1[0], o2[2]),
+		glm::cross(o1[1], o2[0]), glm::cross(o1[1], o2[1]), glm::cross(o1[1], o2[2]),
+		glm::cross(o1[2], o2[0]), glm::cross(o1[2], o2[1]), glm::cross(o1[2], o2[2])
+
+	};
+
+	float minPenetration = FLT_MAX;
+	glm::vec3 bestAxis;
+
+	bool colliding = true;
+	for (glm::vec3 v : axis)
+	{
+		v = glm::normalize(v);
+
+		// scary math
+		float rA = (((collider1->m_ColliderSize.x * transform1->scale.x)) * glm::abs(glm::dot(v, o1[0])) +
+			((collider1->m_ColliderSize.y * transform1->scale.y)) * glm::abs(glm::dot(v, o1[1])) +
+			((collider1->m_ColliderSize.z * transform1->scale.z)) * glm::abs(glm::dot(v, o1[2])));
+		float rB = (((collider2->m_ColliderSize.x * transform2->scale.x)) * glm::abs(glm::dot(v, o2[0])) +
+			((collider2->m_ColliderSize.y * transform2->scale.y)) * glm::abs(glm::dot(v, o2[1])) +
+			((collider2->m_ColliderSize.z * transform2->scale.z)) * glm::abs(glm::dot(v, o2[2])));
+		// slightly less scary maths
+		float d = glm::abs(glm::dot(transform1->position - transform2->position, v));
+
+		float penetration = (rA + rB) - d;
+		if (penetration < 0.0f)
+		{
+			colliding = false;
+			break;
+		}
+
+		if (penetration < minPenetration)
+		{
+			minPenetration = penetration;
+			bestAxis = v;
+		}
+	}
+	if (colliding)
+	{
+		std::cout << "Collision Detected: " << minPenetration << " units deep" << std::endl;
+		CollisionResponse(ECS, id, id2, bestAxis, minPenetration, deltaTime);
+	}
+}
+
+void Luna::PhysicsSystem::CollisionResponse(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, glm::vec3 collisionNormal, float penetrationDepth, float deltaTime)
+{
+	PhysicsComponent* physics1 = ECS->GetObjectComponent<PhysicsComponent>(id);
+	PhysicsComponent* physics2 = ECS->GetObjectComponent<PhysicsComponent>(id2);
+	ColliderComponent* collider1 = ECS->GetObjectComponent<ColliderComponent>(id);
+	ColliderComponent* collider2 = ECS->GetObjectComponent<ColliderComponent>(id2);
+	Transform* transform1 = ECS->GetObjectComponent<Transform>(id);
+	Transform* transform2 = ECS->GetObjectComponent<Transform>(id2);
+
+	// calculate the inverse mass of both objects, if an object is dynamic, use 0.0f as the mass
+	float invMassA = (physics1->m_Dynamic) ? 1.0f / physics1->m_Mass : 0.0f;
+	float invMassB = (physics2->m_Dynamic) ? 1.0f / physics2->m_Mass : 0.0f;
+
+	// if both objects are static or have no mass then ignore the collision
+	if (invMassA + invMassB == 0.0f)
+		return;
+
+	// make sure that the axis is facing FROM the other collider towards the primary collider
+	if (glm::dot(collisionNormal, transform1->position - transform2->position) < 0.0f)
+	{
+		collisionNormal = -collisionNormal;
+	}
+
+	// calculate the relative velocity of the objects
+	glm::vec3 relativeVelocity = physics1->m_Velocity - physics2->m_Velocity;
+
+	// figure out the direction of the relative velocities
+	float vn = dot(relativeVelocity, collisionNormal);
+	if (vn > 0.0f) return; // separating
+
+	// if hitting a floor, have a lower restitution to avoid infinite bouncing
+	float restitution = (physics1->m_Restitution + physics2->m_Restitution) / 2; // Coefficient of restitution (bounciness)
+
+
+	float j = -(1.0f + restitution) * vn;
+	j /= (invMassA + invMassB);
+
+	std::cout << "Impulse: " << j << std::endl;
+	if (physics1->m_Dynamic)
+		physics1->m_Velocity += j * invMassA * collisionNormal;
+	if (physics2->m_Dynamic)
+		physics2->m_Velocity -= j * invMassB * collisionNormal;
+
+
+	// Calculate correction to resolve penetration
+	glm::vec3 correction = collisionNormal * std::max(penetrationDepth, 0.0f);
+
+	if (physics1->m_Dynamic)
+		transform1->position += correction  ;
+	if (physics2->m_Dynamic)
+		transform2->position -= correction  ;
+}
+
 void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float deltaTime)
 {
 	std::unordered_map<unsigned int, PhysicsComponent>& physicsComponents = ECS->GetAllComponentsOfType<PhysicsComponent>();
@@ -107,136 +272,22 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 		for (auto& [id2, component2] : colliderComponents)
 		{
 
-			if(id <= id2)
+			if (id <= id2)
 				continue;
 
 			std::cout << "ATTEMPT: " << names[id].m_Name << ", " << names[id2].m_Name << std::endl;
 
-			Transform transform1;
-			Transform transform2;
+			// SPHERE ON SPHERE
+			if (component.m_Shape == ColliderShape::Sphere && component2.m_Shape == ColliderShape::Sphere)
+				Collision_SphereSphere(ECS, id, id2, deltaTime);
 
-			glm::vec3 tempSkew;
-			glm::vec4 tempPerspective;
-
-			glm::decompose(transforms[id].transformMatrix, transform1.scale, transform1.rotation, transform1.position, tempSkew, tempPerspective);
-			glm::decompose(transforms[id2].transformMatrix, transform2.scale, transform2.rotation, transform2.position, tempSkew, tempPerspective);
-
-
-
+			// SPHERE ON OBB
+			else if (component.m_Shape == ColliderShape::Sphere || component2.m_Shape == ColliderShape::Sphere)
+				Collision_SphereRect(ECS, id, id2, deltaTime);
+		
 			// OBB
-			if (component.m_Shape == ColliderShape::Cube && component2.m_Shape == ColliderShape::Cube)
-			{
-				glm::mat3 r1 = glm::toMat3(transform1.rotation);
-				glm::vec3 o1[3] = { r1 * glm::vec3(1, 0, 0), r1 * glm::vec3(0, 1, 0), r1 * glm::vec3(0, 0, 1) }; // orientation of the first collider
-				glm::mat3 r2 = glm::toMat3(transform2.rotation);
-				glm::vec3 o2[3] = { r2 * glm::vec3(1, 0, 0), r2 * glm::vec3(0, 1, 0), r2 * glm::vec3(0, 0, 1) }; // orientation of the ssecond collider
-
-				glm::vec3 axis[15] = {
-					o1[0], o1[1], o1[2],
-					o2[0], o2[1], o2[2],
-
-					glm::cross(o1[0], o2[0]), glm::cross(o1[0], o2[1]), glm::cross(o1[0], o2[2]),
-					glm::cross(o1[1], o2[0]), glm::cross(o1[1], o2[1]), glm::cross(o1[1], o2[2]),
-					glm::cross(o1[2], o2[0]), glm::cross(o1[2], o2[1]), glm::cross(o1[2], o2[2])
-
-				};
-
-				float minPenetration = FLT_MAX;
-				glm::vec3 bestAxis;
-
-				bool colliding = true;
-				for (glm::vec3 v : axis)
-				{
-					v = glm::normalize(v);
-
-					// scary math
-					float rA =	(((component.m_ColliderSize.x * transform1.scale.x)) * glm::abs(glm::dot(v, o1[0])) +
-								((component.m_ColliderSize.y * transform1.scale.y)) * glm::abs(glm::dot(v, o1[1])) +
-								((component.m_ColliderSize.z * transform1.scale.z)) * glm::abs(glm::dot(v, o1[2])));
-					float rB =	(((component2.m_ColliderSize.x * transform2.scale.x)) * glm::abs(glm::dot(v, o2[0])) +
-								((component2.m_ColliderSize.y * transform2.scale.y)) * glm::abs(glm::dot(v, o2[1])) +
-								((component2.m_ColliderSize.z * transform2.scale.z)) * glm::abs(glm::dot(v, o2[2])));
-					// slightly less scary maths
-					float d = glm::abs(glm::dot(transform1.position - transform2.position, v));
-
-					float penetration = (rA + rB) - d;
-					if (penetration < 0.0f)
-					{
-						colliding = false;
-						break;
-					}
-
-					if (penetration < minPenetration)
-					{
-						minPenetration = penetration;
-						bestAxis = v;
-					}
-				}
-				if (colliding)
-				{
-					// Resolve Collision
-					try
-					{
-						// Get the two physics colliders, if either object doesnt have a collider, an error will be thrown and the collision will be ignored
-						PhysicsComponent& physicsComponent = physicsComponents.at(id);
-						PhysicsComponent& physicsComponent2 = physicsComponents.at(id2);
-
-						// calculate the inverse mass of both objects, if an object is dynamic, use 0.0f as the mass
-						float invMassA = (physicsComponent.m_Dynamic) ? 1.0f / physicsComponent.m_Mass : 0.0f;
-						float invMassB = (physicsComponent2.m_Dynamic) ? 1.0f / physicsComponent2.m_Mass : 0.0f;
-
-						// if both objects are static or have no mass then ignore the collision
-						if (invMassA + invMassB == 0.0f)
-							continue;
-
-						// make sure that the axis is facing FROM the other collider towards the primary collider
-						if (dot(bestAxis, transform1.position - transform2.position) < 0.0f)
-							bestAxis = -bestAxis;
-
-						glm::vec3 collisionNormal = bestAxis;
-						float penetrationDepth = minPenetration;
-
-						// calculate the relative velocity of the objects
-						glm::vec3 relativeVelocity = physicsComponent.m_Velocity - physicsComponent2.m_Velocity;
-
-						// figure out the direction of the relative velocities
-						float vn = dot(relativeVelocity, collisionNormal);
-						if (vn > 0.0f) continue; // separating
-
-						// if hitting a floor, have a lower restitution to avoid infinite bouncing
-						float restitution = (physicsComponent.m_Restitution + physicsComponent2.m_Restitution) / 2; // Coefficient of restitution (bounciness)
-
-
-						float j = -(1.0f + restitution) * vn;
-						j /= (invMassA + invMassB);
-
-
-						if (physicsComponent.m_Dynamic)
-							physicsComponent.m_Velocity += j * invMassA * collisionNormal;
-						if (physicsComponent2.m_Dynamic)
-							physicsComponent2.m_Velocity -= j * invMassB * collisionNormal;
-
-
-						// smoothish correction of overlapping 
-						const float percent = 0.8f;   // push out most of penetration
-						const float slop = 0.001f;    // allow tiny overlap
-
-						glm::vec3 correction =
-							collisionNormal * std::max(penetrationDepth - slop, 0.0f) /
-							(invMassA + invMassB) * percent;
-
-						if (physicsComponent.m_Dynamic)
-							transforms[id].position += correction * invMassA;
-						if (physicsComponent2.m_Dynamic)
-							transforms[id2].position -= correction * invMassB;
-					}
-					
-					catch (const std::out_of_range& e)
-					{
-						std::cerr << "All colliders need a physics component (use a dynamic collider type)" << std::endl;
-					}
-				}
-			}
+			else if (component.m_Shape == ColliderShape::Cube && component2.m_Shape == ColliderShape::Cube)
+				Collision_RectRect(ECS, id, id2, deltaTime);
 		}
 	}
 }

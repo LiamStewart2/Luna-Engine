@@ -29,6 +29,14 @@ namespace Luna
 
 		void ApplyBoxTensor(PhysicsComponent& component, Transform& transform);
 
+
+		void Collision_SphereSphere(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime);
+		void Collision_SphereRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime);
+		void Collision_RectRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime);
+
+		void CollisionResponse(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, glm::vec3 collisionNormal, float penetrationDepth, float deltaTime);
+
+
 		Timer timer;
 	};
 }

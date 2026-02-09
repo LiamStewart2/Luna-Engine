@@ -97,58 +97,8 @@
             },
             {
                 "component-args": [
-                    -0.8137203454971313,
-                    -0.6341987252235413,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "TransformComponent"
-            },
-            {
-                "component-args": [
-                    "Assets/Models/planeobj.obj",
-                    "Assets/Shaders/PBRShader/shader.hlsl",
-                    "Assets/Materials/default.lmat"
-                ],
-                "component-type": "MeshComponent"
-            },
-            {
-                "component-args": [
-                    true,
-                    10.0,
-                    9.8100004196167,
-                    true,
-                    0.800000011920929
-                ],
-                "component-type": "PhysicsComponent"
-            },
-            {
-                "component-args": [
-                    1,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "component-type": "ColliderComponent"
-            }
-        ],
-        [
-            {
-                "component-args": [
-                    "Cube 2"
-                ],
-                "component-type": "NameComponent"
-            },
-            {
-                "component-args": [
-                    2.0,
-                    -0.6341987252235413,
+                    2.072843551635742,
+                    -0.6312249898910522,
                     0.0,
                     1.0,
                     0.0,
@@ -174,7 +124,57 @@
                     100.0,
                     9.8100004196167,
                     true,
-                    0.800000011920929
+                    0.10000000149011612
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Cube 2"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -1.1677978038787842,
+                    -0.6312249898910522,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    10.0,
+                    9.8100004196167,
+                    true,
+                    0.10000000149011612
                 ],
                 "component-type": "PhysicsComponent"
             },
@@ -224,7 +224,7 @@
                     1.0,
                     9.8100004196167,
                     false,
-                    0.800000011920929
+                    0.10000000149011612
                 ],
                 "component-type": "PhysicsComponent"
             },
