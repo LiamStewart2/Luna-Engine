@@ -122,24 +122,47 @@ void Luna::PhysicsSystem::Collision_SphereRect(EntityComponentSystem* ECS, unsig
 
 
 	bool sphereFirst = (collider1->m_Shape == ColliderShape::Sphere);
+	// if the sphere is not the first object, swap the references for simplicity
+	if(!sphereFirst)
+	{
+		PhysicsComponent* tempPhysics = physics2;
+		ColliderComponent* tempCollider = collider2;
+		Transform* tempTransform = transform2;
 
-	float cx = (sphereFirst) ? transform1->position.x : transform2->position.x;
-	float cy = (sphereFirst) ? transform1->position.y : transform2->position.y;
-	float radius = (sphereFirst) ? collider1->m_ColliderSize.x * transform1->scale.x : collider2->m_ColliderSize.x * transform2->scale.x;
+		physics2 = physics1;
+		collider2 = collider1;
+		transform2 = transform1;
 
-	float rx = (sphereFirst) ? transform2->position.x : transform1->position.x;
-	float ry = (sphereFirst) ? transform2->position.y : transform1->position.y;
-	float rw = (sphereFirst) ? collider2->m_ColliderSize.x * transform2->scale.x : collider1->m_ColliderSize.x * transform1->scale.x;
-	float rh = (sphereFirst) ? collider2->m_ColliderSize.y * transform2->scale.y : collider1->m_ColliderSize.y * transform1->scale.y;
+		physics1 = tempPhysics;
+		collider1 = tempCollider;
+		transform1 = tempTransform;
+	}
 
-	float testX = (cx < rx) ? rx - rw / 2 : rx + rw / 2;
-	float testY = (cy < ry) ? ry - rh / 2 : ry + rh / 2;
+	float cx = transform1->position.x;
+	float cy = transform1->position.y;
+	float cz = transform1->position.z;
+	float radius = collider1->m_ColliderSize.x * transform1->scale.x;
 
-	float distX = cx - testX;
-	float distY = cy - testY;
-	float distance = sqrt((distX * distX) + (distY * distY));
+	float rx = transform2->position.x;
+	float ry = transform2->position.y;
+	float rz = transform2->position.z;
+	float rw = collider2->m_ColliderSize.x * transform2->scale.x;
+	float rh = collider2->m_ColliderSize.y * transform2->scale.y;
+	float rd = collider2->m_ColliderSize.z * transform2->scale.z;
 
-	bool colliding = (distance <= radius);
+	float closestX = std::max(rx - rw / 2, std::min(cx, rx + rw / 2));
+	float closestY = std::max(ry - rh / 2, std::min(cy, ry + rh / 2));
+	float closestZ = std::max(rz - rd / 2, std::min(cz, rz + rd / 2));
+
+	float distanceSquared = (closestX - cx) * (closestX - cx) +
+							(closestY - cy) * (closestY - cy) +
+							(closestZ - cz) * (closestZ - cz);
+	
+	bool colliding = distanceSquared < (radius * radius);
+
+	if(colliding)
+		std::cout << "Fortnite" << std::endl;
+
 }
 
 void Luna::PhysicsSystem::Collision_RectRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime)
