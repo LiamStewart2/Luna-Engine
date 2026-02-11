@@ -87,7 +87,10 @@ void ScenePanel::UpdateGizmos(unsigned int& inspectorID, ObjectTransformPairing<
 		if (ImGuizmo::IsUsing())
 		{
 			if (physicsComponent != nullptr)
+			{
 				physicsComponent->m_BeingManipulated = true;
+				physicsComponent->m_Velocity = glm::vec3(0);
+			}
 
 			objectTransform->SetComponentsFromMatrix(matrix);
 		}

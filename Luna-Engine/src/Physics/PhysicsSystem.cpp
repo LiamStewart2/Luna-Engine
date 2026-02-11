@@ -136,6 +136,10 @@ void Luna::PhysicsSystem::Collision_SphereRect(EntityComponentSystem* ECS, unsig
 		physics1 = tempPhysics;
 		collider1 = tempCollider;
 		transform1 = tempTransform;
+
+		unsigned int tempID = id2;
+		id2 = id;
+		id = tempID;
 	}
 
 	float cx = transform1->position.x;
@@ -152,24 +156,24 @@ void Luna::PhysicsSystem::Collision_SphereRect(EntityComponentSystem* ECS, unsig
 
 	bool colliding = false;
 	glm::vec3 collisionNormal = glm::vec3();
-	// || 
-	// Handle simple X collision
-	if (cx > rx - rw / 2 && cx < rx - rw / 2)
+	
+	float px = std::min(rx + rw, std::max(rx - rw, cx));
+	float py = std::min(ry + rh, std::max(ry - rh, cy));
+	float pz = std::min(rz + rd, std::max(rz - rd, cz));
+	
+	// collision normal is the direction of the collision
+	collisionNormal = transform1->position - glm::vec3(px, py, pz); // leave it unormalized so that we can use the distance from it
+	float distance = glm::length(collisionNormal);
+
+	if(collisionNormal == glm::vec3(0, 0, 0)) // P = Circle Pos (circle inside the cube)
+		collisionNormal = transform1->position - transform2->position; // make the collision normal the difference in position for simplicity
+
+
+	if (abs(distance) <= radius)
 	{
-		if (cy + radius > ry - rh / 2)
-		{
-			colliding = true;
-			collisionNormal = glm::vec3(0, 1, 0);
-		}
-		if (cy - radius < ry + rh / 2)
-		{
-			colliding = true;
-			collisionNormal = glm::vec3(0, -1, 0);
-		}
+		collisionNormal = glm::normalize(collisionNormal); // normalize the collision normal
+		CollisionResponse(ECS, id, id2, collisionNormal, radius - abs(distance), deltaTime);
 	}
-	// repeat for Y and Z
-
-
 }
 
 void Luna::PhysicsSystem::Collision_RectRect(EntityComponentSystem* ECS, unsigned int id, unsigned int id2, float deltaTime)
@@ -231,7 +235,6 @@ void Luna::PhysicsSystem::Collision_RectRect(EntityComponentSystem* ECS, unsigne
 	}
 	if (colliding)
 	{
-		std::cout << "Collision Detected: " << minPenetration << " units deep" << std::endl;
 		CollisionResponse(ECS, id, id2, bestAxis, minPenetration, deltaTime);
 	}
 }
@@ -273,7 +276,6 @@ void Luna::PhysicsSystem::CollisionResponse(EntityComponentSystem* ECS, unsigned
 	float j = -(1.0f + restitution) * vn;
 	j /= (invMassA + invMassB);
 
-	std::cout << "Impulse: " << j << std::endl;
 	if (physics1->m_Dynamic)
 		physics1->m_Velocity += j * invMassA * collisionNormal;
 	if (physics2->m_Dynamic)
@@ -301,11 +303,8 @@ void Luna::PhysicsSystem::HandleCollisions(EntityComponentSystem* ECS, float del
 	{
 		for (auto& [id2, component2] : colliderComponents)
 		{
-
-			if (id <= id2)
+			if(id <= id2)
 				continue;
-
-			std::cout << "ATTEMPT: " << names[id].m_Name << ", " << names[id2].m_Name << std::endl;
 
 			// SPHERE ON SPHERE
 			if (component.m_Shape == ColliderShape::Sphere && component2.m_Shape == ColliderShape::Sphere)
