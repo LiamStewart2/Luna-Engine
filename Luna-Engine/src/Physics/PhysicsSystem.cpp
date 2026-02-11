@@ -150,18 +150,25 @@ void Luna::PhysicsSystem::Collision_SphereRect(EntityComponentSystem* ECS, unsig
 	float rh = collider2->m_ColliderSize.y * transform2->scale.y;
 	float rd = collider2->m_ColliderSize.z * transform2->scale.z;
 
-	float closestX = std::max(rx - rw / 2, std::min(cx, rx + rw / 2));
-	float closestY = std::max(ry - rh / 2, std::min(cy, ry + rh / 2));
-	float closestZ = std::max(rz - rd / 2, std::min(cz, rz + rd / 2));
+	bool colliding = false;
+	glm::vec3 collisionNormal = glm::vec3();
+	// || 
+	// Handle simple X collision
+	if (cx > rx - rw / 2 && cx < rx - rw / 2)
+	{
+		if (cy + radius > ry - rh / 2)
+		{
+			colliding = true;
+			collisionNormal = glm::vec3(0, 1, 0);
+		}
+		if (cy - radius < ry + rh / 2)
+		{
+			colliding = true;
+			collisionNormal = glm::vec3(0, -1, 0);
+		}
+	}
+	// repeat for Y and Z
 
-	float distanceSquared = (closestX - cx) * (closestX - cx) +
-							(closestY - cy) * (closestY - cy) +
-							(closestZ - cz) * (closestZ - cz);
-	
-	bool colliding = distanceSquared < (radius * radius);
-
-	if(colliding)
-		std::cout << "Fortnite" << std::endl;
 
 }
 
