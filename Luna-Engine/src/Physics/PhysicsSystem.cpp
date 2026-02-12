@@ -48,6 +48,12 @@ void Luna::PhysicsSystem::UpdatePositions(EntityComponentSystem* ECS, float delt
 			glm::quat dq = 0.5f * omega * transforms[id].rotation;
 			transforms[id].rotation += dq * deltaTime;
 			transforms[id].rotation = glm::normalize(transforms[id].rotation); // normalize the rotation to avoid non 1 quaternion lengths
+
+			// Reset physics component for next frame
+			component.m_NetForce = glm::vec3(0, 0, 0);
+			component.m_Acceleration = glm::vec3(0, 0, 0);
+			component.m_NetTorque = glm::vec3(0, 0, 0);
+			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
 		}
 	}
 }
@@ -332,12 +338,6 @@ void Luna::PhysicsSystem::HandlePhysics(EntityComponentSystem* ECS, float deltaT
 	{
 		if (component.m_Simulate && component.m_BeingManipulated == false && component.m_Dynamic)
 		{
-			component.m_NetForce = glm::vec3(0, 0, 0);
-			component.m_Acceleration = glm::vec3(0, 0, 0);
-			component.m_NetTorque = glm::vec3(0, 0, 0);
-			component.m_AngularAcceleration = glm::vec3(0, 0, 0);
-
-
 			// Handle Velocity
 			// Gravity
 			component.m_NetForce -= glm::vec3(0, component.m_GravityValue * component.m_Mass, 0);

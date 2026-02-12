@@ -199,6 +199,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\movement.lua" />
+    <None Include="Assets\Scripts\spinning.lua" />
     <None Include="Assets\Scripts\testing.lua" />
     <None Include="Assets\Scripts\testing2.lua" />
   </ItemGroup>

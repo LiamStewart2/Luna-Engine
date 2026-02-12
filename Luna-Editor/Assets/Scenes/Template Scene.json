@@ -98,7 +98,7 @@
             {
                 "component-args": [
                     2.3503146171569824,
-                    -0.6331450343132019,
+                    -0.6311796307563782,
                     -0.7884085178375244,
                     1.0,
                     0.0,
@@ -148,7 +148,7 @@
             {
                 "component-args": [
                     -2.2375760078430176,
-                    -0.6312138438224792,
+                    -0.6333006620407104,
                     -0.6979126930236816,
                     1.0,
                     0.0,
@@ -167,6 +167,12 @@
                     "Assets/Materials/default.lmat"
                 ],
                 "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Scripts\\movement.lua"
+                ],
+                "component-type": "ScriptComponent"
             },
             {
                 "component-args": [
@@ -191,22 +197,22 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Floor"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     0.0,
-                    -8.631653785705566,
+                    -3.6705222129821777,
                     0.0,
                     1.0,
                     0.0,
                     0.0,
                     0.0,
-                    7.0,
-                    7.0,
-                    7.0
+                    15.0,
+                    2.0,
+                    15.0
                 ],
                 "component-type": "TransformComponent"
             },

@@ -67,25 +67,38 @@ float GetVelocityZ(Script* script)
 	return 0.0f;
 }
 
+bool IsKeyDown(const char c)
+{
+	return (LunaWindow::m_FocusedWindow->GetKey(GLFW_KEY_A + (std::toupper(c) - 'A')) == GLFW_PRESS);
+}
+float GetPositionX(Script* script)
+{
+	Transform* transform = script->m_ECS->GetObjectComponent<Transform>(script->GetGameObject());
+	return transform->position.x;
+}
+
 
 void Script::BindFunctions()
 {
-	m_Lua.set_function("IsKeyDown", [this](const char c) {
-		if(LunaWindow::m_FocusedWindow->GetKey(GLFW_KEY_A + (std::toupper(c) - 'A')) == GLFW_PRESS)
-			return true;
-		return false;
-
-	});
 
 	m_Lua.set_function("Translate", [this](float x, float y, float z) {
 		Transform* transform = this->m_ECS->GetObjectComponent<Transform>(this->m_GameObject);
 		transform->position += glm::vec3(x, y, z);
 	});
+	m_Lua.set_function("SetPosition", [this](float x, float y, float z) {
+		Transform* transform = this->m_ECS->GetObjectComponent<Transform>(this->m_GameObject);
+		transform->position = glm::vec3(x, y, z);
+	});
 
 	m_Lua.set_function("AddForce", [this](float x, float y, float z) {
 		PhysicsComponent* physicsComponent = this->m_ECS->GetObjectComponent<PhysicsComponent>(this->m_GameObject);
+		std::cout << "trying something" << std::endl;
 		if (physicsComponent != nullptr)
+		{
 			physicsComponent->m_NetForce += glm::vec3(x, y, z);
+			std::cout << "and did something" << std::endl;
+		}
+		
 		});
 
 	m_Lua.set_function("SetVelocity", [this](float x, float y, float z) {
@@ -107,6 +120,9 @@ void Script::BindFunctions()
 		});
 
 	// Bindings that pass a reference to this Script instance to the helper functions
+	m_Lua.set_function("IsKeyDown", [this](const char c) -> bool { return IsKeyDown(c); }); 
+	m_Lua.set_function("GetPositionX", [this]() -> bool {return GetPositionX(this); });
+
 	m_Lua.set_function("GetVelocityX", [this]() -> float { return GetVelocityX(this); });
 	m_Lua.set_function("GetVelocityY", [this]() -> float { return GetVelocityY(this); });
 	m_Lua.set_function("GetVelocityZ", [this]() -> float { return GetVelocityZ(this); });
