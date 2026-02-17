@@ -98,8 +98,8 @@
             {
                 "component-args": [
                     2.3503146171569824,
-                    -0.6311796307563782,
-                    -0.7884085178375244,
+                    -0.6700438857078552,
+                    -1.8472570180892944,
                     1.0,
                     0.0,
                     0.0,
@@ -147,9 +147,9 @@
             },
             {
                 "component-args": [
-                    -2.2375760078430176,
-                    -0.6333006620407104,
-                    -0.6979126930236816,
+                    2.6528451442718506,
+                    -0.6700438857078552,
+                    1.2115914821624756,
                     1.0,
                     0.0,
                     0.0,
@@ -243,6 +243,118 @@
                 ],
                 "component-type": "ColliderComponent"
             }
+        ],
+        [
+            {
+                "component-args": [
+                    "ConstantAccelerator"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -6.764366149902344,
+                    -0.6695153117179871,
+                    10.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Scripts\\ConstantAcceleration.lua"
+                ],
+                "component-type": "ScriptComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    10.0,
+                    9.8100004196167,
+                    true,
+                    0.5
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "ConstantForce"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -6.846768856048584,
+                    -0.6695159077644348,
+                    7.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "Assets/Materials/default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            },
+            {
+                "component-args": [
+                    "Assets\\Scripts\\ConstantForce.lua"
+                ],
+                "component-type": "ScriptComponent"
+            },
+            {
+                "component-args": [
+                    true,
+                    10.0,
+                    9.8100004196167,
+                    true,
+                    0.5
+                ],
+                "component-type": "PhysicsComponent"
+            },
+            {
+                "component-args": [
+                    1,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "ColliderComponent"
+            }
         ]
     ],
     "relations": [
@@ -265,6 +377,14 @@
         {
             "Children": [],
             "ObjectID": 5
+        },
+        {
+            "Children": [],
+            "ObjectID": 6
+        },
+        {
+            "Children": [],
+            "ObjectID": 7
         }
     ],
     "scene-name": "example scene"

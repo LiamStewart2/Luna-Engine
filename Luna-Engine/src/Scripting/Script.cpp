@@ -121,7 +121,7 @@ void Script::BindFunctions()
 
 	// Bindings that pass a reference to this Script instance to the helper functions
 	m_Lua.set_function("IsKeyDown", [this](const char c) -> bool { return IsKeyDown(c); }); 
-	m_Lua.set_function("GetPositionX", [this]() -> bool {return GetPositionX(this); });
+	m_Lua.set_function("GetPositionX", [this]() -> float {return GetPositionX(this); });
 
 	m_Lua.set_function("GetVelocityX", [this]() -> float { return GetVelocityX(this); });
 	m_Lua.set_function("GetVelocityY", [this]() -> float { return GetVelocityY(this); });
