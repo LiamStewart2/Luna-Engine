@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="src\Renderer\ShadowRenderer.cpp" />
@@ -41,9 +42,11 @@
     <ClCompile Include="src\ECS\ECS.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="src\Core\Timer.h" />
     <ClInclude Include="src\Physics\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\PhysicsComponent.h" />
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNode.h" />
     <ClInclude Include="src\Renderer\ShadowRenderer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
