@@ -14,6 +14,7 @@
     <ClCompile Include="src\Renderer\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="src\Renderer\ShaderGraph\ShaderGraphNode.cpp" />
     <ClCompile Include="src\Renderer\ShadowRenderer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="src\Physics\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\PhysicsComponent.h" />
     <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNode.h" />
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNodeType.h" />
     <ClInclude Include="src\Renderer\ShadowRenderer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
