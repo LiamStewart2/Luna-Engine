@@ -23,6 +23,12 @@ namespace Luna
 
 		void Compile();
 
+		const std::vector<ShaderGraphNode*>* GetNodeList()
+		{
+			return &m_Nodes;
+		}
+		const ShaderGraphNode* GetOutputNode() { return m_OutputNode; }
+
 	private:
 		OutputNode* m_OutputNode;
 		std::vector<ShaderGraphNode*> m_Nodes;
