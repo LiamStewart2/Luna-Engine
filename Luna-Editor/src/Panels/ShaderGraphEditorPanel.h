@@ -115,11 +115,11 @@ struct ShaderGraphEditorDelegate : public GraphEditor::Delegate
             IM_COL32(160, 160, 180, 255),
             IM_COL32(100, 100, 140, 255),
             IM_COL32(110, 110, 150, 255),
-            0,
+            2,
+            Array{"Input 1", "Input 2"},
             nullptr,
-            nullptr,
-            1,
-            Array{"Texture"},
+            2,
+            Array{"Texture", "Output 2"},
             nullptr
         },
 
@@ -152,9 +152,8 @@ struct ShaderGraphEditorDelegate : public GraphEditor::Delegate
         const std::vector<Luna::ShaderGraphNode*>* nodes = shaderGraph->GetNodeList();
 
         mNodes.reserve(nodes->size());
-        mNodes.push_back(Node("Output", 0, 100, 100, false, shaderGraph->GetOutputNode()->m_NodeID));
         for (int i = 0; i < nodes->size(); i++)
-            mNodes.push_back(Node("Fortnite", 0, 100, 100, false, nodes->at(i)->m_NodeID));
+            mNodes.push_back(Node("Fortnite", 0, nodes->at(i)->m_Position.x, nodes->at(i)->m_Position.y, false, nodes->at(i)->m_NodeID));
 
         // Load links
         const Luna::ShaderGraphNode* outputNode = shaderGraph->GetOutputNode();
@@ -198,7 +197,7 @@ struct ShaderGraphEditorDelegate : public GraphEditor::Delegate
 class ShaderGraphEditorPanel : public ImGuiPanel
 {
 public:
-    ShaderGraphEditorPanel(SceneManager* sceneManager = nullptr) {}
+    ShaderGraphEditorPanel(SceneManager* sceneManager = nullptr);
     ~ShaderGraphEditorPanel() {}
 
     void Update(unsigned int& inspectorID) override;
