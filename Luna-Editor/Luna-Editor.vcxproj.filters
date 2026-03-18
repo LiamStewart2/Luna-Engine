@@ -149,6 +149,9 @@
     <ClInclude Include="src\Panels\ShaderGraphEditorPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Panels\GraphUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\testing.lua" />

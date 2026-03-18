@@ -17,6 +17,7 @@
 #include "Panels/ContentBrowserPanel.h"
 #include "Panels/ScenePanel.h"
 #include "Panels/GamePanel.h"
+#include "Panels/ShaderGraphEditorPanel.h"
 
 #include <math.h>
 #include <unordered_map>
@@ -36,6 +37,7 @@ public:
 			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
 			m_ScenePanel = ScenePanel(m_SceneManager);
 			m_GamePanel = GamePanel(m_SceneManager);
+			m_ShaderGraphPanel = ShaderGraphEditorPanel(m_SceneManager);
 		}
 	}
 	~ImGuiLayer() {}
@@ -69,4 +71,5 @@ private:
 	ContentBrowserPanel m_ContentBrowserPanel;
 	ScenePanel m_ScenePanel; 
 	GamePanel m_GamePanel;
+	ShaderGraphEditorPanel m_ShaderGraphPanel;
 };

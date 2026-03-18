@@ -4,28 +4,7 @@
 #include "ImGuiPanel.h"
 
 #include "../imgui/GraphEditor.h"
-
-#include <string>
-#include <memory>
-#include <vector>
-
-
-template <typename T, std::size_t N>
-struct Array
-{
-    T data[N];
-    const size_t size() const { return N; }
-
-    const T operator [] (size_t index) const { return data[index]; }
-    operator T* () {
-        T* p = new T[N];
-        memcpy(p, data, sizeof(data));
-        return p;
-    }
-};
-
-
-template <typename T, typename ... U> Array(T, U...) -> Array<T, 1 + sizeof...(U)>;
+#include "GraphUtils.h"
 
 struct ShaderGraphEditorDelegate : public GraphEditor::Delegate
 {
@@ -216,13 +195,13 @@ struct ShaderGraphEditorDelegate : public GraphEditor::Delegate
     std::vector<GraphEditor::Link> mLinks;
 };
 
-class ShaderGraphEditorPanel : ImGuiPanel
+class ShaderGraphEditorPanel : public ImGuiPanel
 {
 public:
-	ShaderGraphEditorPanel(SceneManager* sceneManager = nullptr);
-	~ShaderGraphEditorPanel();
+    ShaderGraphEditorPanel(SceneManager* sceneManager = nullptr) {}
+    ~ShaderGraphEditorPanel() {}
 
-
+    void Update(unsigned int& inspectorID) override;
 
 private:
 	Luna::ShaderGraph* m_CurrentShaderGraph;

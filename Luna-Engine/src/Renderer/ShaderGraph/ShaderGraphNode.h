@@ -4,10 +4,20 @@
 #include <vector>
 #include "GLM/glm.hpp"
 #include "ShaderGraphNodeType.h"
-#include "ShaderGraph.h"
 
 namespace Luna
 {
+	class ShaderGraphNode;
+
+	struct ShaderGraphConnection
+	{
+		ShaderGraphConnection(ShaderGraphNode* connection, int nodeIndex) 
+			: m_Connection(connection), m_NodeIndex(nodeIndex) {}
+
+		ShaderGraphNode* m_Connection;
+		int m_NodeIndex;
+	};
+
 	class ShaderGraphNode
 	{
 	public:
@@ -25,14 +35,6 @@ namespace Luna
 		glm::vec2 m_Position;
 	};
 
-	struct ShaderGraphConnection
-	{
-		ShaderGraphConnection(ShaderGraphNode* connection, int nodeIndex) 
-			: m_Connection(connection), m_NodeIndex(nodeIndex) {}
-
-		ShaderGraphNode* m_Connection;
-		int m_NodeIndex;
-	};
 
 
 	class OutputNode : public ShaderGraphNode

@@ -8,7 +8,6 @@ namespace Luna
 		Int,
 		Vec2,
 		Vec3,
-		Texture,
-		None
+		Texture
 	};
 }

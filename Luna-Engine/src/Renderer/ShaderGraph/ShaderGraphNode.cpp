@@ -8,17 +8,17 @@ namespace Luna
 		m_Position = position;
 	}
 
-	OutputNode::OutputNode(unsigned int ID, glm::vec2 position = glm::vec2(0)) : ShaderGraphNode(ID, position)
+	OutputNode::OutputNode(unsigned int ID, glm::vec2 position) : ShaderGraphNode(ID, position)
 	{
 
 	}
 
-	TextureNode::TextureNode(unsigned int ID, glm::vec2 position = glm::vec2(0)) : ShaderGraphNode(ID, position)
+	TextureNode::TextureNode(unsigned int ID, glm::vec2 position) : ShaderGraphNode(ID, position)
 	{
 
 	}
 
-	FloatNode::FloatNode(unsigned int ID, glm::vec2 position = glm::vec2(0)) : ShaderGraphNode(ID, position)
+	FloatNode::FloatNode(unsigned int ID, glm::vec2 position) : ShaderGraphNode(ID, position)
 	{
 
 	}
