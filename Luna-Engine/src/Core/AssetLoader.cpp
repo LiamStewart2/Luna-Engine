@@ -20,323 +20,193 @@ Collection of file loading methods for various object types currently including
 // const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 namespace Luna
 {
+
+	glm::vec3* AssetLoader::s_VertexPositionBuffer = nullptr;
+	glm::vec3* AssetLoader::s_VertexNormalBuffer = nullptr;
+	glm::vec2* AssetLoader::s_VertexTextureCoordBuffer = nullptr;
+
+	unsigned int* AssetLoader::s_IndexBuffer = nullptr;
+	Vertex* AssetLoader::s_VertexBuffer = nullptr;
+
+	void AssetLoader::SetupBuffers()
+	{
+		s_VertexPositionBuffer = new glm::vec3[s_BufferSize];
+		s_VertexNormalBuffer = new glm::vec3[s_BufferSize];
+		s_VertexTextureCoordBuffer = new glm::vec2[s_BufferSize];
+
+		s_IndexBuffer = new unsigned int[s_BufferSize];
+		s_VertexBuffer = new Vertex[s_BufferSize];
+	}
+
+	inline int FastAtoi3(char*& p)
+	{
+		int value = (p[0] - '0');
+		p++;
+
+		while (*p >= '0')
+		{
+			value = value * 10 + (*p - '0');
+			++p;
+		}
+
+		return value;
+	}
+
 	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath)
 	{
 		const auto start{std::chrono::steady_clock::now()};
 		// stop the process if filepath is invalid
 		// this wont crash anything, but will result in the mesh buffers being empty - nothing will render
-		if(false)
+
+
+		FILE* fptr;
+		fopen_s(&fptr, filepath, "r");
+
+		if (fptr == NULL)
 		{
-			std::ifstream file(filepath); std::string line;
-			if (!file) {
-				std::cerr << "Cannot open file: " << filepath << std::endl;
-				return;
-			}
+			std::cerr << "Cannot open file: " << filepath << std::endl;
+			return;
+		}
 
-			std::unordered_map<Vertex, int, Vertex::Hash> vertexMap;
-			std::vector<Vertex> vertices;
+		if(s_VertexPositionBuffer == nullptr)
+			SetupBuffers();
 
-			std::vector<unsigned int> indices = std::vector<unsigned int>();
+		char lineBuffer[200];
 
-			// Create buffers for the mesh vertex data
-			std::vector<glm::vec3> vertexPositions;
-			std::vector<glm::vec3> vertexNormals;
-			std::vector<glm::vec2> vertexTextureCoords;
+		// allocate arrays and maps
+		unsigned int vertexPositionsCounter = 0;
+		unsigned int vertexNormalsCounter = 0;
+		unsigned int vertexTextureCoordCounter = 0;
+		unsigned int indexCounter = 0; 
+		unsigned int vertexCounter = 0;
 
-			while (std::getline(file, line))
+		Vertex currentVertex;
+		int positionIndex;
+		int normalIndex;
+		int textureCoordIndex;
+
+		glm::vec3 vertexPos;
+		glm::vec3 vertexNorm;
+		glm::vec2 vertexTexCoord;
+
+		char* ending;
+
+		bool firstTime = false;
+		
+		// Go through all lines again, parsing data
+		while (fgets(lineBuffer, 200, fptr))
+		{
+			if(lineBuffer[0] == 'v')
 			{
-				std::istringstream ss(line);
-				std::string prefix;
-				ss >> prefix;
-
-				if (prefix == "v")
+				if (lineBuffer[1] == ' ')
 				{
-					vertexPositions.emplace_back(glm::vec3());
+					vertexPos.x = strtof(lineBuffer + 2, &ending);
+					vertexPos.y = strtof(ending, &ending);
+					vertexPos.z = strtof(ending, NULL);
 
-					ss >> vertexPositions[vertexPositions.size() - 1].x;
-					ss >> vertexPositions[vertexPositions.size() - 1].y;
-					ss >> vertexPositions[vertexPositions.size() - 1].z;
+					s_VertexPositionBuffer[vertexPositionsCounter] = vertexPos;
+					vertexPositionsCounter++;
 				}
-				else if (prefix == "vn")
+				else if (lineBuffer[1] == 'n')
 				{
-					vertexNormals.emplace_back(glm::vec3());
+					vertexNorm.x = strtof(lineBuffer + 3, &ending);
+					vertexNorm.y = strtof(ending, &ending);
+					vertexNorm.z = strtof(ending, NULL);
 
-					ss >> vertexNormals[vertexNormals.size() - 1].x;
-					ss >> vertexNormals[vertexNormals.size() - 1].y;
-					ss >> vertexNormals[vertexNormals.size() - 1].z;
+					s_VertexNormalBuffer[vertexNormalsCounter] = vertexNorm;
+					vertexNormalsCounter++;
 				}
-				else if (prefix == "vt")
+				else if (lineBuffer[1] == 't')
 				{
-					vertexTextureCoords.emplace_back(glm::vec2());
+					vertexTexCoord.x = strtof(lineBuffer + 3, &ending);
+					vertexTexCoord.y = strtof(ending, NULL);
 
-					ss >> vertexTextureCoords[vertexTextureCoords.size() - 1].x;
-					ss >> vertexTextureCoords[vertexTextureCoords.size() - 1].y;
+					s_VertexTextureCoordBuffer[vertexTextureCoordCounter] = vertexTexCoord;
+					vertexTextureCoordCounter++;
 				}
-
-				// Generate the face data, combining indices together for the meshes IBO
-				else if (prefix == "f")
+			}
+			else if(lineBuffer[0] == 'f')
+			{
+				if (lineBuffer[1] == ' ')
 				{
-					std::string indicies; Vertex vertex;
+					ending = lineBuffer + 2;
 
 					for (int i = 0; i < 3; i++)
 					{
-						//string representing vertice
-						ss >> indicies;
+						positionIndex = FastAtoi3(ending) - 1; ending++;
+						textureCoordIndex = FastAtoi3(ending) - 1; ending++;
+						normalIndex = FastAtoi3(ending) - 1; if (*ending == ' ') ending++;
 
-						int vertexPositionIndex = std::stoi(indicies.substr(0, indicies.find("/"))) - 1;
-						int vertexTextureCoordinateIndex = std::stoi(indicies.substr(indicies.find("/") + 1, indicies.rfind("/"))) - 1;
-						int vertexNormalIndex = std::stoi(indicies.substr(indicies.rfind("/") + 1, indicies.size())) - 1;
+						currentVertex.Position = s_VertexPositionBuffer[positionIndex];
+						currentVertex.TextureCoordinate = s_VertexTextureCoordBuffer[textureCoordIndex];
+						currentVertex.Normal = s_VertexNormalBuffer[normalIndex];
 
-						if (vertexPositionIndex >= vertexPositions.size() || vertexTextureCoordinateIndex >= vertexTextureCoords.size() || vertexNormalIndex >= vertexNormals.size())
-							break;
+						s_IndexBuffer[indexCounter] = vertexCounter;
+						s_VertexBuffer[vertexCounter] = currentVertex;
 
-						vertex.Position = vertexPositions[vertexPositionIndex];
-						vertex.TextureCoordinate = vertexTextureCoords[vertexTextureCoordinateIndex];
-						vertex.Normal = vertexNormals[vertexNormalIndex];
-
-						auto it = vertexMap.find(vertex);
-						if (it == vertexMap.end())
-						{
-							int index = vertices.size();
-							indices.emplace_back(index);
-							vertices.emplace_back(vertex);
-							vertexMap[vertex] = index;
-						}
-						else
-						{
-							indices.emplace_back(it->second);
-						}
-
+						indexCounter++;
+						vertexCounter++;
 					}
+
+
 				}
 			}
-
-			// Calculate tangents and bitangents
-
-			for (unsigned int i = 0; i < indices.size(); i += 3)
-			{
-				unsigned int i0 = indices[i + 0], i1 = indices[i + 1], i2 = indices[i + 2];
-				glm::vec3 v = vertices[i1].Position - vertices[i0].Position, w = vertices[i2].Position - vertices[i0].Position;
-
-				float sx = vertices[i1].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, sy = vertices[i1].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
-				float tx = vertices[i2].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, ty = vertices[i2].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
-				float dirCorrection = (tx * sy - ty * sx) < 0.0f ? -1.0f : 1.0f;
-
-				if (sx * ty == sy * tx)
-				{
-					sx = 0.0f;
-					sy = 1.0f;
-					tx = 1.0f;
-					ty = 0.0f;
-				}
-
-				glm::vec3 tangent, bitangent;
-				tangent = (w * sy - v * ty) * dirCorrection;
-				bitangent = (w * sx - v * tx) * dirCorrection;
-
-				for (int j = 0; j < 3; j++)
-				{
-					unsigned int index = indices[i + j];
-
-					glm::vec3 localTangent = tangent - vertices[index].Normal * (tangent * vertices[index].Normal);
-					glm::vec3 localBitangent = bitangent - vertices[index].Normal * (bitangent * vertices[index].Normal);
-
-					vertices[index].Tangent = glm::normalize(localTangent);
-					vertices[index].Bitangent = glm::normalize(localBitangent);
-				}
-			}
-
-			mesh = IMesh::Create(vertices, indices);
-			mesh->m_Path = std::string(filepath);
 		}
-		
-		else
+
+		fclose(fptr);
+
+		unsigned int i0 = 0;
+		unsigned int i1 = 0;
+		unsigned int i2 = 0;
+		glm::vec3 v, w;
+		float sx, sy, tx, ty, dirCorrection;
+		glm::vec3 tangent, bitangent;
+		unsigned int tangentIndex;
+		glm::vec3 localTangent, localBitangent;
+
+		for (unsigned int i = 0; i < indexCounter; i += 3)
 		{
+			i0 = s_IndexBuffer[i + 0]; i1 = s_IndexBuffer[i + 1]; i2 = s_IndexBuffer[i + 2];
+			v = s_VertexBuffer[i1].Position - s_VertexBuffer[i0].Position;
+			w = s_VertexBuffer[i2].Position - s_VertexBuffer[i0].Position;
 
-			FILE* fptr;
-			fopen_s(&fptr, filepath, "r");
+			sx = s_VertexBuffer[i1].TextureCoordinate.x - s_VertexBuffer[i0].TextureCoordinate.x; sy = s_VertexBuffer[i1].TextureCoordinate.y - s_VertexBuffer[i0].TextureCoordinate.y;
+			tx = s_VertexBuffer[i2].TextureCoordinate.x - s_VertexBuffer[i0].TextureCoordinate.x; ty = s_VertexBuffer[i2].TextureCoordinate.y - s_VertexBuffer[i0].TextureCoordinate.y;
+			dirCorrection = (tx * sy - ty * sx) < 0.0f ? -1.0f : 1.0f;
 
-			if (fptr == NULL)
+			if (sx * ty == sy * tx)
 			{
-				std::cerr << "Cannot open file: " << filepath << std::endl;
-				return;
+				sx = 0.0f;
+				sy = 1.0f;
+				tx = 1.0f;
+				ty = 0.0f;
 			}
 
-			char lineBuffer[100];
+			tangent = (w * sy - v * ty) * dirCorrection;
+			bitangent = (w * sx - v * tx) * dirCorrection;
 
-			unsigned int vertexCount = 0;
-			unsigned int indexCount = 0;
-			unsigned int vertexPositionCount = 0;
-			unsigned int vertexNormalCount = 0;
-			unsigned int vertexTextureCoordCount = 0;
-
-			// iterate through all lines
-			while (fgets(lineBuffer, 100, fptr))
+			for (int j = 0; j < 3; j++)
 			{
-				switch (lineBuffer[0])
-				{
-				case('v'):
-					if (lineBuffer[1] == ' ')
-						vertexPositionCount += 1;
-					else if (lineBuffer[1] == 'n')
-						vertexNormalCount += 1;
-					else if (lineBuffer[1] == 't')
-						vertexTextureCoordCount += 1;
-					break;
-				case('f'):
-					if (lineBuffer[1] == ' ')
-						indexCount += 3;
-					break;
+				tangentIndex = s_IndexBuffer[i + j];
 
-				}
+				localTangent = tangent - s_VertexBuffer[tangentIndex].Normal * (tangent * s_VertexBuffer[tangentIndex].Normal);
+				localBitangent = bitangent - s_VertexBuffer[tangentIndex].Normal * (bitangent * s_VertexBuffer[tangentIndex].Normal);
+
+				s_VertexBuffer[tangentIndex].Tangent = glm::normalize(localTangent);
+				s_VertexBuffer[tangentIndex].Bitangent = glm::normalize(localBitangent);
 			}
-
-
-			// Reset file navigation
-			rewind(fptr);
-
-			// allocate arrays and maps
-
-			std::unordered_map<Vertex, int, Vertex::Hash> vertexMap;
-			glm::vec3* vertexPositions = new glm::vec3[vertexPositionCount];
-			glm::vec3* vertexNormals = new glm::vec3[vertexNormalCount];
-			glm::vec2* vertexTextureCoords = new glm::vec2[vertexTextureCoordCount];
-
-			std::vector<unsigned int> indices = std::vector<unsigned int>(); indices.resize(indexCount);
-			std::vector<Vertex> vertices = std::vector<Vertex>(); vertices.resize(indexCount);
-
-			unsigned int vertexPositionsCounter = 0;
-			unsigned int vertexNormalsCounter = 0;
-			unsigned int vertexTextureCoordCounter = 0;
-			unsigned int indexCounter = 0; 
-			unsigned int vertexCounter = 0;
-			// Go through all lines again, parsing data
-			while (fgets(lineBuffer, 100, fptr))
-			{
-				switch (lineBuffer[0])
-				{
-				case('v'):
-					if (lineBuffer[1] == ' ')
-					{
-						glm::vec3 vertPos = glm::vec3(); char* ending;
-						vertPos.x = strtof(lineBuffer + 2, &ending);
-						vertPos.y = strtof(ending, &ending);
-						vertPos.z = strtof(ending, NULL);
-
-						vertexPositions[vertexPositionsCounter] = vertPos;
-						vertexPositionsCounter += 1;
-					}
-					else if (lineBuffer[1] == 'n')
-					{
-						glm::vec3 vertNorm = glm::vec3(); char* ending;
-						vertNorm.x = strtof(lineBuffer + 3, &ending);
-						vertNorm.y = strtof(ending, &ending);
-						vertNorm.z = strtof(ending, NULL);
-
-						vertexNormals[vertexNormalsCounter] = vertNorm;
-						vertexNormalsCounter += 1;
-					}
-					else if (lineBuffer[1] == 't')
-					{
-						glm::vec2 vertTexCoord = glm::vec2(); char* ending;
-						vertTexCoord.x = strtof(lineBuffer + 3, &ending);
-						vertTexCoord.y = strtof(ending, NULL);
-
-						vertexTextureCoords[vertexTextureCoordCounter] = vertTexCoord;
-						vertexTextureCoordCounter += 1;
-					}
-					break;
-				case('f'):
-					if (lineBuffer[1] == ' ')
-					{
-
-						char* ending = lineBuffer + 2;
-
-						for(int i = 0; i < 3; i++)
-
-
-						{
-							Vertex vertex = Vertex();
-							vertex.Position = vertexPositions[((int)strtof(ending, &ending)) - 1];
-							vertex.TextureCoordinate = vertexTextureCoords[((int)strtof(ending + 1, &ending)) - 1];
-							vertex.Normal = vertexNormals[((int)strtof(ending + 1, &ending)) - 1];
-
-							auto it = vertexMap.find(vertex);
-							if (it == vertexMap.end())
-							{
-								int vertexIndex = vertexCounter;
-
-								indices[indexCounter] = vertexIndex;
-								vertices[vertexIndex] = vertex;
-
-								vertexMap[vertex] = vertexIndex;
-
-								indexCounter += 1;
-								vertexCounter += 1;
-							}
-							else
-							{
-								indices[indexCounter] = it->second;
-								indexCounter += 1;
-							}
-						}
-
-
-					}
-					break;
-
-				}
-			}
-
-			fclose(fptr);
-
-
-			for (unsigned int i = 0; i < indices.size(); i += 3)
-			{
-				unsigned int i0 = indices[i + 0], i1 = indices[i + 1], i2 = indices[i + 2];
-				glm::vec3 v = vertices[i1].Position - vertices[i0].Position;
-				glm::vec3 w = vertices[i2].Position - vertices[i0].Position;
-
-				float sx = vertices[i1].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, sy = vertices[i1].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
-				float tx = vertices[i2].TextureCoordinate.x - vertices[i0].TextureCoordinate.x, ty = vertices[i2].TextureCoordinate.y - vertices[i0].TextureCoordinate.y;
-				float dirCorrection = (tx * sy - ty * sx) < 0.0f ? -1.0f : 1.0f;
-
-				if (sx * ty == sy * tx)
-				{
-					sx = 0.0f;
-					sy = 1.0f;
-					tx = 1.0f;
-					ty = 0.0f;
-				}
-
-				glm::vec3 tangent, bitangent;
-				tangent = (w * sy - v * ty) * dirCorrection;
-				bitangent = (w * sx - v * tx) * dirCorrection;
-
-				for (int j = 0; j < 3; j++)
-				{
-					unsigned int index = indices[i + j];
-
-					glm::vec3 localTangent = tangent - vertices[index].Normal * (tangent * vertices[index].Normal);
-					glm::vec3 localBitangent = bitangent - vertices[index].Normal * (bitangent * vertices[index].Normal);
-
-					vertices[index].Tangent = glm::normalize(localTangent);
-					vertices[index].Bitangent = glm::normalize(localBitangent);
-				}
-			}
-
-
-			mesh = IMesh::Create(vertices, indices);
-			mesh->m_Path = std::string(filepath);
-
-			const auto finish{ std::chrono::steady_clock::now() };
-			const std::chrono::duration<double> elapsed_seconds{ finish - start };
-			std::cout << "Mesh Loaded - " << mesh->m_Path << " - Time Took: " << elapsed_seconds << std::endl;
-
-			delete[] vertexPositions;
-			delete[] vertexNormals;
-			delete[] vertexTextureCoords;
 		}
+
+		std::vector<Vertex> verts(s_VertexBuffer, s_VertexBuffer + vertexCounter);
+		std::vector<unsigned int> inds(s_IndexBuffer, s_IndexBuffer + indexCounter);
+
+
+		mesh = IMesh::Create(verts, inds);
+		mesh->m_Path = std::string(filepath);
+
+		const auto finish{ std::chrono::steady_clock::now() };
+		const auto elapsed_seconds_finished = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start);
+		std::cout << "Mesh Loaded - " << mesh->m_Path << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
 	}
 
 
