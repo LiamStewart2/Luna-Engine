@@ -37,7 +37,7 @@ public:
 			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
 			m_ScenePanel = ScenePanel(m_SceneManager);
 			m_GamePanel = GamePanel(m_SceneManager);
-			m_ShaderGraphPanel = ShaderGraphEditorPanel(m_SceneManager);
+			m_ShaderGraphPanel = ShaderGraphEditorPanel(m_SceneManager); m_ShaderGraphPanel.Close();
 		}
 	}
 	~ImGuiLayer() {}
