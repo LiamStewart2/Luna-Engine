@@ -147,7 +147,9 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 				m_HierarchyPanel.Open();
 			if(ImGui::MenuItem("Material Editor"))
 				m_MaterialEditorPanel.Open();
-			
+			if (ImGui::MenuItem("Shader Graph"))
+				m_ShaderGraphPanel.Open();
+
 			ImGui::EndMenu();
 		}
 
@@ -165,6 +167,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 
 	m_ScenePanel.UpdateScene(m_CurrentInspectorGameObject, framebuffer, &m_Actions);
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
+
+	m_ShaderGraphPanel.Update(m_CurrentInspectorGameObject);
 
 
 	ImGui::End();

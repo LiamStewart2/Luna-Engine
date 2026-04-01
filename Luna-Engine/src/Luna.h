@@ -26,6 +26,7 @@
 #include "Renderer/ITexture.h"
 #include "Renderer/Light.h"
 #include "Renderer/Material.h"
+#include "Renderer/ShaderGraph/ShaderGraph.h"
 
 // SCRIPTING
 

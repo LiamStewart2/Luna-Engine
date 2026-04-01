@@ -38,6 +38,20 @@ namespace Luna
 		// std::shared_ptr<Mesh> mesh - a reference to the mesh object the data should be loaded into
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 		static void LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath);
+
+	private:
+		// Buffers for loading Meshes
+		static const unsigned int s_BufferSize = 800000;
+
+		static glm::vec3* s_VertexPositionBuffer;
+		static glm::vec3* s_VertexNormalBuffer;
+		static glm::vec2* s_VertexTextureCoordBuffer;
+
+		static unsigned int* s_IndexBuffer;
+		static Vertex* s_VertexBuffer;
+
+		static void SetupBuffers();
+
 	};
 }
 

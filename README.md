@@ -35,7 +35,7 @@ https://trello.com/b/48CwuQyq/opengl-engine
 - [x] ImGui Editor
 - [x] Project Restructure
 - [x] Scripting implementation
-- [ ] Physics Engine
+- [x] Physics Engine
 - [ ] Run Time
 
 ## 🧠 Author

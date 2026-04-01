@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="src\Renderer\ShaderGraph\ShaderGraphNode.cpp" />
     <ClCompile Include="src\Renderer\ShadowRenderer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Framebuffer.cpp" />
     <ClCompile Include="src\Platform\DirectX11\DX11Mesh.cpp" />
@@ -41,9 +43,12 @@
     <ClCompile Include="src\ECS\ECS.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="src\Core\Timer.h" />
     <ClInclude Include="src\Physics\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\PhysicsComponent.h" />
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNode.h" />
+    <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNodeType.h" />
     <ClInclude Include="src\Renderer\ShadowRenderer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Framebuffer.h" />
     <ClInclude Include="src\Platform\DirectX11\DX11Mesh.h" />
@@ -155,7 +160,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;SOL_ALL_SAFETIES_ON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;SOL_ALL_SAFETIES_ON;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
