@@ -53,6 +53,8 @@ private:
 	SceneManager* m_SceneManager = nullptr;
 	Luna::AssetManager* m_AssetManager = nullptr;
 
+	ImFont* font = nullptr;
+
 	float m_MainScale = 0;
 	bool m_ShowGame = true;
 	bool m_ShowContentBrowser = true;

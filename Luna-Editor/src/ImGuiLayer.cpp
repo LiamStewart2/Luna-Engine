@@ -16,6 +16,10 @@ void ImGuiLayer::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	//io.ConfigFlags &= -ImGuiConfigFlags_ViewportsEnable;
 
+	font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/Roboto_Condensed-Bold.ttf", 15.0f);
+	if(font == NULL)
+		std::cerr << "CRASHED SILLY" << std::endl;
+
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.ScaleAllSizes(m_MainScale);
 	style.FontScaleDpi = m_MainScale;
@@ -36,7 +40,11 @@ void ImGuiLayer::StartFrame()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
+
 	ImGui::NewFrame();
+	ImGui::PushFont(font);
+
+
 	ImGuizmo::BeginFrame();
 }
 
@@ -171,6 +179,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	m_ShaderGraphPanel.Update(m_CurrentInspectorGameObject);
 
 
+	ImGui::PopFont();
 	ImGui::End();
 	
 
