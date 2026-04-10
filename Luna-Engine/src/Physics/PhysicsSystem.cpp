@@ -19,7 +19,6 @@ void Luna::PhysicsSystem::Update(EntityComponentSystem* ECS, bool runtime)
 		std::unordered_map<unsigned int, Transform>& transforms = ECS->GetAllComponentsOfType<Transform>();
 		float deltaTime = (float)timer.DeltaTime();
 
-		std::cout << "Physics System Update - Delta Time: " << deltaTime << " seconds" << std::endl;
 
 		HandlePhysics(ECS, deltaTime);
 		HandleCollisions(ECS, deltaTime);
