@@ -172,7 +172,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 
 	std::filesystem::path path(m_WorkingDirectory);
-	std::filesystem::path SceneDirectory = (path / "Assets") / filepath;
+	std::filesystem::path SceneDirectory = path / filepath;
 
 
 	std::ifstream file(SceneDirectory.string());
