@@ -9,6 +9,7 @@
 
 #include "Luna.h"
 #include "EditorCamera.h"
+#include "ProjectManager.h"
 #include "Panels/ImGuiPanel.h"
 
 #include "Panels/InspectorPanel.h"
@@ -25,16 +26,17 @@
 class ImGuiLayer
 {
 public:
-	ImGuiLayer(LunaWindow* window = nullptr, Luna::AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr) : m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager)
+	ImGuiLayer(LunaWindow* window = nullptr, Luna::AssetManager* assetManager = nullptr, SceneManager* sceneManager = nullptr, ProjectManager* projectManager = nullptr) 
+		: m_Window(window), m_AssetManager(assetManager), m_SceneManager(sceneManager), m_ProjectManager(projectManager)
 	{
-		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr)
+		if(window != nullptr && m_AssetManager != nullptr && m_SceneManager != nullptr && m_ProjectManager != nullptr)
 		{
 			Init();
 
 			m_InspectorPanel = InspectorPanel(m_SceneManager);
 			m_HierarchyPanel = HierarchyPanel(m_SceneManager);
 			m_MaterialEditorPanel = MaterialEditorPanel(m_SceneManager);
-			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, std::filesystem::current_path());
+			m_ContentBrowserPanel = ContentBrowserPanel(m_SceneManager, m_ProjectManager->GetOpenProject().m_WorkingDirectory);
 			m_ScenePanel = ScenePanel(m_SceneManager);
 			m_GamePanel = GamePanel(m_SceneManager);
 			m_ShaderGraphPanel = ShaderGraphEditorPanel(m_SceneManager); m_ShaderGraphPanel.Close();
@@ -51,7 +53,9 @@ public:
 private:
 	LunaWindow* m_Window = nullptr;
 	SceneManager* m_SceneManager = nullptr;
+	ProjectManager* m_ProjectManager = nullptr;
 	Luna::AssetManager* m_AssetManager = nullptr;
+
 
 	ImFont* font = nullptr;
 
