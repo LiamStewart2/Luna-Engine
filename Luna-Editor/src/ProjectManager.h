@@ -16,8 +16,9 @@ struct Project
 class ProjectManager
 {
 public:
-	void OpenProject(SceneManager* sceneManager, std::string filepath);
-	void OnEditorStart(SceneManager* sceneManager);
+	void OpenProject(std::string filepath);
+	void OnEditorStart();
+	void OpenDefaultScene(SceneManager* sceneManager);
 
 	const Project& GetOpenProject() {return m_WorkingProject;}
 private:

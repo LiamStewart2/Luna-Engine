@@ -1,4 +1,4 @@
 {
 	"ProjectName":"TestingProject",
-	"DefaultScene":"Assets/Scenes/PBR Scene.json"
+	"DefaultScene":"Scenes/PBR Scene.json"
 }

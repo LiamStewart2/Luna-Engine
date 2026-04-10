@@ -3,7 +3,6 @@
 
 SceneManager::SceneManager()
 {
-
 }
 
 SceneManager::~SceneManager()
@@ -21,6 +20,12 @@ void SceneManager::SaveScene()
 		return;
 	std::cout << "saved scene" << std::endl;
 	SaveCurrentSceneAs(m_Scene->filepath);
+}
+
+void SceneManager::SetAssetWorkingPath(std::string workingDir)
+{
+	m_WorkingDirectory = workingDir;
+	assetManager.SetWorkingDirectory(workingDir);
 }
 
 void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
@@ -165,8 +170,12 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	std::cout << filepath << std::endl;
 
-	// Load the scene file using json :: ToDo change json to a more suitable format
-	std::ifstream file(filepath);
+
+	std::filesystem::path path(m_WorkingDirectory);
+	std::filesystem::path SceneDirectory = (path / "Assets") / filepath;
+
+
+	std::ifstream file(SceneDirectory.string());
 	nlohmann::json jsonData = nlohmann::json::parse(file);
 
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
@@ -208,9 +217,9 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if(componentData["component-type"] == "MeshComponent")
 			{
-				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(true, componentData["component-args"][0].get<std::string>());
 				std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
-				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(componentData["component-args"][2].get<std::string>());
+				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(true, componentData["component-args"][2].get<std::string>());
 				m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);
 			}
 			else if (componentData["component-type"] == "CameraComponent")
@@ -235,7 +244,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if (componentData["component-type"] == "ScriptComponent")
 			{
-				std::shared_ptr<Script> script = assetManager.GetScript(componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Script> script = assetManager.GetScript(true, componentData["component-args"][0].get<std::string>());
 
 				m_Scene->AddComponent<ScriptComponent>(objectID, script);
 				m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();

@@ -17,7 +17,7 @@ void MaterialEditorPanel::Update(unsigned int& inspectorID)
 			{
 				const char* path = (const char*)payload->Data;
 
-				m_Material = m_SceneManager->GetAssetManager()->GetMaterial(path);
+				m_Material = m_SceneManager->GetAssetManager()->GetMaterial(true, path);
 
                 delegate.textures = std::vector<std::shared_ptr<Luna::ITexture>>({
                     m_Material->m_Albedo, m_Material->m_SpecularMap, m_Material->m_NormalMap, m_Material->m_MetallicMap, m_Material->m_AOMap});

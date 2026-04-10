@@ -35,6 +35,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 
 	for (auto& path : sortedDirectories)
 	{
+		std::string str = path.path().string();
 		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->GetTextureReference(), {thumbnailSize, thumbnailSize}))
 		{
 			m_CurrentDirectory = path.path();
@@ -53,7 +54,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		ImGui::PushID(path.path().filename().string().c_str());
 
 		if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(path.path().string())->GetTextureReference(), { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else if(GetFileExtension(path.path().filename().string()) == "obj")
 			ImGui::Image(m_ModelIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else
@@ -64,12 +65,15 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 			m_RightClickedPath = path.path().filename().string();
 		}
 
-		std::string itemPath = std::filesystem::relative(path.path(), m_ProjectDirectory).string().c_str();
+		// ToDo: make this use relative pathing to allow the project to move without creating issues
+		//std::string itemPath = std::filesystem::relative(path.path(), m_ProjectDirectory).string().c_str();
+		std::string itemPath = path.path().string();
+
 		if (GetFileExtension(path.path().filename().string()) == "json")
 			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(path.path().string())->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "obj")
 			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon->GetTextureReference(), thumbnailSize);

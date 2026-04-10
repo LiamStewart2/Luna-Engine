@@ -10,8 +10,8 @@ public:
 	GamePanel(SceneManager* sceneManager = nullptr) : ImGuiPanel(sceneManager) {
 		if (sceneManager == nullptr) return;
 
-		m_PlayIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/play-button.png");
-		m_StopIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/stop.png");
+		m_PlayIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/play-button.png");
+		m_StopIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/stop.png");
 	}
 
 	void UpdateGame(unsigned int& inspectorID, bool& runtime, std::shared_ptr<Luna::IFramebuffer> framebuffer);

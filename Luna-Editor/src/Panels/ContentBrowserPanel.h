@@ -14,10 +14,10 @@ public:
 	{
 		if(sceneManager == nullptr) return;
 
-		m_FolderIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/open-folder.png");
-		m_FileIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/document.png");
-		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/model.png");
-		m_CodeIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/web-programming.png");
+		m_FolderIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/open-folder.png");
+		m_FileIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/document.png");
+		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/model.png");
+		m_CodeIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/web-programming.png");
 	}
 
 	void Update(unsigned int& inspectorID) override;

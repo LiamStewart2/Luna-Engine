@@ -17,6 +17,8 @@ public:
 	void LoadNewScene(const char* filepath);
 	void UnloadCurrentScene();
 
+	void SetAssetWorkingPath(std::string workingDir);
+
 	void SaveScene();
 	void SaveCurrentSceneAs(std::string optionalPath = "");
 	void SaveSceneNode(nlohmann::json& data, SceneGraphNode* node);
@@ -29,6 +31,7 @@ private:
 	void LoadRelations(const nlohmann::json& originalData, const nlohmann::json& jsonData, unsigned int parentObjectID);
 
 	Luna::AssetManager assetManager;
+	std::string m_WorkingDirectory;
 
 	Scene* m_Scene = nullptr;
 };

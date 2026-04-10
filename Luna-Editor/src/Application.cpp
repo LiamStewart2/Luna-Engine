@@ -27,8 +27,10 @@ int Application::Init()
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);
 
-	m_ProjectManager.OnEditorStart(&sceneManager);
-
+	m_ProjectManager.OnEditorStart();
+	sceneManager.SetAssetWorkingPath(m_ProjectManager.GetOpenProject().m_WorkingDirectory);
+	m_ProjectManager.OpenDefaultScene(&sceneManager);
+		
 	Luna::FramebufferSpecification framebufferSpec = {
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		{Luna::FramebufferTextureFormat::RGBA8},
