@@ -44,6 +44,15 @@ void ProjectManager::CreateNewProject(SceneManager* sceneManager, const Project&
 	std::ofstream file(path.string());
 	file << jsonData.dump(4);
 
+	/* Copy placeholder asset folder */
+	std::filesystem::path assetsPath = folderPath / "Assets";
+
+	std::filesystem::copy(
+		"Assets", assetsPath,
+		std::filesystem::copy_options::recursive |
+		std::filesystem::copy_options::overwrite_existing
+	);
+
 	// Create the default scene file
 	Scene virtualScene = Scene();
 	virtualScene.Init(sceneManager->GetAssetManager(), "Template Scene");
@@ -54,7 +63,7 @@ void ProjectManager::CreateNewProject(SceneManager* sceneManager, const Project&
 
 	/* Camera Components */
 	virtualScene.AddComponent<NameComponent>(camera, "Camera");
-	virtualScene.AddComponent<Transform>(camera, glm::vec3(0, 0, -5));
+	virtualScene.AddComponent<Transform>(camera, glm::vec3(0, 2, -5), glm::quat(0, 0, 1, 0));
 	virtualScene.AddComponent<CameraComponent>(camera, nullptr, true, glm::vec4(1, 1, 1, 1), true);
 	
 	/* Light Components */
@@ -69,6 +78,10 @@ void ProjectManager::CreateNewProject(SceneManager* sceneManager, const Project&
 
 	virtualScene.AddComponent<NameComponent>(floor, "floor");
 	virtualScene.AddComponent<Transform>(floor, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 1, 5));
+	virtualScene.AddComponent<MeshComponent>(floor,
+		assetManager->GetMesh(true, "Assets/Models/planeobj.obj").get(),
+		assetManager->GetShader("Assets/Shaders/PBRShader/shader.hlsl").get(),
+		assetManager->GetMaterial(true, "Assets/Materials/default.lmat"));
 
 	/* Serialize */
 	std::filesystem::path scenePath = folderPath / project.m_DefaultScenePath;
