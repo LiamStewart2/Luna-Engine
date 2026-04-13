@@ -69,10 +69,6 @@ void ProjectManager::CreateNewProject(SceneManager* sceneManager, const Project&
 
 	virtualScene.AddComponent<NameComponent>(floor, "floor");
 	virtualScene.AddComponent<Transform>(floor, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 1, 5));
-	virtualScene.AddComponent<MeshComponent>(floor, 
-		assetManager->GetMesh(false, "Assets/Models/planeobj.obj").get(),
-		assetManager->GetShader("Assets/Shaders/PBRShader/shader.hlsl").get(),
-		assetManager->GetMaterial(false, "Assets/Materials/default.lmat"));
 
 	/* Serialize */
 	std::filesystem::path scenePath = folderPath / project.m_DefaultScenePath;
