@@ -17,8 +17,11 @@ class ProjectManager
 {
 public:
 	void OpenProject(std::string filepath);
-	void OnEditorStart();
-	void OpenDefaultScene(SceneManager* sceneManager);
+	void OnEditorStart(SceneManager* sceneManager);
+
+	// opens file explorer and returns the selected path
+	// check path.empty() to see if the filepath is valid
+	std::string NavigateFolders();
 
 	const Project& GetOpenProject() {return m_WorkingProject;}
 private:

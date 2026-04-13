@@ -17,19 +17,21 @@ void ProjectManager::OpenProject(std::string filepath)
 	};
 }
 
-void ProjectManager::OnEditorStart()
+void ProjectManager::OnEditorStart(SceneManager* sceneManager)
 {
-	std::string fpath = FileNavigation::OpenFileDialog({
-					{L"Project Files", L"*.luna"},
-					{L"All Files", L"*.*"}
-		}, 1);
+	std::string fpath = NavigateFolders();
 	if (!fpath.empty())
 	{
 		OpenProject(fpath);
+		sceneManager->SetAssetWorkingPath(GetOpenProject().m_WorkingDirectory);
+		sceneManager->LoadNewScene(m_WorkingProject.m_DefaultScenePath.c_str());
 	}
 }
 
-void ProjectManager::OpenDefaultScene(SceneManager* sceneManager)
+std::string ProjectManager::NavigateFolders()
 {
-	sceneManager->LoadNewScene(m_WorkingProject.m_DefaultScenePath.c_str());
+	return FileNavigation::OpenFileDialog({
+					{L"Project Files", L"*.luna"},
+					{L"All Files", L"*.*"}
+		}, 1);
 }

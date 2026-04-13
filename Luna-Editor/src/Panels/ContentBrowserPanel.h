@@ -22,6 +22,8 @@ public:
 
 	void Update(unsigned int& inspectorID) override;
 
+	void ResetDirectory(std::string workingDirectory);
+
 private:
 	void BeginPayload(std::string payloadID, std::string data, void* textureID, float thumbnailSize);
 

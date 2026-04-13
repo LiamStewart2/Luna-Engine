@@ -181,7 +181,7 @@ void SceneManager::LoadNewScene(const char* filepath)
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
 	m_Scene = new Scene();
-	m_Scene->filepath = std::string(filepath);
+	m_Scene->filepath = SceneDirectory.string();
 	m_Scene->Init(&assetManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])

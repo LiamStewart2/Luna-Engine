@@ -116,6 +116,18 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Open Project"))
+			{
+				std::string fpath = m_ProjectManager->NavigateFolders();
+				if (!fpath.empty())
+				{
+					m_ProjectManager->OpenProject(fpath);
+					m_SceneManager->SetAssetWorkingPath(m_ProjectManager->GetOpenProject().m_WorkingDirectory);
+					m_ContentBrowserPanel.ResetDirectory(m_ProjectManager->GetOpenProject().m_WorkingDirectory);
+					m_SceneManager->LoadNewScene(m_ProjectManager->GetOpenProject().m_DefaultScenePath.c_str());
+				}
+			}
+
 			if (ImGui::MenuItem("Save Scene", "CTRL+S"))
 				m_SceneManager->SaveScene();
 			if (ImGui::MenuItem("Save Scene As"))

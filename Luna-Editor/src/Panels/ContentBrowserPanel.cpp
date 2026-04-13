@@ -183,3 +183,10 @@ void ContentBrowserPanel::CreateNewMaterial()
 	std::ofstream file(path);
 	file << jsonData.dump(4);
 }
+
+
+void ContentBrowserPanel::ResetDirectory(std::string workingDirectory)
+{
+	m_CurrentDirectory = workingDirectory;
+	m_ProjectDirectory = workingDirectory;
+}
