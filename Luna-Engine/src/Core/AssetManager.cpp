@@ -91,15 +91,21 @@ namespace Luna
 
 			// Load the material JSON
 			std::ifstream file(filepath);
+			if (!file.is_open())
+			{
+				throw std::runtime_error("Failed to open material file: " + filepath);
+			}
+
+
 			nlohmann::json jsonData = nlohmann::json::parse(file);
 
 			// Load the material textures
 			material->m_Path = filepath;
-			material->m_Albedo = GetTexture(true, jsonData["Textures"]["Albedo"]);
-			material->m_SpecularMap = GetTexture(true, jsonData["Textures"]["SpecularMap"]);
-			material->m_NormalMap = GetTexture(true, jsonData["Textures"]["NormalMap"]);
-			material->m_MetallicMap = GetTexture(true, jsonData["Textures"]["MetallicMap"]);
-			material->m_AOMap = GetTexture(true, jsonData["Textures"]["AOMap"]);
+			material->m_Albedo = GetTexture(UseWorkingDirectory, jsonData["Textures"]["Albedo"]);
+			material->m_SpecularMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["SpecularMap"]);
+			material->m_NormalMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["NormalMap"]);
+			material->m_MetallicMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["MetallicMap"]);
+			material->m_AOMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["AOMap"]);
 
 			// Load the colours from json
 			nlohmann::json ambientJson = jsonData["Values"]["AmbientColour"];

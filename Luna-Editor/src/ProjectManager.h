@@ -18,6 +18,7 @@ class ProjectManager
 public:
 	void OpenProject(std::string filepath);
 	void OnEditorStart(SceneManager* sceneManager);
+	void CreateNewProject(SceneManager* sceneManager, const Project& project);
 
 	// opens file explorer and returns the selected path
 	// check path.empty() to see if the filepath is valid

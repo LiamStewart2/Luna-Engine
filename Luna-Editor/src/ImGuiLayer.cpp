@@ -116,6 +116,19 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("New Project"))
+			{
+				std::string filepath = "P:\\ProjectName";
+
+				Project project = Project({
+						filepath,
+						std::string("EpicGame"),
+						std::string("Assets\\Template Scene.json")
+					});
+
+				m_ProjectManager->CreateNewProject(m_SceneManager, project);
+			}
+
 			if (ImGui::MenuItem("Open Project"))
 			{
 				std::string fpath = m_ProjectManager->NavigateFolders();
@@ -137,7 +150,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!filepath.empty())
-					m_SceneManager->SaveCurrentSceneAs(filepath);
+					m_SceneManager->SaveScene(nullptr, filepath);
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
