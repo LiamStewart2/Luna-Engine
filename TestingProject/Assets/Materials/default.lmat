@@ -1,10 +1,10 @@
 {
     "Textures": {
-        "AOMap": "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Textures\\default.png",
-        "Albedo": "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Textures\\default.png",
-        "MetallicMap": "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Textures\\Stone Brick\\NonMetallic.png",
-        "NormalMap": "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Textures\\BumpMapFlatColour.png",
-        "SpecularMap": "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Textures\\default.png"
+        "AOMap": "Assets\\Textures\\default.png",
+        "Albedo": "Assets\\Textures\\default.png",
+        "MetallicMap": "Assets\\Textures\\Stone Brick\\NonMetallic.png",
+        "NormalMap": "Assets\\Textures\\BumpMapFlatColour.png",
+        "SpecularMap": "Assets\\Textures\\default.png"
     },
     "Values": {
         "AmbientColour": [

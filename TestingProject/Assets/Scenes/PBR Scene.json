@@ -112,9 +112,9 @@
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Models\\planeobj.obj",
+                    "Assets\\Models\\planeobj.obj",
                     "Assets/Shaders/PBRShader/shader.hlsl",
-                    "A:\\C++\\Luna-Engine\\TestingProject\\Assets\\Materials\\default.lmat"
+                    "Assets\\Materials\\default.lmat"
                 ],
                 "component-type": "MeshComponent"
             },
