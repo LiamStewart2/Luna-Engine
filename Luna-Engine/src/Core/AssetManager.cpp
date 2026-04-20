@@ -20,11 +20,17 @@ namespace Luna
 	// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the image file
 
-	std::shared_ptr<ITexture> AssetManager::GetTexture(std::string filepath)
+	std::shared_ptr<ITexture> AssetManager::GetTexture(bool UseWorkingDirectory, std::string filepath)
 	{
+		if(UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
 		if (m_Textures.find(filepath) == m_Textures.end())
 		{
-
 			std::cout << filepath << std::endl;
 			std::shared_ptr<ITexture> texture = m_Textures[filepath] = nullptr;
 			AssetLoader::LoadTexture(m_Textures[filepath], filepath.c_str());
@@ -35,8 +41,15 @@ namespace Luna
 	// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the mesh file
 
-	std::shared_ptr<IMesh> AssetManager::GetMesh(std::string filepath)
+	std::shared_ptr<IMesh> AssetManager::GetMesh(bool UseWorkingDirectory, std::string filepath)
 	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
 
@@ -60,8 +73,15 @@ namespace Luna
 		return m_Shaders[filepath];
 	}
 
-	std::shared_ptr<Material> AssetManager::GetMaterial(std::string filepath)
+	std::shared_ptr<Material> AssetManager::GetMaterial(bool UseWorkingDirectory, std::string filepath)
 	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
 		if (m_Materials.find(filepath) == m_Materials.end())
 		{
 			std::cout << filepath << std::endl;
@@ -71,15 +91,21 @@ namespace Luna
 
 			// Load the material JSON
 			std::ifstream file(filepath);
+			if (!file.is_open())
+			{
+				throw std::runtime_error("Failed to open material file: " + filepath);
+			}
+
+
 			nlohmann::json jsonData = nlohmann::json::parse(file);
 
 			// Load the material textures
 			material->m_Path = filepath;
-			material->m_Albedo = GetTexture(jsonData["Textures"]["Albedo"]);
-			material->m_SpecularMap = GetTexture(jsonData["Textures"]["SpecularMap"]);
-			material->m_NormalMap = GetTexture(jsonData["Textures"]["NormalMap"]);
-			material->m_MetallicMap = GetTexture(jsonData["Textures"]["MetallicMap"]);
-			material->m_AOMap = GetTexture(jsonData["Textures"]["AOMap"]);
+			material->m_Albedo = GetTexture(UseWorkingDirectory, jsonData["Textures"]["Albedo"]);
+			material->m_SpecularMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["SpecularMap"]);
+			material->m_NormalMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["NormalMap"]);
+			material->m_MetallicMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["MetallicMap"]);
+			material->m_AOMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["AOMap"]);
 
 			// Load the colours from json
 			nlohmann::json ambientJson = jsonData["Values"]["AmbientColour"];
@@ -95,8 +121,15 @@ namespace Luna
 		return m_Materials[filepath];
 	}
 
-	std::shared_ptr<Script> AssetManager::GetScript(std::string filepath)
+	std::shared_ptr<Script> AssetManager::GetScript(bool UseWorkingDirectory, std::string filepath)
 	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
 		if (m_Scripts.find(filepath) == m_Scripts.end())
 		{
 			std::cout << filepath << std::endl;

@@ -4,6 +4,7 @@
 #include <shobjidl.h>
 #include <combaseapi.h>
 #include <string>
+#include "ShlObj_core.h"
 
 std::string FileNavigation::OpenFileDialog(const std::vector<FileTypeFilter>& filters, int defaultIndex)
 {
@@ -140,6 +141,41 @@ std::string FileNavigation::SaveAsFileDialog(const std::vector<FileTypeFilter>& 
             pFileSave->Release();
         }
         CoUninitialize();
+    }
+
+    return result;
+}
+
+std::string FileNavigation::BrowseDialog()
+{
+    std::string result;
+
+    // Buffer to receive the display name (unused for final path but required by API)
+    CHAR displayName[MAX_PATH] = {0};
+
+    // Prepare BROWSEINFOA on the stack and zero-initialize it
+    BROWSEINFOA browseInfo = {};
+    browseInfo.hwndOwner = NULL;
+    browseInfo.pidlRoot = NULL;
+    browseInfo.pszDisplayName = displayName;
+    browseInfo.lpszTitle = "Open Folder";
+    browseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS;
+    browseInfo.lpfn = NULL;
+    browseInfo.lParam = NULL;
+    browseInfo.iImage = 0;
+
+    // Show the dialog and get the PIDL for the selected folder
+    LPITEMIDLIST pidl = SHBrowseForFolderA(&browseInfo);
+    if (pidl != NULL)
+    {
+        CHAR path[MAX_PATH] = {0};
+        // Convert the returned PIDL to a filesystem path
+        if (SHGetPathFromIDListA(pidl, path))
+        {
+            result = path;
+        }
+        // Free the PIDL allocated by SHBrowseForFolderA
+        CoTaskMemFree(pidl);
     }
 
     return result;

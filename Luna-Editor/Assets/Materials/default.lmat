@@ -1,10 +1,10 @@
 {
     "Textures": {
-        "AOMap": "Assets\\Textures\\Stone Brick\\StoneBricksSplitface001_AO_2K.jpg",
-        "Albedo": "Assets\\Textures\\Stone Brick\\StoneBricksSplitface001_COL_2K.jpg",
-        "MetallicMap": "Assets\\Textures\\Stone Brick\\NonMetallic.png",
-        "NormalMap": "Assets\\Textures\\Stone Brick\\StoneBricksSplitface001_NRM_2K.jpg",
-        "SpecularMap": "Assets\\Textures\\Stone Brick\\StoneBricksSplitface001_GLOSS_2K.jpg"
+        "AOMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png",
+        "Albedo": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png",
+        "MetallicMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\NonMetallic.png",
+        "NormalMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\BumpMapFlatColour.png",
+        "SpecularMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png"
     },
     "Values": {
         "AmbientColour": [

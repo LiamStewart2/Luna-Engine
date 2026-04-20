@@ -116,6 +116,23 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("New Project"))
+			{
+				m_NewProjectPanel.Open();
+			}
+
+			if (ImGui::MenuItem("Open Project"))
+			{
+				std::string fpath = m_ProjectManager->NavigateFolders();
+				if (!fpath.empty())
+				{
+					m_ProjectManager->OpenProject(fpath);
+					m_SceneManager->SetAssetWorkingPath(m_ProjectManager->GetOpenProject().m_WorkingDirectory);
+					m_ContentBrowserPanel.ResetDirectory(m_ProjectManager->GetOpenProject().m_WorkingDirectory);
+					m_SceneManager->LoadNewScene(m_ProjectManager->GetOpenProject().m_DefaultScenePath.c_str());
+				}
+			}
+
 			if (ImGui::MenuItem("Save Scene", "CTRL+S"))
 				m_SceneManager->SaveScene();
 			if (ImGui::MenuItem("Save Scene As"))
@@ -125,7 +142,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!filepath.empty())
-					m_SceneManager->SaveCurrentSceneAs(filepath);
+					m_SceneManager->SaveScene(nullptr, filepath);
 			}
 			if (ImGui::MenuItem("Load Scene"))
 			{
@@ -177,6 +194,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 	m_ShaderGraphPanel.Update(m_CurrentInspectorGameObject);
+
+	m_NewProjectPanel.Update(&m_ContentBrowserPanel, &m_Actions);
 
 
 	ImGui::PopFont();

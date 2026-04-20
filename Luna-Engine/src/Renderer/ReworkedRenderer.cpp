@@ -113,7 +113,7 @@ namespace Luna
 		if (cameras[mainCameraID].m_UseSkybox)
 		{
 			s_RendererAPI->StartSkybox(sceneManager);
-			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh("Assets/Models/skybox.obj");
+			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh(false, "Assets/Models/skybox.obj");
 			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
 			mesh->BindMesh();
 			Transform skyboxTransform = Transform(0);

@@ -3,7 +3,6 @@
 
 SceneManager::SceneManager()
 {
-
 }
 
 SceneManager::~SceneManager()
@@ -15,43 +14,50 @@ void SceneManager::Update(bool runtime)
 	m_Scene->Update(runtime);
 }
 
-void SceneManager::SaveScene()
+void SceneManager::SaveScene(Scene* scene, std::string path)
 {
-	if (m_Scene == nullptr)
-		return;
-	std::cout << "saved scene" << std::endl;
-	SaveCurrentSceneAs(m_Scene->filepath);
+	if (path == "")		
+		path = m_Scene->filepath;
+	if(scene == nullptr)
+		scene = m_Scene;
+	SaveSceneAs(scene, path);
 }
 
-void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
+void SceneManager::SetAssetWorkingPath(std::string workingDir)
 {
-	if(m_Scene == nullptr)
+	m_WorkingDirectory = workingDir;
+	assetManager.SetWorkingDirectory(workingDir);
+}
+
+void SceneManager::SaveSceneAs(Scene* scene, std::string path)
+{
+	if(scene == nullptr)
 		return;
 
 	nlohmann::json jsonData;
 	
-	jsonData["scene-name"] = m_Scene->GetSceneName();
+	jsonData["scene-name"] = scene->GetSceneName();
 
 	// Save objects to json data
 
 	jsonData["objects"] = nlohmann::json::array();
 
-	for (int i = 0; i < m_Scene->GetGameObjects()->size(); i++)
+	for (int i = 0; i < scene->GetGameObjects()->size(); i++)
 	{
 		nlohmann::json objectComponents = nlohmann::json::array();
 
-		if (m_Scene->GetECS()->HasComponent<NameComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<NameComponent>(scene->GetGameObjects()->at(i)))
 		{
-			NameComponent* component = m_Scene->GetECS()->GetObjectComponent<NameComponent>(m_Scene->GetGameObjects()->at(i));
+			NameComponent* component = scene->GetECS()->GetObjectComponent<NameComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "NameComponent"},
 				{"component-args", {component->m_Name}}
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<Transform>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<Transform>(scene->GetGameObjects()->at(i)))
 		{
-			Transform* component = m_Scene->GetECS()->GetObjectComponent<Transform>(m_Scene->GetGameObjects()->at(i));
+			Transform* component = scene->GetECS()->GetObjectComponent<Transform>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "TransformComponent"},
 				{"component-args", {
@@ -62,17 +68,17 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<MeshComponent>(scene->GetGameObjects()->at(i)))
 		{
-			MeshComponent* component = m_Scene->GetECS()->GetObjectComponent<MeshComponent>(m_Scene->GetGameObjects()->at(i));
+			MeshComponent* component = scene->GetECS()->GetObjectComponent<MeshComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "MeshComponent"},
 				{"component-args", {component->mesh->m_Path, component->shader->m_Path, component->material->m_Path}}});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<CameraComponent>(scene->GetGameObjects()->at(i)))
 		{
-			CameraComponent* component = m_Scene->GetECS()->GetObjectComponent<CameraComponent>(m_Scene->GetGameObjects()->at(i));
+			CameraComponent* component = scene->GetECS()->GetObjectComponent<CameraComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "CameraComponent"},
 				{"component-args", {
@@ -83,36 +89,36 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<LightComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<LightComponent>(scene->GetGameObjects()->at(i)))
 		{
-			LightComponent* component = m_Scene->GetECS()->GetObjectComponent<LightComponent>(m_Scene->GetGameObjects()->at(i));
+			LightComponent* component = scene->GetECS()->GetObjectComponent<LightComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "LightComponent"},
 				{"component-args", {component->m_Light.m_LightColour.x, component->m_Light.m_LightColour.y, component->m_Light.m_LightColour.z}}
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<ScriptComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<ScriptComponent>(scene->GetGameObjects()->at(i)))
 		{
-			ScriptComponent* component = m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(m_Scene->GetGameObjects()->at(i));
+			ScriptComponent* component = scene->GetECS()->GetObjectComponent<ScriptComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "ScriptComponent"},
 				{"component-args", {component->m_Script->GetFilepath()}}
 			});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<PhysicsComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<PhysicsComponent>(scene->GetGameObjects()->at(i)))
 		{
-			PhysicsComponent* component = m_Scene->GetECS()->GetObjectComponent<PhysicsComponent>(m_Scene->GetGameObjects()->at(i));
+			PhysicsComponent* component = scene->GetECS()->GetObjectComponent<PhysicsComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "PhysicsComponent"},
 				{"component-args", {component->m_Simulate, component->m_Mass, component->m_GravityValue, component->m_Dynamic, component->m_Restitution}}
 				});
 		}
 
-		if (m_Scene->GetECS()->HasComponent<ColliderComponent>(m_Scene->GetGameObjects()->at(i)))
+		if (scene->GetECS()->HasComponent<ColliderComponent>(scene->GetGameObjects()->at(i)))
 		{
-			ColliderComponent* component = m_Scene->GetECS()->GetObjectComponent<ColliderComponent>(m_Scene->GetGameObjects()->at(i));
+			ColliderComponent* component = scene->GetECS()->GetObjectComponent<ColliderComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "ColliderComponent"},
 				{"component-args", {component->m_Shape, component->m_ColliderSize.x, component->m_ColliderSize.y, component->m_ColliderSize.z}}
@@ -124,19 +130,20 @@ void SceneManager::SaveCurrentSceneAs(std::string optionalPath)
 	
 	// Load relations from scene graph
 	jsonData["relations"] = nlohmann::json::array();
-	SceneGraphNode* sceneGraph = m_Scene->GetSceneGraph();
+	SceneGraphNode* sceneGraph = scene->GetSceneGraph();
 
 	SaveSceneNode(jsonData["relations"], sceneGraph);
 
 	// Write to file
-	if(optionalPath == "")
+	if(path == "")
 	{
-		std::ofstream file(std::string(m_Scene->GetSceneName()));
+		std::ofstream file(std::string(scene->GetSceneName()));
 		file << jsonData.dump(4);
 	}
 	else
 	{
-		std::ofstream file(optionalPath);
+		std::filesystem::create_directories(std::filesystem::path(path).parent_path());
+		std::ofstream file(path);
 		file << jsonData.dump(4);
 	}
 }
@@ -165,14 +172,18 @@ void SceneManager::LoadNewScene(const char* filepath)
 
 	std::cout << filepath << std::endl;
 
-	// Load the scene file using json :: ToDo change json to a more suitable format
-	std::ifstream file(filepath);
+
+	std::filesystem::path path(m_WorkingDirectory);
+	std::filesystem::path SceneDirectory = path / filepath;
+
+
+	std::ifstream file(SceneDirectory.string());
 	nlohmann::json jsonData = nlohmann::json::parse(file);
 
 	std::cout << "Loading Scene -- Scene name: " << jsonData["scene-name"] << std::endl;
 
 	m_Scene = new Scene();
-	m_Scene->filepath = std::string(filepath);
+	m_Scene->filepath = SceneDirectory.string();
 	m_Scene->Init(&assetManager, jsonData["scene-name"]);
 
 	for(nlohmann::json data : jsonData["relations"])
@@ -208,9 +219,9 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if(componentData["component-type"] == "MeshComponent")
 			{
-				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMesh(true, componentData["component-args"][0].get<std::string>());
 				std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
-				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(componentData["component-args"][2].get<std::string>());
+				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(true, componentData["component-args"][2].get<std::string>());
 				m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);
 			}
 			else if (componentData["component-type"] == "CameraComponent")
@@ -235,7 +246,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if (componentData["component-type"] == "ScriptComponent")
 			{
-				std::shared_ptr<Script> script = assetManager.GetScript(componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Script> script = assetManager.GetScript(true, componentData["component-args"][0].get<std::string>());
 
 				m_Scene->AddComponent<ScriptComponent>(objectID, script);
 				m_Scene->GetECS()->GetObjectComponent<ScriptComponent>(objectID)->m_Script->m_ECS = m_Scene->GetECS();

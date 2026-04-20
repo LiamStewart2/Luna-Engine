@@ -53,19 +53,19 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
         switch (mLinks[linkIndex].mOutputSlotIndex)
         {
         case(0):
-            assetManager->GetMaterial(material->m_Path)->m_Albedo = assetManager->GetTexture("Assets/Textures/default.png");
+            assetManager->GetMaterial(true, material->m_Path)->m_Albedo = assetManager->GetTexture(true, "Assets/Textures/default.png");
             break;
         case(1):
-            assetManager->GetMaterial(material->m_Path)->m_SpecularMap = assetManager->GetTexture("Assets/Textures/default.png");
+            assetManager->GetMaterial(true, material->m_Path)->m_SpecularMap = assetManager->GetTexture(true, "Assets/Textures/default.png");
             break;
         case(2):
-            assetManager->GetMaterial(material->m_Path)->m_NormalMap = assetManager->GetTexture("Assets/Textures/BumpMapFlatColour.png");;
+            assetManager->GetMaterial(true, material->m_Path)->m_NormalMap = assetManager->GetTexture(true, "Assets/Textures/BumpMapFlatColour.png");;
             break;
         case(3):
-            assetManager->GetMaterial(material->m_Path)->m_MetallicMap = assetManager->GetTexture("Assets/Textures/default.png");
+            assetManager->GetMaterial(true, material->m_Path)->m_MetallicMap = assetManager->GetTexture(true, "Assets/Textures/default.png");
             break;
         case(4):
-            assetManager->GetMaterial(material->m_Path)->m_AOMap = assetManager->GetTexture("Assets/Textures/default.png");
+            assetManager->GetMaterial(true, material->m_Path)->m_AOMap = assetManager->GetTexture(true, "Assets/Textures/default.png");
             break;
 
         default:
@@ -98,7 +98,7 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
             {
                 const char* texturePath = (const char*)payload->Data;
 
-                auto tex = assetManager->GetTexture(texturePath);
+                auto tex = assetManager->GetTexture(true, texturePath);
 
                 if (index < textures.size())
                     textures[index] = tex;
@@ -240,11 +240,11 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
             std::shared_ptr<Luna::ITexture> tex = textures[idx];
             switch (link.mOutputSlotIndex)
             {
-            case 0: assetManager->GetMaterial(material->m_Path)->m_Albedo = tex; break;
-            case 1: assetManager->GetMaterial(material->m_Path)->m_SpecularMap = tex; break;
-            case 2: assetManager->GetMaterial(material->m_Path)->m_NormalMap = tex; break;
-            case 3: assetManager->GetMaterial(material->m_Path)->m_MetallicMap = tex; break;
-            case 4: assetManager->GetMaterial(material->m_Path)->m_AOMap = tex; break;
+            case 0: assetManager->GetMaterial(true, material->m_Path)->m_Albedo = tex; break;
+            case 1: assetManager->GetMaterial(true, material->m_Path)->m_SpecularMap = tex; break;
+            case 2: assetManager->GetMaterial(true, material->m_Path)->m_NormalMap = tex; break;
+            case 3: assetManager->GetMaterial(true, material->m_Path)->m_MetallicMap = tex; break;
+            case 4: assetManager->GetMaterial(true, material->m_Path)->m_AOMap = tex; break;
             default: break;
             }
         }

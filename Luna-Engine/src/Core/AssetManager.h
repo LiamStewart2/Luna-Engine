@@ -29,28 +29,32 @@ namespace Luna
 		AssetManager();
 		~AssetManager();
 
+		void SetWorkingDirectory(std::string workingDir) {m_WorkingDirectory = workingDir;}
+
 		// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the image file
-		std::shared_ptr<ITexture> GetTexture(std::string filepath);
+		std::shared_ptr<ITexture> GetTexture(bool UseWorkingDirectory, std::string filepath);
 
 		// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the mesh file
-		std::shared_ptr<IMesh> GetMesh(std::string filepath);
+		std::shared_ptr<IMesh> GetMesh(bool UseWorkingDirectory, std::string filepath);
 
 		// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the shader folder
 		std::shared_ptr<IShader> GetShader(std::string filepath);
 
 
-		std::shared_ptr<Material> GetMaterial(std::string filepath);
+		std::shared_ptr<Material> GetMaterial(bool UseWorkingDirectory, std::string filepath);
 
 
 		// std::shared_ptr<Script> GetScript - Loads a script and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the script file
-		std::shared_ptr<Script> GetScript(std::string filepath);
+		std::shared_ptr<Script> GetScript(bool UseWorkingDirectory, std::string filepath);
 
 
 	private:
+		std::string m_WorkingDirectory;
+
 		std::unordered_map<std::string, std::shared_ptr<ITexture>> m_Textures;
 		std::unordered_map<std::string, std::shared_ptr<IMesh>> m_Meshes;
 		std::unordered_map<std::string, std::shared_ptr<Material>> m_Materials;

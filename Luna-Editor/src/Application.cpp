@@ -27,6 +27,8 @@ int Application::Init()
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);
 
+	m_ProjectManager.OnEditorStart(&sceneManager);
+		
 	Luna::FramebufferSpecification framebufferSpec = {
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		{Luna::FramebufferTextureFormat::RGBA8},
@@ -49,10 +51,7 @@ int Application::Init()
 	m_GameFramebuffer = Luna::IFramebuffer::Create(gameFramebufferSpec);
 	m_Backbuffer = Luna::IFramebuffer::Create(backbufferspec);
 
-
-	sceneManager.LoadNewScene("Assets/Scenes/Template Scene.json");
-
-	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager);
+	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager, &m_ProjectManager);
 
 	return 0;
 }

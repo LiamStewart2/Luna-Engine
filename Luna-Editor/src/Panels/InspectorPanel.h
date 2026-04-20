@@ -13,8 +13,8 @@ public:
 	{
 		if(sceneManager == nullptr) return;
 
-		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/model.png");
-		m_CodeIcon = sceneManager->GetAssetManager()->GetTexture("Assets/Textures/web-programming.png");
+		m_ModelIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/model.png");
+		m_CodeIcon = sceneManager->GetAssetManager()->GetTexture(false, "Assets/Textures/web-programming.png");
 	}
 
 	void Update(unsigned int& inspectorID) override;

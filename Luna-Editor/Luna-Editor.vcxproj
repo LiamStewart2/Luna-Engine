@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Panels\NewProjectPanel.cpp" />
+    <ClCompile Include="src\ProjectManager.cpp" />
     <ClCompile Include="src\Panels\ShaderGraphEditorPanel.cpp" />
     <ClCompile Include="src\imgui\GraphEditor.cpp" />
     <ClCompile Include="src\Panels\MaterialEditorPanel.cpp" />
@@ -171,6 +173,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Panels\NewProjectPanel.h" />
+    <ClInclude Include="src\ProjectManager.h" />
     <ClInclude Include="src\Panels\GraphUtils.h" />
     <ClInclude Include="src\Panels\ShaderGraphEditorPanel.h" />
     <ClInclude Include="src\imgui\GraphEditor.h" />

@@ -3,6 +3,7 @@
 #include "ECS/ECS.h"
 #include "Core/AssetLoader.h"
 #include "ImGuiLayer.h"
+#include "ProjectManager.h"
 
 #include "Luna.h"
 
@@ -34,6 +35,7 @@ private:
 	std::shared_ptr<Luna::RendererContext> m_RendererContext;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;
+	ProjectManager m_ProjectManager;
 
 	std::shared_ptr<Luna::IFramebuffer> m_Framebuffer = nullptr;
 	std::shared_ptr<Luna::IFramebuffer> m_GameFramebuffer = nullptr;
