@@ -19,6 +19,7 @@
 #include "Panels/ScenePanel.h"
 #include "Panels/GamePanel.h"
 #include "Panels/ShaderGraphEditorPanel.h"
+#include "Panels/NewProjectPanel.h"
 
 #include <math.h>
 #include <unordered_map>
@@ -40,6 +41,7 @@ public:
 			m_ScenePanel = ScenePanel(m_SceneManager);
 			m_GamePanel = GamePanel(m_SceneManager);
 			m_ShaderGraphPanel = ShaderGraphEditorPanel(m_SceneManager); m_ShaderGraphPanel.Close();
+			m_NewProjectPanel = NewProjectPanel(m_SceneManager, m_ProjectManager); m_NewProjectPanel.Close();
 		}
 	}
 	~ImGuiLayer() {}
@@ -78,4 +80,5 @@ private:
 	ScenePanel m_ScenePanel; 
 	GamePanel m_GamePanel;
 	ShaderGraphEditorPanel m_ShaderGraphPanel;
+	NewProjectPanel m_NewProjectPanel;
 };

@@ -118,15 +118,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 		{
 			if (ImGui::MenuItem("New Project"))
 			{
-				std::string filepath = "P:\\ProjectName";
-
-				Project project = Project({
-						filepath,
-						std::string("EpicGame"),
-						std::string("Assets\\Template Scene.json")
-					});
-
-				m_ProjectManager->CreateNewProject(m_SceneManager, project);
+				m_NewProjectPanel.Open();
 			}
 
 			if (ImGui::MenuItem("Open Project"))
@@ -202,6 +194,8 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	m_ScenePanel.UpdateGizmos(m_CurrentInspectorGameObject, camera);
 
 	m_ShaderGraphPanel.Update(m_CurrentInspectorGameObject);
+
+	m_NewProjectPanel.Update(&m_ContentBrowserPanel, &m_Actions);
 
 
 	ImGui::PopFont();
