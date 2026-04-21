@@ -1,0 +1,173 @@
+{
+    "objects": [
+        [
+            {
+                "component-args": [
+                    "Scene"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Camera"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    2.0,
+                    -5.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    true,
+                    true
+                ],
+                "component-type": "CameraComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Light"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    4.0,
+                    6.199999809265137,
+                    0.906632661819458,
+                    -0.176076740026474,
+                    0.38313087821006775,
+                    0.014999300241470337,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "component-type": "LightComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "floor"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    10.0,
+                    1.0,
+                    10.0
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "P:\\ProjectName\\Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "P:\\ProjectName\\Assets/Materials/default.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "New Object"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    0.0,
+                    2.080080032348633,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets/Models/planeobj.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Materials\\new_material.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ]
+    ],
+    "relations": [
+        {
+            "Children": [],
+            "ObjectID": 1
+        },
+        {
+            "Children": [],
+            "ObjectID": 2
+        },
+        {
+            "Children": [],
+            "ObjectID": 3
+        },
+        {
+            "Children": [],
+            "ObjectID": 4
+        }
+    ],
+    "scene-name": "Template Scene"
+}

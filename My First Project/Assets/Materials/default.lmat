@@ -1,0 +1,25 @@
+{
+    "Textures": {
+        "AOMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png",
+        "Albedo": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png",
+        "MetallicMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\NonMetallic.png",
+        "NormalMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\BumpMapFlatColour.png",
+        "SpecularMap": "A:\\C++\\Luna-Engine\\Luna-Editor\\Assets\\Textures\\default.png"
+    },
+    "Values": {
+        "AmbientColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "AmbientIntensity": 0.2,
+        "SpecularColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "SpecularIntensity": 0.8
+    }
+}

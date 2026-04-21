@@ -21,9 +21,9 @@ void ImGuiLayer::Init()
 		std::cerr << "CRASHED SILLY" << std::endl;
 
 	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::StyleColorsDark();
 	style.ScaleAllSizes(m_MainScale);
 	style.FontScaleDpi = m_MainScale;
-	ImGui::StyleColorsDark();
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
@@ -90,6 +90,7 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 	if (opt_fullscreen)
 		ImGui::PopStyleVar(2);
 
+
 	// DockSpace
 	ImGuiStyle& style = ImGui::GetStyle();
 	float minWinSizeX = style.WindowMinSize.x;
@@ -100,8 +101,112 @@ void ImGuiLayer::Update(ObjectTransformPairing<Camera>& camera, std::shared_ptr<
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
-
 	style.WindowMinSize.x = minWinSizeX;
+
+	// Geometry
+	style.WindowPadding = ImVec2(10, 10);
+	style.FramePadding = ImVec2(8, 5);
+	style.ItemSpacing = ImVec2(8, 6);
+	style.ItemInnerSpacing = ImVec2(6, 4);
+	style.IndentSpacing = 20.0f;
+	style.ScrollbarSize = 12.0f;
+
+	style.WindowRounding = 6.0f;
+	style.ChildRounding = 6.0f;
+	style.FrameRounding = 4.0f;
+	style.PopupRounding = 6.0f;
+	style.ScrollbarRounding = 6.0f;
+	style.GrabRounding = 4.0f;
+	style.TabRounding = 4.0f;
+
+	style.WindowBorderSize = 1.0f;
+	style.ChildBorderSize = 1.0f;
+	style.FrameBorderSize = 1.0f;
+	style.PopupBorderSize = 1.0f;
+	style.TabBorderSize = 0.0f;
+
+	// Alignment
+	style.WindowTitleAlign = ImVec2(0.0f, 0.5f);
+	style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
+
+	// Colours
+	ImVec4* c = style.Colors;
+
+	// Text
+	c[ImGuiCol_Text] = ImVec4(0.90f, 0.90f, 0.90f, 1.00f); // #E6E6E6
+	c[ImGuiCol_TextDisabled] = ImVec4(0.55f, 0.55f, 0.55f, 1.00f); // #8C8C8C
+
+	// Base
+	c[ImGuiCol_WindowBg] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f); // #1A1A1A
+	c[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 1.00f); // #141414
+	c[ImGuiCol_PopupBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.98f); // #1F1F1F
+
+	// Borders / separators
+	c[ImGuiCol_Border] = ImVec4(0.18f, 0.18f, 0.18f, 1.00f); // #2E2E2E
+	c[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	c[ImGuiCol_Separator] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f); // #333333
+	c[ImGuiCol_SeparatorHovered] = ImVec4(0.32f, 0.32f, 0.32f, 1.00f); // #525252
+	c[ImGuiCol_SeparatorActive] = ImVec4(0.38f, 0.38f, 0.38f, 1.00f); // #616161
+
+	// Frames (inputs, sliders, etc.)
+	c[ImGuiCol_FrameBg] = ImVec4(0.16f, 0.16f, 0.16f, 1.00f); // #292929
+	c[ImGuiCol_FrameBgHovered] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f); // #333333
+	c[ImGuiCol_FrameBgActive] = ImVec4(0.24f, 0.24f, 0.24f, 1.00f); // #3D3D3D
+
+	// Title / menu
+	c[ImGuiCol_TitleBg] = ImVec4(0.07f, 0.07f, 0.07f, 1.00f); // #121212
+	c[ImGuiCol_TitleBgActive] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f); // #1A1A1A
+	c[ImGuiCol_TitleBgCollapsed] = ImVec4(0.07f, 0.07f, 0.07f, 1.00f);
+	c[ImGuiCol_MenuBarBg] = ImVec4(0.09f, 0.09f, 0.09f, 1.00f); // #171717
+
+	// Scrollbar
+	c[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);
+	c[ImGuiCol_ScrollbarGrab] = ImVec4(0.25f, 0.25f, 0.25f, 1.00f); // #404040
+	c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.32f, 0.32f, 0.32f, 1.00f);
+	c[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.38f, 0.38f, 0.38f, 1.00f);
+
+	// Check / radio / slider
+	c[ImGuiCol_CheckMark] = ImVec4(0.85f, 0.85f, 0.85f, 1.00f);
+	c[ImGuiCol_SliderGrab] = ImVec4(0.55f, 0.55f, 0.55f, 1.00f);
+	c[ImGuiCol_SliderGrabActive] = ImVec4(0.75f, 0.75f, 0.75f, 1.00f);
+
+	// Buttons
+	c[ImGuiCol_Button] = ImVec4(0.18f, 0.18f, 0.18f, 1.00f); // #2E2E2E
+	c[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.24f, 0.24f, 1.00f); // #3D3D3D
+	c[ImGuiCol_ButtonActive] = ImVec4(0.30f, 0.30f, 0.30f, 1.00f); // #4D4D4D
+
+	// Headers (tree, selectable)
+	c[ImGuiCol_Header] = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);
+	c[ImGuiCol_HeaderHovered] = ImVec4(0.22f, 0.22f, 0.22f, 1.00f);
+	c[ImGuiCol_HeaderActive] = ImVec4(0.28f, 0.28f, 0.28f, 1.00f);
+
+	// Tabs (docking)
+	c[ImGuiCol_Tab] = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
+	c[ImGuiCol_TabHovered] = ImVec4(0.22f, 0.22f, 0.22f, 1.00f);
+	c[ImGuiCol_TabActive] = ImVec4(0.18f, 0.18f, 0.18f, 1.00f);
+	c[ImGuiCol_TabUnfocused] = ImVec4(0.12f, 0.12f, 0.12f, 1.00f);
+	c[ImGuiCol_TabUnfocusedActive] = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);
+
+	// Docking
+	c[ImGuiCol_DockingPreview] = ImVec4(0.70f, 0.70f, 0.70f, 0.20f);
+	c[ImGuiCol_DockingEmptyBg] = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
+
+	// Tables
+	c[ImGuiCol_TableHeaderBg] = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
+	c[ImGuiCol_TableBorderStrong] = ImVec4(0.22f, 0.22f, 0.22f, 1.00f);
+	c[ImGuiCol_TableBorderLight] = ImVec4(0.18f, 0.18f, 0.18f, 1.00f);
+	c[ImGuiCol_TableRowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	c[ImGuiCol_TableRowBgAlt] = ImVec4(1.00f, 1.00f, 1.00f, 0.03f);
+
+	// Selection / highlights
+	c[ImGuiCol_TextSelectedBg] = ImVec4(0.70f, 0.70f, 0.70f, 0.25f);
+	c[ImGuiCol_DragDropTarget] = ImVec4(0.80f, 0.80f, 0.80f, 0.90f);
+	c[ImGuiCol_NavHighlight] = ImVec4(0.80f, 0.80f, 0.80f, 0.60f);
+	c[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+
+	// Modal
+	c[ImGuiCol_ModalWindowDimBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.50f);
+
 
 	if(ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyDown(ImGuiKey_S) && !m_SaveShortcutUsed)
 	{
