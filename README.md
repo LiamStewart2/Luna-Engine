@@ -37,7 +37,7 @@ https://trello.com/b/48CwuQyq/opengl-engine
 - [x] Project Restructure
 - [x] Scripting implementation
 - [x] Physics Engine
-- [ ] Project files
+- [x] Project files
 - [ ] Run Time
 
 ## 🧠 Author
