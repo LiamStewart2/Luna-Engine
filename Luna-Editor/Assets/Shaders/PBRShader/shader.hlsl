@@ -57,6 +57,7 @@ VS_Out VS_main(float3 Position : POSITION, float2 TextureCoordinate : TEXTURECOO
     output.FragPositionLightSpace = mul(lightSpaceMatrix, worldPos);
     
     output.textureCoord = TextureCoordinate;
+    output.textureCoord.y = 1 - output.textureCoord.y;
     
     
     float3x3 worldmat3 = (float3x3) World;
@@ -163,7 +164,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float3 albedo = albedoMap.Sample(albedoSampler, input.textureCoord);
     albedo = pow(albedo, 2.2);
     float roughness = roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
-    roughness = clamp(roughness, 0.04, 1.0);
+    roughness = 1 - clamp(roughness, 0.04, 1.0);
     float metallic = metallicMap.Sample(metallicSampler, input.textureCoord).r;
     float AO = aoMap.Sample(aoSampler, input.textureCoord).r;
     

@@ -1,0 +1,25 @@
+{
+    "Textures": {
+        "AOMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets/Textures/default.png",
+        "Albedo": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Sofa\\SofaReversiReplica001_COL_4K_METALNESS.jpg",
+        "MetallicMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Sofa\\SofaReversiReplica001_METALNESS_4K_METALNESS.png",
+        "NormalMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Sofa\\SofaReversiReplica001_NRM_4K_METALNESS.png",
+        "SpecularMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Sofa\\SofaReversiReplica001_DISP_4K_METALNESS.jpg"
+    },
+    "Values": {
+        "AmbientColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "AmbientIntensity": 0.2,
+        "SpecularColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "SpecularIntensity": 0.8
+    }
+}

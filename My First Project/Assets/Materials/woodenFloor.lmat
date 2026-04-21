@@ -1,0 +1,25 @@
+{
+    "Textures": {
+        "AOMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Wood\\Poliigon_RattanWeave_6945_AmbientOcclusion.jpg",
+        "Albedo": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Wood\\Poliigon_WoodFloorAsh_4186_BaseColor.jpg",
+        "MetallicMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Wood\\Poliigon_WoodFloorAsh_4186_Metallic.jpg",
+        "NormalMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Wood\\Poliigon_WoodFloorAsh_4186_Normal.png",
+        "SpecularMap": "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Textures\\Wood\\Poliigon_WoodFloorAsh_4186_Roughness.jpg"
+    },
+    "Values": {
+        "AmbientColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "AmbientIntensity": 0.2,
+        "SpecularColour": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "SpecularIntensity": 0.8
+    }
+}

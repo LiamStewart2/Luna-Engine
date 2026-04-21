@@ -32,13 +32,13 @@
             },
             {
                 "component-args": [
-                    0.0,
+                    4.0,
                     2.0,
-                    -5.0,
                     0.0,
-                    0.0,
-                    1.0,
-                    0.0,
+                    0.6830126643180847,
+                    -0.18301275372505188,
+                    0.6830126643180847,
+                    0.18301275372505188,
                     1.0,
                     1.0,
                     1.0
@@ -70,9 +70,9 @@
                     4.0,
                     6.199999809265137,
                     0.906632661819458,
-                    -0.176076740026474,
+                    -0.1760767102241516,
                     0.38313087821006775,
-                    0.014999300241470337,
+                    0.01499929279088974,
                     1.0,
                     1.0,
                     1.0
@@ -100,21 +100,21 @@
                     0.0,
                     0.0,
                     0.0,
+                    0.7071067690849304,
+                    0.0,
+                    0.0,
+                    0.7071067690849304,
                     1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    10.0,
                     1.0,
-                    10.0
+                    1.0
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "P:\\ProjectName\\Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Models\\Plane.obj",
                     "Assets/Shaders/PBRShader/shader.hlsl",
-                    "P:\\ProjectName\\Assets/Materials/default.lmat"
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Materials\\floor.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -122,30 +122,61 @@
         [
             {
                 "component-args": [
-                    "New Object"
+                    "Sofa"
+                ],
+                "component-type": "NameComponent"
+            },
+            {
+                "component-args": [
+                    -0.7470121383666992,
+                    0.0,
+                    -0.581188440322876,
+                    0.985832691192627,
+                    0.0,
+                    -0.16773153841495514,
+                    0.0,
+                    0.9999995231628418,
+                    1.0,
+                    0.9999995231628418
+                ],
+                "component-type": "TransformComponent"
+            },
+            {
+                "component-args": [
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Models\\SofaReversiReplica001_Blender_Cycles.obj",
+                    "Assets/Shaders/PBRShader/shader.hlsl",
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Materials\\sofa.lmat"
+                ],
+                "component-type": "MeshComponent"
+            }
+        ],
+        [
+            {
+                "component-args": [
+                    "Wooden Floor"
                 ],
                 "component-type": "NameComponent"
             },
             {
                 "component-args": [
                     0.0,
-                    2.080080032348633,
+                    0.009999999776482582,
                     0.0,
-                    1.0,
+                    0.7071067690849304,
                     0.0,
                     0.0,
-                    0.0,
-                    0.20000000298023224,
-                    0.20000000298023224,
-                    0.20000000298023224
+                    0.7071067690849304,
+                    0.5,
+                    0.5,
+                    0.5
                 ],
                 "component-type": "TransformComponent"
             },
             {
                 "component-args": [
-                    "A:\\C++\\Luna-Engine\\My First Project\\Assets/Models/planeobj.obj",
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Models\\Plane.obj",
                     "Assets/Shaders/PBRShader/shader.hlsl",
-                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Materials\\new_material.lmat"
+                    "A:\\C++\\Luna-Engine\\My First Project\\Assets\\Materials\\woodenFloor.lmat"
                 ],
                 "component-type": "MeshComponent"
             }
@@ -167,6 +198,10 @@
         {
             "Children": [],
             "ObjectID": 4
+        },
+        {
+            "Children": [],
+            "ObjectID": 5
         }
     ],
     "scene-name": "Template Scene"
