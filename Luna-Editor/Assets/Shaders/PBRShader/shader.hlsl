@@ -164,7 +164,7 @@ float4 PS_main(VS_Out input) : SV_TARGET
     float3 albedo = albedoMap.Sample(albedoSampler, input.textureCoord);
     albedo = pow(albedo, 2.2);
     float roughness = roughnessMap.Sample(roughnessSampler, input.textureCoord).r; // Inverted because testing with glossy materials
-    roughness = 1 - clamp(roughness, 0.04, 1.0);
+    roughness = clamp(roughness, 0.04, 1.0);
     float metallic = metallicMap.Sample(metallicSampler, input.textureCoord).r;
     float AO = aoMap.Sample(aoSampler, input.textureCoord).r;
     
