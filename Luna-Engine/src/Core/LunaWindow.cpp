@@ -106,8 +106,7 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 	// Set GLFW window settings
 	glfwMakeContextCurrent(window->m_WindowHandle);
 	glfwMaximizeWindow(window->m_WindowHandle);
-	glfwSwapInterval(0);
-	
+	glfwSwapInterval(1);
 
 	// Only set is running to true if all phases of init pass
 	window->m_IsRunning = true;

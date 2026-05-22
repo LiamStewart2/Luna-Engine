@@ -8,7 +8,6 @@
 #include "Luna.h"
 
 #include <windows.h>
-#include <thread>
 #include <d3d11_4.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -21,7 +20,6 @@ public:
 private:
 	LunaWindow* window;
 	bool runtime = false;
-	bool m_Running = false;
 
 	int Init();
 	void Terminate();

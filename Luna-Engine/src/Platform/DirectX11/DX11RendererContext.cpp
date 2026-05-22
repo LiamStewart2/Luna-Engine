@@ -45,7 +45,7 @@ namespace Luna
 
 	void DX11RendererContext::SwapBuffers()
 	{
-		m_SwapChain->Present(0, 0);
+		m_SwapChain->Present(1, 0);
 	}
 
 	void DX11RendererContext::CreateD3DDevice()
