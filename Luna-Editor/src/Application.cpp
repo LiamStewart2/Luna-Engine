@@ -65,6 +65,9 @@ void Application::MainLoop()
 {
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
+	m_Running = true;
+
+	std::thread t = std::thread(&Application::Update, this);
 
 	while (!window->ShouldClose())
 	{
@@ -78,15 +81,17 @@ void Application::MainLoop()
 			frameCount = 0;
 			lastTime = currentTime;
 		}
-		HandleInput();
-
-		Update();
 
 		Render();
+
+		editorCamera.Update();
 
 		window->Update();
 		m_RendererContext->SwapBuffers();
 	}
+
+	m_Running = false;
+	t.join();
 	sceneManager.UnloadCurrentScene();
 	LunaWindow::CloseWindow(window);
 }
@@ -104,18 +109,27 @@ void Application::ResizeCallback(GLFWwindow* handle, int width, int height)
 
 void Application::Update()
 {
-	sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
+	double lastTime = glfwGetTime();
+	int frameCount = 0;
+	while(m_Running)
+	{
 
-	sceneManager.Update(runtime);
-	
+		double currentTime = glfwGetTime();
+		frameCount++;
+		if (currentTime - lastTime >= 1.0)
+		{
+			std::string title = "FPS: " + std::to_string(frameCount);
+			std::cout << title.c_str() << std::endl;
 
+			frameCount = 0;
+			lastTime = currentTime;
+		}
 
-	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
-	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-	
-	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime, m_GameFramebuffer);
-	
-	editorCamera.Update();
+		HandleInput();
+		sceneManager.GetCurrentScene()->GetScriptManager()->RecompileUpdatedScripts(sceneManager.GetCurrentScene()->GetECS());
+
+		sceneManager.Update(runtime);
+	}
 }
 
 void Application::Render()
@@ -123,7 +137,7 @@ void Application::Render()
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };
-
+	imGuiLayer.Update(cameraPair, m_Framebuffer, runtime, m_GameFramebuffer);
 	m_Framebuffer->Bind();
 
 	float editorBackground[4] = {0.2f, 0.2f, 0.2f, 1.0f};
