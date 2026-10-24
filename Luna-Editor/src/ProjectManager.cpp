@@ -79,7 +79,7 @@ void ProjectManager::CreateNewProject(SceneManager* sceneManager, const Project&
 	virtualScene.AddComponent<NameComponent>(floor, "floor");
 	virtualScene.AddComponent<Transform>(floor, glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 1, 5));
 	virtualScene.AddComponent<MeshComponent>(floor,
-		assetManager->GetMesh(true, "Assets/Models/planeobj.obj").get(),
+		assetManager->GetMeshSynchronous(true, "Assets/Models/planeobj.obj"),
 		assetManager->GetShader("Assets/Shaders/PBRShader/shader.hlsl").get(),
 		assetManager->GetMaterial(true, "Assets/Materials/default.lmat"));
 

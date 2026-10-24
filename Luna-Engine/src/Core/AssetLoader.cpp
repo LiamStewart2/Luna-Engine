@@ -20,6 +20,7 @@ Collection of file loading methods for various object types currently including
 // const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 namespace Luna
 {
+	ConcurrentQueue<MeshData> AssetLoader::s_MeshQueue = ConcurrentQueue<MeshData>();
 	inline int FastAtoi3(char*& p)
 	{
 		int value = (p[0] - '0');
@@ -34,9 +35,27 @@ namespace Luna
 		return value;
 	}
 
-	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<IMesh>* mesh, const char* filepath)
+	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<IMesh> mesh, const char* filepath)
 	{
+		MeshData meshData;
 
+		meshData.m_PointerToMeshPointer = &mesh;
+		meshData.m_filepath = filepath;
+
+		LoadMeshFromOBJ(filepath, &meshData);
+		
+		s_MeshQueue.Push(meshData);
+	}
+
+	void AssetLoader::CreateMeshesFromQueue()
+	{
+		while (!s_MeshQueue.isEmpty())
+		{
+			MeshData mesh = s_MeshQueue.Pop();
+			
+			*mesh.m_PointerToMeshPointer = IMesh::Create(mesh.m_VertexBuffer, mesh.m_IndexBuffer);
+			(*mesh.m_PointerToMeshPointer)->m_Path = std::string(mesh.m_filepath);
+		}
 	}
 
 	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath)

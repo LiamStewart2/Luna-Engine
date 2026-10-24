@@ -137,14 +137,14 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::Text("Mesh:"); 
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(component->mesh->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->mesh->get()->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
-					component->mesh = m_SceneManager->GetAssetManager()->GetMesh(true, fpath).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMeshSynchronous(true, fpath);
 			}
 
 			if (ImGui::BeginDragDropTarget())
@@ -152,7 +152,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MODEL"))
 				{
 					const char* path = (const char*)payload->Data;
-					component->mesh = m_SceneManager->GetAssetManager()->GetMesh(true, path).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMeshSynchronous(true, path);
 				}
 				ImGui::EndDragDropTarget();
 			}

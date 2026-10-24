@@ -16,6 +16,8 @@
 #include "../Renderer/ITexture.h"
 #include "../Renderer/IMesh.h"
 #include "../Renderer/Material.h"
+#include "../Core/ConcurrentQueue.h"
+#include "../ECS/MeshComponent.h"
 
 /*
 Collection of file loading methods for various object types currently including
@@ -26,6 +28,8 @@ namespace Luna
 {
 	struct MeshData
 	{
+		std::shared_ptr<IMesh>* m_PointerToMeshPointer;
+		const char* m_filepath;
 		std::vector<Vertex> m_VertexBuffer;
 		std::vector<unsigned int> m_IndexBuffer;
 	};
@@ -45,7 +49,8 @@ namespace Luna
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 		static void LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath);
 
-		static void LoadMeshOBJSynchronous(std::shared_ptr<IMesh>* mesh, const char* filepath);
+		static void LoadMeshOBJSynchronous(std::shared_ptr<IMesh> mesh, const char* filepath);
+		static void CreateMeshesFromQueue();
 
 	private:
 		// Buffers for loading Meshes
@@ -53,6 +58,7 @@ namespace Luna
 		
 		static void LoadMeshFromOBJ(const char* filepath, MeshData* mesh);
 
+		static ConcurrentQueue<MeshData> s_MeshQueue;
 	};
 }
 

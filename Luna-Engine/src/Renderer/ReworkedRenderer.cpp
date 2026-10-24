@@ -63,26 +63,28 @@ namespace Luna
 			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				meshComponent.shader->Bind();
-				if(meshComponent.mesh)
-					meshComponent.mesh->BindMesh();
-				
-				if(meshComponent.material->m_Albedo != nullptr)
-					meshComponent.material->m_Albedo->BindTexture(0);
-				if(meshComponent.material->m_SpecularMap != nullptr)
-					meshComponent.material->m_SpecularMap->BindTexture(1);
-				if(meshComponent.material->m_NormalMap != nullptr)
-					meshComponent.material->m_NormalMap->BindTexture(3);
-				if(meshComponent.material->m_MetallicMap != nullptr)
-					meshComponent.material->m_MetallicMap->BindTexture(4);
-				if(meshComponent.material->m_AOMap != nullptr)
-					meshComponent.material->m_AOMap->BindTexture(5);
+				if(meshComponent.mesh->get())
+				{
+					meshComponent.shader->Bind();
+					meshComponent.mesh->get()->BindMesh();
 
-				ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
+					if (meshComponent.material->m_Albedo != nullptr)
+						meshComponent.material->m_Albedo->BindTexture(0);
+					if (meshComponent.material->m_SpecularMap != nullptr)
+						meshComponent.material->m_SpecularMap->BindTexture(1);
+					if (meshComponent.material->m_NormalMap != nullptr)
+						meshComponent.material->m_NormalMap->BindTexture(3);
+					if (meshComponent.material->m_MetallicMap != nullptr)
+						meshComponent.material->m_MetallicMap->BindTexture(4);
+					if (meshComponent.material->m_AOMap != nullptr)
+						meshComponent.material->m_AOMap->BindTexture(5);
 
-				s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
+					ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
-				meshComponent.shader->Unbind();
+					s_RendererAPI->RenderIndexed(meshComponent.mesh->get()->GetIndexCount(), &transformIt->second, meshComponent.material);
+
+					meshComponent.shader->Unbind();
+				}
 			}
 		}
 
