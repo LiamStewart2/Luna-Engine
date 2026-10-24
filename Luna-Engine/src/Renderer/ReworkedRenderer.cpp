@@ -63,10 +63,10 @@ namespace Luna
 			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				if(meshComponent.mesh->get())
+				if(meshComponent.mesh)
 				{
 					meshComponent.shader->Bind();
-					meshComponent.mesh->get()->BindMesh();
+					meshComponent.mesh->BindMesh();
 
 					if (meshComponent.material->m_Albedo != nullptr)
 						meshComponent.material->m_Albedo->BindTexture(0);
@@ -81,7 +81,7 @@ namespace Luna
 
 					ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
-					s_RendererAPI->RenderIndexed(meshComponent.mesh->get()->GetIndexCount(), &transformIt->second, meshComponent.material);
+					s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
 
 					meshComponent.shader->Unbind();
 				}

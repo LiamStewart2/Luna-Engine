@@ -44,11 +44,11 @@ namespace Luna
 			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				if(meshComponent.mesh->get() != nullptr)
+				if(meshComponent.mesh != nullptr)
 				{
-					meshComponent.mesh->get()->BindMesh();
+					meshComponent.mesh->BindMesh();
 
-					rendererAPI->RenderIndexed(meshComponent.mesh->get()->GetIndexCount(), &transformIt->second, nullptr);
+					rendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, nullptr);
 				}
 			}
 		}

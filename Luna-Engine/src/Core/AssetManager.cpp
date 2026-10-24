@@ -57,7 +57,7 @@ namespace Luna
 		return m_Meshes[filepath];
 	}
 
-	std::shared_ptr<IMesh>* AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<IMesh> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -72,7 +72,7 @@ namespace Luna
 			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
 			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath.c_str());
 		}
-		return &m_Meshes[filepath];
+		return m_Meshes[filepath];
 	}
 
 	// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
