@@ -20,24 +20,6 @@ Collection of file loading methods for various object types currently including
 // const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 namespace Luna
 {
-
-	glm::vec3* AssetLoader::s_VertexPositionBuffer = nullptr;
-	glm::vec3* AssetLoader::s_VertexNormalBuffer = nullptr;
-	glm::vec2* AssetLoader::s_VertexTextureCoordBuffer = nullptr;
-
-	unsigned int* AssetLoader::s_IndexBuffer = nullptr;
-	Vertex* AssetLoader::s_VertexBuffer = nullptr;
-
-	void AssetLoader::SetupBuffers()
-	{
-		s_VertexPositionBuffer = new glm::vec3[s_BufferSize];
-		s_VertexNormalBuffer = new glm::vec3[s_BufferSize];
-		s_VertexTextureCoordBuffer = new glm::vec2[s_BufferSize];
-
-		s_IndexBuffer = new unsigned int[s_BufferSize];
-		s_VertexBuffer = new Vertex[s_BufferSize];
-	}
-
 	inline int FastAtoi3(char*& p)
 	{
 		int value = (p[0] - '0');
@@ -52,9 +34,24 @@ namespace Luna
 		return value;
 	}
 
+	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<IMesh>* mesh, const char* filepath)
+	{
+
+	}
+
 	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath)
 	{
-		const auto start{std::chrono::steady_clock::now()};
+		MeshData meshData;
+
+		LoadMeshFromOBJ(filepath, &meshData);
+		
+		mesh = IMesh::Create(meshData.m_VertexBuffer, meshData.m_IndexBuffer);
+		mesh->m_Path = std::string(filepath);
+	}
+
+	void AssetLoader::LoadMeshFromOBJ(const char* filepath, MeshData* mesh)
+	{
+		const auto start{ std::chrono::steady_clock::now() };
 		// stop the process if filepath is invalid
 		// this wont crash anything, but will result in the mesh buffers being empty - nothing will render
 
@@ -68,17 +65,28 @@ namespace Luna
 			return;
 		}
 
-		if(s_VertexPositionBuffer == nullptr)
-			SetupBuffers();
-
 		char lineBuffer[200];
 
 		// allocate arrays and maps
 		unsigned int vertexPositionsCounter = 0;
 		unsigned int vertexNormalsCounter = 0;
 		unsigned int vertexTextureCoordCounter = 0;
-		unsigned int indexCounter = 0; 
+		unsigned int indexCounter = 0;
 		unsigned int vertexCounter = 0;
+
+		glm::vec3* vertexPositionBuffer;
+		glm::vec3* vertexNormalBuffer;
+		glm::vec2* vertexTextureCoordBuffer;
+
+		unsigned int* indexBuffer;
+		Vertex* vertexBuffer;
+
+		vertexPositionBuffer = new glm::vec3[s_BufferSize];
+		vertexNormalBuffer = new glm::vec3[s_BufferSize];
+		vertexTextureCoordBuffer = new glm::vec2[s_BufferSize];
+
+		indexBuffer = new unsigned int[s_BufferSize];
+		vertexBuffer = new Vertex[s_BufferSize];
 
 		Vertex currentVertex;
 		int positionIndex;
@@ -92,11 +100,11 @@ namespace Luna
 		char* ending;
 
 		bool firstTime = false;
-		
+
 		// Go through all lines again, parsing data
 		while (fgets(lineBuffer, 200, fptr))
 		{
-			if(lineBuffer[0] == 'v')
+			if (lineBuffer[0] == 'v')
 			{
 				if (lineBuffer[1] == ' ')
 				{
@@ -104,7 +112,7 @@ namespace Luna
 					vertexPos.y = strtof(ending, &ending);
 					vertexPos.z = strtof(ending, NULL);
 
-					s_VertexPositionBuffer[vertexPositionsCounter] = vertexPos;
+					vertexPositionBuffer[vertexPositionsCounter] = vertexPos;
 					vertexPositionsCounter++;
 				}
 				else if (lineBuffer[1] == 'n')
@@ -113,7 +121,7 @@ namespace Luna
 					vertexNorm.y = strtof(ending, &ending);
 					vertexNorm.z = strtof(ending, NULL);
 
-					s_VertexNormalBuffer[vertexNormalsCounter] = vertexNorm;
+					vertexNormalBuffer[vertexNormalsCounter] = vertexNorm;
 					vertexNormalsCounter++;
 				}
 				else if (lineBuffer[1] == 't')
@@ -121,11 +129,11 @@ namespace Luna
 					vertexTexCoord.x = strtof(lineBuffer + 3, &ending);
 					vertexTexCoord.y = strtof(ending, NULL);
 
-					s_VertexTextureCoordBuffer[vertexTextureCoordCounter] = vertexTexCoord;
+					vertexTextureCoordBuffer[vertexTextureCoordCounter] = vertexTexCoord;
 					vertexTextureCoordCounter++;
 				}
 			}
-			else if(lineBuffer[0] == 'f')
+			else if (lineBuffer[0] == 'f')
 			{
 				if (lineBuffer[1] == ' ')
 				{
@@ -137,12 +145,12 @@ namespace Luna
 						textureCoordIndex = FastAtoi3(ending) - 1; ending++;
 						normalIndex = FastAtoi3(ending) - 1; if (*ending == ' ') ending++;
 
-						currentVertex.Position = s_VertexPositionBuffer[positionIndex];
-						currentVertex.TextureCoordinate = s_VertexTextureCoordBuffer[textureCoordIndex];
-						currentVertex.Normal = s_VertexNormalBuffer[normalIndex];
+						currentVertex.Position = vertexPositionBuffer[positionIndex];
+						currentVertex.TextureCoordinate = vertexTextureCoordBuffer[textureCoordIndex];
+						currentVertex.Normal = vertexNormalBuffer[normalIndex];
 
-						s_IndexBuffer[indexCounter] = vertexCounter;
-						s_VertexBuffer[vertexCounter] = currentVertex;
+						indexBuffer[indexCounter] = vertexCounter;
+						vertexBuffer[vertexCounter] = currentVertex;
 
 						indexCounter++;
 						vertexCounter++;
@@ -166,12 +174,12 @@ namespace Luna
 
 		for (unsigned int i = 0; i < indexCounter; i += 3)
 		{
-			i0 = s_IndexBuffer[i + 0]; i1 = s_IndexBuffer[i + 1]; i2 = s_IndexBuffer[i + 2];
-			v = s_VertexBuffer[i1].Position - s_VertexBuffer[i0].Position;
-			w = s_VertexBuffer[i2].Position - s_VertexBuffer[i0].Position;
+			i0 = indexBuffer[i + 0]; i1 = indexBuffer[i + 1]; i2 = indexBuffer[i + 2];
+			v = vertexBuffer[i1].Position - vertexBuffer[i0].Position;
+			w = vertexBuffer[i2].Position - vertexBuffer[i0].Position;
 
-			sx = s_VertexBuffer[i1].TextureCoordinate.x - s_VertexBuffer[i0].TextureCoordinate.x; sy = s_VertexBuffer[i1].TextureCoordinate.y - s_VertexBuffer[i0].TextureCoordinate.y;
-			tx = s_VertexBuffer[i2].TextureCoordinate.x - s_VertexBuffer[i0].TextureCoordinate.x; ty = s_VertexBuffer[i2].TextureCoordinate.y - s_VertexBuffer[i0].TextureCoordinate.y;
+			sx = vertexBuffer[i1].TextureCoordinate.x - vertexBuffer[i0].TextureCoordinate.x; sy = vertexBuffer[i1].TextureCoordinate.y - vertexBuffer[i0].TextureCoordinate.y;
+			tx = vertexBuffer[i2].TextureCoordinate.x - vertexBuffer[i0].TextureCoordinate.x; ty = vertexBuffer[i2].TextureCoordinate.y - vertexBuffer[i0].TextureCoordinate.y;
 			dirCorrection = (tx * sy - ty * sx) < 0.0f ? -1.0f : 1.0f;
 
 			if (sx * ty == sy * tx)
@@ -187,26 +195,22 @@ namespace Luna
 
 			for (int j = 0; j < 3; j++)
 			{
-				tangentIndex = s_IndexBuffer[i + j];
+				tangentIndex = indexBuffer[i + j];
 
-				localTangent = tangent - s_VertexBuffer[tangentIndex].Normal * (tangent * s_VertexBuffer[tangentIndex].Normal);
-				localBitangent = bitangent - s_VertexBuffer[tangentIndex].Normal * (bitangent * s_VertexBuffer[tangentIndex].Normal);
+				localTangent = tangent - vertexBuffer[tangentIndex].Normal * (tangent * vertexBuffer[tangentIndex].Normal);
+				localBitangent = bitangent - vertexBuffer[tangentIndex].Normal * (bitangent * vertexBuffer[tangentIndex].Normal);
 
-				s_VertexBuffer[tangentIndex].Tangent = glm::normalize(localTangent);
-				s_VertexBuffer[tangentIndex].Bitangent = glm::normalize(localBitangent);
+				vertexBuffer[tangentIndex].Tangent = glm::normalize(localTangent);
+				vertexBuffer[tangentIndex].Bitangent = glm::normalize(localBitangent);
 			}
 		}
 
-		std::vector<Vertex> verts(s_VertexBuffer, s_VertexBuffer + vertexCounter);
-		std::vector<unsigned int> inds(s_IndexBuffer, s_IndexBuffer + indexCounter);
-
-
-		mesh = IMesh::Create(verts, inds);
-		mesh->m_Path = std::string(filepath);
+		mesh->m_VertexBuffer = std::vector<Vertex>(vertexBuffer, vertexBuffer + vertexCounter);
+		mesh->m_IndexBuffer = std::vector<unsigned int>(indexBuffer, indexBuffer + indexCounter);
 
 		const auto finish{ std::chrono::steady_clock::now() };
 		const auto elapsed_seconds_finished = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start);
-		std::cout << "Mesh Loaded - " << mesh->m_Path << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
+		std::cout << "Mesh Loaded - " << filepath << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
 	}
 
 

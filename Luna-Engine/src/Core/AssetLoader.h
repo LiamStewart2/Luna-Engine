@@ -24,6 +24,12 @@ Collection of file loading methods for various object types currently including
 */
 namespace Luna
 {
+	struct MeshData
+	{
+		std::vector<Vertex> m_VertexBuffer;
+		std::vector<unsigned int> m_IndexBuffer;
+	};
+
 	class AssetLoader
 	{
 	public:
@@ -39,18 +45,13 @@ namespace Luna
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 		static void LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath);
 
+		static void LoadMeshOBJSynchronous(std::shared_ptr<IMesh>* mesh, const char* filepath);
+
 	private:
 		// Buffers for loading Meshes
 		static const unsigned int s_BufferSize = 800000;
-
-		static glm::vec3* s_VertexPositionBuffer;
-		static glm::vec3* s_VertexNormalBuffer;
-		static glm::vec2* s_VertexTextureCoordBuffer;
-
-		static unsigned int* s_IndexBuffer;
-		static Vertex* s_VertexBuffer;
-
-		static void SetupBuffers();
+		
+		static void LoadMeshFromOBJ(const char* filepath, MeshData* mesh);
 
 	};
 }

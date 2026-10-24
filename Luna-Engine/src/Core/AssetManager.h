@@ -38,6 +38,9 @@ namespace Luna
 		// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the mesh file
 		std::shared_ptr<IMesh> GetMesh(bool UseWorkingDirectory, std::string filepath);
+		
+		std::shared_ptr<IMesh> GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath);
+
 
 		// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the shader folder

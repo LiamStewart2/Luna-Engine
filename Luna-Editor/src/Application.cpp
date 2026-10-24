@@ -120,6 +120,9 @@ void Application::Update()
 
 void Application::Render()
 {
+	// For the switch to a module system:
+	//	The module system will have to take 2 render calls for each scene. in theory these can be done simultaneously (but DX11 wouldn't allow that)
+	//	the job system should have two tasks for this render, taking arguments for the differences, maybe we could have a "render_pass" struct to tell the differences
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };

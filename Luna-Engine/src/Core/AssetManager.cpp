@@ -1,9 +1,7 @@
 // Luna Engine - AssetManager
 
 /*
-	Uses Luna Engine - AssetLoader to load and manage buffers of all assets used in the lifetime of an application
-
-	ToDo: For each asset type, check the file extension and use corresponding functions to make loading assets smoother
+	Uses Luna::AssetLoader to load and manage buffers of all assets used in the lifetime of a scene
 */
 
 #include "AssetManager.h"
@@ -52,12 +50,28 @@ namespace Luna
 
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
-
 			std::cout << filepath << std::endl;
 			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
 			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath.c_str());
 		}
 		return m_Meshes[filepath];
+	}
+
+	std::shared_ptr<IMesh> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
+	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
+		if (m_Meshes.find(filepath) == m_Meshes.end())
+		{
+			std::cout << "Start loading: " << filepath << std::endl;
+			
+		}
+		return nullptr;
 	}
 
 	// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
