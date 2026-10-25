@@ -36,7 +36,7 @@ namespace Luna
 		return value;
 	}
 
-	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath)
+	void AssetLoader::LoadMeshOBJAsynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath)
 	{
 		MeshData* meshData = new MeshData();
 

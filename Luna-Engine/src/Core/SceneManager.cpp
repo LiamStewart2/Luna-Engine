@@ -219,7 +219,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if(componentData["component-type"] == "MeshComponent")
 			{
-				std::shared_ptr<Luna::MeshHandle> mesh = assetManager.GetMeshSynchronous(true, componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Luna::MeshHandle> mesh = assetManager.GetMeshAsynchronous(true, componentData["component-args"][0].get<std::string>());
 				std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
 				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(true, componentData["component-args"][2].get<std::string>());
 				m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);

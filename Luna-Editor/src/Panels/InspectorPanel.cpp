@@ -144,7 +144,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 					{L"All Files", L"*.*"}
 					}, 1);
 				if (!fpath.empty())
-					component->mesh = m_SceneManager->GetAssetManager()->GetMeshSynchronous(true, fpath).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMeshAsynchronous(true, fpath).get();
 			}
 
 			if (ImGui::BeginDragDropTarget())
@@ -152,7 +152,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM_MODEL"))
 				{
 					const char* path = (const char*)payload->Data;
-					component->mesh = m_SceneManager->GetAssetManager()->GetMeshSynchronous(true, path).get();
+					component->mesh = m_SceneManager->GetAssetManager()->GetMeshAsynchronous(true, path).get();
 				}
 				ImGui::EndDragDropTarget();
 			}
