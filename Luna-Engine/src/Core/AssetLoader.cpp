@@ -20,7 +20,8 @@ Collection of file loading methods for various object types currently including
 // const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 namespace Luna
 {
-	ConcurrentQueue<MeshData> AssetLoader::s_MeshQueue = ConcurrentQueue<MeshData>();
+	ConcurrentQueue<MeshData*> AssetLoader::s_MeshQueue = ConcurrentQueue<MeshData*>();
+	std::vector<std::thread> AssetLoader::s_WorkerThreads = std::vector<std::thread>();
 	inline int FastAtoi3(char*& p)
 	{
 		int value = (p[0] - '0');
@@ -35,40 +36,52 @@ namespace Luna
 		return value;
 	}
 
-	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<IMesh> mesh, const char* filepath)
+	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath)
 	{
-		MeshData meshData;
+		MeshData* meshData = new MeshData();
 
-		meshData.m_PointerToMeshPointer = &mesh;
-		meshData.m_filepath = filepath;
+		meshData->m_MeshHandle = mesh;
+		meshData->m_filepath = filepath;
+		mesh->m_HandleState = AssetHandleState::Loading;
 
-		LoadMeshFromOBJ(filepath, &meshData);
-		
-		s_MeshQueue.Push(meshData);
+		s_WorkerThreads.emplace_back(LoadMeshFromOBJ, meshData);
+	}
+
+	void AssetLoader::CleanupThreads()
+	{
+		for (int i = 0; i < s_WorkerThreads.size(); i++)
+		{
+			s_WorkerThreads[i].join();
+		}
+		s_WorkerThreads.clear();
 	}
 
 	void AssetLoader::CreateMeshesFromQueue()
 	{
 		while (!s_MeshQueue.isEmpty())
 		{
-			MeshData mesh = s_MeshQueue.Pop();
+			MeshData* mesh = s_MeshQueue.Pop();
 			
-			*mesh.m_PointerToMeshPointer = IMesh::Create(mesh.m_VertexBuffer, mesh.m_IndexBuffer);
-			(*mesh.m_PointerToMeshPointer)->m_Path = std::string(mesh.m_filepath);
+			mesh->m_MeshHandle->m_MeshReference = IMesh::Create(mesh->m_VertexBuffer, mesh->m_IndexBuffer);
+			mesh->m_MeshHandle->m_MeshReference->m_Path = std::string(mesh->m_filepath);
+			mesh->m_MeshHandle->m_HandleState = AssetHandleState::Loaded;
+
+			delete mesh;
 		}
 	}
 
-	void AssetLoader::LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath)
+	void AssetLoader::LoadMeshOBJ(std::shared_ptr<MeshHandle>& mesh, std::string filepath)
 	{
-		MeshData meshData;
+		MeshData* meshData = new MeshData();
 
-		LoadMeshFromOBJ(filepath, &meshData);
-		
-		mesh = IMesh::Create(meshData.m_VertexBuffer, meshData.m_IndexBuffer);
-		mesh->m_Path = std::string(filepath);
+		meshData->m_MeshHandle = mesh;
+		meshData->m_filepath = filepath;
+		mesh->m_HandleState = AssetHandleState::Loading;
+
+		LoadMeshFromOBJ(meshData);
 	}
 
-	void AssetLoader::LoadMeshFromOBJ(const char* filepath, MeshData* mesh)
+	void AssetLoader::LoadMeshFromOBJ(MeshData* mesh)
 	{
 		const auto start{ std::chrono::steady_clock::now() };
 		// stop the process if filepath is invalid
@@ -76,11 +89,11 @@ namespace Luna
 
 
 		FILE* fptr;
-		fopen_s(&fptr, filepath, "r");
+		fopen_s(&fptr, mesh->m_filepath.c_str(), "r");
 
 		if (fptr == NULL)
 		{
-			std::cerr << "Cannot open file: " << filepath << std::endl;
+			std::cerr << "Cannot open file: " << mesh->m_filepath << std::endl;
 			return;
 		}
 
@@ -229,7 +242,9 @@ namespace Luna
 
 		const auto finish{ std::chrono::steady_clock::now() };
 		const auto elapsed_seconds_finished = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start);
-		std::cout << "Mesh Loaded - " << filepath << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
+		std::cout << "Mesh Loaded - " << mesh->m_filepath << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
+	
+		s_MeshQueue.Push(mesh);
 	}
 
 

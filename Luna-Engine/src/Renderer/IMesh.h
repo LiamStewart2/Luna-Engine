@@ -4,9 +4,18 @@
 #include <vector>
 #include <memory>
 #include "GLM/glm.hpp"
+#include "AssetHandle.h"
 
 namespace Luna
 {
+	class IMesh;
+
+	struct MeshHandle
+	{
+		std::shared_ptr<IMesh> m_MeshReference = nullptr;
+		AssetHandleState m_HandleState = AssetHandleState::None;
+	};
+	
 	struct Vertex
 	{
 		glm::vec3 Position;

@@ -73,7 +73,7 @@ void SceneManager::SaveSceneAs(Scene* scene, std::string path)
 			MeshComponent* component = scene->GetECS()->GetObjectComponent<MeshComponent>(scene->GetGameObjects()->at(i));
 			objectComponents.push_back({
 				{"component-type", "MeshComponent"},
-				{"component-args", {component->mesh->m_Path, component->shader->m_Path, component->material->m_Path}}});
+				{"component-args", {component->mesh->m_MeshReference->m_Path, component->shader->m_Path, component->material->m_Path}}});
 		}
 
 		if (scene->GetECS()->HasComponent<CameraComponent>(scene->GetGameObjects()->at(i)))
@@ -219,7 +219,7 @@ void SceneManager::LoadRelations(const nlohmann::json& originalData, const nlohm
 			}
 			else if(componentData["component-type"] == "MeshComponent")
 			{
-				std::shared_ptr<Luna::IMesh> mesh = assetManager.GetMeshSynchronous(true, componentData["component-args"][0].get<std::string>());
+				std::shared_ptr<Luna::MeshHandle> mesh = assetManager.GetMeshSynchronous(true, componentData["component-args"][0].get<std::string>());
 				std::shared_ptr<Luna::IShader> shader = assetManager.GetShader(componentData["component-args"][1].get<std::string>());
 				std::shared_ptr<Luna::Material> material = assetManager.GetMaterial(true, componentData["component-args"][2].get<std::string>());
 				m_Scene->AddComponent<MeshComponent>(objectID, mesh.get(), shader.get(), material);

@@ -28,8 +28,8 @@ namespace Luna
 {
 	struct MeshData
 	{
-		std::shared_ptr<IMesh>* m_PointerToMeshPointer;
-		const char* m_filepath;
+		std::shared_ptr<MeshHandle> m_MeshHandle;
+		std::string m_filepath;
 		std::vector<Vertex> m_VertexBuffer;
 		std::vector<unsigned int> m_IndexBuffer;
 	};
@@ -47,18 +47,20 @@ namespace Luna
 		// OBJ files must be triangulated and only contain one mesh
 		// std::shared_ptr<Mesh> mesh - a reference to the mesh object the data should be loaded into
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
-		static void LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath);
+		static void LoadMeshOBJ(std::shared_ptr<MeshHandle>& mesh, std::string filepath);
 
-		static void LoadMeshOBJSynchronous(std::shared_ptr<IMesh> mesh, const char* filepath);
+		static void LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath);
 		static void CreateMeshesFromQueue();
+		static void CleanupThreads();
 
 	private:
 		// Buffers for loading Meshes
 		static const unsigned int s_BufferSize = 800000;
 		
-		static void LoadMeshFromOBJ(const char* filepath, MeshData* mesh);
+		static void LoadMeshFromOBJ(MeshData* mesh);
 
-		static ConcurrentQueue<MeshData> s_MeshQueue;
+		static ConcurrentQueue<MeshData*> s_MeshQueue;
+		static std::vector<std::thread> s_WorkerThreads;
 	};
 }
 

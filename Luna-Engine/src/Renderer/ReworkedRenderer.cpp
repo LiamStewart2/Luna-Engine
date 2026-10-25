@@ -63,10 +63,11 @@ namespace Luna
 			auto transformIt = transforms.find(meshComponent.gameObject);
 			if (transformIt != transforms.end())
 			{
-				if(meshComponent.mesh)
+				if(meshComponent.mesh->m_HandleState == AssetHandleState::Loaded)
 				{
+					IMesh* mesh = meshComponent.mesh->m_MeshReference.get();
 					meshComponent.shader->Bind();
-					meshComponent.mesh->BindMesh();
+					mesh->BindMesh();
 
 					if (meshComponent.material->m_Albedo != nullptr)
 						meshComponent.material->m_Albedo->BindTexture(0);
@@ -81,7 +82,7 @@ namespace Luna
 
 					ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 
-					s_RendererAPI->RenderIndexed(meshComponent.mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
+					s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &transformIt->second, meshComponent.material);
 
 					meshComponent.shader->Unbind();
 				}
@@ -114,12 +115,15 @@ namespace Luna
 
 		if (cameras[mainCameraID].m_UseSkybox)
 		{
-			s_RendererAPI->StartSkybox(sceneManager);
-			std::shared_ptr<IMesh> mesh = sceneManager->GetAssetManager()->GetMesh(false, "Assets/Models/skybox.obj");
-			sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
-			mesh->BindMesh();
-			Transform skyboxTransform = Transform(0);
-			s_RendererAPI->RenderIndexed(mesh->GetIndexCount(), &skyboxTransform, nullptr);
+			std::shared_ptr<MeshHandle> mesh = sceneManager->GetAssetManager()->GetMesh(false, "Assets/Models/skybox.obj");
+			if(mesh->m_HandleState == AssetHandleState::Loaded)
+			{
+				s_RendererAPI->StartSkybox(sceneManager);
+				sceneManager->GetAssetManager()->GetShader("Assets/Shaders/SkyboxShader/skybox.hlsl")->Bind();
+				mesh->m_MeshReference->BindMesh();
+				Transform skyboxTransform = Transform(0);
+				s_RendererAPI->RenderIndexed(mesh->m_MeshReference->GetIndexCount(), &skyboxTransform, nullptr);
+			}
 		}
 	}
 }

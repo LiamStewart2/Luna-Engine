@@ -39,7 +39,7 @@ namespace Luna
 	// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the mesh file
 
-	std::shared_ptr<IMesh> AssetManager::GetMesh(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<MeshHandle> AssetManager::GetMesh(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -51,13 +51,13 @@ namespace Luna
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
 			std::cout << filepath << std::endl;
-			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
-			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath.c_str());
+			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
+			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath);
 		}
 		return m_Meshes[filepath];
 	}
 
-	std::shared_ptr<IMesh> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<MeshHandle> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -69,8 +69,8 @@ namespace Luna
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
 			std::cout << "Start loading: " << filepath << std::endl;
-			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
-			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath.c_str());
+			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
+			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath);
 		}
 		return m_Meshes[filepath];
 	}

@@ -58,6 +58,7 @@ int Application::Init()
 
 void Application::Terminate()
 {
+	Luna::AssetLoader::CleanupThreads();
 	glfwTerminate();
 }
 
