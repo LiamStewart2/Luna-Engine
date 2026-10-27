@@ -19,6 +19,8 @@
 #include "../Core/ConcurrentQueue.h"
 #include "../ECS/MeshComponent.h"
 
+#include "Threading/Job.h"
+
 /*
 Collection of file loading methods for various object types currently including
  - OBJ to mesh loading
@@ -26,7 +28,7 @@ Collection of file loading methods for various object types currently including
 */
 namespace Luna
 {
-	struct MeshData
+	struct MeshData : public JobPackage
 	{
 		std::shared_ptr<MeshHandle> m_MeshHandle;
 		std::string m_filepath;
@@ -34,8 +36,15 @@ namespace Luna
 		std::vector<unsigned int> m_IndexBuffer;
 	};
 
+	class LoadMeshJob : public Job
+	{
+	public:
+		void Work(JobPackage* package) override;
+	};
+
 	class AssetLoader
 	{
+		friend LoadMeshJob;
 	public:
 		// void LoadTexture - Loads a texture from any stb_image supported file
 		// Supports both RGB and RGBA channelled images

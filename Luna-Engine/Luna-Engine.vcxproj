@@ -41,6 +41,7 @@
     <ClCompile Include="src\Core\TransformationManager.cpp" />
     <ClCompile Include="src\Platform\Windows\FileNavigation.cpp" />
     <ClCompile Include="src\ECS\ECS.cpp" />
+    <ClCompile Include="src\Threading\JobManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\ConcurrentQueue.h" />
@@ -91,6 +92,8 @@
     <ClInclude Include="src\ECS\MeshComponent.h" />
     <ClInclude Include="src\ECS\TransformComponent.h" />
     <ClInclude Include="src\ECS\ECS.h" />
+    <ClInclude Include="src\Threading\Job.h" />
+    <ClInclude Include="src\Threading\JobManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DepthShader\shader.fs" />
@@ -145,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;SOL_ALL_SAFETIES_ON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\HeaderLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\64-bit\glew-2.1.0-win32\include;$(SolutionDir)Dependencies\64-bit\glfw-3.4.bin.WIN64\include;$(SolutionDir)Dependencies\64-bit\lua-5.4.2.win64\include;$(SolutionDir)Dependencies\HeaderLibraries;$(SolutionDir)Luna-Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
