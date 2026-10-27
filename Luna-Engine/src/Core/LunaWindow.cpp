@@ -98,6 +98,7 @@ LunaWindow* LunaWindow::NewWindow(const char* windowTitle, uint32_t windowWidth,
 
 	if (!window->m_WindowHandle)
 	{
+		delete window;
 		glfwTerminate();
 		std::cerr << windowTitle << " - WINDOW FAILED INIT" << std::endl;
 		return nullptr;

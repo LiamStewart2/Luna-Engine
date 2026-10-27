@@ -7,7 +7,7 @@
 class SceneGraphNode
 {
 public:
-	SceneGraphNode(unsigned int gameObject);
+	SceneGraphNode(unsigned int gameObject = 0);
 	
 	// node - the node which will own the game object
 	SceneGraphNode* GetNode(unsigned int gameObject, SceneGraphNode* parentNode);

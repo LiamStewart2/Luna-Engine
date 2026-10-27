@@ -245,6 +245,13 @@ namespace Luna
 		std::cout << "Mesh Loaded - " << mesh->m_filepath << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
 	
 		s_MeshQueue.Push(mesh);
+
+		delete[] vertexPositionBuffer;
+		delete[] vertexNormalBuffer;
+		delete[] vertexTextureCoordBuffer;
+
+		delete[] indexBuffer;
+		delete[] vertexBuffer;
 	}
 
 
