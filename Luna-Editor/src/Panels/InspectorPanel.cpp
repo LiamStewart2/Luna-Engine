@@ -53,7 +53,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::Text("Script:");
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(component->m_Script->GetFilepath().c_str(), m_CodeIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->m_Script->GetFilepath().c_str(), m_CodeIcon->m_TextureReference->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Script Files", L"*.lua"},
@@ -137,7 +137,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 
 			ImGui::Text("Mesh:"); 
 			ImGui::NextColumn();
-			if (ImGui::ImageButton("Mesh Drag And Drop Button", m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton("Mesh Drag And Drop Button", m_ModelIcon->m_TextureReference->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Mesh Files", L"*.obj"},
@@ -162,7 +162,7 @@ void InspectorPanel::Update(unsigned int& inspectorID)
 			ImGui::Columns(2, "Material", false);
 			ImGui::Text("Material:");
 			ImGui::NextColumn();
-			if (ImGui::ImageButton(component->material->m_Path.c_str(), m_ModelIcon->GetTextureReference(), ImVec2{96.0f, 96.0f}))
+			if (ImGui::ImageButton(component->material->m_Path.c_str(), m_ModelIcon->m_TextureReference->GetTextureReference(), ImVec2{96.0f, 96.0f}))
 			{
 				std::string fpath = FileNavigation::OpenFileDialog({
 					{L"Texture Files", L"*.lmat"},

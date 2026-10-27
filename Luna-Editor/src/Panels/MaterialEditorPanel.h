@@ -101,7 +101,7 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
                 auto tex = assetManager->GetTexture(true, texturePath);
 
                 if (index < textures.size())
-                    textures[index] = tex;
+                    textures[index] = tex->m_TextureReference;
 
                 changesMade = true;
             }
@@ -240,11 +240,11 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
             std::shared_ptr<Luna::ITexture> tex = textures[idx];
             switch (link.mOutputSlotIndex)
             {
-            case 0: assetManager->GetMaterial(true, material->m_Path)->m_Albedo = tex; break;
-            case 1: assetManager->GetMaterial(true, material->m_Path)->m_SpecularMap = tex; break;
-            case 2: assetManager->GetMaterial(true, material->m_Path)->m_NormalMap = tex; break;
-            case 3: assetManager->GetMaterial(true, material->m_Path)->m_MetallicMap = tex; break;
-            case 4: assetManager->GetMaterial(true, material->m_Path)->m_AOMap = tex; break;
+            case 0: assetManager->GetMaterial(true, material->m_Path)->m_Albedo->m_TextureReference = tex; break;
+            case 1: assetManager->GetMaterial(true, material->m_Path)->m_SpecularMap->m_TextureReference = tex; break;
+            case 2: assetManager->GetMaterial(true, material->m_Path)->m_NormalMap->m_TextureReference = tex; break;
+            case 3: assetManager->GetMaterial(true, material->m_Path)->m_MetallicMap->m_TextureReference = tex; break;
+            case 4: assetManager->GetMaterial(true, material->m_Path)->m_AOMap->m_TextureReference = tex; break;
             default: break;
             }
         }

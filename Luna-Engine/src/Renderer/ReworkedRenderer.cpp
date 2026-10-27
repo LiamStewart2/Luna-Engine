@@ -69,16 +69,16 @@ namespace Luna
 					meshComponent.shader->Bind();
 					mesh->BindMesh();
 
-					if (meshComponent.material->m_Albedo != nullptr)
-						meshComponent.material->m_Albedo->BindTexture(0);
-					if (meshComponent.material->m_SpecularMap != nullptr)
-						meshComponent.material->m_SpecularMap->BindTexture(1);
-					if (meshComponent.material->m_NormalMap != nullptr)
-						meshComponent.material->m_NormalMap->BindTexture(3);
-					if (meshComponent.material->m_MetallicMap != nullptr)
-						meshComponent.material->m_MetallicMap->BindTexture(4);
-					if (meshComponent.material->m_AOMap != nullptr)
-						meshComponent.material->m_AOMap->BindTexture(5);
+					if (meshComponent.material->m_Albedo->m_HandleState == AssetHandleState::Loaded)
+						meshComponent.material->m_Albedo->m_TextureReference->BindTexture(0);
+					if (meshComponent.material->m_SpecularMap->m_HandleState == AssetHandleState::Loaded)
+						meshComponent.material->m_SpecularMap->m_TextureReference->BindTexture(1);
+					if (meshComponent.material->m_NormalMap->m_HandleState == AssetHandleState::Loaded)
+						meshComponent.material->m_NormalMap->m_TextureReference->BindTexture(3);
+					if (meshComponent.material->m_MetallicMap->m_HandleState == AssetHandleState::Loaded)
+						meshComponent.material->m_MetallicMap->m_TextureReference->BindTexture(4);
+					if (meshComponent.material->m_AOMap->m_HandleState == AssetHandleState::Loaded)
+						meshComponent.material->m_AOMap->m_TextureReference->BindTexture(5);
 
 					ShadowRenderer::GetLightFramebuffer()->BindDepthBufferAsTexture(2);
 

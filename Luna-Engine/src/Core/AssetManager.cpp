@@ -18,7 +18,7 @@ namespace Luna
 	// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the image file
 
-	std::shared_ptr<ITexture> AssetManager::GetTexture(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<TextureHandle> AssetManager::GetTexture(bool UseWorkingDirectory, std::string filepath)
 	{
 		if(UseWorkingDirectory)
 		{
@@ -30,7 +30,25 @@ namespace Luna
 		if (m_Textures.find(filepath) == m_Textures.end())
 		{
 			std::cout << filepath << std::endl;
-			std::shared_ptr<ITexture> texture = m_Textures[filepath] = nullptr;
+			std::shared_ptr<TextureHandle> texture = m_Textures[filepath] = std::make_shared<TextureHandle>();
+			AssetLoader::LoadTexture(m_Textures[filepath], filepath.c_str());
+		}
+		return m_Textures[filepath];
+	}
+
+	std::shared_ptr<TextureHandle> AssetManager::GetTextureAsynchronous(bool UseWorkingDirectory, std::string filepath)
+	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
+		if (m_Textures.find(filepath) == m_Textures.end())
+		{
+			std::cout << filepath << std::endl;
+			std::shared_ptr<TextureHandle> texture = m_Textures[filepath] = std::make_shared<TextureHandle>();
 			AssetLoader::LoadTexture(m_Textures[filepath], filepath.c_str());
 		}
 		return m_Textures[filepath];

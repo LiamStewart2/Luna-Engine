@@ -21,7 +21,7 @@ public:
 private:
 	glm::vec3 m_EulerDegrees;
 
-	std::shared_ptr<Luna::ITexture> m_ModelIcon = nullptr;
-	std::shared_ptr<Luna::ITexture> m_CodeIcon = nullptr;
+	std::shared_ptr<Luna::TextureHandle> m_ModelIcon = nullptr;
+	std::shared_ptr<Luna::TextureHandle> m_CodeIcon = nullptr;
 };
 

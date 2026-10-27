@@ -18,10 +18,10 @@ namespace Luna
 
 		std::string m_Path;
 
-		std::shared_ptr<ITexture> m_Albedo = nullptr;
-		std::shared_ptr<ITexture> m_SpecularMap = nullptr;
-		std::shared_ptr<ITexture> m_NormalMap = nullptr;
-		std::shared_ptr<ITexture> m_MetallicMap = nullptr;
-		std::shared_ptr<ITexture> m_AOMap = nullptr;
+		std::shared_ptr<TextureHandle> m_Albedo = nullptr;
+		std::shared_ptr<TextureHandle> m_SpecularMap = nullptr;
+		std::shared_ptr<TextureHandle> m_NormalMap = nullptr;
+		std::shared_ptr<TextureHandle> m_MetallicMap = nullptr;
+		std::shared_ptr<TextureHandle> m_AOMap = nullptr;
 	};
 }

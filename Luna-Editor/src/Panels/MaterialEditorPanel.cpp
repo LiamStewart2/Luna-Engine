@@ -20,7 +20,12 @@ void MaterialEditorPanel::Update(unsigned int& inspectorID)
 				m_Material = m_SceneManager->GetAssetManager()->GetMaterial(true, path);
 
                 delegate.textures = std::vector<std::shared_ptr<Luna::ITexture>>({
-                    m_Material->m_Albedo, m_Material->m_SpecularMap, m_Material->m_NormalMap, m_Material->m_MetallicMap, m_Material->m_AOMap});
+                    m_Material->m_Albedo->m_TextureReference, 
+					m_Material->m_SpecularMap->m_TextureReference, 
+					m_Material->m_NormalMap->m_TextureReference, 
+					m_Material->m_MetallicMap->m_TextureReference, 
+					m_Material->m_AOMap->m_TextureReference
+				});
 				delegate.material = m_Material;
 			}
 			ImGui::EndDragDropTarget();
@@ -69,11 +74,11 @@ void MaterialEditorPanel::SaveCurrentMaterial()
 	std::string path = m_Material->m_Path;
 
 	nlohmann::json jsonData;
-	jsonData["Textures"]["Albedo"] = m_Material->m_Albedo->GetTexturePacket()->path;
-	jsonData["Textures"]["SpecularMap"] = m_Material->m_SpecularMap->GetTexturePacket()->path;
-	jsonData["Textures"]["NormalMap"] = m_Material->m_NormalMap->GetTexturePacket()->path;
-	jsonData["Textures"]["MetallicMap"] = m_Material->m_MetallicMap->GetTexturePacket()->path;
-	jsonData["Textures"]["AOMap"] = m_Material->m_AOMap->GetTexturePacket()->path;
+	jsonData["Textures"]["Albedo"] = m_Material->m_Albedo->m_TextureReference->GetTexturePacket()->path;
+	jsonData["Textures"]["SpecularMap"] = m_Material->m_SpecularMap->m_TextureReference->GetTexturePacket()->path;
+	jsonData["Textures"]["NormalMap"] = m_Material->m_NormalMap->m_TextureReference->GetTexturePacket()->path;
+	jsonData["Textures"]["MetallicMap"] = m_Material->m_MetallicMap->m_TextureReference->GetTexturePacket()->path;
+	jsonData["Textures"]["AOMap"] = m_Material->m_AOMap->m_TextureReference->GetTexturePacket()->path;
 
 	glm::vec4 color = m_Material->m_AmbientColour;
 	jsonData["Values"]["AmbientColour"] = {color.x, color.y, color.z, color.a};

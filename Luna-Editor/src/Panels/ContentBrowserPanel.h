@@ -30,10 +30,10 @@ private:
 	std::filesystem::path m_ProjectDirectory;
 	std::filesystem::path m_CurrentDirectory;
 
-	std::shared_ptr<Luna::ITexture> m_FolderIcon;
-	std::shared_ptr<Luna::ITexture> m_FileIcon;
-	std::shared_ptr<Luna::ITexture> m_ModelIcon;
-	std::shared_ptr<Luna::ITexture> m_CodeIcon;
+	std::shared_ptr<Luna::TextureHandle> m_FolderIcon;
+	std::shared_ptr<Luna::TextureHandle> m_FileIcon;
+	std::shared_ptr<Luna::TextureHandle> m_ModelIcon;
+	std::shared_ptr<Luna::TextureHandle> m_CodeIcon;
 
 	std::string GetFileExtension(std::string filename);
 

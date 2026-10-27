@@ -16,7 +16,7 @@ public:
 
 	void UpdateGame(unsigned int& inspectorID, bool& runtime, std::shared_ptr<Luna::IFramebuffer> framebuffer);
 private:
-	std::shared_ptr<Luna::ITexture> m_PlayIcon = nullptr;
-	std::shared_ptr<Luna::ITexture> m_StopIcon = nullptr;
+	std::shared_ptr<Luna::TextureHandle> m_PlayIcon = nullptr;
+	std::shared_ptr<Luna::TextureHandle> m_StopIcon = nullptr;
 };
 

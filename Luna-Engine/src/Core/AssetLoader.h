@@ -41,7 +41,7 @@ namespace Luna
 		// Supports both RGB and RGBA channelled images
 		// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
 		// const char* filepath - the file path of the image file
-		static void LoadTexture(std::shared_ptr<ITexture>& texture, const char* filepath);
+		static void LoadTexture(std::shared_ptr<TextureHandle> texture, const char* filepath);
 
 		// void LoadMeshOBJ - Loads a mesh object from an OBJ file
 		// OBJ files must be triangulated and only contain one mesh

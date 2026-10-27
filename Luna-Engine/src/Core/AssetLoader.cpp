@@ -252,10 +252,11 @@ namespace Luna
 	// Supports both RGB and RGBA channelled images
 	// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
 	// const char* filepath - the file path of the image file
-	void AssetLoader::LoadTexture(std::shared_ptr<ITexture>& texture, const char* filepath)
+	void AssetLoader::LoadTexture(std::shared_ptr<TextureHandle> texture, const char* filepath)
 	{
+		texture->m_HandleState = AssetHandleState::Loading;
 		double startTime = glfwGetTime();
-
+		
 		TexturePacket packet;
 		packet.path = filepath;
 		packet.buffer = stbi_load(packet.path.c_str(), &packet.width, &packet.height, &packet.channels, STBI_rgb_alpha);
@@ -264,9 +265,10 @@ namespace Luna
 			std::cerr << "Failed to load texture - " << packet.path << std::endl;
 			return;
 		}
-		texture = ITexture::Create(packet);
+		texture->m_TextureReference = ITexture::Create(packet);
 		stbi_image_free(packet.buffer);
 
 		std::cout << "Texture Loaded - " << filepath << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+		texture->m_HandleState = AssetHandleState::Loaded;
 	}
 }

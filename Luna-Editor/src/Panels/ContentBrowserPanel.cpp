@@ -36,7 +36,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 	for (auto& path : sortedDirectories)
 	{
 		std::string str = path.path().string();
-		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->GetTextureReference(), {thumbnailSize, thumbnailSize}))
+		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->m_TextureReference->GetTextureReference(), {thumbnailSize, thumbnailSize}))
 		{
 			m_CurrentDirectory = path.path();
 			break;
@@ -54,11 +54,11 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		ImGui::PushID(path.path().filename().string().c_str());
 
 		if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->GetTextureReference(), { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else if(GetFileExtension(path.path().filename().string()) == "obj")
-			ImGui::Image(m_ModelIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_ModelIcon->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else
-			ImGui::Image(m_FileIcon->GetTextureReference(), { thumbnailSize, thumbnailSize });
+			ImGui::Image(m_FileIcon->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
 
 		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 		{
@@ -70,19 +70,19 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 		std::string itemPath = path.path().string();
 
 		if (GetFileExtension(path.path().filename().string()) == "json")
-			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "obj")
-			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "lua")
-			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_SCRIPT", itemPath, m_FileIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "lmat")
-			BeginPayload("CONTENT_BROWSER_ITEM_MATERIAL", itemPath, m_FileIcon->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_MATERIAL", itemPath, m_FileIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 
 		ImGui::TextWrapped(path.path().filename().string().c_str());

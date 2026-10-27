@@ -2,9 +2,18 @@
 
 #include <string>
 #include <memory>
+#include "AssetHandle.h"
 
 namespace Luna
 {
+	class ITexture;
+
+	struct TextureHandle
+	{
+		std::shared_ptr<ITexture> m_TextureReference = nullptr;
+		AssetHandleState m_HandleState = AssetHandleState::None;
+	};
+
 	struct TexturePacket
 	{
 		void* buffer = nullptr;
