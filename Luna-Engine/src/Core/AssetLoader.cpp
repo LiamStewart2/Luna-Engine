@@ -22,6 +22,8 @@ namespace Luna
 {
 	ConcurrentQueue<MeshData*> AssetLoader::s_MeshQueue = ConcurrentQueue<MeshData*>();
 	std::vector<std::thread> AssetLoader::s_WorkerThreads = std::vector<std::thread>();
+	JobManager* AssetLoader::s_JobManager = nullptr;
+
 	inline int FastAtoi3(char*& p)
 	{
 		int value = (p[0] - '0');
@@ -36,6 +38,13 @@ namespace Luna
 		return value;
 	}
 
+	void AssetLoader::LinkJobManager(JobManager* jobManager)
+	{
+		if(s_JobManager != nullptr)
+			std::cerr << "[ERROR] LinkJobManager is overriding a reference to the job manager" << std::endl;
+		s_JobManager = jobManager;
+	}
+	
 	void LoadMeshJob::Work(JobPackage* package)
 	{
 		AssetLoader::LoadMeshFromOBJ((MeshData*)package);
@@ -49,7 +58,7 @@ namespace Luna
 		meshData->m_filepath = filepath;
 		mesh->m_HandleState = AssetHandleState::Loading;
 
-		s_WorkerThreads.emplace_back(LoadMeshFromOBJ, meshData);
+		s_JobManager->GetJobQueue()->Push(Workload(new LoadMeshJob(), meshData));
 	}
 
 	void AssetLoader::CleanupThreads()
@@ -63,13 +72,15 @@ namespace Luna
 
 	void AssetLoader::CreateMeshesFromQueue()
 	{
-		while (!s_MeshQueue.isEmpty())
+		MeshData* mesh;
+		while (s_MeshQueue.Pop(mesh))
 		{
-			MeshData* mesh = s_MeshQueue.Pop();
-			
-			mesh->m_MeshHandle->m_MeshReference = IMesh::Create(mesh->m_VertexBuffer, mesh->m_IndexBuffer);
-			mesh->m_MeshHandle->m_MeshReference->m_Path = std::string(mesh->m_filepath);
-			mesh->m_MeshHandle->m_HandleState = AssetHandleState::Loaded;
+			if(mesh)
+			{
+				mesh->m_MeshHandle->m_MeshReference = IMesh::Create(mesh->m_VertexBuffer, mesh->m_IndexBuffer);
+				mesh->m_MeshHandle->m_MeshReference->m_Path = std::string(mesh->m_filepath);
+				mesh->m_MeshHandle->m_HandleState = AssetHandleState::Loaded;
+			}
 
 			delete mesh;
 		}
@@ -242,14 +253,18 @@ namespace Luna
 			}
 		}
 
-		mesh->m_VertexBuffer = std::vector<Vertex>(vertexBuffer, vertexBuffer + vertexCounter);
-		mesh->m_IndexBuffer = std::vector<unsigned int>(indexBuffer, indexBuffer + indexCounter);
+		MeshData* meshData = new MeshData();
+		meshData->m_filepath = mesh->m_filepath;
+		meshData->m_MeshHandle = mesh->m_MeshHandle;
+
+		meshData->m_VertexBuffer = std::vector<Vertex>(vertexBuffer, vertexBuffer + vertexCounter);
+		meshData->m_IndexBuffer = std::vector<unsigned int>(indexBuffer, indexBuffer + indexCounter);
 
 		const auto finish{ std::chrono::steady_clock::now() };
 		const auto elapsed_seconds_finished = std::chrono::duration_cast<std::chrono::duration<double>>(finish - start);
 		std::cout << "Mesh Loaded - " << mesh->m_filepath << " - Time to Load: " << elapsed_seconds_finished << " Vertices: " << vertexCounter << std::endl;
 	
-		s_MeshQueue.Push(mesh);
+		s_MeshQueue.Push(meshData);
 
 		delete[] vertexPositionBuffer;
 		delete[] vertexNormalBuffer;

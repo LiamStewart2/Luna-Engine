@@ -4,7 +4,7 @@
 #include <thread>
 #include <mutex>
 
-#include "Core/ConcurrentQueue.h"
+#include "Kernel/ConcurrentQueue.h"
 #include "Job.h"
 
 namespace Luna
@@ -26,6 +26,5 @@ namespace Luna
 		bool m_Running = false;
 		ConcurrentQueue<Workload> m_JobQueue;
 		std::array<std::thread, c_ThreadLimit> m_ThreadPool;
-		static std::mutex s_lock;
 	};
 }

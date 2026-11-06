@@ -19,6 +19,15 @@ namespace Luna
 		Job* m_Job = nullptr;
 		JobPackage* m_Package = nullptr;
 
-		void Run() {m_Job->Work(m_Package); }
+		void Run() 
+		{
+			m_Job->Work(m_Package); 
+		}
+
+		void Cleanup()
+		{
+			delete m_Job;
+			delete m_Package;
+		}
 	};
 }

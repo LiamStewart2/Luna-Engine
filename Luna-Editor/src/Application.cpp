@@ -26,6 +26,7 @@ int Application::Init()
 	m_RendererContext = Luna::RendererContext::Create((void*)window->GetHandle());
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);
+	Luna::AssetLoader::LinkJobManager(&m_JobManager);
 
 	m_ProjectManager.OnEditorStart(&sceneManager);
 		

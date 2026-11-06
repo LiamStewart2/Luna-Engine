@@ -2,8 +2,6 @@
 
 namespace Luna
 {
-	std::mutex JobManager::s_lock = std::mutex();
-
 	JobManager::JobManager()
 	{
 		InitializeThreads();
@@ -24,29 +22,26 @@ namespace Luna
 
 	void JobManager::ShutdownThreads(bool immediate)
 	{
-		if (immediate)
-		{
-			for (int i = 0; i < c_ThreadLimit; i++)
-			{
-
-			}
-		}
 		m_Running = false;
+		for (int i = 0; i < c_ThreadLimit; i++)
+		{
+			m_ThreadPool[i].join();
+		}
 	}
 
 	void JobManager::WorkerThreadProcess()
 	{
 		while (m_Running)
 		{
-			s_lock.lock();
-			
-			if (!m_JobQueue.isEmpty())
+			Workload job;
+			if (m_JobQueue.Pop(job))
 			{
-				Workload job = m_JobQueue.Pop();
-				job.Run();
+				if(job.m_Job != nullptr && job.m_Package != nullptr)
+				{
+					job.Run();
+					job.Cleanup();
+				}
 			}
-
-			s_lock.unlock();
 		}
 	}
 }

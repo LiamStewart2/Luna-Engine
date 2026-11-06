@@ -73,6 +73,33 @@ public:
 		return current->data;
 	}
 
+	T* GetFirst()
+	{
+		if(first)
+			return &first->data;
+		else
+			return nullptr;
+	}
+
+	void RemoveFirst()
+	{
+		if (first != nullptr)
+		{
+			size -= 1;
+			LinkedListNode<T>* node = first;
+			if(first != last)
+			{
+				first = first->next;
+			}
+			else
+			{
+				first = nullptr;
+				last = nullptr;
+			}
+			delete node;
+		}
+	}
+
 
 private:
 	LinkedListNode<T>* first = nullptr;

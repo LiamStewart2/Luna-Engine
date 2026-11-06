@@ -149,7 +149,7 @@
     <ClInclude Include="src\Core\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\LinkedList.h">
+    <ClInclude Include="src\Kernel\LinkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\LunaWindow.h">
@@ -248,7 +248,7 @@
     <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraphNodeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\ConcurrentQueue.h">
+    <ClInclude Include="src\Kernel\ConcurrentQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\AssetHandle.h">

@@ -13,13 +13,13 @@
 #include <GLFW/glfw3.h>
 #include "JSON/json.hpp"
 
-#include "../Renderer/ITexture.h"
-#include "../Renderer/IMesh.h"
-#include "../Renderer/Material.h"
-#include "../Core/ConcurrentQueue.h"
-#include "../ECS/MeshComponent.h"
+#include "Renderer/ITexture.h"
+#include "Renderer/IMesh.h"
+#include "Renderer/Material.h"
+#include "Kernel/ConcurrentQueue.h"
+#include "ECS/MeshComponent.h"
 
-#include "Threading/Job.h"
+#include "Threading/JobManager.h"
 
 /*
 Collection of file loading methods for various object types currently including
@@ -62,12 +62,15 @@ namespace Luna
 		static void CreateMeshesFromQueue();
 		static void CleanupThreads();
 
+		static void LinkJobManager(JobManager* jobManager);
+
 	private:
 		// Buffers for loading Meshes
 		static const unsigned int s_BufferSize = 1200000;
 		
 		static void LoadMeshFromOBJ(MeshData* mesh);
 
+		static JobManager* s_JobManager;
 		static ConcurrentQueue<MeshData*> s_MeshQueue;
 		static std::vector<std::thread> s_WorkerThreads;
 	};

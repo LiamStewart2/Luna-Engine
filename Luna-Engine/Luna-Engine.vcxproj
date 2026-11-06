@@ -44,7 +44,7 @@
     <ClCompile Include="src\Threading\JobManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\ConcurrentQueue.h" />
+    <ClInclude Include="src\Kernel\ConcurrentQueue.h" />
     <ClInclude Include="src\Renderer\AssetHandle.h" />
     <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="src\Core\Timer.h" />
@@ -75,7 +75,7 @@
     <ClInclude Include="src\Core\AssetManager.h" />
     <ClInclude Include="src\Core\Camera.h" />
     <ClInclude Include="src\Core\Globals.h" />
-    <ClInclude Include="src\Core\LinkedList.h" />
+    <ClInclude Include="src\Kernel\LinkedList.h" />
     <ClInclude Include="src\Core\LunaWindow.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Core\SceneGraph.h" />
