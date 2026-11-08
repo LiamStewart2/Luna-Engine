@@ -75,7 +75,7 @@ namespace Luna
 		return m_Meshes[filepath];
 	}
 
-	std::shared_ptr<MeshHandle> AssetManager::GetMeshAsynchronous(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<MeshHandle> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -88,7 +88,7 @@ namespace Luna
 		{
 			std::cout << "Start loading Asynchronously: " << filepath << std::endl;
 			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
-			AssetLoader::LoadMeshOBJAsynchronous(m_Meshes[filepath], filepath);
+			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath);
 		}
 		return m_Meshes[filepath];
 	}

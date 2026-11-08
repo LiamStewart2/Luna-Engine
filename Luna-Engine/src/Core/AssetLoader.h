@@ -58,7 +58,7 @@ namespace Luna
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
 		static void LoadMeshOBJ(std::shared_ptr<MeshHandle>& mesh, std::string filepath);
 
-		static void LoadMeshOBJAsynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath);
+		static void LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath);
 		static void CreateMeshesFromQueue();
 		static void CleanupThreads();
 
