@@ -36,7 +36,7 @@ namespace Luna
 		return m_Textures[filepath];
 	}
 
-	std::shared_ptr<TextureHandle> AssetManager::GetTextureAsynchronous(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<TextureHandle> AssetManager::GetTextureSynchronous(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -49,7 +49,7 @@ namespace Luna
 		{
 			std::cout << filepath << std::endl;
 			std::shared_ptr<TextureHandle> texture = m_Textures[filepath] = std::make_shared<TextureHandle>();
-			AssetLoader::LoadTexture(m_Textures[filepath], filepath.c_str());
+			AssetLoader::LoadTextureSynchronous(m_Textures[filepath], filepath.c_str());
 		}
 		return m_Textures[filepath];
 	}

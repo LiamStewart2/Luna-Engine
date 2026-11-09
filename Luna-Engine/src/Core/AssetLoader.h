@@ -36,7 +36,20 @@ namespace Luna
 		std::vector<unsigned int> m_IndexBuffer;
 	};
 
+	struct TextureData : public JobPackage
+	{
+		std::shared_ptr<TextureHandle> m_TextureHandle;
+		std::string m_Filepath;
+		TexturePacket m_TexturePacket;
+	};
+
 	class LoadMeshJob : public Job
+	{
+	public:
+		void Work(JobPackage* package) override;
+	};
+
+	class LoadTextureJob : public Job
 	{
 	public:
 		void Work(JobPackage* package) override;
@@ -45,13 +58,15 @@ namespace Luna
 	class AssetLoader
 	{
 		friend LoadMeshJob;
+		friend LoadTextureJob;
 	public:
 		// void LoadTexture - Loads a texture from any stb_image supported file
 		// Supports both RGB and RGBA channelled images
 		// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
 		// const char* filepath - the file path of the image file
 		static void LoadTexture(std::shared_ptr<TextureHandle> texture, const char* filepath);
-
+		static void LoadTextureSynchronous(std::shared_ptr<TextureHandle> texture, std::string filepath);
+		
 		// void LoadMeshOBJ - Loads a mesh object from an OBJ file
 		// OBJ files must be triangulated and only contain one mesh
 		// std::shared_ptr<Mesh> mesh - a reference to the mesh object the data should be loaded into
@@ -59,8 +74,7 @@ namespace Luna
 		static void LoadMeshOBJ(std::shared_ptr<MeshHandle>& mesh, std::string filepath);
 
 		static void LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath);
-		static void CreateMeshesFromQueue();
-		static void CleanupThreads();
+		static void CreateGPUObjectsFromQueue();
 
 		static void LinkJobManager(JobManager* jobManager);
 
@@ -69,10 +83,12 @@ namespace Luna
 		static const unsigned int s_BufferSize = 1200000;
 		
 		static void LoadMeshFromOBJ(MeshData* mesh);
+		static void LoadTextureFile(TextureData* textureData);
 
 		static JobManager* s_JobManager;
+
 		static ConcurrentQueue<MeshData*> s_MeshQueue;
-		static std::vector<std::thread> s_WorkerThreads;
+		static ConcurrentQueue<TextureData*> s_TextureQueue;
 	};
 }
 

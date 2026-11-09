@@ -27,7 +27,6 @@ namespace Luna
 		void Cleanup()
 		{
 			delete m_Job;
-			delete m_Package;
 		}
 	};
 }

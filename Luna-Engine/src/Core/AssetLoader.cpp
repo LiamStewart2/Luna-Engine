@@ -21,7 +21,7 @@ Collection of file loading methods for various object types currently including
 namespace Luna
 {
 	ConcurrentQueue<MeshData*> AssetLoader::s_MeshQueue = ConcurrentQueue<MeshData*>();
-	std::vector<std::thread> AssetLoader::s_WorkerThreads = std::vector<std::thread>();
+	ConcurrentQueue<TextureData*> AssetLoader::s_TextureQueue = ConcurrentQueue<TextureData*>();
 	JobManager* AssetLoader::s_JobManager = nullptr;
 
 	inline int FastAtoi3(char*& p)
@@ -50,6 +50,11 @@ namespace Luna
 		AssetLoader::LoadMeshFromOBJ((MeshData*)package);
 	}
 
+	void LoadTextureJob::Work(JobPackage* package)
+	{
+		AssetLoader::LoadTextureFile((TextureData*)package);
+	}
+
 	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath)
 	{
 		MeshData* meshData = new MeshData();
@@ -61,16 +66,7 @@ namespace Luna
 		s_JobManager->GetJobQueue()->Push(Workload(new LoadMeshJob(), meshData));
 	}
 
-	void AssetLoader::CleanupThreads()
-	{
-		for (int i = 0; i < s_WorkerThreads.size(); i++)
-		{
-			s_WorkerThreads[i].join();
-		}
-		s_WorkerThreads.clear();
-	}
-
-	void AssetLoader::CreateMeshesFromQueue()
+	void AssetLoader::CreateGPUObjectsFromQueue()
 	{
 		MeshData* mesh;
 		while (s_MeshQueue.Pop(mesh))
@@ -83,6 +79,20 @@ namespace Luna
 			}
 
 			delete mesh;
+		}
+
+		TextureData* texture;
+		while (s_TextureQueue.Pop(texture))
+		{
+			if (texture)
+			{
+				texture->m_TextureHandle->m_TextureReference = ITexture::Create(texture->m_TexturePacket);
+				texture->m_TextureHandle->m_HandleState = AssetHandleState::Loaded;
+
+				stbi_image_free(texture->m_TexturePacket.buffer);
+			}
+
+			delete texture;
 		}
 	}
 
@@ -297,5 +307,37 @@ namespace Luna
 
 		std::cout << "Texture Loaded - " << filepath << " - Time Took: " << glfwGetTime() - startTime << std::endl;
 		texture->m_HandleState = AssetHandleState::Loaded;
+	}
+
+	void AssetLoader::LoadTextureFile(TextureData* textureData)
+	{
+		textureData->m_TextureHandle->m_HandleState = AssetHandleState::Loading;
+		double startTime = glfwGetTime();
+
+		textureData->m_TexturePacket.path = textureData->m_Filepath;
+		textureData->m_TexturePacket.buffer = 
+			stbi_load(textureData->m_TexturePacket.path.c_str(), 
+			&textureData->m_TexturePacket.width, &textureData->m_TexturePacket.height, 
+			&textureData->m_TexturePacket.channels, STBI_rgb_alpha);
+
+		if (!textureData->m_TexturePacket.buffer)
+		{
+			std::cerr << "Failed to load texture - " << textureData->m_TexturePacket.path << std::endl;
+			return;
+		}
+		
+		s_TextureQueue.Push(textureData);
+		std::cout << "Texture Loaded - " << textureData->m_Filepath << " - Time Took: " << glfwGetTime() - startTime << std::endl;
+	}
+
+	void AssetLoader::LoadTextureSynchronous(std::shared_ptr<TextureHandle> texture, std::string filepath)
+	{
+		TextureData* textureData = new TextureData();
+
+		textureData->m_TextureHandle = texture;
+		textureData->m_TextureHandle->m_HandleState = AssetHandleState::Loading;
+		textureData->m_Filepath = filepath;
+
+		s_JobManager->GetJobQueue()->Push(Workload(new LoadTextureJob(), textureData));
 	}
 }

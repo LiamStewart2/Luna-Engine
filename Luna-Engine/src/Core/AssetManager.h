@@ -35,7 +35,7 @@ namespace Luna
 		// std::string filepath - the file path of the image file
 		std::shared_ptr<TextureHandle> GetTexture(bool UseWorkingDirectory, std::string filepath);
 
-		std::shared_ptr<TextureHandle> GetTextureAsynchronous(bool UseWorkingDirectory, std::string filepath);
+		std::shared_ptr<TextureHandle> GetTextureSynchronous(bool UseWorkingDirectory, std::string filepath);
 
 		// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the mesh file

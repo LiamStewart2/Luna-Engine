@@ -33,28 +33,42 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 
 	ImGui::Columns(columnCount, 0, false);
 
-	for (auto& path : sortedDirectories)
+	if(m_FolderIcon->m_HandleState == Luna::AssetHandleState::Loaded)
 	{
-		std::string str = path.path().string();
-		if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->m_TextureReference->GetTextureReference(), {thumbnailSize, thumbnailSize}))
+		for (auto& path : sortedDirectories)
 		{
-			m_CurrentDirectory = path.path();
-			break;
+			std::string str = path.path().string();
+			if (ImGui::ImageButton(path.path().string().c_str(), m_FolderIcon->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize }))
+			{
+				m_CurrentDirectory = path.path();
+				break;
+			}
+			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+			{
+				m_RightClickedPath = path.path().filename().string();
+			}
+			ImGui::TextWrapped(path.path().filename().string().c_str());
+			ImGui::NextColumn();
 		}
-		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
-		{
-			m_RightClickedPath = path.path().filename().string();
-		}
-		ImGui::TextWrapped(path.path().filename().string().c_str());
-		ImGui::NextColumn();
 	}
 
 	for (auto& path : sortedFiles)
 	{
 		ImGui::PushID(path.path().filename().string().c_str());
 
-		if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			ImGui::Image(m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
+		// For images we should load the image to preview in the editor - this is now done on a seperate thread to prevent waiting time
+		if (GetFileExtension(path.path().filename().string()) == "png" || 
+			GetFileExtension(path.path().filename().string()) == "jpg" || 
+			GetFileExtension(path.path().filename().string()) == "jpeg")
+		{
+			std::shared_ptr<Luna::TextureHandle> texture = m_SceneManager->GetAssetManager()->GetTextureSynchronous(true, path.path().string());
+			
+			if(texture->m_HandleState == Luna::AssetHandleState::Loaded)
+				ImGui::Image(texture->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
+			else
+				ImGui::Image(m_FileIcon->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
+		}
+
 		else if(GetFileExtension(path.path().filename().string()) == "obj")
 			ImGui::Image(m_ModelIcon->m_TextureReference->GetTextureReference(), { thumbnailSize, thumbnailSize });
 		else
@@ -73,7 +87,7 @@ void ContentBrowserPanel::Update(unsigned int& inspectorID)
 			BeginPayload("CONTENT_BROWSER_ITEM_SCENE", itemPath, m_FileIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "png" || GetFileExtension(path.path().filename().string()) == "jpg" || GetFileExtension(path.path().filename().string()) == "jpeg")
-			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_SceneManager->GetAssetManager()->GetTexture(true, path.path().string())->m_TextureReference->GetTextureReference(), thumbnailSize);
+			BeginPayload("CONTENT_BROWSER_ITEM_TEXTURE", itemPath, m_FileIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
 
 		else if (GetFileExtension(path.path().filename().string()) == "obj")
 			BeginPayload("CONTENT_BROWSER_ITEM_MODEL", itemPath, m_ModelIcon->m_TextureReference->GetTextureReference(), thumbnailSize);
