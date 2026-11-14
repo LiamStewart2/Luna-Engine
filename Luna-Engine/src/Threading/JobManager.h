@@ -2,7 +2,6 @@
 
 #include <array>
 #include <thread>
-#include <mutex>
 
 #include "Kernel/ConcurrentQueue.h"
 #include "Job.h"

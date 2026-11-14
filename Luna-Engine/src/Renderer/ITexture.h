@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "AssetHandle.h"
+#include "Core/AssetHandle.h"
 
 namespace Luna
 {

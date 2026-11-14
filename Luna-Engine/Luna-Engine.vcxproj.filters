@@ -251,7 +251,7 @@
     <ClInclude Include="src\Kernel\ConcurrentQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\AssetHandle.h">
+    <ClInclude Include="src\Core\AssetHandle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Threading\JobManager.h">

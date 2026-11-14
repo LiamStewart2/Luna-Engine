@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Kernel\ConcurrentQueue.h" />
-    <ClInclude Include="src\Renderer\AssetHandle.h" />
+    <ClInclude Include="src\Core\AssetHandle.h" />
     <ClInclude Include="src\Renderer\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="src\Core\Timer.h" />
     <ClInclude Include="src\Physics\PhysicsSystem.h" />
