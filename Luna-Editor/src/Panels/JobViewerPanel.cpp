@@ -25,7 +25,7 @@ void JobViewPanel::Update(unsigned int& inspectorID)
 	ImGui::End();
 }
 
-void JobViewPanel::IterateOverQueue(Luna::Workload* workload, int jobIndex)
+void JobViewPanel::IterateOverQueue(Luna::Workload* workload)
 {
 	ImGui::Text(workload->m_Job->m_JobName);
 }

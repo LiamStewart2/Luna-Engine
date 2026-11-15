@@ -68,7 +68,7 @@ namespace Luna
 
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
-			std::cout << filepath << std::endl;
+			std::cout << "Start loading Asynchronously: " << filepath << std::endl;
 			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
 			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath);
 		}
@@ -86,7 +86,7 @@ namespace Luna
 
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
-			std::cout << "Start loading Asynchronously: " << filepath << std::endl;
+			std::cout << "Start loading Synchronously: " << filepath << std::endl;
 			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
 			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath);
 		}

@@ -19,6 +19,6 @@ public:
 
 	void Update(unsigned int& inspectorID) override;
 private:
-	static void IterateOverQueue(Luna::Workload* workload, int jobIndex);
+	static void IterateOverQueue(Luna::Workload* workload);
 	Luna::JobManager* m_JobManager = nullptr;
 };

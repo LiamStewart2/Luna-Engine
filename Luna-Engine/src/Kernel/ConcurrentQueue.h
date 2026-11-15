@@ -53,16 +53,16 @@ public:
 		return true;
 	}
 
-	void Iterate(void (*f)(T* data, int index))
+	void Iterate(void (*f)(T* data))
 	{
 		m_FrontLock.lock();
 		m_BackLock.lock();
 
-		ConcurrentQueueNode<T>* node = m_FrontNode; int count = 0;
+		ConcurrentQueueNode<T>* node = m_FrontNode;
 		while (node->m_Next != nullptr)
 		{
-			f(&node->m_Next->m_Data, count);
-			node = node->m_Next; count++;
+			f(&node->m_Next->m_Data);
+			node = node->m_Next;
 		}
 
 		m_FrontLock.unlock();

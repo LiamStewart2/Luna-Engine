@@ -15,7 +15,7 @@ namespace Luna
 		~JobManager();
 
 		ConcurrentQueue<Workload>* GetJobQueue() {return &m_JobQueue;}
-		void ShutdownThreads(bool immediate); // if immediate is true, will termianate a thread mid job - given that the job is safe to terminate on
+		void ShutdownThreads(bool immediate); // ToDo: if immediate is true, will termianate a thread mid job - given that the job is safe to terminate on
 		unsigned int GetThreadLimit() {return c_ThreadLimit;}
 		const std::string* GetCurrentJobs() {return m_CurrentJobs.data();}
 	private:

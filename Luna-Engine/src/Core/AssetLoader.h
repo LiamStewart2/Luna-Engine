@@ -18,7 +18,6 @@
 #include "Renderer/Material.h"
 #include "Kernel/ConcurrentQueue.h"
 #include "ECS/MeshComponent.h"
-
 #include "Threading/JobManager.h"
 
 /*
