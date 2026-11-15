@@ -4,14 +4,13 @@ namespace Luna
 {
 	struct JobPackage
 	{
-
 	};
-
 	class Job
 	{
 	public:
 		virtual void Work(JobPackage* package) = 0;
 		bool m_SafeToShutdown = false; // if false, Shutdown will wait for this job to finish - file serialization
+		const char* m_JobName = "Undefined Job";
 	};
 
 	struct Workload

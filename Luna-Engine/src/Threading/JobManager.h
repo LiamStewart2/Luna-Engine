@@ -16,14 +16,17 @@ namespace Luna
 
 		ConcurrentQueue<Workload>* GetJobQueue() {return &m_JobQueue;}
 		void ShutdownThreads(bool immediate); // if immediate is true, will termianate a thread mid job - given that the job is safe to terminate on
+		unsigned int GetThreadLimit() {return c_ThreadLimit;}
+		const std::string* GetCurrentJobs() {return m_CurrentJobs.data();}
 	private:
 		void InitializeThreads();
-		void WorkerThreadProcess();
+		void WorkerThreadProcess(int threadIndex);
 
 		static constexpr unsigned int c_ThreadLimit = 8;
 
 		bool m_Running = false;
 		ConcurrentQueue<Workload> m_JobQueue;
 		std::array<std::thread, c_ThreadLimit> m_ThreadPool;
+		std::array<std::string, c_ThreadLimit> m_CurrentJobs;
 	};
 }

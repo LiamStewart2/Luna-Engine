@@ -46,12 +46,14 @@ namespace Luna
 	class LoadMeshJob : public Job
 	{
 	public:
+		LoadMeshJob() {m_JobName = "Loading  Mesh"; }
 		void Work(JobPackage* package) override;
 	};
 
 	class LoadTextureJob : public Job
 	{
 	public:
+		LoadTextureJob() {m_JobName = "Loading Texture"; }
 		void Work(JobPackage* package) override;
 	};
 

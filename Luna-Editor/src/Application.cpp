@@ -52,7 +52,7 @@ int Application::Init()
 	m_GameFramebuffer = Luna::IFramebuffer::Create(gameFramebufferSpec);
 	m_Backbuffer = Luna::IFramebuffer::Create(backbufferspec);
 
-	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager, &m_ProjectManager);
+	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager, &m_ProjectManager, &m_JobManager);
 
 	return 0;
 }

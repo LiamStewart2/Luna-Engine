@@ -16,7 +16,7 @@ namespace Luna
 		m_Running = true;
 		for (int i = 0; i < c_ThreadLimit; i++)
 		{
-			m_ThreadPool[i] = std::thread(&JobManager::WorkerThreadProcess, this);
+			m_ThreadPool[i] = std::thread(&JobManager::WorkerThreadProcess, this, i);
 		}
 	}
 
@@ -29,7 +29,7 @@ namespace Luna
 		}
 	}
 
-	void JobManager::WorkerThreadProcess()
+	void JobManager::WorkerThreadProcess(int threadIndex)
 	{
 		while (m_Running)
 		{
@@ -38,8 +38,10 @@ namespace Luna
 			{
 				if(job.m_Job != nullptr && job.m_Package != nullptr)
 				{
+					m_CurrentJobs[threadIndex] = job.m_Job->m_JobName;
 					job.Run();
 					job.Cleanup();
+					m_CurrentJobs[threadIndex] = "";
 				}
 			}
 		}

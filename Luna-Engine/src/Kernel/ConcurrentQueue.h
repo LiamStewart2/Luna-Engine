@@ -53,6 +53,22 @@ public:
 		return true;
 	}
 
+	void Iterate(void (*f)(T* data, int index))
+	{
+		m_FrontLock.lock();
+		m_BackLock.lock();
+
+		ConcurrentQueueNode<T>* node = m_FrontNode; int count = 0;
+		while (node->m_Next != nullptr)
+		{
+			f(&node->m_Next->m_Data, count);
+			node = node->m_Next; count++;
+		}
+
+		m_FrontLock.unlock();
+		m_BackLock.unlock();
+	}
+
 private:
 	std::mutex m_FrontLock;
 	std::mutex m_BackLock;
