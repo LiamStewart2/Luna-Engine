@@ -18,6 +18,7 @@
 - **ECS**
 - **Scripting**
 - **Rigid Body Physics**
+- **Multithreaded Asset Loading**
 
 ## 🎮 Dev Tools
 The engine includes a custom editor built using ImGui, providing:
@@ -38,6 +39,7 @@ https://trello.com/b/48CwuQyq/opengl-engine
 - [x] Scripting implementation
 - [x] Physics Engine
 - [x] Project files
+- [x] Multithreaded Asset Handling 
 - [ ] Run Time
 
 ## 🧠 Author
