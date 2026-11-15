@@ -26,6 +26,7 @@ int Application::Init()
 	m_RendererContext = Luna::RendererContext::Create((void*)window->GetHandle());
 
 	Luna::ReworkedRenderer::Init(m_RendererContext);
+	Luna::AssetLoader::LinkJobManager(&m_JobManager);
 
 	m_ProjectManager.OnEditorStart(&sceneManager);
 		
@@ -51,7 +52,7 @@ int Application::Init()
 	m_GameFramebuffer = Luna::IFramebuffer::Create(gameFramebufferSpec);
 	m_Backbuffer = Luna::IFramebuffer::Create(backbufferspec);
 
-	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager, &m_ProjectManager);
+	imGuiLayer = ImGuiLayer(window, sceneManager.GetAssetManager(), &sceneManager, &m_ProjectManager, &m_JobManager);
 
 	return 0;
 }
@@ -120,6 +121,7 @@ void Application::Update()
 
 void Application::Render()
 {
+	Luna::AssetLoader::CreateGPUObjectsFromQueue();
 
 	Transform cameraTransform = Transform(0, editorCamera.m_Position, glm::quat(glm::radians(editorCamera.m_Rotation)));
 	ObjectTransformPairing<Camera> cameraPair = { (Camera*)&editorCamera, &cameraTransform };

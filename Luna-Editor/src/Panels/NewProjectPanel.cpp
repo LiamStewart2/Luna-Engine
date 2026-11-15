@@ -15,7 +15,7 @@ void NewProjectPanel::Update(ContentBrowserPanel* contentBrowser, std::vector<st
 		ImGui::InputText("Project Path", &m_ProjectFilepathBuffer);
 
 		ImGui::SameLine();
-		if (ImGui::ImageButton("ProjectPathButton", m_FolderIcon->GetTextureReference(), {20, 20}))
+		if (ImGui::ImageButton("ProjectPathButton", m_FolderIcon->m_TextureReference->GetTextureReference(), {20, 20}))
 		{
 			std::string fpath = FileNavigation::BrowseDialog();
 			if (!fpath.empty())

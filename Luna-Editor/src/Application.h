@@ -32,6 +32,7 @@ private:
 	
 	void ResizeCallback(GLFWwindow* handle, int width, int height);
 	
+	Luna::JobManager m_JobManager;
 	std::shared_ptr<Luna::RendererContext> m_RendererContext;
 	SceneManager sceneManager;
 	ImGuiLayer imGuiLayer;

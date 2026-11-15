@@ -1,6 +1,6 @@
 #include "SceneGraph.h"
 
-SceneGraphNode::SceneGraphNode(unsigned int gameObject = 0)
+SceneGraphNode::SceneGraphNode(unsigned int gameObject)
 {
 	m_GameObject = gameObject;
 }

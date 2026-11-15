@@ -33,11 +33,16 @@ namespace Luna
 
 		// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the image file
-		std::shared_ptr<ITexture> GetTexture(bool UseWorkingDirectory, std::string filepath);
+		std::shared_ptr<TextureHandle> GetTexture(bool UseWorkingDirectory, std::string filepath);
+
+		std::shared_ptr<TextureHandle> GetTextureSynchronous(bool UseWorkingDirectory, std::string filepath);
 
 		// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the mesh file
-		std::shared_ptr<IMesh> GetMesh(bool UseWorkingDirectory, std::string filepath);
+		std::shared_ptr<MeshHandle> GetMesh(bool UseWorkingDirectory, std::string filepath);
+		
+		std::shared_ptr<MeshHandle> GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath);
+
 
 		// std::shared_ptr<Shader> GetTexture - Loads a shader from folder and returns a reference to the object from the buffer
 		// std::string filepath - the file path of the shader folder
@@ -55,8 +60,8 @@ namespace Luna
 	private:
 		std::string m_WorkingDirectory;
 
-		std::unordered_map<std::string, std::shared_ptr<ITexture>> m_Textures;
-		std::unordered_map<std::string, std::shared_ptr<IMesh>> m_Meshes;
+		std::unordered_map<std::string, std::shared_ptr<TextureHandle>> m_Textures;
+		std::unordered_map<std::string, std::shared_ptr<MeshHandle>> m_Meshes;
 		std::unordered_map<std::string, std::shared_ptr<Material>> m_Materials;
 		std::unordered_map<std::string, std::shared_ptr<IShader>> m_Shaders;
 		std::unordered_map<std::string, std::shared_ptr<Script>> m_Scripts;

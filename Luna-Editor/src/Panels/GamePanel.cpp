@@ -47,10 +47,10 @@ void GamePanel::UpdateGame(unsigned int& inspectorID, bool& runtime, std::shared
 
 	ImGui::SetCursorPos(ImVec2(viewportSize.x / 2 - 12.5, 25));
 	if(!runtime) {
-		if (ImGui::ImageButton("PlayGame", m_PlayIcon->GetTextureReference(), ImVec2(50, 50)))
+		if (ImGui::ImageButton("PlayGame", m_PlayIcon->m_TextureReference->GetTextureReference(), ImVec2(50, 50)))
 			runtime = !runtime;
 	} else {
-		if (ImGui::ImageButton("StopGame", m_StopIcon-> GetTextureReference(), ImVec2(50, 50)))
+		if (ImGui::ImageButton("StopGame", m_StopIcon->m_TextureReference->GetTextureReference(), ImVec2(50, 50)))
 			runtime = !runtime;
 	}
 

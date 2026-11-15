@@ -73,7 +73,6 @@ public:
 		return current->data;
 	}
 
-
 private:
 	LinkedListNode<T>* first = nullptr;
 	LinkedListNode<T>* last = nullptr;

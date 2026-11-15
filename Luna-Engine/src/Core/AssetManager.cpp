@@ -1,9 +1,7 @@
 // Luna Engine - AssetManager
 
 /*
-	Uses Luna Engine - AssetLoader to load and manage buffers of all assets used in the lifetime of an application
-
-	ToDo: For each asset type, check the file extension and use corresponding functions to make loading assets smoother
+	Uses Luna::AssetLoader to load and manage buffers of all assets used in the lifetime of a scene
 */
 
 #include "AssetManager.h"
@@ -20,7 +18,7 @@ namespace Luna
 	// std::shared_ptr<Texture> GetTexture - Loads a texture from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the image file
 
-	std::shared_ptr<ITexture> AssetManager::GetTexture(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<TextureHandle> AssetManager::GetTexture(bool UseWorkingDirectory, std::string filepath)
 	{
 		if(UseWorkingDirectory)
 		{
@@ -32,8 +30,26 @@ namespace Luna
 		if (m_Textures.find(filepath) == m_Textures.end())
 		{
 			std::cout << filepath << std::endl;
-			std::shared_ptr<ITexture> texture = m_Textures[filepath] = nullptr;
+			std::shared_ptr<TextureHandle> texture = m_Textures[filepath] = std::make_shared<TextureHandle>();
 			AssetLoader::LoadTexture(m_Textures[filepath], filepath.c_str());
+		}
+		return m_Textures[filepath];
+	}
+
+	std::shared_ptr<TextureHandle> AssetManager::GetTextureSynchronous(bool UseWorkingDirectory, std::string filepath)
+	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
+		if (m_Textures.find(filepath) == m_Textures.end())
+		{
+			std::cout << filepath << std::endl;
+			std::shared_ptr<TextureHandle> texture = m_Textures[filepath] = std::make_shared<TextureHandle>();
+			AssetLoader::LoadTextureSynchronous(m_Textures[filepath], filepath.c_str());
 		}
 		return m_Textures[filepath];
 	}
@@ -41,7 +57,7 @@ namespace Luna
 	// std::shared_ptr<Mesh> GetMesh - Loads a mesh from filepath and returns a reference to the object from the buffer
 	// std::string filepath - the file path of the mesh file
 
-	std::shared_ptr<IMesh> AssetManager::GetMesh(bool UseWorkingDirectory, std::string filepath)
+	std::shared_ptr<MeshHandle> AssetManager::GetMesh(bool UseWorkingDirectory, std::string filepath)
 	{
 		if (UseWorkingDirectory)
 		{
@@ -52,10 +68,27 @@ namespace Luna
 
 		if (m_Meshes.find(filepath) == m_Meshes.end())
 		{
+			std::cout << "Start loading Asynchronously: " << filepath << std::endl;
+			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
+			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath);
+		}
+		return m_Meshes[filepath];
+	}
 
-			std::cout << filepath << std::endl;
-			std::shared_ptr<IMesh> mesh = m_Meshes[filepath] = nullptr;
-			AssetLoader::LoadMeshOBJ(m_Meshes[filepath], filepath.c_str());
+	std::shared_ptr<MeshHandle> AssetManager::GetMeshSynchronous(bool UseWorkingDirectory, std::string filepath)
+	{
+		if (UseWorkingDirectory)
+		{
+			std::filesystem::path path(m_WorkingDirectory);
+			std::filesystem::path assetPath = path / filepath;
+			filepath = assetPath.string();
+		}
+
+		if (m_Meshes.find(filepath) == m_Meshes.end())
+		{
+			std::cout << "Start loading Synchronously: " << filepath << std::endl;
+			std::shared_ptr<MeshHandle> mesh = m_Meshes[filepath] = std::make_shared<MeshHandle>();
+			AssetLoader::LoadMeshOBJSynchronous(m_Meshes[filepath], filepath);
 		}
 		return m_Meshes[filepath];
 	}

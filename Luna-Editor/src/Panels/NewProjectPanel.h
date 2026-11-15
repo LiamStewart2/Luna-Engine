@@ -21,6 +21,6 @@ private:
 	std::string m_ProjectNameBuffer;
 	std::string m_ProjectFilepathBuffer;
 
-	std::shared_ptr<Luna::ITexture> m_FolderIcon;
+	std::shared_ptr<Luna::TextureHandle> m_FolderIcon;
 };
 

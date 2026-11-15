@@ -13,9 +13,12 @@
 #include <GLFW/glfw3.h>
 #include "JSON/json.hpp"
 
-#include "../Renderer/ITexture.h"
-#include "../Renderer/IMesh.h"
-#include "../Renderer/Material.h"
+#include "Renderer/ITexture.h"
+#include "Renderer/IMesh.h"
+#include "Renderer/Material.h"
+#include "Kernel/ConcurrentQueue.h"
+#include "ECS/MeshComponent.h"
+#include "Threading/JobManager.h"
 
 /*
 Collection of file loading methods for various object types currently including
@@ -24,34 +27,69 @@ Collection of file loading methods for various object types currently including
 */
 namespace Luna
 {
+	struct MeshData : public JobPackage
+	{
+		std::shared_ptr<MeshHandle> m_MeshHandle;
+		std::string m_filepath;
+		std::vector<Vertex> m_VertexBuffer;
+		std::vector<unsigned int> m_IndexBuffer;
+	};
+
+	struct TextureData : public JobPackage
+	{
+		std::shared_ptr<TextureHandle> m_TextureHandle;
+		std::string m_Filepath;
+		TexturePacket m_TexturePacket;
+	};
+
+	class LoadMeshJob : public Job
+	{
+	public:
+		LoadMeshJob() {m_JobName = "Loading  Mesh"; }
+		void Work(JobPackage* package) override;
+	};
+
+	class LoadTextureJob : public Job
+	{
+	public:
+		LoadTextureJob() {m_JobName = "Loading Texture"; }
+		void Work(JobPackage* package) override;
+	};
+
 	class AssetLoader
 	{
+		friend LoadMeshJob;
+		friend LoadTextureJob;
 	public:
 		// void LoadTexture - Loads a texture from any stb_image supported file
 		// Supports both RGB and RGBA channelled images
 		// std::shared_ptr<Texture> texture - a reference to the texture object the data should be loaded into
 		// const char* filepath - the file path of the image file
-		static void LoadTexture(std::shared_ptr<ITexture>& texture, const char* filepath);
-
+		static void LoadTexture(std::shared_ptr<TextureHandle> texture, const char* filepath);
+		static void LoadTextureSynchronous(std::shared_ptr<TextureHandle> texture, std::string filepath);
+		
 		// void LoadMeshOBJ - Loads a mesh object from an OBJ file
 		// OBJ files must be triangulated and only contain one mesh
 		// std::shared_ptr<Mesh> mesh - a reference to the mesh object the data should be loaded into
 		// const char* filepath - the file path of the .obj file. currently does not check if file extension is .obj
-		static void LoadMeshOBJ(std::shared_ptr<IMesh>& mesh, const char* filepath);
+		static void LoadMeshOBJ(std::shared_ptr<MeshHandle>& mesh, std::string filepath);
+
+		static void LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath);
+		static void CreateGPUObjectsFromQueue();
+
+		static void LinkJobManager(JobManager* jobManager);
 
 	private:
 		// Buffers for loading Meshes
-		static const unsigned int s_BufferSize = 800000;
+		static const unsigned int s_BufferSize = 1200000;
+		
+		static void LoadMeshFromOBJ(MeshData* mesh);
+		static void LoadTextureFile(TextureData* textureData);
 
-		static glm::vec3* s_VertexPositionBuffer;
-		static glm::vec3* s_VertexNormalBuffer;
-		static glm::vec2* s_VertexTextureCoordBuffer;
+		static JobManager* s_JobManager;
 
-		static unsigned int* s_IndexBuffer;
-		static Vertex* s_VertexBuffer;
-
-		static void SetupBuffers();
-
+		static ConcurrentQueue<MeshData*> s_MeshQueue;
+		static ConcurrentQueue<TextureData*> s_TextureQueue;
 	};
 }
 
