@@ -38,10 +38,10 @@ namespace Luna
 			{
 				if(job.m_Job != nullptr && job.m_Package != nullptr)
 				{
-					m_CurrentJobs[threadIndex] = job.m_Job->m_JobName;
+					m_CurrentJobs[threadIndex] = &job;
 					job.Run();
 					job.Cleanup();
-					m_CurrentJobs[threadIndex] = "";
+					m_CurrentJobs[threadIndex] = nullptr;
 				}
 			}
 		}

@@ -47,6 +47,7 @@ namespace Luna
 	public:
 		LoadMeshJob() {m_JobName = "Loading  Mesh"; }
 		void Work(JobPackage* package) override;
+		std::string JobDescription(JobPackage* package) override;
 	};
 
 	class LoadTextureJob : public Job
@@ -54,6 +55,7 @@ namespace Luna
 	public:
 		LoadTextureJob() {m_JobName = "Loading Texture"; }
 		void Work(JobPackage* package) override;
+		std::string JobDescription(JobPackage* package) override;
 	};
 
 	class AssetLoader

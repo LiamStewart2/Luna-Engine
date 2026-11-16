@@ -49,10 +49,50 @@ namespace Luna
 	{
 		AssetLoader::LoadMeshFromOBJ((MeshData*)package);
 	}
+	std::string LoadMeshJob::JobDescription(JobPackage* package)
+	{
+		MeshData* data = (MeshData*)package;
+		std::string prefix = (data->m_MeshHandle->m_HandleState == AssetHandleState::Loading) ? "Loading Mesh: " : "Load Mesh ";
+		
+		std::string reversedSuffix = ""; 
+		int index = data->m_filepath.size() - 1;
+
+		while(index >= 0 && data->m_filepath[index] != '/' && data->m_filepath[index] != '\\')
+		{
+			reversedSuffix += data->m_filepath[index];
+			index--;
+		}
+
+		std::string suffix = "";
+		for (int i = reversedSuffix.size() - 1; i >= 0; i--)
+			suffix += reversedSuffix[i];
+
+		return prefix + suffix;
+	}
 
 	void LoadTextureJob::Work(JobPackage* package)
 	{
 		AssetLoader::LoadTextureFile((TextureData*)package);
+	}
+	std::string LoadTextureJob::JobDescription(JobPackage* package)
+	{
+		TextureData* data = (TextureData*)package;
+		std::string prefix = (data->m_TextureHandle->m_HandleState == AssetHandleState::Loading) ? "Loading Texture: " : "Load Texture ";
+		std::string reversedSuffix = "";
+		
+		int index = data->m_Filepath.size() - 1;
+
+		while (index >= 0 && data->m_Filepath[index] != '/' && data->m_Filepath[index] != '\\')
+		{
+			reversedSuffix += data->m_Filepath[index];
+			index--;
+		}
+
+		std::string suffix = "";
+		for (int i = reversedSuffix.size() - 1; i >= 0; i--)
+			suffix += reversedSuffix[i];
+
+		return prefix + suffix;
 	}
 
 	void AssetLoader::LoadMeshOBJSynchronous(std::shared_ptr<MeshHandle> mesh, std::string filepath)

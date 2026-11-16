@@ -6,14 +6,14 @@ void JobViewPanel::Update(unsigned int& inspectorID)
 
 	// every frame, make a copy of the job queue to display
 
-	const std::string* wopJobNames = m_JobManager->GetCurrentJobs();
+	Luna::Workload** wopJobNames = m_JobManager->GetCurrentJobs();
 
 	bool unemployed = true;
 	for(int i = 0; i < m_JobManager->GetThreadLimit(); i++)
 	{
-		if(wopJobNames[i] != "")
+		if(wopJobNames[i] != nullptr)
 		{
-			ImGui::TextColored(ImVec4(0, 255, 0, 255), wopJobNames[i].c_str());
+			ImGui::TextColored(ImVec4(0, 255, 0, 255), wopJobNames[i]->m_Job->JobDescription(wopJobNames[i]->m_Package).c_str());
 			unemployed = false;
 		}
 	}
@@ -27,5 +27,5 @@ void JobViewPanel::Update(unsigned int& inspectorID)
 
 void JobViewPanel::IterateOverQueue(Luna::Workload* workload)
 {
-	ImGui::Text(workload->m_Job->m_JobName);
+	ImGui::Text(workload->m_Job->JobDescription(workload->m_Package).c_str());
 }

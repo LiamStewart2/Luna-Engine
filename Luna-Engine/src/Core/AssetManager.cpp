@@ -134,11 +134,11 @@ namespace Luna
 
 			// Load the material textures
 			material->m_Path = filepath;
-			material->m_Albedo = GetTexture(UseWorkingDirectory, jsonData["Textures"]["Albedo"]);
-			material->m_SpecularMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["SpecularMap"]);
-			material->m_NormalMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["NormalMap"]);
-			material->m_MetallicMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["MetallicMap"]);
-			material->m_AOMap = GetTexture(UseWorkingDirectory, jsonData["Textures"]["AOMap"]);
+			material->m_Albedo = GetTextureSynchronous(UseWorkingDirectory, jsonData["Textures"]["Albedo"]);
+			material->m_SpecularMap = GetTextureSynchronous(UseWorkingDirectory, jsonData["Textures"]["SpecularMap"]);
+			material->m_NormalMap = GetTextureSynchronous(UseWorkingDirectory, jsonData["Textures"]["NormalMap"]);
+			material->m_MetallicMap = GetTextureSynchronous(UseWorkingDirectory, jsonData["Textures"]["MetallicMap"]);
+			material->m_AOMap = GetTextureSynchronous(UseWorkingDirectory, jsonData["Textures"]["AOMap"]);
 
 			// Load the colours from json
 			nlohmann::json ambientJson = jsonData["Values"]["AmbientColour"];
